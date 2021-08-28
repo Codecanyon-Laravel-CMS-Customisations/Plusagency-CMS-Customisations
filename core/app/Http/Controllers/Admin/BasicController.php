@@ -184,6 +184,11 @@ class BasicController extends Controller
         }
         foreach ($bes as $key => $be) {
             $be->theme_version = $request->theme_version;
+            $be->bookworm_slider_version = $request->bookworm_slider_version;
+            $be->bookworm_shop_list_version = $request->bookworm_shop_list_version;
+            $be->bookworm_shop_single_version = $request->bookworm_shop_single_version;
+            $be->bookworm_footer_version = $request->bookworm_footer_version;
+            $be->bookworm_header_version = $request->bookworm_header_version;
             $be->save();
         }
         foreach ($bexs as $key => $bex) {

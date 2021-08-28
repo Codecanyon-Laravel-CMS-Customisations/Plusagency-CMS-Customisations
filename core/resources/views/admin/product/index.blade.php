@@ -118,20 +118,47 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                           </td>
 
                           <td>
-                            <a class="btn btn-secondary btn-sm" href="{{route('admin.product.edit', $product->id) . '?language=' . request()->input('language')}}">
-                            <span class="btn-label">
-                              <i class="fas fa-edit"></i>
-                            </span>
-                            </a>
-                            <form class="deleteform d-inline-block" action="{{route('admin.product.delete')}}" method="post">
-                              @csrf
-                              <input type="hidden" name="product_id" value="{{$product->id}}">
-                              <button type="submit" class="btn btn-danger btn-sm deletebtn">
-                                <span class="btn-label">
-                                  <i class="fas fa-trash"></i>
-                                </span>
-                              </button>
-                            </form>
+                                <div class="btn-group">
+                                    @if($product->show_in_page_builder == '1')
+                                        <button class="btn btn-sm btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Select Action
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="{{route('admin.product.edit', $product->id) . '?language=' . request()->input('language')}}" class="dropdown-item">
+                                                <i class="fas fa-edit"> Edit product</i>
+                                            </a>
+                                            <a onclick="event.preventDefault(); document.getElementById('addtopagebuilderform-{{$product->id}}').submit();" href="javascript:;" class="dropdown-item">
+                                                <strong><i class="fab fa-audible"> Remove from page-builder</i></strong>
+                                            </a>
+                                            <a onclick="event.preventDefault(); document.getElementById('deleteform-{{$product->id}}').submit();" href="javascript:;" class="dropdown-item">
+                                                <i class="fas fa-trash"> Delete product</i>
+                                            </a>
+                                        </div>
+                                    @else
+                                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Select Action
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a href="{{route('admin.product.edit', $product->id) . '?language=' . request()->input('language')}}" class="dropdown-item">
+                                                <i class="fas fa-edit"> Edit product</i>
+                                            </a>
+                                            <a onclick="event.preventDefault(); document.getElementById('addtopagebuilderform-{{$product->id}}').submit();" href="javascript:;" class="dropdown-item">
+                                                <strong><i class="fab fa-audible"> Add to menu-builder</i></strong>
+                                            </a>
+                                            <a onclick="event.preventDefault(); document.getElementById('deleteform-{{$product->id}}').submit();" href="javascript:;" class="dropdown-item">
+                                                <i class="fas fa-trash"> Delete product</i>
+                                            </a>
+                                        </div>
+                                    @endif
+                                    <form id="addtopagebuilderform-{{$product->id}}" class="deleteform d-none" action="{{route('admin.product.page-builder', $product->id)}}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{$product->id}}">
+                                    </form>
+                                    <form id="deleteform-{{$product->id}}" class="deleteform d-none" action="{{route('admin.product.delete')}}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{$product->id}}">
+                                    </form>
+                                </div>
                           </td>
                         </tr>
                       @endforeach

@@ -29,7 +29,6 @@ class RegisterController extends Controller
     public function registerPage()
     {
         $bex = BasicExtra::first();
-
         if ($bex->is_user_panel == 0) {
             return back();
         }
@@ -88,22 +87,26 @@ class RegisterController extends Controller
         $input['password'] = bcrypt($request['password']);
         $token = md5(time().$request->name.$request->email);
         $input['verification_link'] = $token;
+        $user->email_verified = 'Yes';
         $user->fill($input)->save();
+        Auth::guard('web')->login($user);
+        // Session::flash('success', 'Email Verified Successfully');
+        return redirect()->route('front.index');
 
 
-        $mailer = new KreativMailer();
-        $data = [
-            'toMail' => $user->email,
-            'toName' => $user->username,
-            'customer_username' => $user->username,
-            'verification_link' => "<a href='" . url('register/verify/' . $token) . "'>" . url('register/verify/' . $token) . "</a>",
-            'website_title' => $bs->website_title,
-            'templateType' => 'email_verification',
-            'type' => 'emailVerification'
-        ];
-        $mailer->mailFromAdmin($data);
+        // $mailer = new KreativMailer();
+        // $data = [
+        //     'toMail' => $user->email,
+        //     'toName' => $user->username,
+        //     'customer_username' => $user->username,
+        //     'verification_link' => "<a href='" . url('register/verify/' . $token) . "'>" . url('register/verify/' . $token) . "</a>",
+        //     'website_title' => $bs->website_title,
+        //     'templateType' => 'email_verification',
+        //     'type' => 'emailVerification'
+        // ];
+        // $mailer->mailFromAdmin($data);
 
-        return back()->with('sendmail','We need to verify your email address. We have sent an email to  '.$request->email. ' to verify your email address. Please click link in that email to continue.');
+        // return back()->with('sendmail','We need to verify your email address. We have sent an email to  '.$request->email. ' to verify your email address. Please click link in that email to continue.');
 
     }
 

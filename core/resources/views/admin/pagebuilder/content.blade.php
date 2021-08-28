@@ -46,6 +46,7 @@
       var images = [];
 
       var editor  = grapesjs.init({
+        allowScripts: 1,
         avoidInlineStyle: 1,
         height: '100%',
         container : '#gjs',
@@ -515,6 +516,15 @@
                 @if($version == 'lawyer')
                     "{{url('/')}}/assets/front/css/lawyer-base-color.php?color={{$abs->base_color}}",
                 @endif
+                @if($version == 'bookworm')
+                  "{{ asset('assets/bookworm/vendor/font-awesome/css/fontawesome-all.min.css') }}",
+                  "{{ asset('assets/bookworm/vendor/flaticon/font/flaticon.css') }}",
+                  "{{ asset('assets/bookworm/vendor/animate.css/animate.css') }}",
+                  "{{ asset('assets/bookworm/vendor/bootstrap-select/dist/css/bootstrap-select.min.css') }}",
+                  "{{ asset('assets/bookworm/vendor/slick-carousel/slick/slick.css') }}",
+                  "{{ asset('assets/bookworm/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') }}",
+                  "{{ asset('assets/bookworm/css/theme.css') }}",
+                @endif
 
                 @if($lang->rtl == 1)
                     "{{asset('assets/admin/css/pb-rtl-canvas.css')}}",
@@ -547,6 +557,19 @@
                 "{{asset('assets/front/js/bootstrap.min.js')}}",
                 "{{asset('assets/admin/js/pb-plugin.min.js')}}",
                 "{{asset('assets/admin/js/pb-custom.js')}}",
+                @if($version == 'bookworm')
+                  "{{ asset('assets/bookworm/vendor/slick-carousel/slick/slick.min.js') }}",
+                  "{{ asset('assets/bookworm/vendor/multilevel-sliding-mobile-menu/dist/jquery.zeynep.js') }}",
+                  "{{ asset('assets/bookworm/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js') }}",
+                  "{{ asset('assets/bookworm/js/hs.core.js') }}",
+                  "{{ asset('assets/bookworm/js/components/hs.unfold.js') }}",
+                  "{{ asset('assets/bookworm/js/components/hs.header.js') }}",
+                  "{{ asset('assets/bookworm/js/components/hs.slick-carousel.js') }}",
+                  "{{ asset('assets/bookworm/js/components/hs.selectpicker.js') }}",
+                  "{{ asset('assets/bookworm/js/components/hs.show-animation.js') }}",
+                  "{{ asset('assets/bookworm/js/components/custom.js') }}",
+                @endif
+
                 @if($version == 'default' || $version == 'dark')
                     "{{asset('assets/admin/js/pb-default-custom.js')}}"
                 @endif
@@ -754,6 +777,83 @@
         category: 'Basic'
     });
 
+    @if ( ! empty( $bookworm_blocks ) )
+
+      @foreach ( $bookworm_blocks as $block )
+      @if ( isset( $block[ 'script' ] ) )
+      editor.DomComponents.addType('{{ $block["title"] }}'.replace(/\s+/g, '-').toLowerCase(), {
+        isComponent(el) {
+            if (el.getAttribute &&
+                el.getAttribute('data-gjs-type') == '{{ $block["title"] }}'.replace(/\s+/g, '-').toLowerCase()) {
+                return {
+                    type: '{{ $block["title"] }}'.replace(/\s+/g, '-').toLowerCase()
+                };
+            }
+        },
+        model: {
+          defaults: {
+            type: '{{ $block["title"] }}'.replace(/\s+/g, '-').toLowerCase(),
+            tagName: 'div',                    
+            copyable: true,
+            removable: false,
+            stylable: false,
+            resizable: false,
+            editable: true,
+            badgable: true,
+            highlightable: true,
+            attributes: {
+                'class': 'slider-container',
+                'data-gjs-type': '{{ $block["title"] }}'.replace(/\s+/g, '-').toLowerCase()
+            },
+            content: `{!! $block['content'] !!}`,
+            script: `{!! $block['script'] !!}`
+          }
+        },
+        view: {
+          events: {
+            dblclick: 'onActive',
+            focusout: 'onDisable',
+          },
+          onActive() {
+            this.el.contentEditable = true;
+          },
+          onDisable() {
+            const { el, model } = this;
+            el.contentEditable = false;
+            model.set('content', el.innerHTML)
+          },
+        }
+      })
+      @endif
+      var blockManager = editor.BlockManager;
+          blockManager.add('{{ $block["title"] }}'.replace(/\s+/g, '-').toLowerCase(), {
+          label: '{{ $block["title"] }}',
+          attributes: {class:'fa fa-photo'},
+          @if ( isset( $block[ 'script' ] ) )
+          content: { type: '{{ $block["title"] }}'.replace(/\s+/g, '-').toLowerCase() },
+          @else
+          content: {
+              components: `{!! $block['content'] !!}`,
+          },
+          @endif
+          category: '{{ $block["section"] }}',
+          // render: ({ el }) => {
+          //     const btn = document.createElement('a');
+          //     btn.setAttribute('class', 'block-btn');
+          //     btn.setAttribute('href', '{{route("admin.introsection.index", ["language" => $lang->code])}}');
+          //     btn.setAttribute('target', '_blank');
+          //     btn.innerHTML = 'Manage';
+          //     el.appendChild(btn);
+          // }
+      });
+      @endforeach
+
+    @endif
+
+    // if (editor.commands.isActive('preview')) {
+    //   alert();
+    // }
+
     //   Intro Section
     @if(!empty($introsec))
     var blockManager = editor.BlockManager;
@@ -774,6 +874,7 @@
         }
     });
     @endif
+    
 
     //   Service Categories Section
     @if(!empty($scatsec))

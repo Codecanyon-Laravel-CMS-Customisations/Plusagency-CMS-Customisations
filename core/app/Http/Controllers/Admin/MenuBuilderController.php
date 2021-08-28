@@ -31,7 +31,7 @@ class MenuBuilderController extends Controller
         $data["pages"] = $pages;
 
         // get previous menus
-        $menu = Menu::where('language_id', $lang->id)->first();
+        $menu = Menu::where('language_id', $lang->id)->where('is_product', 0)->first();
         $data['prevMenu'] = '';
         if (!empty($menu)) {
             $data['prevMenu'] = $menu->menus;
@@ -57,7 +57,7 @@ class MenuBuilderController extends Controller
             }
         }
 
-        Menu::where('language_id', $request->language_id)->delete();
+        Menu::where('language_id', $request->language_id)->where('is_product', '!=', 1)->delete();
 
         $menu = new Menu;
         $menu->language_id = $request->language_id;

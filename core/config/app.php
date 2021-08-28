@@ -183,6 +183,7 @@ return [
     MasterRO\LaravelXSSFilter\XSSFilterServiceProvider::class,
     willvincent\Feeds\FeedsServiceProvider::class,
     Anand\LaravelPaytmWallet\PaytmWalletServiceProvider::class,
+    AngelBooks\Plugins\PluginsServiceController::class,
 
   ],
 

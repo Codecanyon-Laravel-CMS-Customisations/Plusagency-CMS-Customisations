@@ -88,6 +88,15 @@
       {!! $bs->appzi_script !!}
       @endif
       <!--End of Appzi script-->
+      <style>
+        @if(!empty($colors))
+            @foreach($colors as $color)
+                {{ $color->element }} {
+                    {{ $color->attribute }} : #{{ $color->value }} !important;
+                }
+            @endforeach
+        @endif
+      </style>
    </head>
 
 

@@ -3,8 +3,9 @@
 namespace App\Console;
 
 use App\BasicExtra;
-use App\Console\Commands\SubscriptionChecker;
 use Illuminate\Console\Scheduling\Schedule;
+use App\Console\Commands\ImportProductImages;
+use App\Console\Commands\SubscriptionChecker;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
@@ -15,7 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        //App\Console\Commands\ImportProductImages::class,
     ];
 
     /**
@@ -32,6 +33,8 @@ class Kernel extends ConsoleKernel
         if ($bex->recurring_billing == 1) {
             $schedule->command('subscription:check')->daily();
         }
+        // $schedule->command('import:product-images')->everyFiveMinutes();
+        $schedule->command('import:product-images')->everyMinute();
     }
 
     /**
@@ -46,3 +49,4 @@ class Kernel extends ConsoleKernel
         require base_path('routes/console.php');
     }
 }
+

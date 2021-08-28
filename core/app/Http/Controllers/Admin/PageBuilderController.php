@@ -135,14 +135,27 @@ class PageBuilderController extends Controller
         $blogSec = "";
         $ctaSec = "";
         $partnerSec = "";
+        
+        $categories     = \App\Pcategory::all() //;
+        ->where('show_in_menu', 1)
+        ->where('language_id', $lang->id)
+        ->where('status',1); //->get();
+        $products       = \App\Product::withoutGlobalScope('variation')->where('status',1);
+        $categories1    = $categories->where('menu_level', '1');
+        $categories2    = $categories->where('menu_level', '2');
+        $categories3    = $categories->where('menu_level', '3');
+    
 
-        if ($version == 'lawyer' || $version == 'gym' || $version == 'construction' || $version == 'logistic' || $version == 'cleaning') {
+        $product_categories = $lang->pcategories;
+        $product_child_categories = $lang->pcategories->where('is_child', '1')->where('menu_level', '3')->where('parent_menu_id', '!=', NULL);
+
+        if ($version == 'lawyer' || $version == 'gym' || $version == 'construction' || $version == 'logistic' || $version == 'cleaning' || $version == 'bookworm') {
             $servicesLimit = 3;
         } else {
             $servicesLimit = false;
         }
 
-        if ($version == 'lawyer' || $version == 'default' || $version == 'dark' || $version == 'gym' || $version == 'construction' || $version == 'logistic' || $version == 'cleaning') {
+        if ($version == 'lawyer' || $version == 'default' || $version == 'dark' || $version == 'gym' || $version == 'construction' || $version == 'logistic' || $version == 'cleaning' || $version == 'bookworm') {
             $portfoliosLimit = 4;
         } elseif ($version == 'car') {
             $portfoliosLimit = 3;
@@ -150,7 +163,7 @@ class PageBuilderController extends Controller
             $portfoliosLimit = false;
         }
 
-        if ($version == 'lawyer' || $version == 'gym' || $version == 'car' || $version == 'construction' || $version == 'logistic' || $version == 'cleaning') {
+        if ($version == 'lawyer' || $version == 'gym' || $version == 'car' || $version == 'construction' || $version == 'logistic' || $version == 'cleaning' || $version == 'bookworm') {
             $membersLimit = 3;
         } elseif($version == 'default' || $version == 'dark') {
             $membersLimit = 4;
@@ -158,7 +171,7 @@ class PageBuilderController extends Controller
             $membersLimit = false;
         }
 
-        if ($version == 'lawyer') {
+        if ($version == 'lawyer' || $version == 'bookworm') {
             $testimonialsLimit = 3;
         } elseif($version == 'default' || $version == 'dark' || $version == 'construction') {
             $testimonialsLimit = 2;
@@ -168,13 +181,13 @@ class PageBuilderController extends Controller
             $testimonialsLimit = false;
         }
 
-        if ($version == 'lawyer' || $version == 'default' || $version == 'dark' || $version == 'gym' || $version == 'car' || $version == 'construction' || $version == 'logistic' || $version == 'cleaning') {
+        if ($version == 'lawyer' || $version == 'default' || $version == 'dark' || $version == 'gym' || $version == 'car' || $version == 'construction' || $version == 'logistic' || $version == 'cleaning' || $version == 'bookworm') {
             $packagesLimit = 3;
         } else {
             $packagesLimit = false;
         }
 
-        if ($version == 'lawyer' || $version == 'default' || $version == 'dark' || $version == 'gym' || $version == 'construction' || $version == 'logistic' || $version == 'cleaning') {
+        if ($version == 'lawyer' || $version == 'default' || $version == 'dark' || $version == 'gym' || $version == 'construction' || $version == 'logistic' || $version == 'cleaning' || $version == 'bookworm') {
             $blogsLimit = 3;
         } elseif ($version == 'car') {
             $blogsLimit = 1;
@@ -271,6 +284,7 @@ class PageBuilderController extends Controller
             $partners = [];
         }
 
+        $bookworm_blocks = [];
 
 
 
@@ -337,9 +351,2112 @@ class PageBuilderController extends Controller
             </div>
         </div>";
 
+        if ($version == 'bookworm') {
+            /** Categories */
+                $category_1 = '
+                    <div class="container space-1">
+                        <header class="mb-5 d-md-flex justify-content-between align-items-center">
+                            <h2 class="font-size-7 mb-3 mb-md-0">Featured Categories</h2>
+                            <a href="#" class="h-primary d-block">All Categories <i class="glyph-icon flaticon-next"></i></a>
+                        </header>
+                        <ul class="list-unstyled my-0 row row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-wd-5">';
+                            foreach ( $categories->where('is_child', '0') as $category ) {
+                                $category_1 .= '<li class="product-category col mb-4 mb-xl-0">
+                                    <div class="product-category__inner bg-indigo-light px-6 py-5">
+                                        <div class="product-category__icon font-size-12 text-primary-indigo"><i class="glyph-icon flaticon-gallery"></i></div>
+                                        <div class="product-category__body">
+                                            <h3 class="text-truncate font-size-3">'. $category->name .'</h3>
+                                            <a href="/products?search=&category_id='.$category->id.'&type=new" class="stretched-link text-dark">Shop Now</a>
+                                        </div>
+                                    </div>
+                                </li>';
+                            }
+
+                        $category_1 .= '</ul>
+                    </div>
+                ';
+                $category_2 = '
+                    <div class="container">
+                        <header class="mb-5 d-md-flex justify-content-between align-items-center">
+                           <h2 class="mb-4 font-size-7 mb-md-0">Featured Categories</h2>
+                           <a href="#" class="d-flex h-primary">All Categories<span class="ml-2 flaticon-next font-size-3"></span></a>
+                        </header>
+                        <ul class="px-5 pb-2 mb-5 overflow-auto bg-gray-200 rounded-md nav justify-content-between py-md-3 flex-nowrap flex-xl-wrap overflow-xl-visible" role="tablist">';
+                            $counter = 1;
+                            foreach ($categories->where('is_child', '0') as $category) {
+                                $active = $counter == 1 ? 'active' : '';
+                                $counter++;
+                                $category_2 .= ' <li class="flex-shrink-0 nav-item flex-xl-shrink-1">
+                                <a class="nav-link font-weight-medium '.$active.' nav-link-caret" id="category-'.$category->id.'" data-toggle="pill" href="#category-'.$category->id.'-content" role="tab" aria-controls="category-'.$category->id.'-content" aria-selected="true">
+                                    <div class="text-center">
+                                        <figure class="mb-0 d-md-block text-primary-indigo">
+                                           <i class="glyph-icon flaticon-gallery font-size-12"></i>
+                                        </figure>
+                                        <span class="tabtext font-size-3 font-weight-medium text-dark">'. $category->name.'</span>
+                                    </div>
+                                </a>
+                            </li>';
+                            }
+                        $category_2 .= '</ul>
+                    </div>
+                    <div class="container">
+                        <div class="tab-content">';
+                            $counter = 1;
+                            foreach($categories->where('is_child', '0') as $category) {
+                                $active = $counter == 1 ? 'active' : '';
+                                $counter++;
+                                $category_2 .= '<div class="tab-pane fade '. $active .' show" id="category-'.$category->id.'-content" role="tabpanel" aria-labelledby="pills-one-example2-tab">
+                                <div class="pt-2">
+                                    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 ">';
+                                        foreach ( $category->products->where('show_in_page_builder', '1') as $product ) {
+                                            $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                            $category_2 .= '<div class="col">
+                                            <div class="mb-5 products">
+                                                <div class="product product__space border rounded-md bg-white">
+                                                    <div class="product__inner overflow-hidden p-3 p-md-4d875">
+                                                        <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
+                                                            <div class="woocommerce-loop-product__thumbnail">
+                                                                <a href="'. route('front.product.details',$product->slug) .'" class="d-block"><img src="'. asset('assets/front/img/product/featured/'.$product->feature_image) .'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
+                                                            </div>
+                                                            <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
+                                                                <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="' . route('front.product.details',$product->slug) . '">'. $title .'</a></h2>
+                                                                <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>' . $product->current_price . '</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product__hover d-flex align-items-center">
+                                                                <a data-href="'.route('add.cart',$product->id).'" class="text-uppercase text-dark h-dark font-weight-medium mr-auto">
+                                                                    <span class="product__add-to-cart">ADD TO CART</span>
+                                                                    <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                                                </a>
+                                                                <a href="'.route('front.product.checkout',$product->slug).'" class="mr-1 h-p-bg btn btn-outline-dark border-0">
+                                                                    <i class="flaticon-switch"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>';
+                                        }
+
+                                    $category_2 .= '</div>
+                                </div>
+                            </div>';
+                            }
+
+                        $category_2 .= '</div>
+                    </div>
+                ';
+                $category_4 = '
+                    <div class="container space-2">
+                        <header class="mb-5 d-md-flex justify-content-between align-items-center">
+                            <h2 class="font-size-7 mb-3 mb-md-0">Featured Categories</h2>
+                            <a href="#" class="h-primary h-primary d-block">All Categories <i class="glyph-icon flaticon-next"></i></a>
+                        </header>
+                        <div class="row no-gutters row-cols-1 row-cols-lg-3 border-top border-left">';
+                            foreach( $categories->where('is_child', '0') as $category ) {
+                                $category_4 .= '<div class="col">
+                                <div class="position-relative">
+                                    <div class="border-bottom border-right p-4 p-lg-7">
+                                        <h6 class="font-size-3 mb-3 pb-1">'. $category->name .'</h6>
+                                        <ul class="list-unstyled mb-0">';
+                                            foreach( $category->products->where('show_in_page_builder', '1') as $product ) {
+                                                $category_4 .= '<li class="font-weight-normal pb-1 mb-1">
+                                                <a class="link-black-100" href="'. route('front.product.details',$product->slug) .'">'. $product->title .'</a>
+                                            </li>';
+                                            }
+
+                                        $category_4 .= '</ul>
+                                        <div class="d-flex d-md-block justify-content-end position-md-absolute bottom-0 right-md-30">
+                                            <span class="flaticon-cook text-tangerine__1 font-size-17"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>';
+                            }
+
+                        $category_4 .= '</div>
+                    </div>
+                ';
+                $category_5 = '
+                    <div class="container space-1">
+                        <header class="d-md-flex justify-content-between align-items-center mb-6">
+                            <h2 class="font-size-7 mb-4 mb-lg-0">Featured Categories</h2>
+                            <a href="#" class="d-flex h-primary">All Categories<span class="flaticon-next font-size-3 ml-2"></span></a>
+                        </header>
+                        <ul class="nav justify-content-between flex-nowrap overflow-auto">';
+                        foreach ( $categories->where('is_child', '0') as $category ) {
+                            $category_5 .= '
+                                <li class="nav-item flex-shrink-0">
+                                    <a class="nav-link font-weight-medium" href="/products?search=&category_id='.$category->id.'&type=new">
+                                        <div class="text-center">
+                                            <div class="d-flex justify-content-center mb-3">
+                                                <div class="bg-indigo-light height-100 width-100 rounded-circle">
+                                                    <figure class="d-flex justify-content-center mb-0 text-primary-indigo">
+                                                        <i class="glyph-icon flaticon-gallery font-size-12 text-lh-2"></i>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <span class="tabtext font-size-3 font-weight-medium text-dark">'. $category->name .'</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            ';
+                        }
+
+                        $category_5 .= '</ul>
+                    </div>
+                ';
+
+
+                $child_category_1 = '
+                    <div class="container space-1">
+                        <header class="mb-5 d-md-flex justify-content-between align-items-center">
+                            <h2 class="font-size-7 mb-3 mb-md-0">Featured Categories</h2>
+                            <a href="#" class="h-primary d-block">All Categories <i class="glyph-icon flaticon-next"></i></a>
+                        </header>
+                        <ul class="list-unstyled my-0 row row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-wd-5">';
+                            foreach ( $categories2 as $category ) {
+                                $child_category_1 .= '<li class="product-category col mb-4 mb-xl-0">
+                                    <div class="product-category__inner bg-indigo-light px-6 py-5">
+                                        <div class="product-category__icon font-size-12 text-primary-indigo"><i class="glyph-icon flaticon-gallery"></i></div>
+                                        <div class="product-category__body">
+                                            <h3 class="text-truncate font-size-3">'. $category->name .'</h3>
+                                            <a href="/products?search=&category_id='.$category->id.'&type=new" class="stretched-link text-dark">Shop Now</a>
+                                        </div>
+                                    </div>
+                                </li>';
+                            }
+
+                        $child_category_1 .= '</ul>
+                    </div>
+                ';
+
+                $child_category_2 = '
+                    <div class="container">
+                        <header class="mb-5 d-md-flex justify-content-between align-items-center">
+                           <h2 class="mb-4 font-size-7 mb-md-0">Featured Categories</h2>
+                           <a href="#" class="d-flex h-primary">All Categories<span class="ml-2 flaticon-next font-size-3"></span></a>
+                        </header>
+                        <ul class="px-5 pb-2 mb-5 overflow-auto bg-gray-200 rounded-md nav justify-content-between py-md-3 flex-nowrap flex-xl-wrap overflow-xl-visible" role="tablist">';
+                            $counter = 1;
+                            foreach ($categories2 as $category) {
+                                $active = $counter == 1 ? 'active' : '';
+                                $counter++;
+                                $products_m2 = \App\Product::query()->where('sub_category_id', '=', $category->id)->where('show_in_page_builder', '1');
+                                if($products_m2->count() < 1) continue;
+                                $child_category_2 .= ' <li class="flex-shrink-0 nav-item flex-xl-shrink-1">
+                                <a class="nav-link font-weight-medium '.$active.' nav-link-caret" id="child-category-'.$category->id.'" data-toggle="pill" href="#child-category-'.$category->id.'-content" role="tab" aria-controls="child-category-'.$category->id.'-content" aria-selected="true">
+                                    <div class="text-center">
+                                        <figure class="mb-0 d-md-block text-primary-indigo">
+                                           <i class="glyph-icon flaticon-gallery font-size-12"></i>
+                                        </figure>
+                                        <span class="tabtext font-size-3 font-weight-medium text-dark">'. $category->name.'</span>
+                                    </div>
+                                </a>
+                            </li>';
+                            }
+                        $child_category_2 .= '</ul>
+                    </div>
+                    <div class="container">
+                        <div class="tab-content">';
+                            $counter = 1;
+                            foreach($categories2 as $category) {
+                                $active = $counter == 1 ? 'active' : '';
+                                $counter++;
+                                $products_m2 = \App\Product::query()->where('sub_category_id', '=', $category->id)->where('show_in_page_builder', '1');
+                                if($products_m2->count() < 1) continue;
+                                $child_category_2 .= '<div class="tab-pane fade '. $active .' show" id="child-category-'.$category->id.'-content" role="tabpanel" aria-labelledby="pills-one-example2-tab">
+                                <div class="pt-2">
+                                    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 ">';
+                                        foreach ( $products_m2->get() as $product ) {
+                                            $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                            $child_category_2 .= '<div class="col">
+                                            <div class="mb-5 products">
+                                                <div class="product product__space border rounded-md bg-white">
+                                                    <div class="product__inner overflow-hidden p-3 p-md-4d875">
+                                                        <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
+                                                            <div class="woocommerce-loop-product__thumbnail">
+                                                                <a href="'. route('front.product.details',$product->slug) .'" class="d-block"><img src="'. asset('assets/front/img/product/featured/'.$product->feature_image) .'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
+                                                            </div>
+                                                            <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
+                                                                <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="' . route('front.product.details',$product->slug) . '">'. $title .'</a></h2>
+                                                                <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>' . $product->current_price . '</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product__hover d-flex align-items-center">
+                                                                <a data-href="'.route('add.cart',$product->id).'" class="text-uppercase text-dark h-dark font-weight-medium mr-auto">
+                                                                    <span class="product__add-to-cart">ADD TO CART</span>
+                                                                    <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                                                </a>
+                                                                <a href="'.route('front.product.checkout',$product->slug).'" class="mr-1 h-p-bg btn btn-outline-dark border-0">
+                                                                    <i class="flaticon-switch"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>';
+                                        }
+
+                                    $child_category_2 .= '</div>
+                                </div>
+                            </div>';
+                            }
+
+                        $child_category_2 .= '</div>
+                    </div>
+                ';
+
+
+
+
+
+                $child_category_4 = '
+                    <div class="container space-2">
+                        <header class="mb-5 d-md-flex justify-content-between align-items-center">
+                            <h2 class="font-size-7 mb-3 mb-md-0">Featured Categories</h2>
+                            <a href="#" class="h-primary h-primary d-block">All Categories <i class="glyph-icon flaticon-next"></i></a>
+                        </header>
+                        <div class="row no-gutters row-cols-1 row-cols-lg-3 border-top border-left">';
+                            foreach( $categories2 as $category ) {
+                                $child_category_4 .= '<div class="col">
+                                <div class="position-relative">
+                                    <div class="border-bottom border-right p-4 p-lg-7">
+                                        <h6 class="font-size-3 mb-3 pb-1">'. $category->name .'</h6>
+                                        <ul class="list-unstyled mb-0">';
+                                            foreach( $category->products_sub_1->where('show_in_page_builder', '1') as $product ) {
+                                                $child_category_4 .= '<li class="font-weight-normal pb-1 mb-1">
+                                                <a class="link-black-100" href="'. route('front.product.details',$product->slug) .'">'. $product->title .'</a>
+                                            </li>';
+                                            }
+
+                                        $child_category_4 .= '</ul>
+                                        <div class="d-flex d-md-block justify-content-end position-md-absolute bottom-0 right-md-30">
+                                            <span class="flaticon-cook text-tangerine__1 font-size-17"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>';
+                            }
+
+                        $child_category_4 .= '</div>
+                    </div>
+                ';
+
+                $child_category_5 = '
+                    <div class="container space-1">
+                        <header class="d-md-flex justify-content-between align-items-center mb-6">
+                            <h2 class="font-size-7 mb-4 mb-lg-0">Featured Categories</h2>
+                            <a href="#" class="d-flex h-primary">All Categories<span class="flaticon-next font-size-3 ml-2"></span></a>
+                        </header>
+                        <ul class="nav justify-content-between flex-nowrap overflow-auto">';
+                        foreach ( $categories2 as $category ) {
+                            $child_category_5 .= '
+                                <li class="nav-item flex-shrink-0">
+                                    <a class="nav-link font-weight-medium" href="/products?search=&category_id='.$category->id.'&type=new">
+                                        <div class="text-center">
+                                            <div class="d-flex justify-content-center mb-3">
+                                                <div class="bg-indigo-light height-100 width-100 rounded-circle">
+                                                    <figure class="d-flex justify-content-center mb-0 text-primary-indigo">
+                                                        <i class="glyph-icon flaticon-gallery font-size-12 text-lh-2"></i>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                            <span class="tabtext font-size-3 font-weight-medium text-dark">'. $category->name .'</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            ';
+                        }
+
+                        $child_category_5 .= '</ul>
+                    </div>
+                ';
+
+
+
+
+
+
+
+
+
+
+                array_push( $bookworm_blocks, [
+                    'title' => 'Category #v1',
+                    'section' => 'BookWorm Categories',
+                    'content' => $category_1
+                ] );
+                array_push( $bookworm_blocks,  [
+                    'title' => 'Category #v2',
+                    'section' => 'BookWorm Categories',
+                    'content' => $category_2
+                ]);
+                array_push( $bookworm_blocks,  [
+                    'title' => 'Category #v4',
+                    'section' => 'BookWorm Categories',
+                    'content' => $category_4
+                ] );
+                array_push( $bookworm_blocks, [
+                    'title' => 'Category #v5',
+                    'section' => 'BookWorm Categories',
+                    'content' => $category_5
+                ] );
+
+
+
+
+                array_push( $bookworm_blocks, [
+                    'title' => 'Child Category #v1',
+                    'section' => 'BookWorm Categories',
+                    'content' => $child_category_1
+                ] );
+                array_push( $bookworm_blocks,  [
+                    'title' => 'Child Category #v2',
+                    'section' => 'BookWorm Categories',
+                    'content' => $child_category_2
+                ]);
+                array_push( $bookworm_blocks,  [
+                    'title' => 'Child Category #v4',
+                    'section' => 'BookWorm Categories',
+                    'content' => $child_category_4
+                ] );
+                array_push( $bookworm_blocks, [
+                    'title' => 'Child Category #v5',
+                    'section' => 'BookWorm Categories',
+                    'content' => $child_category_5
+                ] );
+            /** */
+
+            /** Tabs */
+
+                $tab_1 = '
+                    <div class="tabs-block tabs-v1">
+                        <header class="mb-4 container pt-5">
+                            <h2 class="font-size-7 text-center">Featured Books</h2>
+                        </header>
+                        <div class="container">
+                            <ul class="nav justify-content-md-center nav-gray-700 mb-5 flex-nowrap flex-md-wrap overflow-auto overflow-md-visible" id="featuredBooks" role="tablist">';
+                                foreach( $categories  as $category ) {
+                                    $active = $category->id == 1 ? 'active' : '';
+                                    $tab_1 .= '
+                                    <li class="nav-item mx-5 mb-1 flex-shrink-0 flex-md-shrink-1">
+                                        <a class="nav-link px-0 '. $active .'" id="featured-'. $category->id .'-tab" data-toggle="tab" href="#featured-'. $category->id .'" role="tab" aria-controls="featured" aria-selected="true">'. $category->name .'</a>
+                                    </li>
+                                    ';
+                                }
+
+                            $tab_1 .= '</ul>
+                            <div class="tab-content" id="featuredBooksContent">';
+                                foreach( $categories as $category ) {
+                                    $active = $category->id == 1 ? 'active' : '';
+                                    $tab_1 .= '
+                                    <div class="tab-pane fade show '. $active .'" id="featured-'. $category->id .'" role="tabpanel" aria-labelledby="featured-tab">
+                                        <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 border-top border-left my-0">';
+                                            foreach ( $category->products->where('show_in_page_builder', '1') as $product ) {
+                                                $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                                $tab_1 .= '
+                                                <li class="product col">
+                                                    <div class="product__inner overflow-hidden p-3 p-md-4d875">
+                                                        <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
+                                                            <div class="woocommerce-loop-product__thumbnail">
+                                                                <a href="'. route('front.product.details',$product->slug) .'" class="d-block"><img src="'. asset('assets/front/img/product/featured/'.$product->feature_image) .'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                                            </div>
+                                                            <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
+                                                                <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'. route('front.product.details',$product->slug) .'">'. $title .'</a></h2>
+                                                                <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'. $product->current_price .'</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product__hover d-flex align-items-center">
+                                                                <a data-href="'.route('add.cart',$product->id).'" class="text-uppercase text-dark h-dark font-weight-medium mr-auto" data-toggle="tooltip" data-placement="right" title="ADD TO CART">
+                                                                    <span class="product__add-to-cart">ADD TO CART</span>
+                                                                    <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                                                </a>
+                                                                <a href="'. route('front.product.checkout',$product->slug) .'" class="mr-1 h-p-bg btn btn-outline-primary border-0">
+                                                                    <i class="flaticon-switch"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                ';
+                                            }
+                                        $tab_1 .= '</ul>
+                                    </div>
+                                    ';
+                                }
+
+                            $tab_1 .='</div>
+                        </div>
+                    </div>
+                ';
+
+                $tab_3 = '
+                   <div class="container">
+                        <header class="d-md-flex justify-content-between mb-5">
+                            <h2 class="font-size-7">Featured Books</h2>
+                            <ul class="nav nav-gray-700 flex-nowrap flex-md-wrap overflow-auto overflow-md-visible" role="tablist">';
+                                foreach($categories as $category) {
+                                    $active = $category->id == 1 ? 'active' : '';
+                                    $tab_3 .= '<li class="nav-item mx-4 flex-shrink-0 flex-md-shrink-1">
+                                    <a class="nav-link pb-1 px-0 '.$active.'" id="'.$category->slug.'-pill-tab" data-toggle="tab" href="#'.$category->slug.'-pill" role="pill" aria-controls="'.$category->slug.'-pill" aria-selected="true">'.$category->name.'</a>
+                                </li>';
+                                }
+
+                            $tab_3 .= '</ul>
+                        </header>
+                        <div class="tab-content" id="pills-tabcontent">';
+                                foreach ($categories as $category ) {
+                                    $active = $category->id == 1 ? 'active' : '';
+                                    $show = $category->id == 1 ? 'show' : '';
+                                    $tab_3 .= '<div class="tab-pane fade '.$show.' '.$active.'" id="'.$category->slug.'-pill" role="tabpanel" aria-labelledby="history-pill-tab">
+                                        <div class="row">
+                                            <div class="col-lg-8 mb-5 mb-md-0">
+                                                <ul class="products row row-cols-2 row-cols-lg-2 row-cols-xl-3 row-cols-wd-4 list-unstyled mb-0">';
+                                                    foreach( $category->products->where('show_in_page_builder', '1') as $product ) {
+                                                        $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                                        $tab_3 .= '<li class="col">
+                                                        <div class="mb-5">
+                                                            <div class="product product__space border rounded-md bg-white">
+                                                                <div class="product__inner overflow-hidden p-3 p-md-4d875">
+                                                                    <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
+                                                                        <div class="woocommerce-loop-product__thumbnail">
+                                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.asset('assets/front/img/product/featured/'.$product->feature_image).'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
+                                                                        </div>
+                                                                        <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
+                                                                            <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
+                                                                            <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'.$product->current_price.'</span>
+                                                                            </div>
+                                                                            <div class="product__rating d-none align-items-center font-size-2">
+                                                                                <div class="text-yellow-darker mr-2">
+                                                                                    <small class="fas fa-star"></small>
+                                                                                    <small class="fas fa-star"></small>
+                                                                                    <small class="fas fa-star"></small>
+                                                                                    <small class="far fa-star"></small>
+                                                                                    <small class="far fa-star"></small>
+                                                                                </div>
+                                                                                <div class="">(3,714)</div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="product__hover d-flex align-items-center">
+                                                                            <a data-href="'.route('add.cart',$product->id).'" class="text-uppercase text-dark h-dark font-weight-medium mr-auto" data-toggle="tooltip" data-placement="right" data-original-title="ADD TO CART">
+                                                                                <span class="product__add-to-cart">ADD TO CART</span>
+                                                                                <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                                                            </a>
+                                                                            <a href="'.route('front.product.checkout',$product->slug).'" class="mr-1 h-p-bg btn btn-outline-dark border-0">
+                                                                                <i class="flaticon-switch"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>';
+                                                    }
+
+                                                $tab_3 .= '</ul>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="banner py-6 py-lg-0 px-3 px-md-4 px-xl-8 d-flex h-100 align-items-center rounded-md bg-primary-home-v3">
+                                                    <div class="banner__body">
+                                                        <div class="banner__image pb-1 mb-5">
+                                                            <img src="https://placehold.it/350x282" class="img-fluid">
+                                                        </div>
+                                                        <h3 class="banner_text m-0">
+                                                            <span class="d-block mb-1 font-size-10 font-weight-regular text-white">Get Extra</span>
+                                                            <span class="d-block mb-3 font-size-12 font-weight-medium text-white">Sale -25%</span>
+                                                            <span class="d-block mb-5 text-uppercase font-size-4 font-weight-regular text-gray-400">On Order Over $100</span>
+                                                        </h3>
+                                                        <a href="#" class="btn btn-warning btn-wide rounded-md">View More</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>';
+                                }
+
+                        $tab_3 .= '</div>
+                    </div>
+                ';
+
+                $tab_4 = '
+                    <div class="container">
+                        <header class="mb-5 d-md-flex justify-content-between align-items-center">
+                            <h2 class="font-size-7 mb-3 mb-md-0">New Releases</h2>
+                            <ul class="nav nav-gray-700 flex-nowrap flex-md-wrap overflow-auto overflow-md-visible">';
+                                foreach( $categories as $category ) {
+                                    $active = $category->id == 1 ? 'active' : '';
+                                    $tab_4 .= '<li class="nav-item mx-4 flex-shrink-0 flex-md-shrink-1">
+                                    <a class="nav-link pb-1 px-0 '.$active.'" id="tab4-'.$category->id.'-tab" data-toggle="tab" href="#tab4-'.$category->id.'" role="tab" aria-controls="tab4-'.$category->id.'" aria-selected="true">'.$category->name.'</a>
+                                </li>';
+                                }
+
+                            $tab_4 .= '</ul>
+                        </header>
+                        <div class="tab-content" id="NewReleases">';
+                            foreach ( $categories as $category ) {
+                                $active = $category->id == 1 ? 'active' : '';
+                                $show = $category->id == 1 ? 'show' : '';
+                                $tab_4 .= '<div class="tab-pane fade '.$show.' '.$active.'" id="tab4-'.$category->id.'" role="tabpanel" aria-labelledby="tab4-'.$category->id.'-tab">
+                                <div class="row no-gutters">
+                                    <div class="col-xl-4 border-right-0 border bg-gray-200 px-1">
+                                        <div class="banner px-lg-8 px-3 py-4 py-xl-0 d-flex h-100 align-items-center justify-content-center">
+                                            <div class="banner__body">
+                                                <div class="banner__image pb-1 mb-5">
+                                                    <img class="img-fluid" src="https://placehold.it/350x282">
+                                                </div>
+                                                <h3 class="banner_text m-0">
+                                                    <span class="d-block mb-1 font-size-10 font-weight-regular">Get Extra</span>
+                                                    <span class="d-block mb-3 font-size-12 text-primary font-weight-medium">Sale -25%</span>
+                                                    <span class="d-block mb-5 text-uppercase font-size-7 font-weight-regular text-gray-400">On Order Over $100</span>
+                                                </h3>
+                                                <a href="#" class="btn btn-primary btn-wide rounded-0">View More</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-8">
+                                        <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-lg-3 row-cols-wd-4 border-top border-left my-0">';
+                                            foreach($category->products->where('show_in_page_builder', '1') as $product) {
+                                                $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                                $tab_4 .= '<li class="product col">
+                                                <div class="product__inner overflow-hidden p-3 p-md-4d875">
+                                                    <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
+                                                        <div class="woocommerce-loop-product__thumbnail">
+                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.asset('assets/front/img/product/featured/'.$product->feature_image).'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
+                                                        </div>
+                                                        <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
+                                                            <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
+                                                            <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'.$product->current_price.'</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product__hover d-flex align-items-center">
+                                                            <a data-href="'.route('add.cart',$product->id).'" class="text-uppercase text-dark h-dark font-weight-medium mr-auto" data-toggle="tooltip" data-placement="right" title="ADD TO CART">
+                                                                <span class="product__add-to-cart">ADD TO CART</span>
+                                                                <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                                            </a>
+                                                            <a href="'.route('front.product.checkout',$product->slug).'" class="mr-1 h-p-bg btn btn-outline-primary border-0">
+                                                                <i class="flaticon-switch"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>';
+                                            }
+                                        $tab_4 .= '</ul>
+                                    </div>
+                                </div>
+                            </div>';
+                            }
+
+                        $tab_4 .= '</div>
+                    </div>
+                ';
+
+                $tab_5 = '
+                    <div class="container">
+                        <header class="d-md-flex justify-content-between mb-5 pt-5">
+                            <h2 class="font-size-26">New Releases</h2>
+                            <ul class="nav nav-gray-700 flex-nowrap flex-md-wrap overflow-auto overflow-md-visible" role="tablist">';
+                                foreach($categories as $category) {
+                                    $active = $category->id == 1 ? 'active' : '';
+                                    $tab_5 .= '
+                                    <li class="nav-item mx-4 flex-shrink-0 flex-md-shrink-1">
+                                        <a class="nav-link pb-1 px-0 '.$active.'" id="Sale-pill-tab-'.$category->id.'" data-toggle="tab" href="#Sale-pill-'.$category->id.'" role="pill" aria-controls="Sale-pill-'.$category->id.'" aria-selected="true">'.$category->name.'</a>
+                                    </li>
+                                    ';
+                                }
+
+                            $tab_5 .= '</ul>
+                        </header>
+                        <div class="tab-content" id="pills-tabcontent">';
+                            foreach( $categories as $category ) {
+                                $active = $category->id == 1 ? 'active' : '';
+                                $show = $category->id == 1 ? 'show' : '';
+                                $tab_5 .= '<div class="tab-pane fade '.$show.' '.$active.'" id="Sale-pill-'.$category->id.'" role="tabpanel" aria-labelledby="Sale-pill-tab">
+                                <ul class="products row row-cols-2 row-cols-md-3 list-unstyled mb-0">';
+                                    foreach( $category->products->where('show_in_page_builder', '1') as $product ) {
+                                        $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                        $tab_5 .= '<li class="col">
+                                        <div class="product product__space border bg-white mb-5">
+                                            <div class="product__inner overflow-hidden p-3 p-md-4d875">
+                                                <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
+                                                    <div class="woocommerce-loop-product__thumbnail">
+                                                        <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.asset('assets/front/img/product/featured/'.$product->feature_image).'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
+                                                    </div>
+                                                    <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
+                                                        <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
+                                                        <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'.$product->current_price.'</span>
+                                                        </div>
+                                                        <div class="product__rating d-none align-items-center font-size-2">
+                                                            <div class="text-yellow-darker mr-2">
+                                                                <small class="fas fa-star"></small>
+                                                                <small class="fas fa-star"></small>
+                                                                <small class="fas fa-star"></small>
+                                                                <small class="far fa-star"></small>
+                                                                <small class="far fa-star"></small>
+                                                            </div>
+                                                            <div class="">(3,714)</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="product__hover d-flex align-items-center">
+                                                        <a data-href="'.route('add.cart',$product->id).'" class="text-uppercase text-dark h-dark font-weight-medium mr-auto">
+                                                            <span class="product__add-to-cart">ADD TO CART</span>
+                                                            <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                                        </a>
+                                                        <a href="'.route('front.product.checkout',$product->slug).'" class="mr-1 h-p-bg btn btn-outline-primary border-0">
+                                                            <i class="flaticon-switch"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>';
+                                    }
+                                $tab_5 .= '</ul>
+                            </div>';
+                            }
+
+                        $tab_5 .= '</div>
+                    </div>
+                ';
+
+                $tab_6 = '
+                    <div class="container">
+                        <header class="d-md-flex justify-content-between align-items-center mb-5 pt-5">
+                            <h2 class="font-size-7 mb-4 mb-md-0">Books</h2>
+                            <ul class="nav justify-content-md-center nav-gray-700 flex-nowrap flex-md-wrap overflow-auto overflow-md-visible"  role="tablist">';
+                                foreach ( $categories as $category ) {
+                                    $active = $category->id == 1 ? 'active' : '';
+                                    $tab_6 .= '<li class="nav-item mx-5 mb-1 flex-shrink-0 flex-md-shrink-1">
+                                    <a class="nav-link px-0 '.$active.'" id="One-tab-'.$category->id.'" data-toggle="tab" href="#One-'.$category->id.'" role="tab" aria-controls="One" aria-selected="true">'.$category->name.'</a>
+                                </li>';
+                                }
+
+                            $tab_6 .= '</ul>
+                        </header>
+                        <div class="tab-content">';
+                                foreach($categories as $category) {
+                                    $active = $category->id == 1 ? 'active' : '';
+                                    $show = $category->id == 1 ? 'show' : '';
+                                    $tab_6 .= '<div class="tab-pane fade '.$show.' '.$active.'" id="One-'.$category->id.'" aria-labelledby="One-tab">
+                                    <ul class="list-unstyled products row row-cols-2 row-cols-lg-4 row-cols-wd-5 mb-0">';
+                                        foreach ($category->products->where('show_in_page_builder', '1') as $product) {
+                                            $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                            $tab_6 .= '<li class="col">
+                                            <div class="product border product__space bg-white mb-5 mb-lg-0">
+                                                <div class="product__inner overflow-hidden p-3 p-md-4d875">
+                                                    <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
+                                                        <div class="woocommerce-loop-product__thumbnail">
+                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.asset('assets/front/img/product/featured/'.$product->feature_image).'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                                        </div>
+                                                        <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
+                                                            <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
+                                                            <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'.$product->current_price.'</span>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="product__hover d-flex align-items-center">
+                                                            <a data-href="'.route('add.cart',$product->id).'" class="text-uppercase text-dark h-dark font-weight-medium mr-auto">
+                                                                <span class="product__add-to-cart">ADD TO CART</span>
+                                                                <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                                            </a>
+                                                            <a href="'.route('front.product.checkout',$product->slug).'" class="mr-1 h-p-bg btn btn-outline-primary border-0">
+                                                                <i class="flaticon-switch"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>';
+                                        }
+
+                                    $tab_6 .= '</ul>
+                                </div>
+                                ';
+                                }
+
+                        $tab_6 .= '</div>
+                    </div>
+                ';
+
+                $tab_7 = '
+                    <div class="bg-gray-200 space-2 space-lg-3">
+                        <div class="container ">
+                            <div class="d-md-flex justify-content-between">
+                                <header class="mb-4">
+                                    <h2 class="font-size-7">Featured Books</h2>
+                                </header>
+                                <ul class="nav justify-content-md-center nav-gray-700 mb-5 flex-nowrap flex-lg-wrap overflow-auto overflow-lg-visible" role="tablist">';
+                                    foreach ($categories as $category) {
+                                        $active = $category->id == 1 ? 'active' : '';
+                                        $tab_7 .= '<li class="nav-item mx-5 mb-1 flex-shrink-0 flex-lg-shrink-1">
+                                        <a class="nav-link px-0 '.$active.'" id="example7-'.$category->id.'-tab" data-toggle="tab" href="#example7-'.$category->id.'" role="tab" aria-controls="example1" aria-selected="true">'.$category->name.'</a>
+                                    </li>';
+                                    }
+
+                                $tab_7 .= '</ul>
+                            </div>
+                            <div class="tab-content" id="featuredBooksContent">';
+                                    foreach ( $categories as $category ) {
+                                        $active = $category->id == 1 ? 'active' : '';
+                                        $show = $category->id == 1 ? 'show' : '';
+                                        $tab_7 .= '<div class="tab-pane fade '.$show.' '.$active.'" id="example7-'.$category->id.'" role="tabpanel" aria-labelledby="example7-'.$category->id.'-tab">
+                                        <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 border-top border-left my-0">';
+                                            foreach($category->products->where('show_in_page_builder', '1') as $product) {
+                                                $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                                $tab_7 .= '<li class="product col">
+                                                <div class="product__inner overflow-hidden bg-white p-3 p-md-4d875">
+                                                    <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
+                                                        <div class="woocommerce-loop-product__thumbnail">
+                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.asset('assets/front/img/product/featured/'.$product->feature_image).'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                                        </div>
+                                                        <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
+                                                            <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
+                                                            <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'.$product->current_price.'</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product__hover d-flex align-items-center">
+                                                            <a data-href="'.route('add.cart',$product->id).'" class="text-uppercase text-dark h-dark font-weight-medium mr-auto" data-toggle="tooltip" data-placement="right" title="ADD TO CART">
+                                                                <span class="product__add-to-cart">ADD TO CART</span>
+                                                                <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                                            </a>
+                                                            <a href="'.route('front.product.checkout',$product->slug).'" class="mr-1 h-p-bg btn btn-outline-primary border-0">
+                                                                <i class="flaticon-switch"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>';
+                                            }
+                                        $tab_7 .= '</ul>
+                                    </div>';
+                                    }
+
+                            $tab_7 .= '</div>
+                        </div>
+                    </div>
+                ';
+
+                $tab_8 ='
+                    <div class="bg-gray-200 space-2 space-lg-3">
+                        <div class="container ">
+                            <div class="d-md-flex justify-content-between">
+                                <header class="mb-4">
+                                    <h2 class="font-size-7">Featured Books</h2>
+                                </header>
+                                <ul class="nav justify-content-md-center nav-gray-700 mb-5 flex-nowrap flex-lg-wrap overflow-auto overflow-lg-visible" role="tablist">';
+                                        foreach ($categories as $category) {
+                                            $active = $category->id == 1 ? 'active' : '';
+                                            $tab_8 .= '<li class="nav-item mx-5 mb-1 flex-shrink-0 flex-lg-shrink-1">
+                                            <a class="nav-link px-0 '.$active.'" id="example8-'.$category->id.'-tab" data-toggle="tab" href="#example8-'.$category->id.'" role="tab" aria-controls="example8-'.$category->id.'" aria-selected="true">'.$category->name.'</a>
+                                        </li>';
+                                        }
+
+                                $tab_8 .= '</ul>
+                            </div>
+                            <div class="tab-content" id="featuredBooksContent">';
+                            foreach ($categories as $category ) {
+                                $active = $category->id == 1 ? 'active' : '';
+                                $show = $category->id == 1 ? 'show' : '';
+                                $tab_8 .= '<div class="tab-pane fade '.$show.' '.$active.'" id="example8-'.$category->id.'" role="tabpanel" aria-labelledby="example8-'.$category->id.'-tab">
+                                <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 border-top border-left my-0">';
+                                    foreach( $category->products->where('show_in_page_builder', '1') as $product ) {
+                                        $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                        $tab_8 .= '<li class="product col">
+                                        <div class="product__inner overflow-hidden bg-white p-3 p-md-4d875">
+                                            <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
+                                                <div class="woocommerce-loop-product__thumbnail">
+                                                    <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.asset('assets/front/img/product/featured/'.$product->feature_image).'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                                </div>
+                                                <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
+                                                    <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
+                                                    <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                        <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'.$product->current_price.'</span>
+                                                    </div>
+                                                </div>
+                                                <div class="product__hover d-flex align-items-center">
+                                                    <a data-href="'.route('add.cart',$product->id).'" class="text-uppercase text-dark h-dark font-weight-medium mr-auto" data-toggle="tooltip" data-placement="right" title="ADD TO CART">
+                                                        <span class="product__add-to-cart">ADD TO CART</span>
+                                                        <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                                    </a>
+                                                    <a href="'.route('front.product.checkout',$product->slug).'" class="mr-1 h-p-bg btn btn-outline-primary border-0">
+                                                        <i class="flaticon-switch"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>';
+                                    }
+
+                                $tab_8 .= '</ul>
+                            </div>';
+                            }
+
+                            $tab_8 .= '</div>
+                        </div>
+                    </div>
+                ';
+
+                array_push( $bookworm_blocks, [
+                    'title' => 'Tabs #v1',
+                    'section' => 'BookWorm Tabs',
+                    'content' => $tab_1
+                ] );
+
+                array_push( $bookworm_blocks, [
+                    'title' => 'Tabs #v3',
+                    'section' => 'BookWorm Tabs',
+                    'content' => $tab_3
+                ] );
+
+                array_push( $bookworm_blocks, [
+                    'title' => 'Tabs #v4',
+                    'section' => 'BookWorm Tabs',
+                    'content' => $tab_4
+                ] );
+
+                array_push( $bookworm_blocks, [
+                    'title' => 'Tabs #v5',
+                    'section' => 'BookWorm Tabs',
+                    'content' => $tab_5
+                ] );
+
+                array_push( $bookworm_blocks, [
+                    'title' => 'Tabs #v6',
+                    'section' => 'BookWorm Tabs',
+                    'content' => $tab_6
+                ] );
+
+                array_push( $bookworm_blocks, [
+                    'title' => 'Tabs With BG Color',
+                    'section' => 'BookWorm Tabs',
+                    'content' => $tab_7
+                ] );
+
+                array_push( $bookworm_blocks, [
+                    'title' => 'Tabs With BG Color #2',
+                    'section' => 'BookWorm Tabs',
+                    'content' => $tab_8
+                ] );
+
+            /** */
+
+            /** Icon Blocks */
+
+                $bookworm_blocks[] = [
+                    'title' => 'Icon Blocks #v1',
+                    'section' => 'BookWorm Icon Blocks',
+                    'content' => '
+                        <div class="site-features  space-1d625">
+                            <div class="container">
+                                <ul class="list-unstyled my-0 list-features d-flex align-items-center justify-content-xl-between overflow-auto overflow-xl-visible">
+                                    <li class="flex-shrink-0 flex-xl-shrink-1 list-feature">
+                                        <div class="media">
+                                            <div class="feature__icon font-size-14 text-primary-green text-lh-xs">
+                                                <i class="glyph-icon flaticon-delivery"></i>
+                                            </div>
+                                            <div class="media-body ml-4">
+                                                <h4 class="feature__title font-size-3">Free Delivery</h4>
+                                                <p class="feature__subtitle m-0">Orders over $100</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="flex-shrink-0 flex-xl-shrink-1 separator mx-4 mx-xl-0 border-left h-fixed-80" aria-hidden="true" role="presentation"></li>
+                                    <li class="flex-shrink-0 flex-xl-shrink-1 list-feature">
+                                        <div class="media">
+                                            <div class="feature__icon font-size-14 text-primary-green text-lh-xs">
+                                                <i class="glyph-icon flaticon-credit"></i>
+                                            </div>
+                                            <div class="media-body ml-4">
+                                                <h4 class="feature__title font-size-3">Secure Payment</h4>
+                                                <p class="feature__subtitle m-0">100% Secure Payment</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="flex-shrink-0 flex-xl-shrink-1 separator mx-4 mx-xl-0 border-left h-fixed-80" aria-hidden="true" role="presentation"></li>
+                                    <li class="flex-shrink-0 flex-xl-shrink-1 list-feature">
+                                        <div class="media">
+                                            <div class="feature__icon font-size-14 text-primary-green text-lh-xs">
+                                                <i class="glyph-icon flaticon-warranty"></i>
+                                            </div>
+                                            <div class="media-body ml-4">
+                                                <h4 class="feature__title font-size-3">Money Back Guarantee</h4>
+                                                <p class="feature__subtitle m-0">Within 30 Days</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="flex-shrink-0 flex-xl-shrink-1 separator mx-4 mx-xl-0 border-left h-fixed-80" aria-hidden="true" role="presentation"></li>
+                                    <li class="flex-shrink-0 flex-xl-shrink-1 list-feature">
+                                        <div class="media">
+                                            <div class="feature__icon font-size-14 text-primary-green text-lh-xs">
+                                                <i class="glyph-icon flaticon-help"></i>
+                                            </div>
+                                            <div class="media-body ml-4">
+                                                <h4 class="feature__title font-size-3">24/7 Support</h4>
+                                                <p class="feature__subtitle m-0">Within 1 Business Day</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    '
+                ];
+
+                $bookworm_blocks[] = [
+                    'title' => 'Icon Blocks #v2',
+                    'section' => 'BookWorm Icon Blocks',
+                    'content' => '
+                        <div class="site-features border-top space-1d625 bg-primary-home-v3">
+                            <div class="container">
+                                <ul class="list-unstyled my-0 row list-features flex-nowrap flex-xl-wrap overflow-auto overflow-xl-visible">
+                                    <li class="col py-2 border-right border-color-white-o list-feature d-flex flex-shrink-0 flex-xl-shrink-1 min-width-400-d-lg">
+                                        <div class="media px-3 px-wd-4 m-auto">
+                                            <div class="feature__icon font-size-14 text-primary-yellow text-lh-xs">
+                                                <i class="glyph-icon flaticon-delivery"></i>
+                                            </div>
+                                            <div class="media-body ml-4">
+                                                <h4 class="feature__title font-size-3 text-white">Free Delivery</h4>
+                                                <p class="feature__subtitle m-0 text-white">Orders over $100</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="col py-2 border-right border-color-white-o list-feature d-flex flex-shrink-0 flex-xl-shrink-1 min-width-400-d-lg">
+                                        <div class="media px-3 px-wd-4 m-auto">
+                                            <div class="feature__icon font-size-14 text-primary-yellow text-lh-xs">
+                                                <i class="glyph-icon flaticon-credit"></i>
+                                            </div>
+                                            <div class="media-body ml-4">
+                                                <h4 class="feature__title font-size-3 text-white">Secure Payment</h4>
+                                                <p class="feature__subtitle m-0 text-white">100% Secure Payment</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="col py-2 border-right border-color-white-o list-feature d-flex flex-shrink-0 flex-xl-shrink-1 min-width-400-d-lg">
+                                        <div class="media px-3 px-wd-4 m-auto">
+                                            <div class="feature__icon font-size-14 text-primary-yellow text-lh-xs">
+                                                <i class="glyph-icon flaticon-warranty"></i>
+                                            </div>
+                                            <div class="media-body ml-4">
+                                                <h4 class="feature__title font-size-3 text-white">Money Back Guarantee</h4>
+                                                <p class="feature__subtitle m-0 text-white">Within 30 Days</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="col py-2 list-feature d-flex flex-shrink-0 flex-xl-shrink-1 min-width-400-d-lg">
+                                        <div class="media px-3 px-wd-4 m-auto">
+                                            <div class="feature__icon font-size-14 text-primary-yellow text-lh-xs">
+                                                <i class="glyph-icon flaticon-help"></i>
+                                            </div>
+                                            <div class="media-body ml-4">
+                                                <h4 class="feature__title font-size-3 text-white">24/7 Support</h4>
+                                                <p class="feature__subtitle m-0 text-white">Within 1 Business Day</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    '
+                ];
+
+                $bookworm_blocks[] = [
+                    'title' => 'Icon Blocks #v3',
+                    'section' => 'BookWorm Icon Blocks',
+                    'content' => '
+                        <div class="site-features space-1d625 bg-dark-1">
+                            <div class="container">
+                                <ul class="list-unstyled my-0 list-features overflow-auto overflow-lg-visible d-flex align-items-center justify-content-between">
+                                    <li class="list-feature flex-shrink-0 flex-shrink-lg-1">
+                                        <div class="media d-block d-lg-flex text-center text-lg-left pr-5 pr-xl-0">
+                                            <div class="feature__icon font-size-14 text-primary text-lh-xs mb-3 mb-lg-0">
+                                                <i class="glyph-icon flaticon-delivery"></i>
+                                            </div>
+                                            <div class="media-body ml-4">
+                                                <h4 class="feature__title font-size-3 text-white">Free Delivery</h4>
+                                                <p class="feature__subtitle m-0 text-white">Orders over $100</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="separator border-xl-left h-fixed-80 opacity-sm" aria-hidden="true" role="presentation"></li>
+                                    <li class="list-feature flex-shrink-0 flex-shrink-lg-1">
+                                        <div class="media d-block d-lg-flex text-center text-lg-left pr-5 pr-xl-0">
+                                            <div class="feature__icon font-size-14 text-primary text-lh-xs mb-3 mb-lg-0">
+                                                <i class="glyph-icon flaticon-credit"></i>
+                                            </div>
+                                            <div class="media-body ml-4">
+                                                <h4 class="feature__title font-size-3 text-white">Secure Payment</h4>
+                                                <p class="feature__subtitle m-0 text-white">100% Secure Payment</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="separator border-xl-left h-fixed-80 opacity-sm" aria-hidden="true" role="presentation"></li>
+                                    <li class="list-feature flex-shrink-0 flex-shrink-lg-1">
+                                        <div class="media d-block d-lg-flex text-center text-lg-left pr-5 pr-xl-0">
+                                            <div class="feature__icon font-size-14 text-primary text-lh-xs mb-3 mb-lg-0">
+                                                <i class="glyph-icon flaticon-warranty"></i>
+                                            </div>
+                                            <div class="media-body ml-4">
+                                                <h4 class="feature__title font-size-3 text-white">Money Back Guarantee</h4>
+                                                <p class="feature__subtitle m-0 text-white">Within 30 Days</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="separator border-xl-left h-fixed-80 opacity-sm" aria-hidden="true" role="presentation"></li>
+                                    <li class="list-feature flex-shrink-0 flex-shrink-lg-1">
+                                        <div class="media d-block d-lg-flex text-center text-lg-left pr-5 pr-xl-0">
+                                            <div class="feature__icon font-size-14 text-primary text-lh-xs mb-3 mb-lg-0">
+                                                <i class="glyph-icon flaticon-help"></i>
+                                            </div>
+                                            <div class="media-body ml-4">
+                                                <h4 class="feature__title font-size-3 text-white">24/7 Support</h4>
+                                                <p class="feature__subtitle m-0 text-white">Within 1 Business Day</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    '
+                ];
+
+                $bookworm_blocks[] = [
+                    'title' => 'Icon Blocks #v4',
+                    'section' => 'BookWorm Icon Blocks',
+                    'content' => '
+                        <div class="site-features border-bottom space-1d625">
+                            <div class="container">
+                                <ul class="list-unstyled my-0 list-features d-md-flex align-items-center justify-content-between">
+                                    <li class="list-feature">
+                                        <div class="media d-md-block d-xl-flex text-center text-xl-left pr-lg-5 pr-xl-0">
+                                            <div class="feature__icon font-size-14 text-primary text-lh-xs mb-md-3 mb-lg-0">
+                                                <i class="glyph-icon flaticon-delivery"></i>
+                                            </div>
+                                            <div class="media-body ml-xl-4">
+                                                <h4 class="feature__title font-size-3 text-dark">Free Delivery</h4>
+                                                <p class="feature__subtitle m-0 text-dark">Orders over $100</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="separator border-xl-left h-fixed-80" aria-hidden="true" role="presentation"></li>
+                                    <li class="list-feature">
+                                        <div class="media  d-md-block d-xl-flex text-center text-xl-left pr-lg-5 pr-xl-0">
+                                            <div class="feature__icon font-size-14 text-primary text-lh-xs mb-md-3 mb-lg-0">
+                                                <i class="glyph-icon flaticon-credit"></i>
+                                            </div>
+                                            <div class="media-body ml-xl-4">
+                                                <h4 class="feature__title font-size-3 text-dark">Secure Payment</h4>
+                                                <p class="feature__subtitle m-0 text-dark">100% Secure Payment</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="separator border-xl-left h-fixed-80" aria-hidden="true" role="presentation"></li>
+                                    <li class="list-feature">
+                                        <div class="media  d-md-block d-xl-flex text-center text-xl-left pr-lg-5 pr-xl-0">
+                                            <div class="feature__icon font-size-14 text-primary text-lh-xs mb-md-3 mb-lg-0">
+                                                <i class="glyph-icon flaticon-warranty"></i>
+                                            </div>
+                                            <div class="media-body ml-xl-4">
+                                                <h4 class="feature__title font-size-3 text-dark">Money Back Guarantee</h4>
+                                                <p class="feature__subtitle m-0 text-dark">Within 30 Days</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="separator border-xl-left h-fixed-80" aria-hidden="true" role="presentation"></li>
+                                    <li class="list-feature">
+                                        <div class="media d-md-block d-xl-flex text-center text-xl-left pr-lg-5 pr-xl-0">
+                                            <div class="feature__icon font-size-14 text-primary text-lh-xs mb-md-3 mb-lg-0">
+                                                <i class="glyph-icon flaticon-help"></i>
+                                            </div>
+                                            <div class="media-body ml-xl-4">
+                                                <h4 class="feature__title font-size-3 text-dark">24/7 Support</h4>
+                                                <p class="feature__subtitle m-0 text-dark">Within 1 Business Day</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    '
+                ];
+
+                $bookworm_blocks[] = [
+                    'title' => 'Icon Blocks #v5',
+                    'section' => 'BookWorm Icon Blocks',
+                    'content' => '
+                        <div class="site-features space-2">
+                            <div class="container">
+                                <ul class="list-unstyled my-0 list-features overflow-auto d-flex align-items-center justify-content-between">
+                                    <li class="list-feature py-2 py-md-0 flex-shrink-0 flex-xl-shrink-1">
+                                        <div class="media flex-column align-items-center pr-5 pr-lg-0">
+                                            <div class="feature__icon font-size-14 text-tangerine text-lh-xs mb-3">
+                                                <i class="glyph-icon flaticon-delivery"></i>
+                                            </div>
+                                            <div class="media-body text-center ml-4 ml-lg-0">
+                                                <h4 class="feature__title font-size-3 text-dark">Free Delivery</h4>
+                                                <p class="feature__subtitle m-0 text-dark">Orders over $100</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-feature py-2 py-md-0 flex-shrink-0 flex-xl-shrink-1">
+                                        <div class="media flex-column align-items-center pr-5 pr-lg-0">
+                                            <div class="feature__icon font-size-14 text-tangerine text-lh-xs mb-3">
+                                                <i class="glyph-icon flaticon-credit"></i>
+                                            </div>
+                                            <div class="media-body text-center">
+                                                <h4 class="feature__title font-size-3 text-dark">Secure Payment</h4>
+                                                <p class="feature__subtitle m-0 text-dark">100% Secure Payment</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-feature py-2 py-md-0 flex-shrink-0 flex-xl-shrink-1">
+                                        <div class="media flex-column align-items-center pr-5 pr-lg-0">
+                                            <div class="feature__icon font-size-14 text-tangerine text-lh-xs mb-3">
+                                                <i class="glyph-icon flaticon-warranty"></i>
+                                            </div>
+                                            <div class="media-body text-center">
+                                                <h4 class="feature__title font-size-3 text-dark">Money Back Guarantee</h4>
+                                                <p class="feature__subtitle m-0 text-dark">Within 30 Days</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-feature py-2 py-md-0 flex-shrink-0 flex-xl-shrink-1">
+                                        <div class="media flex-column align-items-center pr-5 pr-lg-0">
+                                            <div class="feature__icon font-size-14 text-tangerine text-lh-xs mb-3">
+                                                <i class="glyph-icon flaticon-help"></i>
+                                            </div>
+                                            <div class="media-body text-center">
+                                                <h4 class="feature__title font-size-3 text-dark">24/7 Support</h4>
+                                                <p class="feature__subtitle m-0 text-dark">Within 1 Business Day</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    '
+                ];
+
+            /** */
+
+            $bookworm_blocks[] = [
+                'title' => 'Banner #v1',
+                'section' => 'BookWorm Banners',
+                'content' => '
+                    <div class="container">
+                        <div class="d-block">
+                            <div class="banners d-md-flex">
+                                <div class="slider-banner flex-grow-1 mr-md-3 mr-xl-5 bg-gray-200 p-6 mb-4d875 position-relative overflow-hidden" style="height:250px;">
+                                    <div class="z-index-2 position-relative">
+                                        <h2 class="slider-banner__title font-size-4 text-lh-md">
+                                            <span class="slider-banner__title--1 d-block font-weight-bold">Best Seller</span>
+                                            <span class="slider-banner__title--2">Books</span>
+                                        </h2>
+                                        <a href="#" class="slider-banner__btn text-primary-green text-uppercase font-weight-medium">Purchase</a>
+                                    </div>
+                                    <img src="https://placehold.it/285x240" class="img-fluid position-absolute bottom-n60 right-n60">
+                                </div>
+                                <div class="slider-banner flex-grow-1 ml-md-3 ml-xl-0 bg-gray-200 p-6 position-relative overflow-hidden" style="height:250px;">
+                                    <div class="z-index-2 position-relative">
+                                        <h2 class="slider-banner__title font-size-4 text-lh-md">
+                                            <span class="slider-banner__title--1 d-block font-weight-bold">Featured Book</span>
+                                            <span class="slider-banner__title--2">of the Month</span>
+                                        </h2>
+                                        <a href="#" class="slider-banner__btn text-primary-green text-uppercase font-weight-medium">Purchase</a>
+                                    </div>
+                                    <img src="https://placehold.it/250x225" class="img-fluid position-absolute bottom-0 right-n60">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                '
+            ];
+
+            $bookworm_blocks[] = [
+                'title' => 'Banner #v2',
+                'section' => 'BookWorm Banners',
+                'content' => '
+                    <div class="container">
+                        <div class="bg-secondary-gray-800 px-6 py-5 rounded">
+                            <div class="media d-block d-lg-flex">
+                                <div class="media-body align-self-center mb-4 mb-lg-0">
+                                    <p class="banner__pretitle text-uppercase text-gray-400 font-weight-bold">Available Once a Year</p>
+                                    <h2 class="banner__title font-size-10 font-weight-bold text-white mb-4">Get 50% off on orders over $139</h2>
+                                    <a href="#" class="banner_btn btn btn-wide btn-primary-green text-white">Explore Books</a>
+                                </div>
+                                <img src="https://placehold.it/450x235" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+                '
+            ];
+
+            $bookworm_blocks[] = [
+                'title' => 'Banner #v3',
+                'section' => 'BookWorm Banners',
+                'content' => '
+                    <div class="container">
+                        <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
+                            <div class="col">
+                                <div class="mb-5 mb-xl-0 position-relative">
+                                    <div class="bg-red-1 height-md-250">
+                                        <div class="p-5 pl-lg-6 pr-lg-5 pt-lg-5 pb-lg-5">
+                                            <div>
+                                                <h2 class="font-size-26 mt-lg-1 text-white text-lh-md">
+                                                    <span class="hero__title-line-1 font-weight-bold d-block">Coloring Books</span>
+                                                    <span class="hero__title-line-2 font-weight-normal d-block">for adults</span>
+                                                </h2>
+                                                <a class="h6 font-weight-medium text-white" href="#">Shop Now</a>
+                                            </div>
+                                            <div class="d-flex d-md-block justify-content-end position-md-absolute bottom-md-30 right-md-30">
+                                                <img src="https://placehold.it/150x160" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="mb-5 mb-lg-0 position-relative">
+                                    <div class="bg-blue height-md-250">
+                                        <div class="p-5 pl-lg-6 pr-lg-5 pt-lg-5 pb-lg-5">
+                                            <div class="mb-3 mb-lg-0">
+                                                <h2 class="font-size-26 mt-lg-1 text-white text-lh-md">
+                                                    <span class="hero__title-line-1 font-weight-bold d-block">New Books</span>
+                                                    <span class="hero__title-line-2 font-weight-normal d-block">Available</span>
+                                                </h2>
+                                                <a class="h6 font-weight-medium text-white" href="#">Shop Now<s/a>
+                                            </div>
+                                            <div class="d-flex d-md-block justify-content-end position-md-absolute right-md-30 bottom-md-30">
+                                                <img src="https://placehold.it/150x160" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="position-relative">
+                                    <div class="bg-yellow-1 height-md-250">
+                                        <div class="p-5 pl-lg-6 pr-lg-5 pt-lg-5 pb-lg-5">
+                                            <div class="mb-4 mb-lg-0">
+                                                <h2 class="font-size-26 mt-lg-1 text-white text-lh-md">
+                                                    <span class="hero__title-line-1 font-weight-bold d-block">Monthly Selected</span>
+                                                    <span class="hero__title-line-2 font-weight-normal d-block">Books<s/span>
+                                                </h2>
+                                                <a class="h6 font-weight-medium text-white" href="#">Shop Now<s/a>
+                                            </div>
+                                            <div class="d-flex d-md-block justify-content-end position-md-absolute bottom-md-30 right-md-30">
+                                                <img src="https://placehold.it/150x160" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                '
+            ];
+
+            $bookworm_blocks[] = [
+                'title' => 'Banner #v4',
+                'section' => 'BookWorm Banners',
+                'content' => '
+                    <div class="container">
+                        <div class="row row-cols-lg-2">
+                            <div class="col">
+                                <div class="bg-gray-200 p-5 mb-5 min-height-450">
+                                    <div class="mb-2">
+                                        <span class="font-weight-medium h6 text-gray-400">BEST SELLER</span>
+                                    </div>
+                                    <h6 class="font-weight-bold font-size-7">Books</h6>
+                                    <a href="#" class="stretched-link link-black-100 text-dark font-weight-medium">
+                                        <span class="product__add-to-cart d-inline-block">Shop Now</span>
+                                    </a>
+                                    <div class="d-flex justify-content-end mt-4">
+                                        <img src="https://placehold.it/230x250" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="bg-gray-200 p-5 min-height-450">
+                                    <div class="mb-2">
+                                        <span class="font-weight-medium h6 text-gray-400">DEAL OF THE WEEK</span>
+                                    </div>
+                                    <h6 class="font-weight-bold font-size-7">Made For You</h6>
+                                    <a href="#" class="stretched-link link-black-100 text-dark font-weight-medium">
+                                        <span class="product__add-to-cart d-inline-block">Shop Book</span>
+                                    </a>
+                                    <div class="d-flex justify-content-end my-3">
+                                        <img src="https://placehold.it/230x200" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                    </div>
+                                    <div class="d-flex align-items-stretch justify-content-between">
+                                        <div class="py-2d75 text-primary-home-v3">
+                                            <span class="font-weight-medium font-size-3">114</span>
+                                            <span class="font-size-2">Days</span>
+                                        </div>
+                                        <div class="py-2d75 text-primary-home-v3">
+                                            <span class="font-weight-medium font-size-3">03</span>
+                                            <span class="font-size-2">Hours</span>
+                                        </div>
+                                        <div class="py-2d75 text-primary-home-v3">
+                                            <span class="font-weight-medium font-size-3">60</span>
+                                            <span class="font-size-2">Mins</span>
+                                        </div>
+                                        <div class="py-2d75 text-primary-home-v3">
+                                            <span class="font-weight-medium font-size-3">25</span>
+                                            <span class="font-size-2">Secs</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                '
+            ];
+
+            $bookworm_blocks[] = [
+                'title' => 'Banner #v5',
+                'section' => 'BookWorm Banners',
+                'content' => '
+                    <div class="container">
+                        <div class="row row-cols-1 row-cols-md-2 mb-5 mb-lg-0">
+                            <div class="col">
+                                <div class="bg-primary p-3d25 mb-5 mb-md-0 min-height-300 d-flex position-relative">
+                                    <div class="border__1 d-flex align-items-center justify-content-center w-100">
+                                        <div class="text-center px-2 py-8 px-md-0 py-md-0">
+                                            <h6 class="font-weight-bold text-white mb-3">GET FREE NEXTDAY DELIVERY</h6>
+                                            <div class="text-lh-sm mb-3">
+                                                <div class="font-size-7 text-white font-weight-bold">On orders of $35 </div>
+                                                <span class="font-size-7 text-white font-weight-bold">or more.</span>
+                                            </div>
+                                            <div class="mb-4 mb-md-0">
+                                                <a href="#" class="stretched-link text-white h-border-bottom-white h6 font-weight-medium" tabindex="0">Start Shopping</a>
+                                            </div>
+                                        </div>
+                                        <div class="position-absolute bottom-0 left-0 ml-6 mb-1">
+                                            <i class="flaticon-delivery font-size-17 text-red-1"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="bg-gray-780 p-3d25 mb-5 mb-md-0 min-height-300 d-flex position-relative">
+                                    <div class="border__1 d-flex align-items-center justify-content-center w-100">
+                                        <div class="text-center">
+                                            <h6 class="font-weight-bold text-white mb-0">SUMMER SALE </h6>
+                                            <span class="font-weight-bold font-size-12 text-gray-260">50%</span>
+                                            <div class="">
+                                                <a href="#" class="stretched-link text-white h-border-bottom-white h6 font-weight-medium" tabindex="0">Shop now</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                '
+            ];
+
+            $bookworm_blocks[] = [
+                'title' => 'Banner #v6',
+                'section' => 'BookWorm Banners',
+                'content' => '
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="bg-img-hero img-fluid height-300 mb-5 mb-lg-0" style="background-image: url(https://placehold.it/639x300);">
+                                    <div class="p-5 px-lg-9 space-top-1 space-top-lg-3">
+                                        <h2 class="font-size-7 mb-2 pb-1 text-lh-1dot4">
+                                            <span class="hero__title-line-1 font-weight-bold d-block">Feature Book</span>
+                                            <span class="hero__title-line-2 font-weight-normal d-block">of the month</span>
+                                        </h2>
+                                        <a href="#" class="text-uppercase link-black-100 text-dark font-weight-medium">
+                                            <span class="product__add-to-cart d-inline-block">Purchase</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="bg-img-hero img-fluid height-300 mb-5 mb-lg-0" style="background-image: url(https://placehold.it/350x300);">
+                                    <div class="p-5 pl-lg-6 pt-3 pt-lg-5">
+                                        <h2 class="font-size-7 mb-2 pb-1 text-lh-1dot4">
+                                            <span class="hero__title-line-1 font-weight-bold d-block">Best Seller</span>
+                                            <span class="hero__title-line-2 font-weight-normal d-block">Books</span>
+                                        </h2>
+                                        <a href="#" class="text-uppercase link-black-100 text-dark font-weight-medium">
+                                            <span class="product__add-to-cart d-inline-block">Purchase</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="bg-gray-780 p-3 height-300">
+                                    <div class="m-1">
+                                        <div class="border__1">
+                                            <div class="p-5 pb-8 pb-md-12 pl-lg-5 pt-lg-5 pb-lg-8 pl-xl-7 pt-xl-8 pb-xl-5">
+                                                <div class="">
+                                                    <h6 class="font-weight-bold text-white font-size-7 mb-0">Summer Sale</h6>
+                                                    <span class="font-weight-bold font-size-15 text-gray-260 text-lh-sm">50%</span>
+                                                    <div class="">
+                                                        <a href="#" class="text-white h-border-bottom-white h6 font-weight-medium pb-1" tabindex="0">PURCHASE</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                '
+            ];
+
+            $bookworm_blocks[] = [
+                'title' => 'Banner #v7',
+                'section' => 'BookWorm Banners',
+                'content' => '
+                    <div class="bg-gray-200 space-2">
+                        <div class="container">
+                            <div class="pt-5 pt-lg-0  h-100">
+                                <div class="bg-white p-6 h-100">
+                                    <h6 class="font-size-7">Girl, <span class="text-primary font-weight-normal">Wash Your Face</span></h6>
+                                    <div class="mb-2">
+                                        <span class="font-size-3 text-secondary-gray-700">Rachel Hollis</span>
+                                    </div>
+                                    <div class="price d-flex align-items-center font-weight-medium font-size-3 mb-2">
+                                        <ins class="text-decoration-none mr-2"><span class="woocommerce-Price-amount amount font-size-3 font-weight-medium text-dark"><span class="woocommerce-Price-currencySymbol">$</span>15</span></ins>
+                                        <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount font-size-1 text-primary-home-v3 opacity-md"><span class="woocommerce-Price-currencySymbol">$</span>78,96</span></del>
+                                    </div>
+                                    <div class="mb-3 pb-1">
+                                        <span class="d-inline-block product__add-to-cart">ADD TO CART</span>
+                                    </div>
+                                    <div>
+                                        <img src="https://placehold.it/185x210" class="img-fluid mx-auto d-block mx-auto" alt="image-description">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <div>
+                '
+            ];
+
+            $bookworm_blocks[] = [
+                'title' => 'Banner #v8',
+                'section' => 'BookWorm Banners',
+                'content' => '
+                    <div class="container">
+                        <div class="row row-cols-md-2 row-cols-xl-3 row-cols-wd-4">
+                            <div class="col">
+                                <div class="bg-punch-light rounded-md mb-4 mb-xl-0">
+                                    <div class="pr-4 pl-5 py-8 position-relative">
+                                        <div class="position-relative z-index-2">
+                                            <div class="font-size-4 font-weight-medium position-relative z-index-2">Coloring Books</div>
+                                            <div class="font-size-4 mb-2 position-relative z-index-2">for adults</div>
+                                            <a href="#" class="stretched-link h-primary">Shop Now</a>
+                                        </div>
+                                        <img src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="bg-punch-light rounded-md mb-4 mb-xl-0">
+                                    <div class="pr-4 pl-5 py-8 position-relative">
+                                        <div class="position-relative z-index-2">
+                                            <div class="font-size-4 font-weight-medium position-relative z-index-2">Best</div>
+                                            <div class="font-size-4 mb-2 position-relative z-index-2">Cookbooks</div>
+                                            <a href="#" class="stretched-link h-primary">Shop Now</a>
+                                        </div>
+                                        <img src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="bg-punch-light rounded-md mb-4 mb-xl-0">
+                                    <div class="pr-4 pl-5 py-8 position-relative">
+                                        <div class="position-relative z-index-2">
+                                            <div class="font-size-4 font-weight-medium position-relative z-index-2">New Books</div>
+                                            <div class="font-size-4 mb-2 position-relative z-index-2">Available</div>
+                                            <a href="#" class="stretched-link h-primary">Shop Now</a>
+                                        </div>
+                                        <img src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col d-xl-none d-wd-block">
+                                <div class="bg-punch-light rounded-md mb-4 mb-xl-0">
+                                    <div class="pr-4 pl-5 py-8 position-relative">
+                                        <div class="font-size-4 font-weight-medium position-relative z-index-2">Monthly Selected</div>
+                                        <div class="font-size-4 mb-2 position-relative z-index-2">Books</div>
+                                        <a href="#" class="stretched-link h-primary">Shop Now</a>
+                                        <img src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                '
+            ];
+
+            $bookworm_blocks[] = [
+                'title' => 'Banner #v9',
+                'section' => 'BookWorm Banners',
+                'content' => '
+                    <div class="bg-gray-200 space-2">
+                        <div class="container-fluid px-3 px-md-5 px-xl-8d75">
+                            <div class="row row-cols-md-2 row-cols-xl-3">
+                                <div class="col">
+                                    <div class="position-relative">
+                                        <div class="bg-white height-md-300 mb-5 mb-xl-0">
+                                            <div class="p-4 py-lg-6 px-lg-7">
+                                                <div class="my-xl-1">
+                                                    <div class="position-relative z-index-2">
+                                                        <div class="mb-2">
+                                                            <span class="font-weight-medium h6 text-gray-400">BEST SELLER</span>
+                                                        </div>
+                                                        <h6 class="font-weight-bold font-size-7">Books</h6>
+                                                        <a href="#" class="link-black-100 text-dark font-weight-medium">
+                                                            <span class="product__add-to-cart d-inline-block">Shop Now</span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="d-flex justify-content-end d-md-block position-md-absolute bottom-md-30 right-md-30">
+                                                        <img src="https://placehold.it/180x223" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="position-relative">
+                                        <div class="bg-white height-md-300 mb-5 mb-lg-0">
+                                            <div class="p-4 py-lg-6 px-lg-7">
+                                                <div class="my-xl-1">
+                                                    <div class="position-relative z-index-2">
+                                                        <h2 class="font-size-26 mt-lg-1 text-lh-md">
+                                                            <span class="hero__title-line-1 font-weight-bold d-block">New Books</span>
+                                                            <span class="hero__title-line-2 font-weight-normal d-block">Available</span>
+                                                        </h2>
+                                                        <a href="#" class="link-black-100 text-dark font-weight-medium">
+                                                            <span class="product__add-to-cart d-inline-block">Shop Now</span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="d-flex justify-content-end d-md-block position-md-absolute bottom-md-30 right-md-30">
+                                                        <img src="https://placehold.it/180x223" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="position-relative">
+                                        <div class="bg-white height-md-300">
+                                            <div class="py-4 px-5 pl-lg-7">
+                                                <div class="ml-lg-1">
+                                                    <div class="position-relative z-index-2">
+                                                        <div class="mb-2">
+                                                            <span class="font-weight-medium h6 text-gray-400">DEAL OF THE WEEK</span>
+                                                        </div>
+                                                        <h6 class="font-weight-bold font-size-7">Made For You</h6>
+                                                        <a href="#" class="link-black-100 text-dark font-weight-medium">
+                                                            <span class="product__add-to-cart d-inline-block">Shop Book</span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="position-md-absolute bottom-md-30 right-md-30">
+                                                        <div class="d-flex justify-content-end d-md-block">
+                                                            <img src="https://placehold.it/180x223" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                                        </div>
+                                                    </div>
+                                                    <div class="position-md-absolute bottom-md-30">
+                                                        <div class="d-flex align-items-stretch">
+                                                            <div class="py-2d75 text-primary-home-v3 mr-4">
+                                                                <span class="font-weight-medium font-size-3">114</span>
+                                                                <span class="font-size-2">Days</span>
+                                                            </div>
+                                                            <div class="py-2d75 text-primary-home-v3 mr-4">
+                                                                <span class="font-weight-medium font-size-3">03</span>
+                                                                <span class="font-size-2">Hours</span>
+                                                            </div>
+                                                            <div class="py-2d75 text-primary-home-v3 mr-4">
+                                                                <span class="font-weight-medium font-size-3">60</span>
+                                                                <span class="font-size-2">Mins</span>
+                                                            </div>
+                                                            <div class="py-2d75 text-primary-home-v3">
+                                                                <span class="font-weight-medium font-size-3">25</span>
+                                                                <span class="font-size-2">Secs</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                '
+            ];
+
+            $bookworm_blocks[] = [
+                'title' => 'Banner #v10',
+                'section' => 'BookWorm Banners',
+                'content' => '
+                    <div class="bg-punch-light px-3 px-md-5">
+                        <div class="space-1 space-md-3 bg-white">
+                            <div class="container">
+                                <div class="row row-cols-md-2 row-cols-xl-3 row-cols-wd-4">
+                                    <div class="col">
+                                        <div class="bg-punch-light rounded-md mb-4 mb-xl-0">
+                                            <div class="pr-4 pl-5 py-8 position-relative">
+                                                <div class="font-size-4 font-weight-medium position-relative z-index-2">Coloring Books</div>
+                                                <div class="font-size-4 mb-2 position-relative z-index-2">for adults</div>
+                                                <a href="#" class="stretched-link h-primary">Shop Now</a>
+                                                <img src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="bg-punch-light rounded-md mb-4 mb-xl-0">
+                                            <div class="pr-4 pl-5 py-8 position-relative">
+                                                <div class="font-size-4 font-weight-medium position-relative z-index-2">Best</div>
+                                                <div class="font-size-4 mb-2 position-relative z-index-2">Cookbooks</div>
+                                                <a href="#" class="stretched-link h-primary">Shop Now</a>
+                                                <img src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="bg-punch-light rounded-md mb-4 mb-xl-0">
+                                            <div class="pr-4 pl-5 py-8 position-relative">
+                                                <div class="font-size-4 font-weight-medium position-relative z-index-2">New Books</div>
+                                                <div class="font-size-4 mb-2 position-relative z-index-2">Available</div>
+                                                <a href="#" class="stretched-link h-primary">Shop Now</a>
+                                                <img src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col d-xl-none d-wd-block">
+                                        <div class="bg-punch-light rounded-md mb-4 mb-xl-0">
+                                            <div class="pr-4 pl-5 py-8 position-relative">
+                                                <div class="font-size-4 font-weight-medium position-relative z-index-2">Monthly Selected</div>
+                                                <div class="font-size-4 mb-2 position-relative z-index-2">Books</div>
+                                                <a href="#" class="stretched-link h-primary">Shop Now</a>
+                                                <img src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                '
+            ];
+
+            $bookworm_blocks[] = [
+                'title' => 'Banner #v11',
+                'section' => 'BookWorm Banners',
+                'content' => '
+                    <div class="container">
+                        <div class="bg-img-hero img-fluid height-500" style="background-image: url(https://placehold.it/685x500);">
+                            <div class="px-6 space-top-3 space-bottom-4 mb-4 mb-lg-0">
+                                <div class="pt-lg-4 pb-lg-3">
+                                    <p class="banner__pretitle text-uppercase text-gray-400 font-weight-bold">THE BOOKWORM EDITORS’</p>
+                                    <h2 class="hero__title font-size-10 mb-4 pb-1">
+                                        <span class="hero__title-line-1 font-weight-regular d-block mb-1">Featured Books of</span>
+                                        <span class="hero__title-line-2 d-block font-weight-regular">The <span class="font-weight-bold">February</span></span>
+                                    </h2>
+                                    <a href="#" class="banner_btn rounded-0 btn btn-wide btn-primary text-white">Shop Now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                '
+            ];
+
+            $bookworm_blocks[] = [
+                'title' => 'Banner #v12',
+                'section' => 'BookWorm Banners',
+                'content' => '
+                    <div class="container">
+                        <div class="row row-cols-2">
+                            <div class="col">
+                                <div class="bg-img-hero img-fluid pt-4 space-bottom-3 px-5" style="background-image: url(https://placehold.it/330x235);">
+                                    <div class="mb-4">
+                                        <div class="mb-1">
+                                            <span class="font-weight-medium h6 text-gray-400">BEST SELLER</span>
+                                        </div>
+                                        <h6 class="font-weight-bold font-size-4 pb-1">Books</h6>
+                                        <a href="#" class="link-black-100 text-dark font-weight-medium">
+                                            <span class="product__add-to-cart d-inline-block">Shop Now</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="bg-img-hero img-fluid pt-4 space-bottom-1 px-5" style="background-image: url(https://placehold.it/330x235);">
+                                    <div class="mb-3 mb-lg-6 mb-xl-3">
+                                        <div class="mb-1">
+                                            <span class="font-weight-medium h6 text-gray-400">DEAL OF THE WEEK</span>
+                                        </div>
+                                        <h6 class="font-weight-bold font-size-4">Made For You</h6>
+                                        <div class="pb-1">
+                                            <a href="#" class="link-black-100 text-dark font-weight-medium">
+                                                <span class="product__add-to-cart d-inline-block">Shop Now</span>
+                                            </a>
+                                        </div>
+                                        <div class="d-flex align-items-stretch justify-content-between">
+                                            <div class="py-2d75">
+                                                <span class="font-weight-medium font-size-3">114</span>
+                                                <span class="font-size-2 ml-md-2 ml-xl-0 ml-wd-2 d-xl-block d-wd-inline">Days</span>
+                                            </div>
+                                            <div class="py-2d75">
+                                                <span class="font-weight-medium font-size-3">03</span>
+                                                <span class="font-size-2 ml-md-2 ml-xl-0 ml-wd-2 d-xl-block d-wd-inline">Hours</span>
+                                            </div>
+                                            <div class="py-2d75">
+                                                <span class="font-weight-medium font-size-3">60</span>
+                                                <span class="font-size-2 ml-md-2 ml-xl-0 ml-wd-2 d-xl-block d-wd-inline">Mins</span>
+                                            </div>
+                                            <div class="py-2d75">
+                                                <span class="font-weight-medium font-size-3">25</span>
+                                                <span class="font-size-2 ml-md-2 ml-xl-0 ml-wd-2 d-xl-block d-wd-inline">Secs</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                '
+            ];
+
+            $bookworm_blocks[] = [
+                'title' => 'Banner #v13',
+                'section' => 'BookWorm Banners',
+                'content' => '
+                    <div class="container">
+                        <div class="row row-cols-2">
+                            <div class="col">
+                                <div class="mb-5">
+                                    <div class="bg-img-hero img-fluid bg-gradient-gray-780" style="background-image: url(https://placehold.it/330x235);">
+                                        <div class="p-3 mb-5 mb-md-0">
+                                            <div class="m-1">
+                                                <div class="border__1">
+                                                    <div class="p-3 px-lg-5 py-md-5">
+                                                        <div class="text-center my-lg-1">
+                                                            <h6 class="font-weight-bold text-white mb-0">SUMMER SALE </h6>
+                                                            <span class="font-weight-bold font-size-12 text-gray-260">50%</span>
+                                                            <div class="">
+                                                                <a href="#" class="text-white h-border-bottom-white h6 font-weight-medium pb-1" tabindex="0">Shop now</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="bg-primary p-3 mb-5 mb-md-0">
+                                    <div class="m-1">
+                                        <div class="position-relative">
+                                            <div class="border__1">
+                                                <div class="py-md-5">
+                                                    <div class="text-center mb-lg-1">
+                                                        <h6 class="font-weight-bold text-white mb-3">GET FREE NEXTDAY DELIVERY</h6>
+                                                        <div class="text-lh-sm mb-3">
+                                                            <div class="font-size-4 text-white font-weight-bold">On orders of $35 </div>
+                                                            <span class="font-size-4 text-white font-weight-bold">or more.</span>
+                                                        </div>
+                                                        <div class="">
+                                                            <a href="#" class="text-white h-border-bottom-white h6 font-weight-medium" tabindex="0">Start Shopping</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-none d-md-block position-absolute bottom-n14 left-20">
+                                                <i class="flaticon-delivery font-size-15 text-red-1"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                '
+            ];
+
+            $bookworm_blocks[] = [
+                'title' => 'Banner #v14',
+                'section' => 'BookWorm Banners',
+                'content' => '
+                    <div class="container">
+                        <div class="row row-cols-1 row-cols-lg-2">
+                            <div class="col">
+                                <div class="bg-gray-200 min-height-300 mb-5 mb-lg-0">
+                                    <div class="p-5 pl-lg-8 pr-lg-5 pt-lg-10 pb-lg-5">
+                                        <div class="mt-lg-2">
+                                            <h2 class="font-size-26 mt-lg-1 text-lh-md">
+                                                <span class="hero__title-line-1 font-weight-bold d-block">Feature Book</span>
+                                                <span class="hero__title-line-2 font-weight-normal d-block">of the month</span>
+                                            </h2>
+                                        <div>
+                                                <a href="#" class="text-dark font-weight-medium">
+                                                    <span class="product__add-to-cart d-inline-block">PURCHASE</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex d-md-block justify-content-end position-md-absolute bottom-md-40 right-md-55">
+                                            <img src="https://placehold.it/180x203" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="bg-gray-200 min-height-300">
+                                    <div class="p-5 pl-lg-8 pr-lg-5 pt-lg-10 pb-lg-5">
+                                        <div class="mt-lg-2">
+                                            <h2 class="font-size-26 mt-lg-1 text-lh-md">
+                                                <span class="hero__title-line-1 font-weight-bold d-block">Best Seller</span>
+                                                <span class="hero__title-line-2 font-weight-normal d-block">Books</span>
+                                            </h2>
+                                        <div>
+                                                <a href="#" class="text-dark font-weight-medium">
+                                                    <span class="product__add-to-cart d-inline-block">PURCHASE</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex d-md-block justify-content-end position-md-absolute bottom-md-40 right-md-55">
+                                            <img src="https://placehold.it/180x203" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                '
+            ];
+
+            $bookworm_blocks[] = [
+                'title' => 'Banner #v16',
+                'section' => 'BookWorm Banners',
+                'content' => '
+                    <div class="container">
+                        <div class="bg-gray-200 rounded-md py-4 py-lg-7 px-5 pl-lg-7 pr-lg-6 pb-lg-6 space-bottom-xl-2 mb-5">
+                            <div class="pb-xl-3 mb-xl-1">
+                                <div class="ml-xl-1">
+                                    <div class="mb-2">
+                                        <span class="font-weight-medium h6 text-gray-400">BEST SELLER</span>
+                                    </div>
+                                    <h6 class="font-weight-bold font-size-7">Books</h6>
+                                    <a href="#" class="link-black-100 text-dark font-weight-medium">
+                                        <span class="product__add-to-cart d-inline-block">Shop Now</span>
+                                    </a>
+                                    <div class="d-flex justify-content-end">
+                                        <img src="https://placehold.it/230x250" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                '
+            ];
+
+            $bookworm_blocks[] = [
+                'title' => 'Banner #v17',
+                'section' => 'BookWorm Banners',
+                'content' => '
+                    <div class="container">
+                        <div class="bg-primary p-3 mb-5 mb-lg-0 rounded-md">
+                            <div class="m-1">
+                                <div class="position-relative">
+                                    <div class="border__1 rounded-md">
+                                        <div class="py-5 space-lg-2">
+                                            <div class="text-center mb-lg-1 py-lg-4 py-xl-2">
+                                                <h6 class="font-weight-bold text-white mb-3">GET FREE NEXTDAY DELIVERY</h6>
+                                                <div class="text-lh-sm mb-3">
+                                                    <div class="font-size-7 text-white font-weight-bold">On orders of $35 </div>
+                                                    <span class="font-size-7 text-white font-weight-bold">or more.</span>
+                                                </div>
+                                                <div class="">
+                                                    <a href="#" class="text-white h-border-bottom-white h6 font-weight-medium" tabindex="0">Start Shopping</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-none d-md-block position-absolute bottom-n14 left-30">
+                                        <i class="flaticon-delivery font-size-17 text-red-1"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                '
+            ];
+
+            $bookworm_blocks[] = [
+                'title' => 'Banner #v18',
+                'section' => 'BookWorm Banners',
+                'content' => '
+                    <div class="container">
+                        <div class="position-relative">
+                            <div class="bg-gray-200 height-md-470 pt-4 pl-5 pl-lg-7 pt-lg-7 rounded-md">
+                                <div class="ml-lg-1">
+                                    <div class="space-bottom-1 space-bottom-md-6">
+                                        <div class="mb-2">
+                                            <span class="font-weight-medium h6 text-gray-400">DEAL OF THE WEEK</span>
+                                        </div>
+                                        <h6 class="font-weight-bold font-size-7">Made For You</h6>
+                                        <a href="#" class="link-black-100 text-dark font-weight-medium">
+                                            <span class="product__add-to-cart d-inline-block">Shop Book</span>
+                                        </a>
+                                    </div>
+                                    <div class="d-flex justify-content-end d-md-block position-md-absolute bottom-md-65 right-0">
+                                        <img src="https://placehold.it/250x250" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                    </div>
+                                    <div class="d-flex align-items-stretch pb-1">
+                                        <div class="py-2d75 text-primary-home-v3 mr-5">
+                                            <span class="font-weight-medium font-size-3">114</span>
+                                            <span class="font-size-2">Days</span>
+                                        </div>
+                                        <div class="py-2d75 text-primary-home-v3 mr-5">
+                                            <span class="font-weight-medium font-size-3">03</span>
+                                            <span class="font-size-2">Hours</span>
+                                        </div>
+                                        <div class="py-2d75 text-primary-home-v3 mr-5">
+                                            <span class="font-weight-medium font-size-3">60</span>
+                                            <span class="font-size-2">Mins</span>
+                                        </div>
+                                        <div class="py-2d75 text-primary-home-v3">
+                                            <span class="font-weight-medium font-size-3">25</span>
+                                            <span class="font-size-2">Secs</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                '
+            ];
+
+            $bookworm_blocks[] = [
+                'title' => 'Deals list #v1',
+                'section' => 'BookWorm Deals List',
+                'content' => '
+                    <div class="container space-1">
+                        <div class="products">
+                            <div class="product product__card product__card-v2">
+                                <div class="px-md-5 py-md-6 p-4 border border-primary border-width-2">
+                                    <div class="woocommerce-loop-product__thumbnail py-8 position-relative">
+                                        <div class="width-100 height-100 bg-primary rounded-circle d-flex align-items-center flex-wrap justify-content-center text-white position-absolute right-0 top-0">
+                                            <div class="text-center">
+                                                <div>Save</div>
+                                                <div class="font-size-5">$49</div>
+                                            </div>
+                                        </div>
+                                        <a href="#" class="d-block"><img src="https://placehold.it/200x327" class="attachment-shop_catalog size-shop_catalog wp-post-image d-block mx-auto"></a>
+                                    </div>
+                                    <div class="woocommerce-loop-product__body">
+                                        <div class="mb-3">
+                                            <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="#">Kindle Edition</a></div>
+                                            <h2 class="woocommerce-loop-product__title font-size-3 text-lh-md mb-2 text-height-2 crop-text-2 h-dark"><a href="#">Dark in Death: An Eve Dallas Novel (In Death, Book 46)</a></h2>
+                                            <div class="font-size-2 text-gray-700 mb-1 text-truncate"><a href="#" class="text-gray-700">Nora Roberts</a></div>
+                                            <div class="price d-flex align-items-center font-weight-medium font-size-22">
+                                                <ins class="text-decoration-none mr-2"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>79</span></ins>
+                                                <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>99</span></del>
+                                            </div>
+                                        </div>
+                                        <div class="countdown-timer mb-5">
+                                            <h5 class="countdown-timer__title font-size-3 mb-3">Hurry Up! <span class="font-weight-regular">Offer ends in:</span></h5>
+                                            <div class="d-flex align-items-stretch justify-content-between">
+                                                <div class="py-2d75 d-md-flex align-items-center">
+                                                    <span class="font-weight-medium font-size-3">114</span>
+                                                    <span class="font-size-2 ml-md-2 ml-wd-2 d-xl-block d-wd-inline">Days</span>
+                                                </div>
+                                                <div class="border-left pr-3 pr-md-0"> </div>
+                                                <div class="py-2d75 d-md-flex align-items-center">
+                                                    <span class="font-weight-medium font-size-3">03</span>
+                                                    <span class="font-size-2 ml-md-2 ml-wd-2 d-xl-block d-wd-inline">Hours</span>
+                                                </div>
+                                                <div class="border-left pr-3 pr-md-0"> </div>
+                                                <div class="py-2d75 d-md-flex align-items-center">
+                                                    <span class="font-weight-medium font-size-3">60</span>
+                                                    <span class="font-size-2 ml-md-2 ml-wd-2 d-xl-block d-wd-inline">Mins</span>
+                                                </div>
+                                                <div class="border-left pr-3 pr-md-0"> </div>
+                                                <div class="py-2d75 d-md-flex align-items-center">
+                                                    <span class="font-weight-medium font-size-3">25</span>
+                                                    <span class="font-size-2 ml-md-2 ml-wd-2 d-xl-block d-wd-inline">Secs</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="deal-progress">
+                                            <div class="d-flex justify-content-between font-size-2 mb-2d75">
+                                                <span>Already Sold: 14</span>
+                                                <span>Available: 3</span>
+                                            </div>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" style="width:82%" aria-valuenow="14" aria-valuemin="0" aria-valuemax="17"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                '
+            ];
+
+            $bookworm_blocks[] = [
+                'title' => 'Clients #v1',
+                'section' => 'BookWorm Clients',
+                'content' => '
+                <div class="clients-block clients-v1">
+                    <div class="container">
+                        <div class="space-1 space-lg-2">
+                            <div class="d-lg-flex align-items-center justify-content-between">
+                                <div class="text-center mb-5 mb-lg-0">
+                                    <img class="img-fluid" src="../../assets/img/150x32/img1.png" alt="Image-Description">
+                                </div>
+                                <div class="text-center mb-5 mb-lg-0">
+                                    <img class="img-fluid" src="../../assets/img/150x32/img2.png" alt="Image-Description">
+                                </div>
+                                <div class="text-center mb-5 mb-lg-0">
+                                    <img class="img-fluid" src="../../assets/img/150x32/img3.png" alt="Image-Description">
+                                </div>
+                                <div class="text-center mb-5 mb-lg-0">
+                                    <img class="img-fluid" src="../../assets/img/150x32/img4.png" alt="Image-Description">
+                                </div>
+                                <div class="text-center mb-5 mb-lg-0">
+                                    <img class="img-fluid" src="../../assets/img/150x32/img6.png" alt="Image-Description">
+                                </div>
+                                <div class="text-center mb-5 mb-lg-0">
+                                    <img class="img-fluid" src="../../assets/img/150x32/img5.png" alt="Image-Description">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                '
+            ];
+        }
+
 
         // For Default & Dark Version
-        if ($version == 'default' || $version == 'dark') {
+        if ($version == 'default' || $version == 'dark' || $version == 'bookworm') {
             // intro Section (Default Version)
             $introsec = "<div class='pb-mb30'>
                 <div class='container " . ($rtl == 1 ? 'pb-rtl' : '') . "'>
@@ -3830,6 +5947,8 @@ class PageBuilderController extends Controller
         $styles = !empty($data['styles']) ? json_decode($data['styles'], true) : [];
         $styles = str_replace("{base_url}", url('/'), json_encode($styles));
         $data['styles'] = json_decode($styles, true);
+
+        $data['bookworm_blocks'] = $bookworm_blocks;
 
         return view('admin.pagebuilder.content', $data);
     }

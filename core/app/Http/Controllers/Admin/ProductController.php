@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Validation\Rule;
-use App\BasicExtended as BE;
-use App\BasicExtra;
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+use Session;
+use Validator;
+use App\Product;
 use App\Language;
 use App\Megamenu;
 use App\Pcategory;
+use App\BasicExtra;
 use App\ProductImage;
-use App\Product;
 use App\ProductOrder;
-use Validator;
-use Session;
+use App\ChildCategory;
+use Illuminate\Support\Str;
+use App\BasicExtended as BE;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -42,8 +45,20 @@ class ProductController extends Controller
     {
         $lang = Language::where('code', $request->language)->first();
         $abx = $lang->basic_extra;
-        $categories = Pcategory::where('status',1)->get();
-        return view('admin.product.create',compact('categories','abx'));
+        $product_fields = $lang->basic_extended->product_fields;
+        //$categories = Pcategory::where('status',1)->get();
+        $scategories = Pcategory::where('status',1)->where('is_child', 1)->get();
+
+
+        $categories  = Pcategory::with('childs')
+            ->where('language_id', $lang->id)
+            ->where('status',1)->get();
+
+
+
+
+
+        return view('admin.product.create',compact('categories','abx', 'product_fields', 'scategories'));
     }
 
 
@@ -84,15 +99,91 @@ class ProductController extends Controller
     }
 
 
-    public function getCategory($langid)
+    public function getCategory(Request $request, $langid)
     {
-        $category = Pcategory::where('language_id', $langid)->get();
+//        $lang   = Language::where('id', $langid)->first();
+//        $request['language']    = $lang->code;
+//        return redirect()->route('admin.product.create');
+
+        $category = Pcategory::with('childs')
+            ->where('status',1)
+            ->where('language_id', $langid)->get();
         return $category;
     }
 
 
     public function store(Request $request)
     {
+
+        $lang = Language::where('code', 'en')->first();
+        $custom_fields = $lang->basic_extended->product_fields;
+        $product_fields = [];
+
+
+        if($custom_fields){
+            foreach ( json_decode( $custom_fields ) as $field) {
+                $product_fields[] = [
+                    'name' => $field->name,
+                    'value' => $request->input( Str::slug( $field->name ) )
+                ];
+            }
+        }
+
+        if( $request->input('is_variation') ) {
+            $in = $request->all();
+            $in['language_id'] = 169;
+            $in['is_variation'] = 1;
+
+            $product = Product::create($in);
+            $product->custom_fields = json_encode( $product_fields );
+            // $featured_image = uniqid() .'.'.'png';
+            $thubmnail = '';
+            try {
+                $thumbnail = $request->file('thumbnail')->store('front/img/product/featured', 'assets');
+                // $thumbnail = Storage::disk('assets')->put( 'front/img/product/featured/', $request->thumbnail );
+            } catch (\Exception $e) {}
+            // $product->feature_image = $featured_image;
+            $product->variation_data = json_encode( [
+                'title' => $request->title,
+                'value' => $request->value,
+                'type' => $request->type,
+                'thumbnail' => $thumbnail
+            ] );
+            $product->save();
+
+            $parent = Product::find($request->input('product_id'));
+            if (is_null($parent->variations)) {
+                $parent->variations = $product->id;
+            } else {
+                $parent->variations = $parent->variations . ',' . $product->id;
+            }
+
+            $parent->save();
+
+            $abx = $lang->basic_extended;
+
+            if ( is_null($abx->product_variations ) ) {
+                $global_variations = [];
+            } else {
+                $global_variations = (array) json_decode( $abx->product_variations );
+            }
+
+            // dd($global_variations);
+
+            $global_variations[] = [
+                'product_id' => $parent->id,
+                'variation_id' => $product->id
+            ];
+
+            $abx->product_variations = json_encode( $global_variations );
+
+            $abx->save();
+
+            Session::flash('success', 'Product added successfully!');
+            return "success";
+        }
+
+
         $slug = make_slug($request->title);
         $bex = BasicExtra::firstOrFail();
 
@@ -223,6 +314,8 @@ class ProductController extends Controller
         $in['description'] = str_replace(url('/') . '/assets/front/img/', "{base_url}/assets/front/img/", $request->description);
 
         $product = Product::create($in);
+        $product->custom_fields = json_encode( $product_fields );
+        $product->save();
 
         foreach ($sliders as $key => $slider) {
             $extSlider = pathinfo($slider, PATHINFO_EXTENSION);
@@ -244,9 +337,15 @@ class ProductController extends Controller
     {
         $lang = Language::where('code', $request->language)->first();
         $abx = $lang->basic_extra;
-        $categories = $lang->pcategories()->where('status',1)->get();
+        //$categories = $lang->pcategories()->where('status',1)->get();
+        $scategories = $lang->pcategories()->where('status',1)->where('is_child', 1)->get();
+        $product_fields = $lang->basic_extended->product_fields;
         $data = Product::findOrFail($id);
-        return view('admin.product.edit',compact('categories','data','abx'));
+        $categories  = Pcategory::with('childs')
+            ->where('language_id', $lang->id)
+            ->where('status',1)->get();
+
+        return view('admin.product.edit',compact('categories','data','abx', 'product_fields', 'scategories'));
     }
 
     public function images($portid)
@@ -264,7 +363,45 @@ class ProductController extends Controller
     public function update(Request $request)
     {
         $slug = make_slug($request->title);
-        $product = Product::findOrFail($request->product_id);
+        $product = Product::withoutGlobalScope('variation')->findOrFail($request->product_id);
+
+        $lang = Language::where('code', 'en')->first();
+        $custom_fields = $lang->basic_extended->product_fields;
+        $product_fields = [];
+
+        if($custom_fields){
+            foreach ( json_decode( $custom_fields ) as $field) {
+                $product_fields[] = [
+                    'name' => $field->name,
+                    'value' => $request->input( Str::slug( $field->name ) )
+                ];
+            }
+        }
+
+        $product->custom_fields = json_encode( $product_fields );
+        if ($request->hasFile('thumbnail')) {
+            try {
+
+                // $thumbnail = Storage::disk('assets')->put( 'front/img/product/featured/', $request->thumbnail );
+                $thumbnail = $request->file('thumbnail')->store('front/img/product/featured', 'assets');
+            } catch (\Exception $e) {}
+        } else {
+            if ( !is_null($product->variation_data) ) {
+                $thumbnail = json_decode($product->variation_data)->thumbnail;
+            } else {
+                $thumbnail = '';
+            }
+        }
+
+        // $product->feature_image = $featured_image;
+        $product->variation_data = json_encode( [
+            'title' => $request->title,
+            'value' => $request->value,
+            'type' => $request->type,
+            'thumbnail' => $thumbnail
+        ] );
+        $product->save();
+
         $productId = $product->id;
 
         $sliders = !empty($request->slider) ? explode(',', $request->slider) : [];
@@ -272,100 +409,101 @@ class ProductController extends Controller
         $extFeatured = pathinfo($featredImg, PATHINFO_EXTENSION);
         $allowedExts = array('jpg', 'png', 'jpeg');
 
-        $rules = [
-            'slider' => 'required',
-            'title' => [
-                'required',
-                'max:255',
-                function ($attribute, $value, $fail) use ($slug, $productId) {
-                    $products = Product::all();
-                    foreach ($products as $key => $product) {
-                        if ($product->id != $productId && strtolower($slug) == strtolower($product->slug)) {
-                            $fail('The title field must be unique.');
+        if( ! $request->input('is_variation') ) {
+            $rules = [
+                'slider' => 'required',
+                'title' => [
+                    'required',
+                    'max:255',
+                    function ($attribute, $value, $fail) use ($slug, $productId) {
+                        $products = Product::all();
+                        foreach ($products as $key => $product) {
+                            if ($product->id != $productId && strtolower($slug) == strtolower($product->slug)) {
+                                $fail('The title field must be unique.');
+                            }
                         }
                     }
-                }
-            ],
-            'category_id' => 'required',
-            'status' => 'required'
-        ];
-
-        $bex = BasicExtra::firstOrFail();
-        if ($bex->catalog_mode == 0) {
-            $rules['current_price'] = 'required|numeric';
-            $rules['previous_price'] = 'nullable|numeric';
-        }
-
-        if ($request->filled('slider')) {
-            $rules['slider'] = [
-                function ($attribute, $value, $fail) use ($sliders, $allowedExts) {
-                    foreach ($sliders as $key => $slider) {
-                        $extSlider = pathinfo($slider, PATHINFO_EXTENSION);
-                        if (!in_array($extSlider, $allowedExts)) {
-                            return $fail("Only png, jpg, jpeg images are allowed");
-                        }
-                    }
-                }
+                ],
+                'category_id' => 'required',
+                'status' => 'required'
             ];
-        }
-
-        if ($request->filled('featured_image')) {
-            $rules['featured_image'] = [
-                function ($attribute, $value, $fail) use ($extFeatured, $allowedExts) {
-                    if (!in_array($extFeatured, $allowedExts)) {
-                        return $fail("Only png, jpg, jpeg image is allowed");
-                    }
-                }
-            ];
-        }
-
-        // if product type is 'physical'
-        if ($product->type == 'physical') {
-            $rules['stock'] = 'required';
-            $rules['sku'] = [
-                'required',
-                Rule::unique('products')->ignore($request->product_id),
-            ];
-        }
-
-        // if product type is 'digital'
-        if ($product->type == 'digital') {
-            $rules['file_type'] = 'required';
-
-            // if 'file upload' is chosen
-            if ($request->has('file_type') && $request->file_type == 'upload') {
-
-                if (empty($product->download_file)) {
-                    $rules['download_file'][] = 'required';
-                }
-                $rules['download_file'][] = function ($attribute, $value, $fail) use ($product, $request) {
-                    $allowedExts = array('zip');
-                    if ($request->hasFile('download_file')) {
-                        $file = $request->file('download_file');
-                        $ext = $file->getClientOriginalExtension();
-                        if (!in_array($ext, $allowedExts)) {
-                            return $fail("Only zip file is allowed");
-                        }
-                    }
-                };
+            $bex = BasicExtra::firstOrFail();
+            if ($bex->catalog_mode == 0) {
+                $rules['current_price'] = 'required|numeric';
+                $rules['previous_price'] = 'nullable|numeric';
             }
-            // if 'file donwload link' is chosen
-            elseif ($request->has('file_type') && $request->file_type == 'link') {
-                $rules['download_link'] = 'required';
+
+            if ($request->filled('slider')) {
+                $rules['slider'] = [
+                    function ($attribute, $value, $fail) use ($sliders, $allowedExts) {
+                        foreach ($sliders as $key => $slider) {
+                            $extSlider = pathinfo($slider, PATHINFO_EXTENSION);
+                            if (!in_array($extSlider, $allowedExts)) {
+                                return $fail("Only png, jpg, jpeg images are allowed");
+                            }
+                        }
+                    }
+                ];
             }
-        }
 
-        $messages = [
-            'category_id.required' => 'Service is required',
-            'description.min' => 'Description is required'
-        ];
+            if ($request->filled('featured_image')) {
+                $rules['featured_image'] = [
+                    function ($attribute, $value, $fail) use ($extFeatured, $allowedExts) {
+                        if (!in_array($extFeatured, $allowedExts)) {
+                            return $fail("Only png, jpg, jpeg image is allowed");
+                        }
+                    }
+                ];
+            }
+
+            // if product type is 'physical'
+            if ($product->type == 'physical') {
+                $rules['stock'] = 'required';
+                $rules['sku'] = [
+                    'required',
+                    Rule::unique('products')->ignore($request->product_id),
+                ];
+            }
+
+            // if product type is 'digital'
+            if ($product->type == 'digital') {
+                $rules['file_type'] = 'required';
+
+                // if 'file upload' is chosen
+                if ($request->has('file_type') && $request->file_type == 'upload') {
+
+                    if (empty($product->download_file)) {
+                        $rules['download_file'][] = 'required';
+                    }
+                    $rules['download_file'][] = function ($attribute, $value, $fail) use ($product, $request) {
+                        $allowedExts = array('zip');
+                        if ($request->hasFile('download_file')) {
+                            $file = $request->file('download_file');
+                            $ext = $file->getClientOriginalExtension();
+                            if (!in_array($ext, $allowedExts)) {
+                                return $fail("Only zip file is allowed");
+                            }
+                        }
+                    };
+                }
+                // if 'file donwload link' is chosen
+                elseif ($request->has('file_type') && $request->file_type == 'link') {
+                    $rules['download_link'] = 'required';
+                }
+            }
+
+            $messages = [
+                'category_id.required' => 'Service is required',
+                'description.min' => 'Description is required'
+            ];
 
 
 
-        $validator = Validator::make($request->all(), $rules, $messages);
-        if ($validator->fails()) {
-            $errmsgs = $validator->getMessageBag()->add('error', 'true');
-            return response()->json($validator->errors());
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                $errmsgs = $validator->getMessageBag()->add('error', 'true');
+                return response()->json($validator->errors());
+            }
         }
 
         $in = $request->all();
@@ -430,6 +568,17 @@ class ProductController extends Controller
 
         Session::flash('success', 'Product updated successfully!');
         return "success";
+    }
+
+    public function toggleInPageBuilder($id)
+    {
+        $product    = Product::findOrFail($id);
+        $new_value  = $product->show_in_page_builder == '1' ? 0 : 1;
+        $product->show_in_page_builder  = $new_value;
+        $product->save();
+
+        session()->flash('success', $product->show_in_page_builder  == '1' ? 'Product added to page-builder successfully!' : 'Product removed from page-builder successfully!');
+        return back();
     }
 
 

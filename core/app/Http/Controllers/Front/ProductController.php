@@ -17,6 +17,7 @@ use Session;
 use App\Language;
 use App\OfflineGateway;
 use App\PaymentGateway;
+use App\WebsiteColors;
 use Carbon\Carbon;
 
 class ProductController extends Controller
@@ -32,6 +33,7 @@ class ProductController extends Controller
     {
 
         $bex = BasicExtra::first();
+        $data['colors'] = WebsiteColors::all();
         if ($bex->is_shop == 0) {
             return back();
         }
@@ -64,14 +66,15 @@ class ProductController extends Controller
         $review = $request->review;
 
         $data['products'] =
-            Product::when($category, function ($query, $category) {
+            Product::has('category')->with('category')->when($category, function ($query, $category) {
                 return $query->where('category_id', $category);
             })
             ->when($lang_id, function ($query, $lang_id) {
                 return $query->where('language_id', $lang_id);
             })
             ->when($search, function ($query, $search) {
-                return $query->where('title', 'like', '%' . $search . '%')->orwhere('summary', 'like', '%' . $search . '%')->orwhere('description', 'like', '%' . $search . '%');
+                //return $query->where('title', 'like', '%' . $search . '%')->orwhere('summary', 'like', '%' . $search . '%')->orwhere('description', 'like', '%' . $search . '%');
+                return $query->where('title', 'like', '%' . $search . '%');
             })
             ->when($minprice, function ($query, $minprice) {
                 return $query->where('current_price', '>=', $minprice);
@@ -108,7 +111,14 @@ class ProductController extends Controller
 
             $data['version'] = $version;
 
-            return view('front.product.product', $data);
+
+            if($be->theme_version == 'bookworm') {
+                return view('front.bookworm.products', $data);
+            } else {
+
+                return view('front.product.product', $data);
+            }
+
 
     }
 
@@ -140,7 +150,11 @@ class ProductController extends Controller
 
         $data['version'] = $version;
 
-        return view('front.product.details', $data);
+        if($be->theme_version == 'bookworm') {
+            return view('front.bookworm.product', $data);
+        } else {
+            return view('front.product.details', $data);
+        }
     }
 
     public function cart()

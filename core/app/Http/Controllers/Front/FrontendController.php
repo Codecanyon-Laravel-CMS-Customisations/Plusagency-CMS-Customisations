@@ -55,6 +55,7 @@ use App\QuoteInput;
 use App\RssFeed;
 use App\RssPost;
 use App\Subscription;
+use App\WebsiteColors;
 use Session;
 use Validator;
 use Config;
@@ -131,7 +132,6 @@ class FrontendController extends Controller
         else {
             $data['home'] = Home::where('theme', $be->theme_version)->where('language_id', $currentLang->id)->first();
         }
-
         if ($version == 'gym') {
             if ($bex->home_page_pagebuilder == 1) {
                 return view('front.gym.index', $data);
@@ -174,7 +174,13 @@ class FrontendController extends Controller
             } else {
                 return view('front.default.index1', $data);
             }
-        }
+        } elseif ($version == 'bookworm') {
+            if ($bex->home_page_pagebuilder == 1) {
+                return view('front.bookworm.index', $data);
+            } else {
+                return view('front.bookworm.index1', $data);
+            }
+        } 
     }
 
     public function services(Request $request)
@@ -597,6 +603,9 @@ class FrontendController extends Controller
 
         $data['version'] = $version;
 
+        if ($version == 'bookworm') {
+            return view('front.bookworm.blogs', $data);
+        }
 
         return view('front.blogs', $data);
     }
@@ -625,6 +634,10 @@ class FrontendController extends Controller
         }
 
         $data['version'] = $version;
+
+        if ($version == 'bookworm') {
+            return view('front.bookworm.blog', $data);
+        }
 
         return view('front.blog-details', $data);
     }
