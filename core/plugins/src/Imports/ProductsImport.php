@@ -45,21 +45,27 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         $product->type              = trim('physical');
         $product->save();
 
-        $this->setproductImages($product, $row);
-        $this->setChildSubCategory($product, $row);
-        $this->setProductAttributes($product, $row);
+        $parent_category            = $this->setCategory($product, $row);
+        $sub_category               = $this->setSubCategory($parent_category, $product, $row);
+        $sub_child_category         = $this->setChildSubCategory($sub_category, $product, $row);
+
+        // $this->setproductImages($product, $row);
+        // $this->setChildSubCategory($product, $row);
+        // $this->setProductAttributes($product, $row);
 
 
     }
 
     public function setCategory(Product $product, Array $row)
     {
-        $category   = Pcategory::firstOrCreate([
-            'name' => trim($row['categories']) == '' ? 'Default Category' : $row['categories'],
-        ]);
+        $category_col           = trim($row['categories']);
+        if (strlen(trim($category_col)) < 3)            $category_col           = "Default Category";
+
+        $category   = Pcategory::firstOrCreate(['name' => $category_col]);
+
         $product->category_id   = $category->id;
-        $category->name         = trim($row['categories']);
-        $category->slug         = Str::slug( trim( $row['categories']) );
+        $category->name         = trim($category_col);
+        $category->slug         = Str::slug( trim($category_col) );
         $category->language_id  = 169;
         $category->status       = 1;
         $category->is_feature   = NULL;
@@ -73,45 +79,47 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         return $category;
     }
 
-    public function setSubCategory(Product $product, Array $row)
+    public function setSubCategory(Pcategory $parent_category, Product $product, Array $row)
     {
-        $category   = Pcategory::firstOrCreate([
-            'name' => trim($row['child_categories']) == '' ? 'Default Category' : $row['child_categories'],
-        ]);
+        $child_category_col         = trim(explode('>', $row['child_categories'])[0]);
+        if (strlen(trim($child_category_col)) < 3)      $child_category_col     = "Default Category";
+
+        $category   = Pcategory::firstOrCreate(['name' => $child_category_col]);
+
         $product->sub_category_id   = $category->id;
-        $category->name             = trim($row['child_categories']);
-        $category->slug             = Str::slug( trim( $row['child_categories']) );
+        $category->name             = trim($child_category_col);
+        $category->slug             = Str::slug( trim($child_category_col) );
         $category->language_id      = 169;
         $category->status           = 1;
         $category->is_feature       = NULL;
         $category->is_child         = 1;
         $category->show_in_menu     = 1;
         $category->menu_level       = 2;
-        $category->parent_menu_id   = $this->setCategory($product, $row)->id;
+        $category->parent_menu_id   = $parent_category->id;
         $category->save();
         $product->save();
 
         return $category;
     }
 
-    public function setChildSubCategory(Product $product, Array $row)
+    public function setChildSubCategory(Pcategory $sub_category, Product $product, Array $row)
     {
+        if (!isset($row['sub_child_categories']))   $row['sub_child_categories'] = "Default Category";
+        $sub_child_category_col = trim(explode('>', $row['sub_child_categories'])[0]);
+        if (strlen(trim($sub_child_category_col)) < 3)  $sub_child_category_col = "Default Category";
 
-        if(!isset($row['sub_child_categories'])) $row['sub_child_categories'] = 'Default Category';
+        $category   = Pcategory::firstOrCreate(['name' => $sub_child_category_col]);
 
-        $category   = Pcategory::firstOrCreate([
-            'name' => trim($row['sub_child_categories']) == '' ? 'Default Category' : $row['sub_child_categories'],
-        ]);
         $product->sub_child_category_id = $category->id;
-        $category->name             = trim($row['sub_child_categories']);
-        $category->slug             = Str::slug( trim( $row['sub_child_categories']) );
+        $category->name             = trim($sub_child_category_col);
+        $category->slug             = Str::slug( trim($sub_child_category_col) );
         $category->language_id      = 169;
         $category->status           = 1;
         $category->is_feature       = NULL;
         $category->is_child         = 1;
         $category->show_in_menu     = 1;
         $category->menu_level       = 3;
-        $category->parent_menu_id   = $this->setSubCategory($product, $row)->id;
+        $category->parent_menu_id   = $sub_category->id;
         $category->save();
         $product->save();
 
