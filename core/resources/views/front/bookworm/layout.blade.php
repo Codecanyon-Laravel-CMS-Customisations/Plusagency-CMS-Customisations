@@ -123,7 +123,7 @@
                 }
             @endforeach
         @endif
-    </style> 
+    </style>
 </head>
 <body>
     @include('front.bookworm.partials.navbar')
@@ -140,7 +140,7 @@
                     $sub_child_category = \App\Pcategory::find($product->sub_child_category_id);
                     $sub_category = \App\Pcategory::find($product->sub_category_id);
                 }
-                
+
                 @endphp
                 <div class="d-md-flex justify-content-between align-items-center py-4">
                     <h1 class="page-title font-size-3 font-weight-medium m-0 text-lh-lg">@yield('breadcrumb-title')</h1>
@@ -350,8 +350,6 @@ var rtl = {{ $rtl }};
     });
 </script>
 @endif
-
-@yield('scripts')
 
 @if (session()->has('success'))
 <script>

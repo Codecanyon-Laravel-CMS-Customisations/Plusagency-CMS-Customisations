@@ -14,6 +14,9 @@ use App\Permalink;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('test', function (){
+    return abort(404);
+});
 
 Route::fallback(function () {
   return view('errors.404');
@@ -900,6 +903,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin', 'checkstatus',
         Route::get('/product/{id}/edit', 'Admin\ProductController@edit')->name('admin.product.edit');
         Route::post('/product/update', 'Admin\ProductController@update')->name('admin.product.update');
         Route::post('/product/delete', 'Admin\ProductController@delete')->name('admin.product.delete');
+        Route::post('/product/bulk-active', 'Admin\ProductController@bulkActivate')->name('admin.product.bulk.activate');
         Route::post('/product/page-builder/{id}', 'Admin\ProductController@toggleInPageBuilder')->name('admin.product.page-builder');
         Route::get('/product/populer/tags/', 'Admin\ProductController@populerTag')->name('admin.product.tags');
         Route::post('/product/populer/tags/update', 'Admin\ProductController@populerTagupdate')->name('admin.popular-tag.update');

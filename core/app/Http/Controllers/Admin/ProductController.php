@@ -661,6 +661,17 @@ class ProductController extends Controller
         return view('admin.product.tag.index',compact('data'));
     }
 
+    public function bulkActivate(Request $request)
+    {
+        $ids = $request->ids;
+        Product::query()
+            ->whereIn('id', $ids)
+            ->update(['show_in_page_builder' => '1']);
+
+        Session::flash('success', 'Product added to menu-builder successfully!');
+        return "success";
+    }
+
     public function populerTagupdate(Request $request)
     {
         $rules = [

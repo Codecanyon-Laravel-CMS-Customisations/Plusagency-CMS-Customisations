@@ -34,7 +34,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         // $product->sub_category_id   = $sub_category ? trim($sub_category->id) : NULL;
         // $product->sub_child_category_id     = $sub_child_category ? trim($sub_child_category->id) : NULL;
         $product->tags              = trim($row['tags']);
-        $product->feature_image     = trim(explode(',', $row['images'])[0]);
+//        $product->feature_image     = trim(explode(',', $row['images'])[0]);
         //$product->pending_images_download   = trim(trim($row['images']));
         $product->summary           = trim(e($row['short_description']));
         $product->description       = trim(e($row['description']));
@@ -49,7 +49,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         $sub_category               = $this->setSubCategory($parent_category, $product, $row);
         $sub_child_category         = $this->setChildSubCategory($sub_category, $product, $row);
 
-        // $this->setproductImages($product, $row);
+         $this->setProductImages($product, $row);
         // $this->setChildSubCategory($product, $row);
         // $this->setProductAttributes($product, $row);
 
@@ -249,7 +249,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
     }
 
 
-    public function setproductImages(Product $product, Array $row)
+    public function setProductImages(Product $product, Array $row)
     {
         foreach ($product->product_images as $imp)
         {
@@ -281,15 +281,12 @@ class ProductsImport implements OnEachRow, WithHeadingRow
     }
 
 
-    public function parse_google_drive($link)
+    public function parse_google_drive($link): string
     {
-        //parse Url
-        $url    = parse_url($link);
-
         try
         {
             ///parse Url
-            $url    = parse_url($link);
+            $url    = parse_url(trim($link));
 
             if($url['host'] == "drive.google.com")
             {
@@ -298,7 +295,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 $file_id    = trim($url_array[3]);
 
                 //return "https://drive.google.com/uc?id=$file_id&export=download";
-                return "https://drive.google.com/uc?id=$file_id";
+                return "https://dr                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ive.google.com/uc?id=$file_id";
             }
             return $link;
         }catch(\Exception $e){}
