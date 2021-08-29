@@ -354,7 +354,8 @@ class ProductController extends Controller
         $convImages = [];
 
         foreach ($images as $key => $image) {
-            $convImages[] = url("assets/front/img/product/sliders/$image->image");
+            // $convImages[] = url("assets/front/img/product/sliders/$image->image");
+            $convImages[] = Str::startsWith($image->image, "http") ? url("$image->image") : url("assets/front/img/product/sliders/$image->image");
         }
 
         return $convImages;

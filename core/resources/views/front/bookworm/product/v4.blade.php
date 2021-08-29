@@ -12,7 +12,7 @@
                                         data-pagi-classes="text-center u-slick__pagination my-4">
                                         @foreach ($product->product_images as $image)
                                             <div class="js-slide">
-                                                <img src="{{asset('assets/front/img/product/sliders/'.$image->image)}}" alt="Image Description" class="mx-auto img-fluid">
+                                                <img src="{{trim($image->image)}}" alt="Image Description" class="mx-auto img-fluid">
                                             </div>
                                             @endforeach
                                         </div>
@@ -51,32 +51,33 @@
 
                                         @if( ! is_null($product->variations) )
                                             @php
-                                            if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')   
-                                                 $url = "https://";   
-                                            else  
-                                                 $url = "http://";   
-                                            $url.= $_SERVER['HTTP_HOST'];      
-                                            $url.= strtok($_SERVER["REQUEST_URI"], '?');  
+                                            if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
+                                                 $url = "https://";
+                                            else
+                                                 $url = "http://";
+                                            $url.= $_SERVER['HTTP_HOST'];
+                                            $url.= strtok($_SERVER["REQUEST_URI"], '?');
                                             @endphp
                                             <div class="row mt-5">
                                                 @foreach( explode( ',', $product->variations ) as $id)
                                                     @php
                                                     $variation = \App\Product::withoutGlobalScope('variation')->find($id);
                                                     $selected = isset( $_GET['variation'] ) && $_GET['variation'] == $variation->id ? 'selected' : '';
-                                        
+
                                                     @endphp
-                                        
+
                                                     <div class="col-sm-12 col-md-3">
                                                         <div class="d-flex flex-column">
                                                             <p class="lead mt-3">{{ $variation->title }}</p>
                                                             <a href="{{ $url }}?variation={{ $variation->id }}">
-                                                                <img src="{{ asset('assets/' . json_decode($variation->variation_data)->thumbnail) }}" alt="" width="75" style="border-radius: 50%; @if(isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif">
+                                                                {{-- <img src="{{ asset('assets/' . json_decode($variation->variation_data)->thumbnail) }}" alt="" width="75" style="border-radius: 50%; @if(isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif"> --}}
+                                                                <img src="{{ asset(json_decode($variation->variation_data)->thumbnail }}" alt="" width="75" style="border-radius: 50%; @if(isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif">
                                                             </a>
-                                                
+
                                                         </div>
                                                     </div>
                                                 @endforeach
-                                    
+
                                             </div>
                                             @if(isset($_GET['variation']))
                                                 <a href="{{ $url }}" class="d-inline-block mt-3">Clear</a>
@@ -98,7 +99,7 @@
                                             </select> --}}
                                         @endif
 
-                                            
+
                                     </div>
                                     <div class="px-lg-4 px-xl-7 py-5 d-flex align-items-center">
                                         <div class="product-social-icon social-link a2a_kit a2a_kit_size_32 mt-3">

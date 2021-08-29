@@ -103,7 +103,8 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                           <td>
                             <input type="checkbox" class="bulk-check" data-val="{{$product->id}}">
                           </td>
-                          <td><img src="{{asset('assets/front/img/product/featured/'.$product->feature_image)}}" width="80"></td>
+                          {{-- <td><img src="{{asset('assets/front/img/product/featured/'.$product->feature_image)}}" width="80"></td> --}}
+                          <td><img src="{{trim($product->feature_image)}}" width="80"></td>
                           <td>
                               {{strlen($product->title) > 30 ? mb_substr($product->title,0,30,'utf-8') . '...' : $product->title}}
                           </td>

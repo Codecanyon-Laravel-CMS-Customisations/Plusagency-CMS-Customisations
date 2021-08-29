@@ -9,11 +9,11 @@
                                 <div class="js-slick-carousel u-slick"
                                 data-pagi-classes="text-center u-slick__pagination my-4">
                                         <div class="js-slide">
-                                            <img src="{{asset('assets/front/img/product/featured/'.$product->feature_image)}}" alt="Image Description" class="mx-auto img-fluid">
+                                            <img src="{{trim($product->feature_image)}}" alt="Image Description" class="mx-auto img-fluid">
                                         </div>
                                     @foreach ($product->product_images as $image)
                                         <div class="js-slide">
-                                            <img src="{{asset('assets/front/img/product/sliders/'.$image->image)}}" alt="Image Description" class="mx-auto img-fluid">
+                                            <img src="{{trim($image->image)}}" alt="Image Description" class="mx-auto img-fluid">
                                         </div>
                                     @endforeach
                                 </div>
@@ -107,8 +107,9 @@
                                             <div class="col-sm-12 col-md-3">
                                                 <div class="d-flex flex-column">
                                                     <p class="lead mt-3">{{ $variation->title }}</p>
-                                                    <a href="{{ $url }}?variation={{ $variation->id }}">
-                                                        <img src="{{ asset('assets/' . json_decode($variation->variation_data)->thumbnail) }}" alt="" width="75" style="border-radius: 50%; @if(isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif">
+                                                    <a href="{{ $url }}?variation={{ $variation->id }}"><img
+                                                        {{-- <img src="{{ asset('assets/' . json_decode($variation->variation_data)->thumbnail) }}" alt="" width="75" style="border-radius: 50%; @if(isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif"> --}}
+                                                        <img src="{{ asset(json_decode($variation->variation_data)->thumbnail }}" alt="" width="75" style="border-radius: 50%; @if(isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif">
                                                     </a>
 
                                                 </div>

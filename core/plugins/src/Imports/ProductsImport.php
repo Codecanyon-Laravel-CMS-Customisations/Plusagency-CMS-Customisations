@@ -25,8 +25,6 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             'status'    => 1,
         ]);
 
-        //flush storage
-        $this->flushStorage($product);
 
         $product->title     = $row['name'];
         $product->slug              = trim(Str::slug($row['name']));
@@ -37,7 +35,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         // $product->sub_child_category_id     = $sub_child_category ? trim($sub_child_category->id) : NULL;
         $product->tags              = trim($row['tags']);
         $product->feature_image     = trim(explode(',', $row['images'])[0]);
-        $product->pending_images_download   = trim(trim($row['images']));
+        //$product->pending_images_download   = trim(trim($row['images']));
         $product->summary           = trim(e($row['short_description']));
         $product->description       = trim(e($row['description']));
         $product->current_price     = trim(trim(preg_replace("/[^\d\.]/", "", $row['regular_price'])) != "" ? preg_replace("/[^\d\.]/", "", $row['regular_price']) : '0.00');
@@ -47,6 +45,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         $product->type              = trim('physical');
         $product->save();
 
+        $this->setproductImages($product, $row);
         $this->setChildSubCategory($product, $row);
         $this->setProductAttributes($product, $row);
 
@@ -117,23 +116,6 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         $product->save();
 
         return $category;
-    }
-
-    public function flushStorage(Product $product)
-    {
-        if ($product->feature_image)
-        {
-            Storage::disk('baze')->delete($product->feature_image);
-        }
-        foreach (ProductImage::query()->where('product_id', $product->id)->get() as $slider)
-        {
-            Storage::disk('baze')->delete("front/img/product/featured/$slider");
-            $slider->delete();
-        }
-        foreach ($product->product_images as $imp)
-        {
-            $imp->delete();
-        }
     }
 
     public function setProductAttributes(Product $product, Array $row)
@@ -256,5 +238,62 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         $product->options = json_encode( $options );
 
         $product->save();
+    }
+
+
+    public function setproductImages(Product $product, Array $row)
+    {
+        foreach ($product->product_images as $imp)
+        {
+            $imp->delete();
+        }
+
+
+        $image_links    = explode(',', $row['images'] );
+        $sliders        = [];
+
+        $product->feature_image = isset($image_links[0]) ? $this->parse_google_drive(trim($image_links[0])) : '';
+        $product->save();
+
+        //if(isset($image_links[0])) unset($image_links[0]); //prevent using main image in banner too
+        $sliders        = $image_links;
+
+
+        foreach ($sliders as $slider)
+        {
+            $pi             = new ProductImage;
+            $pi->product_id = $product->id;
+            $pi->image      = $this->parse_google_drive(trim($slider));
+            $pi->save();
+        }
+
+        $product->save();
+
+
+    }
+
+
+    public function parse_google_drive($link)
+    {
+        //parse Url
+        $url    = parse_url($link);
+
+        try
+        {
+            ///parse Url
+            $url    = parse_url($link);
+
+            if($url['host'] == "drive.google.com")
+            {
+                //process google link
+                $url_array  = explode("/", $url['path']);
+                $file_id    = trim($url_array[3]);
+
+                //return "https://drive.google.com/uc?id=$file_id&export=download";
+                return "https://drive.google.com/uc?id=$file_id";
+            }
+            return $link;
+        }catch(\Exception $e){}
+        return $link;
     }
 }

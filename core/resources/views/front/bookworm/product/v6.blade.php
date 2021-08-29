@@ -11,7 +11,7 @@
                                 <div class="rating" style="width:{{$product->rating * 20}}%"></div>
                             </div>
                             @endif
-                            
+
                         </div>
                         <div class="col-md-4 woocommerce-product-gallery woocommerce-product-gallery--with-images images">
                             <figure class="woocommerce-product-gallery__wrapper pt-8 mb-0">
@@ -19,7 +19,7 @@
                                 data-pagi-classes="text-center u-slick__pagination my-4">
                                 @foreach ($product->product_images as $image)
                                     <div class="js-slide">
-                                        <img src="{{asset('assets/front/img/product/sliders/'.$image->image)}}" alt="Image Description" class="mx-auto img-fluid">
+                                        <img src="{{asset($image->image)}}" alt="Image Description" class="mx-auto img-fluid">
                                     </div>
                                     @endforeach
                                 </div>
@@ -53,7 +53,7 @@
 
                                 <a data-href="{{ $pvariation ? route('add.cart',$pvariation->id) : route('add.cart',$product->id) }}" class="mb-4 mb-md-0 btn btn-dark border-0 rounded-0 py-3 btn-wide ml-md-4 single_add_to_cart_button button alt cart-btn cart-link" style="color: #fff;">Add to cart</a>
 
-                                
+
 
                                 <div class="product-social-icon social-link a2a_kit a2a_kit_size_32 mt-3">
                                     <ul class="social-share d-flex justify-around">
@@ -78,7 +78,7 @@
                                                 </a>
                                             </li>
                                             <li>
-    
+
                                             <a class="a2a_dd plus" href="https://www.addtoany.com/share">
                                                 <i class="fas fa-plus"></i>
                                               </a>
@@ -92,12 +92,12 @@
                     </div>
                     @if( ! is_null($product->variations) )
                         @php
-                        if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')   
-                             $url = "https://";   
-                        else  
-                             $url = "http://";   
-                        $url.= $_SERVER['HTTP_HOST'];      
-                        $url.= strtok($_SERVER["REQUEST_URI"], '?');  
+                        if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
+                             $url = "https://";
+                        else
+                             $url = "http://";
+                        $url.= $_SERVER['HTTP_HOST'];
+                        $url.= strtok($_SERVER["REQUEST_URI"], '?');
                         @endphp
                         <div class="container">
                             <div class="row mt-5">
@@ -105,20 +105,21 @@
                                     @php
                                     $variation = \App\Product::withoutGlobalScope('variation')->find($id);
                                     $selected = isset( $_GET['variation'] ) && $_GET['variation'] == $variation->id ? 'selected' : '';
-                                        
+
                                     @endphp
-                                        
+
                                     <div class="col-sm-12 col-md-3">
                                         <div class="d-flex flex-column">
                                             <p class="lead mt-3">{{ $variation->title }}</p>
                                             <a href="{{ $url }}?variation={{ $variation->id }}">
-                                                <img src="{{ asset('assets/' . json_decode($variation->variation_data)->thumbnail) }}" alt="" width="75" style="border-radius: 50%; @if(isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif">
+                                                {{-- <img src="{{ asset('assets/' . json_decode($variation->variation_data)->thumbnail) }}" alt="" width="75" style="border-radius: 50%; @if(isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif"> --}}
+                                                <img src="{{ asset(json_decode($variation->variation_data)->thumbnail }}" alt="" width="75" style="border-radius: 50%; @if(isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif">
                                             </a>
-                                                
+
                                         </div>
                                     </div>
                                 @endforeach
-                                    
+
                             </div>
                             @if(isset($_GET['variation']))
                                 <a href="{{ $url }}" class="d-inline-block mt-3">Clear</a>
@@ -139,7 +140,7 @@
                                 @endforeach
                             </select> --}}
                         </div>
-                        
+
                     @endif
                 </div>
             </div>

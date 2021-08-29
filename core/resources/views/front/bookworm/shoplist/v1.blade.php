@@ -89,7 +89,7 @@
                                     <div class="product__inner overflow-hidden p-3 p-md-4d875">
                                         <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                             <div class="woocommerce-loop-product__thumbnail">
-                                                <a href="{{route('front.product.details',$product->slug)}}" class="d-block"><img src="{{asset('assets/front/img/product/featured/'.$product->feature_image)}}" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description" width="150"></a>
+                                                <a href="{{route('front.product.details',$product->slug)}}" class="d-block"><img src="{{trim($product->feature_image)}}" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description" width="150"></a>
                                             </div>
                                             <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                 <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="/products?search=&category_id={{ $product->category->id }}&type=new">{{ $product->category->name }}</a></div>
@@ -131,7 +131,7 @@
                                     <div class="product__inner overflow-hidden p-3 p-md-4d875">
                                         <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link row position-relative">
                                             <div class="col-md-auto woocommerce-loop-product__thumbnail mb-3 mb-md-0">
-                                                <a href="{{route('front.product.details',$product->slug)}}" class="d-block"><img src="{{asset('assets/front/img/product/featured/'.$product->feature_image)}}" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description" width="150"></a>
+                                                <a href="{{route('front.product.details',$product->slug)}}" class="d-block"><img src="{{trim($product->feature_image)}}" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description" width="150"></a>
                                             </div>
                                             <div class="col-md woocommerce-loop-product__body product__body pt-3 bg-white mb-3 mb-md-0">
                                                 <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="/products?search=&category_id={{ $product->category->id }}&type=new">{{ $product->category->name }}</a></div>

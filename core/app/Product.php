@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -48,6 +49,13 @@ class Product extends Model
     public function getDescriptionAttribute($description)
     {
         return html_entity_decode($description);
+    }
+    public function getFeatureImageAttribute($feature_image)
+    {
+        if(Str::startsWith($feature_image, 'http')) return trim($feature_image);
+
+        //make link http
+        return asset("assets/front/img/product/featured/$feature_image");
     }
 
     protected static function boot()
