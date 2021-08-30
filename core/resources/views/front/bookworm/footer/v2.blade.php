@@ -128,14 +128,17 @@
                             <option value="four">Español</option>
                         </select><button type="button" class="btn dropdown-toggle text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-toggle="dropdown" role="button" title="English (United States)"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">English (United States)</div></div> </div></button><div class="dropdown-menu dropdown-menu-right" role="combobox"><div class="inner show" role="listbox" aria-expanded="false" tabindex="-1"><ul class="dropdown-menu inner show"></ul></div></div></div>
                         <!-- End Select -->
-                        
+
                         <!-- Select -->
-                        <div class="dropdown bootstrap-select js-select dropdown-select ml-md-3 fit-width"><select class="js-select selectpicker dropdown-select ml-md-3" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-width="fit" data-dropdown-align-right="true" tabindex="-98">
-                            <option value="one" selected="">$ USD</option>
-                            <option value="two">€ EUR</option>
-                            <option value="three">₺ TL</option>
-                            <option value="four">₽ RUB</option>
-                        </select><button type="button" class="btn dropdown-toggle text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-toggle="dropdown" role="button" title="$ USD"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">$ USD</div></div> </div></button><div class="dropdown-menu dropdown-menu-right" role="combobox"><div class="inner show" role="listbox" aria-expanded="false" tabindex="-1"><ul class="dropdown-menu inner show"></ul></div></div></div>
+{{--                        <div class="dropdown bootstrap-select js-select dropdown-select ml-md-3 fit-width">--}}
+{{--                            <select class="js-select selectpicker dropdown-select ml-md-3" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-width="fit" data-dropdown-align-right="true" tabindex="-98">--}}
+{{--                                <option value="one" selected="">$ USD</option>--}}
+{{--                                <option value="two">€ EUR</option>--}}
+{{--                                <option value="three">₺ TL</option>--}}
+{{--                                <option value="four">₽ RUB</option>--}}
+{{--                            </select>--}}
+{{--                            <button type="button" class="btn dropdown-toggle text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-toggle="dropdown" role="button" title="$ USD"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">$ USD</div></div> </div></button><div class="dropdown-menu dropdown-menu-right" role="combobox"><div class="inner show" role="listbox" aria-expanded="false" tabindex="-1"><ul class="dropdown-menu inner show"></ul></div></div>--}}
+{{--                        </div>--}}
                         <!-- End Select -->
                     </div>
                 </div>

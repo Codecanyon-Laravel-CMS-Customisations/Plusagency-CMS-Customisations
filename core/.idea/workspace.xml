@@ -2,18 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="080ee119-a0e3-44d7-8cd0-a08fd198f8f8" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../assets/admin/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/admin/css/custom.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../assets/admin/js/custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/admin/js/custom.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/CategoryMenuBuilderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/CategoryMenuBuilderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/ProductController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/ProductController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plugins/src/Imports/ProductsImport copy.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/plugins/src/Imports/ProductsImport.php" beforeDir="false" afterPath="$PROJECT_DIR$/plugins/src/Imports/ProductsImport.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/PageBuilderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/PageBuilderController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Language.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Language.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/admin/product/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/product/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v1.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v1.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v10.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v10.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v11.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v11.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v12.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v12.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v2.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v2.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v5.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v5.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/layout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/layout.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/product.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/product.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/products.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/products.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/shoplist/v1.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/shoplist/v1.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/partials/navbar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/partials/navbar.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -223,13 +226,14 @@
     <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
     <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/drive/Plusgaency and Custom Plugin/final-codes-ignatius/core/resources/views/front/bookworm/partials/navbar.blade.php" />
     <property name="nodejs_package_manager_path" value="yarn" />
     <property name="settings.editor.selected.configurable" value="Symfony2.SettingsForm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources/views/front/bookworm/partials" />
       <recent name="$PROJECT_DIR$/app/Http/Controllers/Front" />
     </key>
   </component>
@@ -261,7 +265,7 @@
       <workItem from="1628149445597" duration="6000" />
       <workItem from="1628172317266" duration="1079000" />
       <workItem from="1630003584003" duration="6386000" />
-      <workItem from="1630251965822" duration="7294000" />
+      <workItem from="1630251965822" duration="22269000" />
     </task>
     <servers />
   </component>

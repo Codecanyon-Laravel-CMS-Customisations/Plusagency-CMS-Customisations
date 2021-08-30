@@ -82,20 +82,20 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                 <h3 class="text-center">NO Products FOUND</h3>
               @else
                 <div class="table-responsive">
-                  <table class="table table-striped mt-3" id="basic-datatables">
+                  <table class="table table-striped mt-3" id="products-datatables">
                     <thead>
                       <tr>
-                        <th scope="col">
+                        <th scope="col" class="no-sort">
                             <input type="checkbox" class="bulk-check" data-val="all">
                         </th>
-                        <th scope="col">Featured Image</th>
+                        <th scope="col" class="no-sort">Featured Image</th>
                         <th scope="col">Title</th>
                         @if ($bex->catalog_mode == 0)
                             <th>Price ({{$bex->base_currency_text}})</th>
                         @endif
                         <th scope="col">Type</th>
                         <th scope="col">Category</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col" class="no-sort">Actions</th>
                       </tr>
                     </thead>
                     <tbody>

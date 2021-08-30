@@ -98,7 +98,7 @@
                                 <a class="widgets-hover transition-3d-hover font-size-2 link-black-100" href="{{$ulink->url}}">{{convertUtf8($ulink->name)}}</a>
                             </li>
                             @endforeach
-                                
+
                         </ul>
                     </div>
                 </div>
@@ -120,26 +120,37 @@
                         </div>
 
                         <!-- Select -->
-                        <select class="js-select selectpicker dropdown-select mb-3 mb-lg-0"
-                            data-style="border px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2"
-                            data-dropdown-align-right="true">
-                            <option value="one" selected>English (United States)</option>
-                            <option value="two">Deutsch</option>
-                            <option value="three">Français</option>
-                            <option value="four">Español</option>
+                        <select class="js-select selectpicker dropdown-select mb-3 mb-lg-0 changeLanguage"
+                                data-style="border px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2"
+                                data-dropdown-align-right="true">
+                            @php
+                                $languages = \App\Language::all()->sortBy('name', 0, false);
+                            @endphp
+                            @foreach($languages as $language)
+                                <option data-link="{{ route('changeLanguage', $language->code) }}" value="{{ $language->code }}" @if($language->code == session('lang')) selected @endif>{{ $language->name }}</option>
+                            @endforeach
                         </select>
+                        <script>
+                            var tgt = $('.changeLanguage');
+                            tgt.on('change', function () {
+                                changeDL();
+                            });
+                            function changeDL() {
+                                window.location.assign(tgt.find('option:selected').attr('data-link'));
+                            }
+                        </script>
                         <!-- End Select -->
 
                         <!-- Select -->
-                        <select class="js-select selectpicker dropdown-select ml-md-3"
-                            data-style="border px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2"
-                            data-dropdown-align-right="true"
-                            data-width="fit">
-                            <option value="one" selected>$ USD</option>
-                            <option value="two">€ EUR</option>
-                            <option value="three">₺ TL</option>
-                            <option value="four">₽ RUB</option>
-                        </select>
+{{--                        <select class="js-select selectpicker dropdown-select ml-md-3"--}}
+{{--                            data-style="border px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2"--}}
+{{--                            data-dropdown-align-right="true"--}}
+{{--                            data-width="fit">--}}
+{{--                            <option value="one" selected>$ USD</option>--}}
+{{--                            <option value="two">€ EUR</option>--}}
+{{--                            <option value="three">₺ TL</option>--}}
+{{--                            <option value="four">₽ RUB</option>--}}
+{{--                        </select>--}}
                     </div>
                 </div>
             </div>

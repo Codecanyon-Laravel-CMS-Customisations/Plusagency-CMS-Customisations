@@ -197,13 +197,15 @@ class CategoryMenuBuilderController extends Controller
         //     $unique_menus = $menus;
         // }
 
-        // dd($megamenu);
-
         $unique_menus = json_encode($menus);
         $unique_subcat = json_encode($subcats);
-        $megamenu->menus = $unique_menus;
-        $megamenu->subcat = $unique_subcat;
-        $megamenu->save();
+
+        if (isset($megamenu))
+        {
+            $megamenu->menus = $unique_menus;
+            $megamenu->subcat = $unique_subcat;
+            $megamenu->save();
+        }
 
         $request->session()->flash('success', 'Product Mega Menu updated for Product Categories');
         return back();

@@ -135,7 +135,7 @@ class PageBuilderController extends Controller
         $blogSec = "";
         $ctaSec = "";
         $partnerSec = "";
-        
+
         $categories     = \App\Pcategory::all() //;
         ->where('show_in_menu', 1)
         ->where('language_id', $lang->id)
@@ -144,7 +144,7 @@ class PageBuilderController extends Controller
         $categories1    = $categories->where('menu_level', '1');
         $categories2    = $categories->where('menu_level', '2');
         $categories3    = $categories->where('menu_level', '3');
-    
+
 
         $product_categories = $lang->pcategories;
         $product_child_categories = $lang->pcategories->where('is_child', '1')->where('menu_level', '3')->where('parent_menu_id', '!=', NULL);
@@ -416,7 +416,7 @@ class PageBuilderController extends Controller
                                                     <div class="product__inner overflow-hidden p-3 p-md-4d875">
                                                         <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                             <div class="woocommerce-loop-product__thumbnail">
-                                                                <a href="'. route('front.product.details',$product->slug) .'" class="d-block"><img src="'. asset('assets/front/img/product/featured/'.$product->feature_image) .'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
+                                                                <a href="'. route('front.product.details',$product->slug) .'" class="d-block"><img src="'. trim($product->feature_image) .'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
                                                             </div>
                                                             <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                                 <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="' . route('front.product.details',$product->slug) . '">'. $title .'</a></h2>
@@ -523,7 +523,7 @@ class PageBuilderController extends Controller
                                         <div class="product-category__icon font-size-12 text-primary-indigo"><i class="glyph-icon flaticon-gallery"></i></div>
                                         <div class="product-category__body">
                                             <h3 class="text-truncate font-size-3">'. $category->name .'</h3>
-                                            <a href="/products?search=&category_id='.$category->id.'&type=new" class="stretched-link text-dark">Shop Now</a>
+                                            <a href="/products?search=&sub_category_id='.$category->id.'&type=new" class="stretched-link text-dark">Shop Now</a>
                                         </div>
                                     </div>
                                 </li>';
@@ -542,17 +542,16 @@ class PageBuilderController extends Controller
                         <ul class="px-5 pb-2 mb-5 overflow-auto bg-gray-200 rounded-md nav justify-content-between py-md-3 flex-nowrap flex-xl-wrap overflow-xl-visible" role="tablist">';
                             $counter = 1;
                             foreach ($categories2 as $category) {
-                                $active = $counter == 1 ? 'active' : '';
-                                $counter++;
                                 $products_m2 = \App\Product::query()->where('sub_category_id', '=', $category->id)->where('show_in_page_builder', '1');
                                 if($products_m2->count() < 1) continue;
+                                if($products_m2->count() >= 1) $active = $counter == 1 ? 'active' : '';$counter++;
                                 $child_category_2 .= ' <li class="flex-shrink-0 nav-item flex-xl-shrink-1">
                                 <a class="nav-link font-weight-medium '.$active.' nav-link-caret" id="child-category-'.$category->id.'" data-toggle="pill" href="#child-category-'.$category->id.'-content" role="tab" aria-controls="child-category-'.$category->id.'-content" aria-selected="true">
                                     <div class="text-center">
                                         <figure class="mb-0 d-md-block text-primary-indigo">
                                            <i class="glyph-icon flaticon-gallery font-size-12"></i>
                                         </figure>
-                                        <span class="tabtext font-size-3 font-weight-medium text-dark">'. $category->name.'</span>
+                                        <span class="tabtext font-size-3 font-weight-medium text-dark">'.$category->name.'</span>
                                     </div>
                                 </a>
                             </li>';
@@ -563,10 +562,9 @@ class PageBuilderController extends Controller
                         <div class="tab-content">';
                             $counter = 1;
                             foreach($categories2 as $category) {
-                                $active = $counter == 1 ? 'active' : '';
-                                $counter++;
                                 $products_m2 = \App\Product::query()->where('sub_category_id', '=', $category->id)->where('show_in_page_builder', '1');
                                 if($products_m2->count() < 1) continue;
+                                if($products_m2->count() >= 1) $active = $counter == 1 ? 'active' : '';$counter++;
                                 $child_category_2 .= '<div class="tab-pane fade '. $active .' show" id="child-category-'.$category->id.'-content" role="tabpanel" aria-labelledby="pills-one-example2-tab">
                                 <div class="pt-2">
                                     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 ">';
@@ -578,7 +576,7 @@ class PageBuilderController extends Controller
                                                     <div class="product__inner overflow-hidden p-3 p-md-4d875">
                                                         <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                             <div class="woocommerce-loop-product__thumbnail">
-                                                                <a href="'. route('front.product.details',$product->slug) .'" class="d-block"><img src="'. asset('assets/front/img/product/featured/'.$product->feature_image) .'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
+                                                                <a href="'. route('front.product.details',$product->slug) .'" class="d-block"><img src="'. trim($product->feature_image) .'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
                                                             </div>
                                                             <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                                 <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="' . route('front.product.details',$product->slug) . '">'. $title .'</a></h2>
@@ -657,7 +655,7 @@ class PageBuilderController extends Controller
                         foreach ( $categories2 as $category ) {
                             $child_category_5 .= '
                                 <li class="nav-item flex-shrink-0">
-                                    <a class="nav-link font-weight-medium" href="/products?search=&category_id='.$category->id.'&type=new">
+                                    <a class="nav-link font-weight-medium" href="/products?search=&sub_category_id='.$category->id.'&type=new">
                                         <div class="text-center">
                                             <div class="d-flex justify-content-center mb-3">
                                                 <div class="bg-indigo-light height-100 width-100 rounded-circle">
@@ -764,7 +762,7 @@ class PageBuilderController extends Controller
                                                     <div class="product__inner overflow-hidden p-3 p-md-4d875">
                                                         <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                             <div class="woocommerce-loop-product__thumbnail">
-                                                                <a href="'. route('front.product.details',$product->slug) .'" class="d-block"><img src="'. asset('assets/front/img/product/featured/'.$product->feature_image) .'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                                                <a href="'. route('front.product.details',$product->slug) .'" class="d-block"><img src="'. trim($product->feature_image) .'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                                             </div>
                                                             <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                                 <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'. route('front.product.details',$product->slug) .'">'. $title .'</a></h2>
@@ -826,7 +824,7 @@ class PageBuilderController extends Controller
                                                                 <div class="product__inner overflow-hidden p-3 p-md-4d875">
                                                                     <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                                         <div class="woocommerce-loop-product__thumbnail">
-                                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.asset('assets/front/img/product/featured/'.$product->feature_image).'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
+                                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.trim($product->feature_image).'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
                                                                         </div>
                                                                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                                             <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
@@ -928,7 +926,7 @@ class PageBuilderController extends Controller
                                                 <div class="product__inner overflow-hidden p-3 p-md-4d875">
                                                     <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                         <div class="woocommerce-loop-product__thumbnail">
-                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.asset('assets/front/img/product/featured/'.$product->feature_image).'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
+                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.trim($product->feature_image).'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
                                                         </div>
                                                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                             <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
@@ -988,7 +986,7 @@ class PageBuilderController extends Controller
                                             <div class="product__inner overflow-hidden p-3 p-md-4d875">
                                                 <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                     <div class="woocommerce-loop-product__thumbnail">
-                                                        <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.asset('assets/front/img/product/featured/'.$product->feature_image).'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
+                                                        <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.trim($product->feature_image).'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
                                                     </div>
                                                     <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                         <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
@@ -1055,7 +1053,7 @@ class PageBuilderController extends Controller
                                                 <div class="product__inner overflow-hidden p-3 p-md-4d875">
                                                     <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                         <div class="woocommerce-loop-product__thumbnail">
-                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.asset('assets/front/img/product/featured/'.$product->feature_image).'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.trim($product->feature_image).'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                                         </div>
                                                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                             <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
@@ -1117,7 +1115,7 @@ class PageBuilderController extends Controller
                                                 <div class="product__inner overflow-hidden bg-white p-3 p-md-4d875">
                                                     <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                         <div class="woocommerce-loop-product__thumbnail">
-                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.asset('assets/front/img/product/featured/'.$product->feature_image).'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.trim($product->feature_image).'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                                         </div>
                                                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                             <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
@@ -1176,7 +1174,7 @@ class PageBuilderController extends Controller
                                         <div class="product__inner overflow-hidden bg-white p-3 p-md-4d875">
                                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                 <div class="woocommerce-loop-product__thumbnail">
-                                                    <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.asset('assets/front/img/product/featured/'.$product->feature_image).'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                                    <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.trim($product->feature_image).'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                                 </div>
                                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                     <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>

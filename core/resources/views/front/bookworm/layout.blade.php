@@ -178,7 +178,7 @@
     <div id="WAButton"></div>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="{{ asset('assets/bookworm/vendor/jquery/dist/jquery.min.js') }}"></script>
+{{--    <script src="{{ asset('assets/bookworm/vendor/jquery/dist/jquery.min.js') }}"></script>--}}
     <script src="{{ asset('assets/bookworm/vendor/jquery-migrate/dist/jquery-migrate.min.js') }}"></script>
     <script src="{{ asset('assets/bookworm/vendor/popper.js/dist/umd/popper.min.js') }}"></script>
     <script src="{{ asset('assets/bookworm/vendor/bootstrap/bootstrap.min.js') }}"></script>
@@ -245,13 +245,13 @@
             });
 
             // open side menu if the button is clicked
-            $(".cat-menu").click(function () {
-                if ($("html").hasClass("zeynep-opened")) {
-                    zeynep.close();
-                } else {
-                    zeynep.open();
-                }
-            });
+            // $(".cat-menu").click(function () {
+            //     if ($("html").hasClass("zeynep-opened")) {
+            //         zeynep.close();
+            //     } else {
+            //         zeynep.open();
+            //     }
+            // });
         });
     </script>
 
