@@ -43,7 +43,7 @@
                         <div class="input-group input-group-borderless w-100">
                             <input type="text" class="form-control px-3 bg-gray-200 bg-focus__1" placeholder="Search for books by keyword" aria-label="Amount (to the nearest dollar)" id="search" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : ''}}">
                             <div class="input-group-append">
-                                <button class="btn btn-primary px-3 py-2" type="button"><i class="mx-1 glph-icon flaticon-loupe text-white" onclick="window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=&type=new&tag=&review=`" style="cursor: pointer;"></i></button>
+                                <button class="btn btn-primary btn-search px-3 py-2" type="button"><i class="mx-1 glph-icon flaticon-loupe text-white" onclick="window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=&type=new&tag=&review=`" style="cursor: pointer;"></i></button>
                             </div>
                         </div>
                     </div>
@@ -127,7 +127,7 @@
                                                     @endphp
 
                                                     <li @if(array_key_exists("children", $level2)) class="submenus" @endif>
-                                                
+
 
                                                         {{-- START: 3rd Level links --}}
                                                         @if(array_key_exists("children", $level2))

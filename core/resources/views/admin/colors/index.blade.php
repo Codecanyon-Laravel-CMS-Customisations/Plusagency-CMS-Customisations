@@ -69,10 +69,12 @@
                                        <option value="a:hover">Link Hover</option>
                                        <option value="img">Image</option>
                                        <option value="span">Span tag</option>
-                                       <option value="button">Button</option>
+                                        <option value="button">Button</option>
                                        <option value=".btn">Button Class</option>
+                                       <option value=".btn-search">Search Button Class</option>
                                        <option value="button:hover">Button Hover</option>
                                        <option value=".btn:hover">Button Class Hover</option>
+                                       <option value=".btn-search:hover">Search Button Class Hover</option>
                                        <option value="form">Form</option>
                                        <option value="input">Input Field</option>
                                        <option value="label">Label</option>
@@ -84,11 +86,11 @@
                                     @if (Session::get('data') == 0)
                                         @if ($errors->has('element'))
                                             <p class="mb-0 text-danger">{{$errors->first('element')}}</p>
-                                        @endif        
+                                        @endif
                                     @endif
                                 </div>
                             </div>
-        
+
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label>Attribute **</label>
@@ -99,12 +101,12 @@
                                     @if (Session::get('data') == 0)
                                         @if ($errors->has('attribute'))
                                             <p class="mb-0 text-danger">{{$errors->first('attribute')}}</p>
-                                        @endif    
+                                        @endif
                                     @endif
-                                    
+
                                 </div>
                             </div>
-        
+
                             <div class="col-lg-3">
                                 <div class="form-group">
                                 <label>Color **</label>
@@ -112,12 +114,12 @@
                                 @if (Session::get('data') == 0)
                                     @if ($errors->has('color'))
                                         <p class="mb-0 text-danger">{{$errors->first('color')}}</p>
-                                    @endif    
+                                    @endif
                                 @endif
-                                
+
                                 </div>
                             </div>
-        
+
                             <div class="col-lg-1">
                                 <div class="form-group">
                                     <label>Click me!</label>
@@ -125,12 +127,12 @@
                                 </div>
                             </div>
                         </div>
-    
-                    </div> 
+
+                    </div>
                 </form>
             </div>
             <br><br>
-            
+
             <div class="row">
                 <div class="col-lg-10 text-center">
                     <h2>Create Custom UI Color</h2>
@@ -146,11 +148,11 @@
                                     @if (Session::get('data') == 1)
                                         @if ($errors->has('element'))
                                             <p class="mb-0 text-danger">{{$errors->first('element')}}</p>
-                                        @endif        
+                                        @endif
                                     @endif
                                 </div>
                             </div>
-        
+
                             <div class="col-lg-4">
                                 <div class="form-group">
                                     <label>Attribute **</label>
@@ -162,7 +164,7 @@
                                     @endif
                                 </div>
                             </div>
-        
+
                             <div class="col-lg-3">
                                 <div class="form-group">
                                 <label>Color **</label>
@@ -174,7 +176,7 @@
                                 @endif
                                 </div>
                             </div>
-        
+
                             <div class="col-lg-1">
                                 <div class="form-group">
                                     <label>Click me!</label>
@@ -182,15 +184,15 @@
                                 </div>
                             </div>
                         </div>
-    
-                    </div> 
+
+                    </div>
                 </form>
             </div>
             <br><br>
-            
+
             <div class="row">
                 <div class="col-lg-10 text-center">
-                    <h2>Update Custom UI Colors</h2>    
+                    <h2>Update Custom UI Colors</h2>
                 </div>
                 @if ($colors->count() > 0)
                     @foreach ($colors as $color)
@@ -204,14 +206,14 @@
                                             <input class="form-control" disabled name="element" value="{{ $color->element }}">
                                         </div>
                                     </div>
-                
+
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                             <label>Attribute **</label>
                                             <input class="form-control" disabled name="attribute" value="{{ $color->attribute }}">
                                         </div>
                                     </div>
-                
+
                                     <div class="col-lg-3">
                                         <div class="form-group">
                                         <label>Color **</label>
@@ -223,7 +225,7 @@
                                         @endif
                                         </div>
                                     </div>
-                
+
                                     <div class="col-lg-1">
                                         <div class="form-group">
                                             <label>Click me!</label>
@@ -240,8 +242,8 @@
                                         </div>
                                     </div>
                                 </div>
-            
-                            </div> 
+
+                            </div>
                         </form>
                         {{-- <form id="delete-color" action="{{route('admin.colorSettings.destroy',$color->id)}}" method="POST" style="display: none;">
                             @csrf

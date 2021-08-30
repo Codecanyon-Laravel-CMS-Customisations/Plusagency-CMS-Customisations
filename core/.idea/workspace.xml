@@ -2,21 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="080ee119-a0e3-44d7-8cd0-a08fd198f8f8" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../assets/admin/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/admin/css/custom.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../assets/admin/js/custom.js" beforeDir="false" afterPath="$PROJECT_DIR$/../assets/admin/js/custom.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/CategoryMenuBuilderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/CategoryMenuBuilderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/PageBuilderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/PageBuilderController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Language.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Language.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/product/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/product/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v1.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v1.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v10.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v10.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v11.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v11.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v12.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v12.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v2.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v2.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v5.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/footer/v5.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/layout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/layout.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/partials/navbar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/partials/navbar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Admin/WebsiteColorsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Admin/WebsiteColorsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/colors/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/colors/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/header/v1.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/header/v1.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/header/v2.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/header/v2.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/header/v3.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/header/v3.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/header/v7.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/header/v7.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/front/bookworm/header/v9.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/front/bookworm/header/v9.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../final-sql-complete.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../final-sql-complete.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -265,7 +259,7 @@
       <workItem from="1628149445597" duration="6000" />
       <workItem from="1628172317266" duration="1079000" />
       <workItem from="1630003584003" duration="6386000" />
-      <workItem from="1630251965822" duration="22269000" />
+      <workItem from="1630251965822" duration="27123000" />
     </task>
     <servers />
   </component>

@@ -35,7 +35,7 @@
 				}
 			}
 		}
-		
+
 		if(!empty($megaMenuIds->menus)) {
 			foreach (json_decode($megaMenuIds->menus, true) as $key2 => $value2) {
 				$indexes2[] = $key2;
@@ -44,7 +44,7 @@
 				}
 			}
 		}
-		
+
 	}
     $products       = \App\Product::withoutGlobalScope('variation')->where('status',1);
 @endphp
@@ -87,7 +87,7 @@
                             <div class="input-group input-group-borderless w-100">
                                 <input type="text" class="form-control border-left rounded-left-1 rounded-left-xl-0 px-3" placeholder="Search for books by keyword" aria-label="Amount (to the nearest dollar)" id="search" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : ''}}">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary-green px-3 py-2" type="button"><i class="mx-1 glph-icon flaticon-loupe text-white" onclick="window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=&type=new&tag=&review=`" style="cursor: pointer;"></i></button>
+                                    <button class="btn btn-primary-green btn-search px-3 py-2" type="button"><i class="mx-1 glph-icon flaticon-loupe text-white" onclick="window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=&type=new&tag=&review=`" style="cursor: pointer;"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -99,9 +99,9 @@
                                 @auth
                                     <a href="{{ url('user/dashboard') }}" class="text-secondary-gray-1080 font-size-1">Dashboard</a>
                                 @else
-                                    <a href="{{ url('login') }}" class="text-secondary-gray-1080 font-size-1">Sign In</a>                            
+                                    <a href="{{ url('login') }}" class="text-secondary-gray-1080 font-size-1">Sign In</a>
                                 @endauth
-                                
+
                                 <div class="">My Account</div>
                             </div>
                         </div>
@@ -110,7 +110,7 @@
                                 <div class="ml-3 d-none d-lg-block">
                                     <a class="text-secondary-gray-1080 font-size-2" href="{{route('user-logout')}}" target="_self">{{__('Logout')}}</a>
                                 </div>
-                            </div>    
+                            </div>
                         @endauth
                         <!-- Cart Sidebar Toggle Button -->
                         <a id="sidebarNavToggler1" href="javascript:;" role="button" class="ml-4 d-none d-lg-block target-of-invoker-has-unfolds" aria-controls="sidebarContent1" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent1" data-unfold-type="css-animation" data-unfold-overlay="{
@@ -176,7 +176,7 @@
                                                     @endphp
 
                                                     <li @if(array_key_exists("children", $level2)) class="submenus" @endif>
-                                                
+
 
                                                         {{-- START: 3rd Level links --}}
                                                         @if(array_key_exists("children", $level2))
@@ -233,7 +233,7 @@
                                                             <li class="position-relative">
                                                                 <a id="{{ \Str::slug($subcat->id) }}TDropdownsubmenuoneInvoker" href="#" class="dropdown-toggle dropdown-item dropdown-item__sub-menu link-black-100 d-flex align-items-center justify-content-between" aria-haspopup="true" aria-expanded="true" data-unfold-event="hover" data-unfold-target="#{{ \Str::slug($subcat->id) }}TDropdownsubMenuone" data-unfold-type="css-animation" data-unfold-duration="200" data-unfold-delay="100" data-unfold-hide-on-scroll="true" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">{{ $subcat->name }}
                                                                 </a>
-                                                            </li>  
+                                                            </li>
                                                             <ul id="{{ \Str::slug($subcat->id) }}TDropdownsubMenuone" class="dropdown-unfold dropdown-menu dropdown-sub-menu font-size-2 rounded-0 border-gray-900 u-unfold--css-animation u-unfold--reverse-y fadeOut" aria-labelledby="{{ \Str::slug($subcat->id) }}TDropdownsubmenuoneInvoker" style="animation-duration: 200ms;">
                                                                 @foreach ($subsubcats as $subsubcat)
                                                                     @php
@@ -249,11 +249,11 @@
                                                                                         <a class="dropdown-item link-black-100" href="{{route('front.product.details',$product3->slug)}}">{{ $product3->title }}</a>
                                                                                     </li>
                                                                                 @endforeach
-                                                                                
+
                                                                             </ul>
                                                                         </li>
                                                                 @endforeach
-                                                            </ul>  
+                                                            </ul>
                                                         @endif
                                                     @endif
                                                 @endif
@@ -270,11 +270,11 @@
                                                                     </li>
                                                                 @endforeach
                                                             </ul>
-                                                        </li> 
+                                                        </li>
                                                     @endif
                                                 @endif
                                             @endforeach
-                                            
+
                                         </ul>
                                     @endif
                                 </li>

@@ -128,7 +128,7 @@
                                             @endphp
 
                                             <li @if(array_key_exists("children", $level2)) class="submenus" @endif>
-                                                
+
 
                                                 {{-- START: 3rd Level links --}}
                                                 @if(array_key_exists("children", $level2))
@@ -169,7 +169,7 @@
                             </div>
                             <input class="form-control bg-white-100 min-width-380 py-2d75 height-4 border-white-100" type="search" placeholder="Search for Books by Keyword ..." aria-label="Search" id="search" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : ''}}">
                         </div>
-                        <button class="btn btn-outline-success my-2 my-sm-0 sr-only" type="button" onclick="window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=&type=new&tag=&review=`" style="cursor: pointer;">Search</button>
+                        <button class="btn btn-outline-success btn-search my-2 my-sm-0 sr-only" type="button" onclick="window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=&type=new&tag=&review=`" style="cursor: pointer;">Search</button>
                 </div>
             </div>
 
