@@ -10,3 +10,17 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 
+
+/core/node_modules
+/core/public/hot
+/core/public/storage
+/core/storage
+/core/.env
+/core/.env.backup
+/core/.phpunit.result.cache
+/core/Homestead.json
+/core/Homestead.yaml
+/core/npm-debug.log
+/core/yarn-error.log
+/core/.idea
+
