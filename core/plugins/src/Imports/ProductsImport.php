@@ -295,7 +295,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 $file_id    = trim($url_array[3]);
 
                 //return "https://drive.google.com/uc?id=$file_id&export=download";
-                return "https://dr                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ive.google.com/uc?id=$file_id";
+                return "https://drive.google.com/uc?id=$file_id";
             }
             return $link;
         }catch(\Exception $e){}
