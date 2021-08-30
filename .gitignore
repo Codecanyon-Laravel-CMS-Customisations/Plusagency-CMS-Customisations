@@ -23,4 +23,5 @@ yarn-error.log
 /core/npm-debug.log
 /core/yarn-error.log
 /core/.idea
+/core/*.zip
 

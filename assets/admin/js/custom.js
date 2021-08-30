@@ -58,12 +58,6 @@ $(function ($) {
   ==========datatables start==========
   ******************************************************/
   $('#basic-datatables').DataTable({
-  	"order": [[ 1, "asc" ]],
-        "columnDefs": [ 
-          {
-          "targets"  : 'no-sort',
-	  "orderable": false,
-	  }
   });
   $('#products-datatables').dataTable( {
       "order": [[ 2, "asc" ]],
