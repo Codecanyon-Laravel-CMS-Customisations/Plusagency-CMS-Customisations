@@ -25,14 +25,20 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             'status'    => 1,
         ]);
 
+        $product_categories         = $this->setProductCategories($row);
 
-        $product->title     = $row['name'];
+        $parent_category            = $product_categories['parent_category'];
+        $sub_category               = $product_categories['sub_category'];
+        $sub_child_category         = $product_categories['sub_child_category'];
+
+
+        $product->title             = $row['name'];
         $product->slug              = trim(Str::slug($row['name']));
         $product->language_id       = trim(169);
         $product->stock             = trim($row['stock']);
-        // $product->category_id       = trim($parent_category->id);
-        // $product->sub_category_id   = $sub_category ? trim($sub_category->id) : NULL;
-        // $product->sub_child_category_id     = $sub_child_category ? trim($sub_child_category->id) : NULL;
+        $product->category_id       = trim($parent_category->id);
+        $product->sub_category_id   = $sub_category ? trim($sub_category->id) : NULL;
+        $product->sub_child_category_id     = $sub_child_category ? trim($sub_child_category->id) : NULL;
         $product->tags              = trim($row['tags']);
 //        $product->feature_image     = trim(explode(',', $row['images'])[0]);
         //$product->pending_images_download   = trim(trim($row['images']));
@@ -44,10 +50,6 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         $product->rating            = trim('0.00');
         $product->type              = trim('physical');
         $product->save();
-
-        $parent_category            = $this->setCategory($product, $row);
-        $sub_category               = $this->setSubCategory($parent_category, $product, $row);
-        $sub_child_category         = $this->setChildSubCategory($sub_category, $product, $row);
 
          $this->setProductImages($product, $row);
         // $this->setChildSubCategory($product, $row);
@@ -77,6 +79,80 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         $product->save();
 
         return $category;
+    }
+
+
+    public function setProductCategories(Array $row)
+    {
+        //product category
+        if (!isset($row['sub_child_categories']))   $row['sub_child_categories'] = "Default Category";
+        $category_col           = trim($row['categories']);
+        $child_category_col     = Str::contains($row['child_categories'], '>') ?     trim(explode('>', $row['child_categories'])[0])     : trim($row['child_categories']);
+        $sub_child_category_col = Str::contains($row['sub_child_categories'], '>') ? trim(explode('>', $row['sub_child_categories'])[0]) : trim($row['sub_child_categories']);
+
+        if (strlen(trim($category_col)) < 3)            $category_col           = "Default Category";
+        if (strlen(trim($child_category_col)) < 3)      $child_category_col     = "Default Category";
+        if (strlen(trim($sub_child_category_col)) < 3)  $sub_child_category_col = "Default Category";
+
+        $parent_category        = Pcategory::where( 'name', $category_col )->first();
+        if (!$parent_category)
+        {
+            $parent_category    = Pcategory::create([
+                'name'          => trim( $category_col),
+                'slug'          => Str::slug( trim( $category_col) ),
+                'language_id'   => 169,
+                'status'        => 1,
+                'is_feature'    => NULL,
+                'is_child'      => 0,
+                'show_in_menu'  => 1,
+                'menu_level'    => 1,
+                'parent_menu_id'=> NULL,
+            ]);
+        }
+
+        $sub_category           = Pcategory::where( 'name', $child_category_col )
+            ->where( 'parent_menu_id', $parent_category->id)
+            ->first();
+        if (!$sub_category)
+        {
+            $sub_category       = Pcategory::create([
+                'name'          => trim( $child_category_col),
+                'slug'          => Str::slug( trim( $child_category_col) ),
+                'language_id'   => 169,
+                'status'        => 1,
+                'is_feature'    => NULL,
+                'is_child'      => 1,
+                'show_in_menu'  => 1,
+                'menu_level'    => 2,
+                'parent_menu_id'=> $parent_category->id,
+            ]);
+        }
+
+        $sub_child_category     = Pcategory::where( 'name', $sub_child_category_col )
+            ->where( 'parent_menu_id', $sub_category->id)
+            ->first();
+        if (!$sub_child_category)
+        {
+            $sub_child_category = Pcategory::create([
+                'name'          => trim( $sub_child_category_col),
+                'slug'          => Str::slug( trim( $sub_child_category_col) ),
+                'language_id'   => 169,
+                'status'        => 1,
+                'is_feature'    => NULL,
+                'is_child'      => 1,
+                'show_in_menu'  => 1,
+                'menu_level'    => 3,
+                'parent_menu_id'=> $sub_category->id,
+            ]);
+        }
+
+        return [
+            "parent_category"   => $parent_category,
+            "sub_category"      => $sub_category,
+            "sub_child_category"=> $sub_child_category,
+        ];
+
+
     }
 
     public function setSubCategory(Pcategory $parent_category, Product $product, Array $row)
