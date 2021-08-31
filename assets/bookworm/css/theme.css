@@ -24875,7 +24875,7 @@ Slick Pagination
 }
 
 .text-lh-md.text-height-2 {
-  height: 3rem;
+  /*height: 3rem;*/
 }
 
 .text-lh-lg {
@@ -24901,12 +24901,12 @@ Slick Pagination
 /*------------------------------------
   Crop Text
 ------------------------------------*/
-.crop-text-2 {
+.crop-text-2 {/*
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 2; */
 }
 
 .crop-text-3 {
