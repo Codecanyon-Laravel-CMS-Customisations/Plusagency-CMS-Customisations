@@ -28,8 +28,15 @@
       <div class="card">
         <div class="card-header">
             <div class="row">
-                <div class="col-lg-10">
-                    <div class="card-title">Update Website Color Settings</div>
+                <div class="col-12">
+                    <div class="card-title">Update Website Color Settings
+                        <button data-toggle="modal" data-target="#createModal" class="btn btn-success btn-sm pull-right text-uppercase">
+                            <small>
+                                <i class="fas fa-tasks mr-2   "></i>
+                                <strong>Predefined Additions</strong>
+                            </small>
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -255,6 +262,176 @@
                     </div>
                 @endif
             </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <style>
+        @media (min-width: 1200px){
+            .modal-xl {
+                max-width: 1140px;
+            }
+        }
+        .modal-body .nav-pills a {
+            border:0px !important;
+            display: block;
+            padding: .5rem 1rem;
+            /* background-color: transparent !important; */
+            color: white !important;
+            font-weight: bolder !important;
+
+        }
+        .modal-body .nav-pills :not(a.active) {
+            background-color: transparent !important;
+        }
+    </style>
+
+  <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
+      <div class="modal-content">
+        {{-- <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle"> select your options</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div> --}}
+        <div class="modal-body">
+            <div class="row">
+                @php
+                    $website_colors_obj = App\WebsiteColors::COLOR_SELECTIONS;
+                @endphp
+                <div class="col-3">
+                  <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                      @foreach ($website_colors_obj as $key => $value)
+                        <a class="nav-link @if($value['active']) active @endif" id="v-pills-tab-{{ $key }}" data-toggle="pill" href="#v-pills-{{ $key }}" role="tab" aria-controls="v-pills-{{ $key }}" aria-selected="@if($value['active']) true @else false @endif">{{ $value['tab_title'] }}</a>
+                      @endforeach
+                  </div>
+                </div>
+                <div class="col-9">
+                  <div class="tab-content" id="v-pills-tabContent">
+                    @foreach ($website_colors_obj as $key => $value)
+                        <a class="nav-link @if($value['active']) active @endif" id="v-pills-tab-{{ $key }}" data-toggle="pill" href="#v-pills-{{ $key }}" role="tab" aria-controls="v-pills-{{ $key }}" aria-selected="@if($value['active']) true @else false @endif">{{ $value['tab_title'] }}</a>
+                        <div class="tab-pane fade show active" id="v-pills-0" role="tabpanel" aria-labelledby="v-pills-tab-0">
+                            <div class="row">
+                                {{-- <div class="col-12 text-center">
+                                    <h5>Update Custom UI Colors</h5>
+                                </div> --}}
+                                @php
+                                    $elements = $value['elements'];
+                                @endphp
+                                @foreach ($elements as $element)
+                                    <div class="col-12">
+                                        <div class="row border mb-2">
+                                            <div class="col-md-4 pt-2">
+                                                <strong>{{ $element['section_title'] }}</strong>
+                                                <p>{{ $element['section_description'] }}</p>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <form action="{{route('admin.colorSettings.store')}}" method="post">
+                                                            @csrf
+                                                            <input type="hidden" name="element" value="{{ $element['attr_default'] }}">
+                                                            <div class="row">
+                                                                <div class="col-lg-4">
+                                                                    <div class="form-group">
+                                                                        <label>Attribute **</label>
+                                                                        <select name="attribute" class="form-control">
+                                                                            <option value="color">Text Color</option>
+                                                                            <option value="background-color">Background Color</option>
+                                                                        </select>
+                                                                        @if (Session::get('data') == 0)
+                                                                            @if ($errors->has('attribute'))
+                                                                                <p class="mb-0 text-danger">{{$errors->first('attribute')}}</p>
+                                                                            @endif
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-8">
+                                                                    <div class="row px-0">
+                                                                        <div class="col-lg-8 px-0">
+                                                                            <div class="form-group">
+                                                                                <label>Color **</label>
+                                                                                <input class="jscolor form-control ltr" name="color">
+                                                                                @if (Session::get('data') == 0)
+                                                                                    @if ($errors->has('color'))
+                                                                                        <p class="mb-0 text-danger">{{$errors->first('color')}}</p>
+                                                                                    @endif
+                                                                                @endif
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-4 px-0">
+                                                                            <div class="form-group">
+                                                                                <label>Click me!</label>
+                                                                                <button type="submit" id="displayNotif" class="btn btn-success">Save</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <form action="{{route('admin.colorSettings.store')}}" method="post">
+                                                            @csrf
+                                                            <input type="hidden" name="element" value="{{ $element['attr_hover'] }}">
+                                                            <div class="row">
+                                                                <div class="col-lg-4">
+                                                                    <div class="form-group">
+                                                                        <label>Attribute *HOVER*</label>
+                                                                        <select name="attribute" class="form-control">
+                                                                            <option value="color">Text Color</option>
+                                                                            <option value="background-color">Background Color</option>
+                                                                        </select>
+                                                                        @if (Session::get('data') == 0)
+                                                                            @if ($errors->has('attribute'))
+                                                                                <p class="mb-0 text-danger">{{$errors->first('attribute')}}</p>
+                                                                            @endif
+                                                                        @endif
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-8">
+                                                                    <div class="row px-0">
+                                                                        <div class="col-lg-8 px-0">
+                                                                            <div class="form-group">
+                                                                                <label>Color **</label>
+                                                                                <input class="jscolor form-control ltr" name="color">
+                                                                                @if (Session::get('data') == 0)
+                                                                                    @if ($errors->has('color'))
+                                                                                        <p class="mb-0 text-danger">{{$errors->first('color')}}</p>
+                                                                                    @endif
+                                                                                @endif
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-lg-4 px-0">
+                                                                            <div class="form-group">
+                                                                                <label>Click me!</label>
+                                                                                <button type="submit" id="displayNotif" class="btn btn-success">Save</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                @endforeach
+
+
+
+
+                            </div>
+                        </div>
+                    @endforeach
+                  </div>
+                </div>
+              </div>
         </div>
       </div>
     </div>

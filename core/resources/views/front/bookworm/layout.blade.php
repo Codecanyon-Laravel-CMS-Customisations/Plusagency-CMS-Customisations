@@ -118,8 +118,8 @@
     <style>
         @if(!empty($colors))
             @foreach($colors as $color)
-                {{ $color->element }} {
-                    {{ $color->attribute }} : #{{ $color->value }} !important;
+                {!! $color->element !!} {
+                    {!! $color->attribute !!} : #{{ $color->value }} !important;
                 }
             @endforeach
         @endif
