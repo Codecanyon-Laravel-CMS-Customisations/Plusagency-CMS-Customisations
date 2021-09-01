@@ -124,6 +124,35 @@ class WebsiteColorsController extends Controller
         return back();
     }
 
+    public function presetsFirstOrCreate(Request $request)
+    {
+       $validator = Validator::make($request->all(), [
+           'element' => 'required',
+           'attribute' => 'required',
+           'color' => 'required',
+       ]);
+
+        if ($validator->fails()) {
+            Session::put('data', "2");
+            return back()->withErrors($validator);
+        }
+
+        $websiteColor   = WebsiteColors::firstOrCreate([
+            'element'   => trim($request->element),
+            'attribute' => trim($request->attribute),
+        ]);
+
+        $websiteColor->element      = $request->element;
+        $websiteColor->attribute    = $request->attribute;
+        $websiteColor->value        = $request->color;
+        $websiteColor->update();
+        Session::flash('success', 'Website Colors updated successfully!');
+        Session::forget('data');
+        return response()->json([
+            'success' => true
+        ], 200);
+    }
+
     public function destroy(WebsiteColors $websiteColor) {
         $websiteColor->delete();
         Session::flash('success', 'Website Color deleted successfully!');

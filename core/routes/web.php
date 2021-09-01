@@ -403,6 +403,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin', 'checkstatus',
 
   // Admin Home Color Setting Routes
   Route::get('/website-colors', 'Admin\WebsiteColorsController@index')->name('admin.websiteColors');
+  Route::post('/colorSettings/presets', 'Admin\WebsiteColorsController@presetsFirstOrCreate')->name('admin.colorSettings.presets');
   Route::post('/colorSettings/create', 'Admin\WebsiteColorsController@store')->name('admin.colorSettings.store');
   Route::post('/colorSettings/store', 'Admin\WebsiteColorsController@store1')->name('admin.colorSettings.store1');
   Route::post('/colorSettings/{websiteColor}/post', 'Admin\WebsiteColorsController@update')->name('admin.colorSettings.update');

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class WebsiteColors extends Model
 {
+    protected $fillable     = ['element', 'attribute', 'value'];
+
     public const COLOR_SELECTIONS = [
         'general_section'           => [
             "active"                => true,
@@ -23,14 +25,27 @@ class WebsiteColors extends Model
                     "attr_default"          => ".zeynep ul > li.has-submenu > a",
                     "attr_hover"            => ".zeynep ul > li.has-submenu > a:hover",
                 ],
+                [
+                    "section_title"         => "Side Product links",
+                    "section_description"   => "This is the section on the side navigation menu",
+                    "attr_default"          => ".zeynep ul > li > a:not(.btn)",
+                    "attr_hover"            => ".zeynep ul > li > a:not(.btn):hover",
+                ],
+            ],
+        ],
+        'header_section'            => [
+            "active"                => false,
+            "tab_title"             => "Header Section",
+            "elements"              => [
+                [
+                    "section_title"         => "Search bar button",
+                    "section_description"   => "This area controls the look of the search button in the header section",
+                    "attr_default"          => "header .btn-search",
+                    "attr_hover"            => "header .btn-search:hover",
+                ],
             ],
         ],
     ];
-
-    public function getElementAttribute(string $element = null)
-    {
-        return html_entity_decode($element);
-    }
 
     // public function getColorSelectionsAttribute()
     // {
