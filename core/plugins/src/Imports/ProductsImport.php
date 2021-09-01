@@ -20,41 +20,43 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         $rowIndex = $row->getIndex();
         $row      = $row->toArray();
 
-        $product = Product::firstOrCreate([
-            'sku'   => $row['sku'],
-            'status'    => 1,
-        ]);
+        if (strlen(trim(convertUtf8($row['name']))) > 1)
+        {
+            $product                = Product::firstOrCreate([
+                'sku'               => trim(convertUtf8($row['sku'])),
+                // 'status'    => 1,
+            ]);
 
-        $product_categories         = $this->setProductCategories($row);
+            $product_categories         = $this->setProductCategories($row);
 
-        $parent_category            = $product_categories['parent_category'];
-        $sub_category               = $product_categories['sub_category'];
-        $sub_child_category         = $product_categories['sub_child_category'];
+            $parent_category            = $product_categories['parent_category'];
+            $sub_category               = $product_categories['sub_category'];
+            $sub_child_category         = $product_categories['sub_child_category'];
 
 
-        $product->title             = $row['name'];
-        $product->slug              = trim(Str::slug($row['name']));
-        $product->language_id       = trim(169);
-        $product->stock             = trim($row['stock']);
-        $product->category_id       = trim($parent_category->id);
-        $product->sub_category_id   = $sub_category ? trim($sub_category->id) : NULL;
-        $product->sub_child_category_id     = $sub_child_category ? trim($sub_child_category->id) : NULL;
-        $product->tags              = trim($row['tags']);
-//        $product->feature_image     = trim(explode(',', $row['images'])[0]);
-        //$product->pending_images_download   = trim(trim($row['images']));
-        $product->summary           = trim(e($row['short_description']));
-        $product->description       = trim(e($row['description']));
-        $product->current_price     = trim(trim(preg_replace("/[^\d\.]/", "", $row['regular_price'])) != "" ? preg_replace("/[^\d\.]/", "", $row['regular_price']) : '0.00');
-        $product->is_feature        = trim($row['is_featured']);
-        $product->status            = trim(1);
-        $product->rating            = trim('0.00');
-        $product->type              = trim('physical');
-        $product->save();
+            $product->title             = convertUtf8($row['name']);
+            $product->slug              = trim(Str::slug(convertUtf8($row['name'])));
+            $product->language_id       = trim(169);
+            $product->stock             = trim($row['stock']);
+            $product->category_id       = trim($parent_category->id);
+            $product->sub_category_id   = $sub_category ? trim($sub_category->id) : NULL;
+            $product->sub_child_category_id     = $sub_child_category ? trim($sub_child_category->id) : NULL;
+            $product->tags              = trim($row['tags']);
+    //        $product->feature_image     = trim(explode(',', $row['images'])[0]);
+            //$product->pending_images_download   = trim(trim($row['images']));
+            $product->summary           = trim(e($row['short_description']));
+            $product->description       = trim(e($row['description']));
+            $product->current_price     = trim(trim(preg_replace("/[^\d\.]/", "", $row['regular_price'])) != "" ? preg_replace("/[^\d\.]/", "", $row['regular_price']) : '0.00');
+            $product->is_feature        = trim($row['is_featured']);
+            $product->status            = trim(1);
+            $product->rating            = trim('0.00');
+            $product->type              = trim('physical');
+            $product->save();
 
-         $this->setProductImages($product, $row);
-        // $this->setChildSubCategory($product, $row);
-        // $this->setProductAttributes($product, $row);
-
+             $this->setProductImages($product, $row);
+            // $this->setChildSubCategory($product, $row);
+            // $this->setProductAttributes($product, $row);
+        }
 
     }
 
