@@ -6,5 +6,49 @@ use Illuminate\Database\Eloquent\Model;
 
 class WebsiteColors extends Model
 {
-    //
+    protected $fillable     = ['element', 'attribute', 'value'];
+
+    public const COLOR_SELECTIONS = [
+        'general_section'           => [
+            "active"                => true,
+            "tab_title"             => "General Section",
+            "elements"              => [
+                [
+                    "section_title"         => "Side Nav submenu Title",
+                    "section_description"   => "This is the section on the side navigation menu",
+                    "attr_default"          => ".zeynep .submenu-header > a",
+                    "attr_hover"            => ".zeynep .submenu-header > a:hover",
+                ],
+                [
+                    "section_title"         => "Side Nav links",
+                    "section_description"   => "This is the section on the side navigation menu",
+                    "attr_default"          => ".zeynep ul > li.has-submenu > a",
+                    "attr_hover"            => ".zeynep ul > li.has-submenu > a:hover",
+                ],
+                [
+                    "section_title"         => "Side Product links",
+                    "section_description"   => "This is the section on the side navigation menu",
+                    "attr_default"          => ".zeynep ul > li > a:not(.btn)",
+                    "attr_hover"            => ".zeynep ul > li > a:not(.btn):hover",
+                ],
+            ],
+        ],
+        'header_section'            => [
+            "active"                => false,
+            "tab_title"             => "Header Section",
+            "elements"              => [
+                [
+                    "section_title"         => "Search bar button",
+                    "section_description"   => "This area controls the look of the search button in the header section",
+                    "attr_default"          => "header .btn-search",
+                    "attr_hover"            => "header .btn-search:hover",
+                ],
+            ],
+        ],
+    ];
+
+    // public function getColorSelectionsAttribute()
+    // {
+    //     return collect($this->COLOR_SELECTIONS);
+    // }
 }

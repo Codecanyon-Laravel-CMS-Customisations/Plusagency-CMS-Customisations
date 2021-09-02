@@ -25,7 +25,7 @@ class CategoryMenuBuilderController extends Controller
         app()->setLocale($lang->code);
 
         $lang = Language::where('code', $request->language)->firstOrFail();
-        
+
         $data['cats'] = $lang->pcategories()->where('status', 1)
                     ->where('parent_menu_id', NULL)
                     ->where('menu_level', '1')->select('id', 'name')->get();
@@ -33,7 +33,7 @@ class CategoryMenuBuilderController extends Controller
         // get previous menus
         $menu = Menu::where('language_id', $lang->id)->where('is_product', 1)->first();
         $data['prevMenu'] = '';
-        
+
         if (!empty($menu)) {
             $data['prevMenu'] = $menu->menus;
         }
@@ -78,7 +78,7 @@ class CategoryMenuBuilderController extends Controller
 
     public function categorymegamenus(Request $request) {
         $lang = Language::where('code', $request->language)->firstOrFail();
-        
+
         // for 'products' mega menu
         $data['cats'] = $lang->pcategories()->
                         where('status', 1)->
@@ -102,7 +102,7 @@ class CategoryMenuBuilderController extends Controller
         $data['megamenu'] = $megamenu;
         $data['mmenus'] = json_decode($megamenu->menus, true);
         $data['subcat'] = json_decode($megamenu->subcat, true);
-        
+
         return view('admin.menu_builder.categorymegamenus.categorymegamenus', $data);
     }
 
@@ -169,7 +169,7 @@ class CategoryMenuBuilderController extends Controller
         //     else {
         //         $unique_subcat = $subcats;
         //     }
-            
+
         //     if (!empty($megamenu->menus)) {
         //         $newmenus = [];
         //         $existing_menus = json_decode($megamenu->menus, true);
@@ -196,12 +196,16 @@ class CategoryMenuBuilderController extends Controller
         //     $unique_subcat = $subcats;
         //     $unique_menus = $menus;
         // }
-        
+
         $unique_menus = json_encode($menus);
         $unique_subcat = json_encode($subcats);
-        $megamenu->menus = $unique_menus;
-        $megamenu->subcat = $unique_subcat;
-        $megamenu->save();
+
+        if (isset($megamenu))
+        {
+            $megamenu->menus = $unique_menus;
+            $megamenu->subcat = $unique_subcat;
+            $megamenu->save();
+        }
 
         $request->session()->flash('success', 'Product Mega Menu updated for Product Categories');
         return back();

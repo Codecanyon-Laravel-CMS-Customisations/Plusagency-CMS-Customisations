@@ -6,6 +6,7 @@ use App\WebsiteColors;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\Rule;
 use Validator;
 
 class WebsiteColorsController extends Controller
@@ -31,15 +32,24 @@ class WebsiteColorsController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'element' => 'required|unique:website_colors',
-            'attribute' => 'required',
-            'color' => 'required',
+            'element' => [
+                'required',
+                Rule::unique('website_colors')->where(function ($query) {
+                    return $query->where('element', \request('element'))->where('attribute', \request('attribute'));
+                }),
+            ],
+            'color'     => 'required',
         ]);
+//        $validator = Validator::make($request->all(), [
+//            'element' => 'required|unique:website_colors',
+//            'attribute' => 'required',
+//            'color' => 'required',
+//        ]);
 
         if ($validator->fails()) {
-            Session::put('data', "0"); 
+            Session::put('data', "0");
             return back()->withErrors($validator);
-        } 
+        }
 
         $websiteColor = new WebsiteColors;
         $websiteColor->element = $request->element;
@@ -47,7 +57,7 @@ class WebsiteColorsController extends Controller
         $websiteColor->value = $request->color;
         $websiteColor->save();
         Session::flash('success', 'Website Color added successfully!');
-        Session::forget('data'); 
+        Session::forget('data');
         return back();
     }
 
@@ -60,15 +70,24 @@ class WebsiteColorsController extends Controller
     public function store1(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'element' => 'required|unique:website_colors',
-            'attribute' => 'required',
-            'color' => 'required',
+            'element' => [
+                'required',
+                Rule::unique('website_colors')->where(function ($query) {
+                    return $query->where('element', \request('element'))->where('attribute', \request('attribute'));
+                }),
+            ],
+            'color'     => 'required',
         ]);
+//        $validator = Validator::make($request->all(), [
+//            'element' => 'required|unique:website_colors',
+//            'attribute' => 'required',
+//            'color' => 'required',
+//        ]);
 
         if ($validator->fails()) {
-            Session::put('data', "1"); 
+            Session::put('data', "1");
             return back()->withErrors($validator);
-        } 
+        }
 
         $websiteColor = new WebsiteColors;
         $websiteColor->element = $request->element;
@@ -76,7 +95,7 @@ class WebsiteColorsController extends Controller
         $websiteColor->value = $request->color;
         $websiteColor->save();
         Session::flash('success', 'Website Color added successfully!');
-        Session::forget('data'); 
+        Session::forget('data');
         return back();
     }
 
@@ -94,15 +113,44 @@ class WebsiteColorsController extends Controller
         ]);
 
         if ($validator->fails()) {
-            Session::put('data', "2"); 
+            Session::put('data', "2");
             return back()->withErrors($validator);
-        } 
+        }
 
         $websiteColor->value = $request->color;
         $websiteColor->update();
         Session::flash('success', 'Website Colors updated successfully!');
-        Session::forget('data'); 
+        Session::forget('data');
         return back();
+    }
+
+    public function presetsFirstOrCreate(Request $request)
+    {
+       $validator = Validator::make($request->all(), [
+           'element' => 'required',
+           'attribute' => 'required',
+           'color' => 'required',
+       ]);
+
+        if ($validator->fails()) {
+            Session::put('data', "2");
+            return back()->withErrors($validator);
+        }
+
+        $websiteColor   = WebsiteColors::firstOrCreate([
+            'element'   => trim($request->element),
+            'attribute' => trim($request->attribute),
+        ]);
+
+        $websiteColor->element      = $request->element;
+        $websiteColor->attribute    = $request->attribute;
+        $websiteColor->value        = $request->color;
+        $websiteColor->update();
+        Session::flash('success', 'Website Colors updated successfully!');
+        Session::forget('data');
+        return response()->json([
+            'success' => true
+        ], 200);
     }
 
     public function destroy(WebsiteColors $websiteColor) {

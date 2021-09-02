@@ -118,12 +118,12 @@
     <style>
         @if(!empty($colors))
             @foreach($colors as $color)
-                {{ $color->element }} {
-                    {{ $color->attribute }} : #{{ $color->value }} !important;
+                {!! $color->element !!} {
+                    {!! $color->attribute !!} : #{{ $color->value }} !important;
                 }
             @endforeach
         @endif
-    </style> 
+    </style>
 </head>
 <body>
     @include('front.bookworm.partials.navbar')
@@ -140,7 +140,7 @@
                     $sub_child_category = \App\Pcategory::find($product->sub_child_category_id);
                     $sub_category = \App\Pcategory::find($product->sub_category_id);
                 }
-                
+
                 @endphp
                 <div class="d-md-flex justify-content-between align-items-center py-4">
                     <h1 class="page-title font-size-3 font-weight-medium m-0 text-lh-lg">@yield('breadcrumb-title')</h1>
@@ -178,7 +178,7 @@
     <div id="WAButton"></div>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="{{ asset('assets/bookworm/vendor/jquery/dist/jquery.min.js') }}"></script>
+{{--    <script src="{{ asset('assets/bookworm/vendor/jquery/dist/jquery.min.js') }}"></script>--}}
     <script src="{{ asset('assets/bookworm/vendor/jquery-migrate/dist/jquery-migrate.min.js') }}"></script>
     <script src="{{ asset('assets/bookworm/vendor/popper.js/dist/umd/popper.min.js') }}"></script>
     <script src="{{ asset('assets/bookworm/vendor/bootstrap/bootstrap.min.js') }}"></script>
@@ -245,13 +245,13 @@
             });
 
             // open side menu if the button is clicked
-            $(".cat-menu").click(function () {
-                if ($("html").hasClass("zeynep-opened")) {
-                    zeynep.close();
-                } else {
-                    zeynep.open();
-                }
-            });
+            // $(".cat-menu").click(function () {
+            //     if ($("html").hasClass("zeynep-opened")) {
+            //         zeynep.close();
+            //     } else {
+            //         zeynep.open();
+            //     }
+            // });
         });
     </script>
 
@@ -350,8 +350,6 @@ var rtl = {{ $rtl }};
     });
 </script>
 @endif
-
-@yield('scripts')
 
 @if (session()->has('success'))
 <script>

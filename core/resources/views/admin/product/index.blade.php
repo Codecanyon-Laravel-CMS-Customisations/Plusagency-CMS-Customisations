@@ -70,6 +70,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                 </div>
                 <div class="col-lg-4 offset-lg-1 mt-2 mt-lg-0">
                     <a href="{{route('admin.product.type')}}" class="btn btn-primary float-right btn-sm"><i class="fas fa-plus"></i> Add Product</a>
+                    <button class="btn btn-secondary float-right btn-sm mr-2 d-none bulk-activate" data-href="{{route('admin.product.bulk.activate')}}"><i class="fas fa-tasks"></i> Add to menu</button>
                     <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-delete" data-href="{{route('admin.product.bulk.delete')}}"><i class="flaticon-interface-5"></i> Delete</button>
                 </div>
             </div>
@@ -81,20 +82,20 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                 <h3 class="text-center">NO Products FOUND</h3>
               @else
                 <div class="table-responsive">
-                  <table class="table table-striped mt-3" id="basic-datatables">
+                  <table class="table table-striped mt-3" id="products-datatables">
                     <thead>
                       <tr>
-                        <th scope="col">
+                        <th scope="col" class="no-sort">
                             <input type="checkbox" class="bulk-check" data-val="all">
                         </th>
-                        <th scope="col">Featured Image</th>
+                        <th scope="col" class="no-sort">Featured Image</th>
                         <th scope="col">Title</th>
                         @if ($bex->catalog_mode == 0)
                             <th>Price ({{$bex->base_currency_text}})</th>
                         @endif
                         <th scope="col">Type</th>
                         <th scope="col">Category</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col" class="no-sort">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -144,7 +145,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                                                 <i class="fas fa-edit"> Edit product</i>
                                             </a>
                                             <a onclick="event.preventDefault(); document.getElementById('addtopagebuilderform-{{$product->id}}').submit();" href="javascript:;" class="dropdown-item">
-                                                <strong><i class="fab fa-audible"> Add to menu-builder</i></strong>
+                                                <strong><i class="fas fa-tasks"> Add to menu-builder</i></strong>
                                             </a>
                                             <a onclick="event.preventDefault(); document.getElementById('deleteform-{{$product->id}}').submit();" href="javascript:;" class="dropdown-item">
                                                 <i class="fas fa-trash"> Delete product</i>

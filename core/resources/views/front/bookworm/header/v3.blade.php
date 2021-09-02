@@ -111,7 +111,7 @@
                                                     @endphp
 
                                                     <li @if(array_key_exists("children", $level2)) class="submenus" @endif>
-                                                
+
 
                                                         {{-- START: 3rd Level links --}}
                                                         @if(array_key_exists("children", $level2))
@@ -232,7 +232,7 @@
                             <div class="input-group input-group-borderless w-100">
                                 <input type="text" class="form-control rounded-left-1 px-3 border-right" placeholder="Search for books by keyword" aria-label="Amount (to the nearest dollar)" id="search" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : ''}}">
                                 <div class="input-group-append ml-0">
-                                    <button class="btn btn-primary-yellow px-3 py-2" type="button"><i class="mx-1 glph-icon flaticon-loupe text-dark" onclick="window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=&type=new&tag=&review=`" style="cursor: pointer;"></i></button>
+                                    <button class="btn btn-primary-yellow btn-search px-3 py-2" type="button"><i class="mx-1 glph-icon flaticon-loupe text-dark" onclick="window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=&type=new&tag=&review=`" style="cursor: pointer;"></i></button>
                                 </div>
                             </div>
                         </div>

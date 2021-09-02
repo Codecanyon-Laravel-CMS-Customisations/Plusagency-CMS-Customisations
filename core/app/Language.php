@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Language extends Model
 {
-  protected $fillable = ['id', 'name', 'is_default', 'code', 'rtl'];
+    protected $fillable = ['id', 'name', 'is_default', 'code', 'rtl'];
+
+    protected $casts    = [
+        'is_default'    => 'boolean',
+    ];
 
   public function basic_setting()
   {
