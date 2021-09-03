@@ -67,7 +67,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-2 ml-md-2">
-                                    <button type="submit" class="btn btn-dark rounded-0 btn-wide py-3 font-weight-medium">{{ __('Subscribe') }}      
+                                    <button type="submit" class="btn btn-dark rounded-0 btn-wide py-3 font-weight-medium">{{ __('Subscribe') }}
                                     </button>
                                 </div>
                             </div>
@@ -123,31 +123,13 @@
                                        </span></a>
                                 </div>
                                 <ul class="list-unstyled mb-0 d-flex">
-                                    <li class="btn pl-0">
-                                        <a class="link-black-100" href="#">
-                                            <span class="fab fa-instagram"></span>
-                                        </a>
-                                    </li>
-                                    <li class="btn">
-                                        <a class="link-black-100" href="#">
-                                            <span class="fab fa-facebook-f"></span>
-                                        </a>
-                                    </li>
-                                    <li class="btn">
-                                        <a class="link-black-100" href="#">
-                                            <span class="fab fa-youtube"></span>
-                                        </a>
-                                    </li>
-                                    <li class="btn">
-                                        <a class="link-black-100" href="#">
-                                            <span class="fab fa-twitter"></span>
-                                        </a>
-                                    </li>
-                                    <li class="btn">
-                                        <a class="link-black-100" href="#">
-                                            <span class="fab fa-pinterest"></span>
-                                        </a>
-                                    </li>
+                                    @foreach ($socials as $key => $social)
+                                        <li class="btn @if($loop->first) pl-0 @endif">
+                                            <a class="link-black-100" target="_blank" href="{{$social->url}}">
+                                                <span class="{{$social->icon}}"></span>
+                                            </a>
+                                        </li>
+                                    @endforeach
                                 </ul>
                             </div>
                         </div>
@@ -170,7 +152,7 @@
                                     <a class="widgets-hover transition-3d-hover font-size-2 link-black-100" href="{{$ulink->url}}">{{convertUtf8($ulink->name)}}</a>
                                 </li>
                                 @endforeach
-                                    
+
                             </ul>
                         </div>
                     </div>
@@ -185,12 +167,12 @@
                         <p class="mb-3 mb-lg-0 font-size-2"> {!! replaceBaseUrl(convertUtf8($bs->copyright_text)) !!}</p>
                         <!-- End Copyright -->
                         @endif
-    
+
                         <div class="ml-auto d-lg-flex align-items-center">
                             <div class="mb-4 mb-lg-0 mr-5">
                                <img class="img-fluid" src="{{ asset('assets/bookworm/img/324x38/img1.png') }}" alt="Image-Description">
                             </div>
-    
+
                             <!-- Select -->
                             @if (!empty($currentLang) && count($langs) > 1)
 
@@ -205,7 +187,7 @@
                                 @endforeach
                             </select> --}}
                             <!-- End Select -->
-                            
+
                             @if (!empty($currentLang) && count($langs) > 1)
                             <div class="language">
                                 <a class="language-btn" href="#">{{convertUtf8($currentLang->name)}}</a>

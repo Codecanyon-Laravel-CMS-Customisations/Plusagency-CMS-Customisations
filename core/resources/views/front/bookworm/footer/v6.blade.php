@@ -84,31 +84,13 @@
                                 </a>
                             </div>
                             <ul class="list-unstyled mb-0 d-flex">
-                                <li class="h-white btn pl-0">
-                                    <a class="text-gray-500" href="#">
-                                        <span class="fab fa-instagram"></span>
-                                    </a>
-                                </li>
-                                <li class="h-white btn">
-                                    <a class="text-gray-500" href="#">
-                                        <span class="fab fa-facebook-f"></span>
-                                    </a>
-                                </li>
-                                <li class="h-white btn">
-                                    <a class="text-gray-500" href="#">
-                                        <span class="fab fa-youtube"></span>
-                                    </a>
-                                </li>
-                                <li class="h-white btn">
-                                    <a class="text-gray-500" href="#">
-                                        <span class="fab fa-twitter"></span>
-                                    </a>
-                                </li>
-                                <li class="h-white btn">
-                                    <a class="text-gray-500" href="#">
-                                        <span class="fab fa-pinterest"></span>
-                                    </a>
-                                </li>
+                                @foreach ($socials as $key => $social)
+                                    <li class="h-white btn @if($loop->first) pl-0 @endif">
+                                        <a class="link-gray-500" target="_blank" href="{{$social->url}}">
+                                            <span class="{{$social->icon}}"></span>
+                                        </a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>

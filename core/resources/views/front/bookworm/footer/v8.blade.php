@@ -59,31 +59,13 @@
                     <div class="mb-5 mb-lg-0">
                         <h4 class="font-size-3 font-weight-medium mb-2 mb-xl-5 pb-xl-1 text-gray-500">Follow</h4>
                         <ul class="list-unstyled mb-0 d-flex">
-                            <li class="btn pl-0">
-                                <a class="text-white" href="#">
-                                    <span class="fab fa-instagram"></span>
-                                </a>
-                            </li>
-                            <li class="btn">
-                                <a class="text-white" href="#">
-                                    <span class="fab fa-facebook-f"></span>
-                                </a>
-                            </li>
-                            <li class="btn">
-                                <a class="text-white" href="#">
-                                    <span class="fab fa-youtube"></span>
-                                </a>
-                            </li>
-                            <li class="btn">
-                                <a class="text-white" href="#">
-                                    <span class="fab fa-twitter"></span>
-                                </a>
-                            </li>
-                            <li class="btn">
-                                <a class="text-white" href="#">
-                                    <span class="fab fa-pinterest"></span>
-                                </a>
-                            </li>
+                            @foreach ($socials as $key => $social)
+                                <li class="btn @if($loop->first) pl-0 @endif">
+                                    <a class="text-white" target="_blank" href="{{$social->url}}">
+                                        <span class="{{$social->icon}}"></span>
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
