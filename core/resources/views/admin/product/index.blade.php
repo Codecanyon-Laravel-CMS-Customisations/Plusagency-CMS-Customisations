@@ -71,7 +71,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                 <div class="col-lg-7 mt-2 mt-lg-0">
                     <a href="{{route('admin.product.type')}}" class="btn btn-primary float-right btn-sm"><i class="fas fa-plus"></i> Add Product</a>
                     <button class="btn btn-secondary float-right btn-sm mr-2 d-none bulk-activate" data-href="{{route('admin.product.bulk.activate')}}"><i class="fas fa-tasks"></i> Add to menu</button>
-                    <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-activate" data-href="{{route('admin.product.bulk.deactivate')}}"><i class="fas fa-tasks"></i> Remove from menu</button>
+                    <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-deactivate" data-href="{{route('admin.product.bulk.deactivate')}}"><i class="fas fa-tasks"></i> Remove from menu</button>
                     <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-delete" data-href="{{route('admin.product.bulk.delete')}}"><i class="flaticon-interface-5"></i> Delete</button>
                 </div>
             </div>
