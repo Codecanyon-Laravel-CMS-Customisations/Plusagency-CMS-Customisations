@@ -105,7 +105,7 @@ class BasicController extends Controller
             foreach ($bss as $key => $bs) {
                 @unlink('assets/front/img/' . $bs->favicon);
                 $filename = uniqid() .'.'. $extFav;
-                @copy(str_replace(' ', '%20', $favicon), 'assets/front/img/' . $filename);
+                @copy(str_replace(' ', '%20', $favicon), 'assets/front/img/' . $filename, stream_context_create($this->arrContextOptions));
 
                 $bs->favicon = $filename;
                 $bs->save();
@@ -121,7 +121,7 @@ class BasicController extends Controller
             foreach ($bss as $key => $bs) {
                 @unlink('assets/front/img/' . $bs->breadcrumb);
                 $filename = uniqid() .'.'. $extBread;
-                @copy(str_replace(' ', '%20', $breadcrumb), 'assets/front/img/' . $filename);
+                @copy(str_replace(' ', '%20', $breadcrumb), 'assets/front/img/' . $filename, stream_context_create($this->arrContextOptions));
 
                 $bs->breadcrumb = $filename;
                 $bs->save();
@@ -238,7 +238,7 @@ class BasicController extends Controller
 
         if ($request->filled('preloader')) {
             $filename = uniqid() .'.'. $extPreloader;
-            @copy(str_replace(' ', '%20', $preloader), 'assets/front/img/' . $filename);
+            @copy(str_replace(' ', '%20', $preloader), 'assets/front/img/' . $filename, stream_context_create($this->arrContextOptions));
         }
 
         $bexs = BasicExtra::all();
@@ -646,7 +646,7 @@ class BasicController extends Controller
 
         if ($request->filled('maintenance')) {
             @unlink('assets/front/img/maintainance.png');
-            @copy(str_replace(' ', '%20', $maintenance), 'assets/front/img/maintainance.png');
+            @copy(str_replace(' ', '%20', $maintenance), 'assets/front/img/maintainance.png', stream_context_create($this->arrContextOptions));
         }
 
         $bss = BasicSetting::all();
