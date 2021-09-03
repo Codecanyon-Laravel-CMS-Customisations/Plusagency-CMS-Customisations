@@ -116,6 +116,9 @@
     @endphp
 
     <style>
+        .site-branding img{
+            max-height: 4rem;
+        }
         @if(!empty($colors))
             @foreach($colors as $color)
                 {!! $color->element !!} {

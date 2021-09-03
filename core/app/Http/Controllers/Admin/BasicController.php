@@ -18,6 +18,13 @@ use Validator;
 
 class BasicController extends Controller
 {
+    public $arrContextOptions   = array(
+        "ssl"                   => array(
+            "verify_peer"       => false,
+            "verify_peer_name"  => false,
+        ),
+    );
+
     public function fileManager() {
         return view('admin.basic.file-manager');
     }
@@ -31,16 +38,16 @@ class BasicController extends Controller
 
     public function updatelogo(Request $request)
     {
-        $logo = $request->logo;
-        $favicon = $request->favicon;
-        $breadcrumb = $request->breadcrumb;
+        $logo           = $request->logo;
+        $favicon        = $request->favicon;
+        $breadcrumb     = $request->breadcrumb;
 
-        $allowedExts = array('jpg', 'png', 'jpeg', 'svg');
-        $extLogo = pathinfo($logo, PATHINFO_EXTENSION);
-        $extFav = pathinfo($favicon, PATHINFO_EXTENSION);
-        $extBread = pathinfo($breadcrumb, PATHINFO_EXTENSION);
+        $allowedExts    = array('jpg', 'png', 'jpeg', 'svg');
+        $extLogo        = pathinfo($logo, PATHINFO_EXTENSION);
+        $extFav         = pathinfo($favicon, PATHINFO_EXTENSION);
+        $extBread       = pathinfo($breadcrumb, PATHINFO_EXTENSION);
 
-        $rules = [];
+        $rules          = [];
 
         if ($request->filled('logo')) {
             $rules['logo'] = [
@@ -82,7 +89,7 @@ class BasicController extends Controller
             foreach ($bss as $key => $bs) {
                 @unlink('assets/front/img/' . $bs->logo);
                 $filename = uniqid() .'.'. $extLogo;
-                @copy(str_replace(' ', '%20', $logo), 'assets/front/img/' . $filename);
+                @copy(str_replace(' ', '%20', $logo), 'assets/front/img/' . $filename, stream_context_create($this->arrContextOptions));
 
                 $bs->logo = $filename;
                 $bs->save();
