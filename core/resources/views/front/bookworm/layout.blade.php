@@ -116,6 +116,8 @@
     @endphp
 
     <style>
+        /* .head .body .knees */
+        /* .head:hover body {} */
         .site-branding img{
             max-height: 4rem;
         }
