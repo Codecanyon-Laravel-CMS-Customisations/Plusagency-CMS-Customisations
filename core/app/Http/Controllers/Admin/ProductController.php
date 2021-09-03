@@ -677,6 +677,18 @@ class ProductController extends Controller
     }
 
 
+    public function bulkDeactivate(Request $request)
+    {
+        $ids = $request->ids;
+        Product::query()
+            ->whereIn('id', $ids)
+            ->update(['show_in_page_builder' => '0']);
+
+        Session::flash('success', 'Product added to menu-builder successfully!');
+        return "success";
+    }
+
+
     public function populerTag(Request $request)
     {
         $lang = Language::where('code', $request->language)->first();

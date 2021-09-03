@@ -14,25 +14,13 @@
                     <li class="nav-item"><span class="link-black-100">Free Shipping on Orders Over $99 </span></li>
                 </ul>
                 <ul class="topbar__nav--right nav">
-                    {{-- <li class="nav-item"><a href="#" class="nav-link p-2 link-black-100 d-flex align-items-center"><i class="glph-icon flaticon-pin mr-2 font-size-3"></i>Store Location</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link p-2 link-black-100 d-flex align-items-center"><i class="glph-icon flaticon-sent mr-2 font-size-3"></i>Track Your Order</a></li>
-                    <li class="nav-item">
+                    <li class="nav-item"><a href="{{ route('front.contact') }}" class="nav-link p-2 link-black-100 d-flex align-items-center"><i class="glph-icon flaticon-pin mr-2 font-size-3"></i>Store Location</a></li>
+                    <li class="nav-item"><a href="{{ route('front.cart') }}" class="nav-link p-2 link-black-100 d-flex align-items-center"><i class="glph-icon flaticon-sent mr-2 font-size-3"></i>Track Your Order</a></li>
+                    {{-- <li class="nav-item">
                         <div class="position-relative h-100">
-                            <a id="basicDropdownHoverInvoker" class="d-flex align-items-center h-100 dropdown-nav-link p-2 dropdown-toggle nav-link link-black-100" href="javascript:;" role="button"
-                                aria-controls="basicDropdownHover"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                                data-unfold-event="hover"
-                                data-unfold-target="#basicDropdownHover"
-                                data-unfold-type="css-animation"
-                                data-unfold-duration="300"
-                                data-unfold-delay="300"
-                                data-unfold-hide-on-scroll="true"
-                                data-unfold-animation-in="slideInUp"
-                                data-unfold-animation-out="fadeOut">
-                                USD <i class=""></i>
+                            <a id="basicDropdownHoverInvoker" class="d-flex align-items-center h-100 dropdown-nav-link p-2 dropdown-toggle nav-link link-black-100" href="javascript:;" role="button" aria-controls="basicDropdownHover" aria-haspopup="true" aria-expanded="false" data-unfold-event="hover" data-unfold-target="#basicDropdownHover" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                            USD <i class=""></i>
                             </a>
-
                             <div id="basicDropdownHover" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker">
                                 <a class="dropdown-item active" href="#">INR</a>
                                 <a class="dropdown-item" href="#">Euro</a>
@@ -42,20 +30,23 @@
                     </li> --}}
                     <li class="nav-item">
                         <div class="position-relative h-100">
-                            <a id="" class="d-flex align-items-center h-100 dropdown-nav-link p-2 dropdown-toggle nav-link link-black-100" href="javascript:;" role="button"
-                                aria-controls="basicDropdownHover1"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                                data-unfold-event="hover"
-                                data-unfold-target="#basicDropdownHover1"
-                                data-unfold-type="css-animation"
-                                data-unfold-duration="300"
-                                data-unfold-delay="300"
-                                data-unfold-hide-on-scroll="true"
-                                data-unfold-animation-in="slideInUp"
-                                data-unfold-animation-out="fadeOut">
-                                English <i class=""></i>
-                            </a>
+                            @php
+                                $languages = \App\Language::all()->sortBy('name', 0, false);
+                            @endphp
+                            @foreach($languages as $language)
+                                @if (session('lang') == $language->code)
+                                    <a id="basicDropdownHoverInvoker1" class="d-flex align-items-center h-100 dropdown-nav-link p-2 dropdown-toggle nav-link link-black-100" href="{{ route('changeLanguage', $language->code) }}" role="button" aria-controls="basicDropdownHover1" aria-haspopup="true" aria-expanded="false" data-unfold-event="hover" data-unfold-target="#basicDropdownHover1" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                                        {{ $language->name }} <i class=""></i>
+                                    </a>
+                                @endif
+                            @endforeach
+                            <div id="basicDropdownHover1" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker1">
+                                @foreach($languages as $language)
+                                    @if (session('lang') != $language->code)
+                                        <a class="dropdown-item" href="{{ route('changeLanguage', $language->code) }}">{{ $language->name }}</a>
+                                    @endif
+                                @endforeach
+                            </div>
                         </div>
                     </li>
                 </ul>
@@ -145,7 +136,7 @@
                             @endforeach
                         </ul>
                     </div>
-                    {{-- <div class="d-none d-md-flex align-items-center mt-3 mt-md-0 ml-md-auto">
+                    <div class="d-none d-md-flex align-items-center mt-3 mt-md-0 ml-md-auto">
                         <!-- question -->
                         <a href="mailto:info@bookworm.com" class="mr-4 mb-4 mb-md-0">
                             <div class="d-flex align-items-center text-dark font-size-2 text-lh-sm">
@@ -169,7 +160,7 @@
                             </div>
                         </a>
                         <!-- End Customer care -->
-                    </div> --}}
+                    </div>
                 </div>
             </div>
         </div>
