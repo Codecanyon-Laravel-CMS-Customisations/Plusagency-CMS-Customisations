@@ -412,7 +412,7 @@ class PageBuilderController extends Controller
                                 <div class="pt-2">
                                     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 ">';
                                         foreach ( $category->products->where('show_in_page_builder', '1') as $product ) {
-                                            $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                            $title = strlen($product->title) > 77 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
                                             $category_2 .= '<div class="col">
                                             <div class="mb-5 products">
                                                 <div class="product product__space border rounded-md bg-white">
@@ -575,7 +575,7 @@ class PageBuilderController extends Controller
                                 <div class="pt-2">
                                     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 ">';
                                         foreach ( $products_m2->get() as $product ) {
-                                            $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                            $title = strlen($product->title) > 77 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
                                             $child_category_2 .= '<div class="col">
                                             <div class="mb-5 products">
                                                 <div class="product product__space border rounded-md bg-white">
@@ -765,7 +765,7 @@ class PageBuilderController extends Controller
                                     <div class="tab-pane fade show '. $active .' featured-'. $category->id .'-'.$uuid_arr[$category->id].'" role="tabpanel" aria-labelledby="featured-tab">
                                         <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 border-top border-left my-0">';
                                             foreach ( $category->products->where('show_in_page_builder', '1') as $product ) {
-                                                $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                                $title = strlen($product->title) > 77 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
                                                 $tab_1 .= '
                                                 <li class="product col">
                                                     <div class="product__inner overflow-hidden p-3 p-md-4d875">
@@ -829,7 +829,7 @@ class PageBuilderController extends Controller
                                             <div class="col-lg-8 mb-5 mb-md-0">
                                                 <ul class="products row row-cols-2 row-cols-lg-2 row-cols-xl-3 row-cols-wd-4 list-unstyled mb-0">';
                                                     foreach( $category->products->where('show_in_page_builder', '1') as $product ) {
-                                                        $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                                        $title = strlen($product->title) > 77 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
                                                         $tab_3 .= '<li class="col">
                                                         <div class="mb-5">
                                                             <div class="product product__space border rounded-md bg-white">
@@ -936,7 +936,7 @@ class PageBuilderController extends Controller
                                     <div class="col-xl-8">
                                         <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-lg-3 row-cols-wd-4 border-top border-left my-0">';
                                             foreach($category->products->where('show_in_page_builder', '1') as $product) {
-                                                $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                                $title = strlen($product->title) > 77 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
                                                 $tab_4 .= '<li class="product col">
                                                 <div class="product__inner overflow-hidden p-3 p-md-4d875">
                                                     <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
@@ -998,7 +998,7 @@ class PageBuilderController extends Controller
                                 $tab_5 .= '<div class="tab-pane fade '.$show.' '.$active.' Sale-pill-'.$category->id.'-'.$uuid_arr[$category->id].'" role="tabpanel" aria-labelledby="Sale-pill-tab">
                                 <ul class="products row row-cols-2 row-cols-md-3 list-unstyled mb-0">';
                                     foreach( $category->products->where('show_in_page_builder', '1') as $product ) {
-                                        $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                        $title = strlen($product->title) > 77 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
                                         $tab_5 .= '<li class="col">
                                         <div class="product product__space border bg-white mb-5">
                                             <div class="product__inner overflow-hidden p-3 p-md-4d875">
@@ -1068,7 +1068,7 @@ class PageBuilderController extends Controller
                                     $tab_6 .= '<div class="tab-pane fade '.$show.' '.$active.' One-'.$category->id.'-'.$uuid_arr[$category->id].'" aria-labelledby="One-tab">
                                     <ul class="list-unstyled products row row-cols-2 row-cols-lg-4 row-cols-wd-5 mb-0">';
                                         foreach ($category->products->where('show_in_page_builder', '1') as $product) {
-                                            $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                            $title = strlen($product->title) > 77 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
                                             $tab_6 .= '<li class="col">
                                             <div class="product border product__space bg-white mb-5 mb-lg-0">
                                                 <div class="product__inner overflow-hidden p-3 p-md-4d875">
@@ -1134,7 +1134,7 @@ class PageBuilderController extends Controller
                                         $tab_7 .= '<div class="tab-pane fade '.$show.' '.$active.' example7-'.$category->id.'-'.$uuid_arr[$category->id].'" role="tabpanel" aria-labelledby="example7-'.$category->id.'-tab">
                                         <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 border-top border-left my-0">';
                                             foreach($category->products->where('show_in_page_builder', '1') as $product) {
-                                                $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                                $title = strlen($product->title) > 77 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
                                                 $tab_7 .= '<li class="product col">
                                                 <div class="product__inner overflow-hidden bg-white p-3 p-md-4d875">
                                                     <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
@@ -1196,7 +1196,7 @@ class PageBuilderController extends Controller
                                 $tab_8 .= '<div class="tab-pane fade '.$show.' '.$active.' example8-'.$category->id.'-'.$uuid_arr[$category->id].'" role="tabpanel" aria-labelledby="example8-'.$category->id.'-tab">
                                 <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 border-top border-left my-0">';
                                     foreach( $category->products->where('show_in_page_builder', '1') as $product ) {
-                                        $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                        $title = strlen($product->title) > 77 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
                                         $tab_8 .= '<li class="product col">
                                         <div class="product__inner overflow-hidden bg-white p-3 p-md-4d875">
                                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
