@@ -1,3 +1,40 @@
+{{-- @section('breadcrumb-title')
+Product Details
+@endsection --}}
+@section('breadcrumb-links')
+    <nav class="woocommerce-breadcrumb font-size-2">
+        @php
+            $links      = "<a href='".url('')."' class='h-primary'>Home</a>";
+            $links     .= "<span class='breadcrumb-separator mx-1'><i class='fas fa-angle-right'></i></span>
+                            <a href='".url('products')."' class='h-primary'>Products</a>";
+
+            try
+            {
+                $product_category   = $product->category;
+                $links             .= "<span class='breadcrumb-separator mx-1'><i class='fas fa-angle-right'></i></span>
+                                    <a href='/products?search=&category_id=$product_category->id&type=new' class='h-primary'>$product_category->name</a>";
+            }
+            catch (\Exception $th) { /*throw $th;*/ }
+            try
+            {
+                $product_category   = $product->child_category;
+                $links             .= "<span class='breadcrumb-separator mx-1'><i class='fas fa-angle-right'></i></span>
+                                    <a href='/products?search=&sub-category-id=$product_category->id&type=new' class='h-primary'>$product_category->name</a>";
+            }
+            catch (\Exception $th) { /*throw $th;*/ }
+            $links .= "<span class='breadcrumb-separator mx-1'><i class='fas fa-angle-right'></i></span>$product->title";
+        @endphp
+        {!! convertUtf8($links) !!}
+    </nav>
+@endsection
+
+
+
+
+
+
+
+
 <div id="primary" class="content-area">
     <main id="main" class="site-main ">
         <div class="product">

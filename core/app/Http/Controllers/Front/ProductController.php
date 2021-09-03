@@ -150,8 +150,6 @@ class ProductController extends Controller
 
         $data['version'] = $version;
 
-        // return $data['product'];
-
         if($be->theme_version == 'bookworm') {
             return view('front.bookworm.product', $data);
         } else {

@@ -81,7 +81,8 @@ class Product extends Model
     }
 
     public function sub_category() {
-        return $this->hasOne('App\ChidCategory','id','sub_category_id');
+        //return $this->hasOne('App\ChidCategory','id','sub_category_id');
+        return $this->hasOne('App\Pcategory','id','sub_category_id');
     }
 
     public function child_category() {
