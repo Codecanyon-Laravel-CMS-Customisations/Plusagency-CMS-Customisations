@@ -28,7 +28,7 @@
                         <div class="col-md-4 summary entry-summary">
                             <div class="">
                                 <div class="woocommerce-product-details__short-description font-size-2 mb-5">
-                                    <p class="">{{convertUtf8($product->summary)}}</p>
+                                    <div class="">{!! str_replace("\\n", "", convertUtf8(nl2br($product->summary))) !!}</div>
                                 </div>
                                 <p class="price font-size-22 font-weight-medium mb-3">
                                     <span class="woocommerce-Price-amount amount">

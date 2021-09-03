@@ -27,7 +27,7 @@
                             </p>
 
                             <div class="woocommerce-product-details__short-description font-size-2 mb-5">
-                                <p class="">{{convertUtf8($product->summary)}}</p>
+                                <div class="">{!! str_replace("\\n", "", convertUtf8(nl2br($product->summary))) !!}</div>
                             </div>
 
                             <div class="px-3 mb-4 d-flex justify-content-center">
