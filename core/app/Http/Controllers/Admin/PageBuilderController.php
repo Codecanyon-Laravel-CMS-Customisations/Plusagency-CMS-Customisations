@@ -382,12 +382,15 @@ class PageBuilderController extends Controller
                            <a href="#" class="d-flex h-primary">All Categories<span class="ml-2 flaticon-next font-size-3"></span></a>
                         </header>
                         <ul class="px-5 pb-2 mb-5 overflow-auto bg-gray-200 rounded-md nav justify-content-between py-md-3 flex-nowrap flex-xl-wrap overflow-xl-visible" role="tablist">';
-                            $counter = 1;
+                            $counter    = 1;
+                            $uuid_arr   = [];
                             foreach ($categories->where('is_child', '0') as $category) {
                                 $active = $counter == 1 ? 'active' : '';
+                                $uuid   = uniqid();
+                                array_push($uuid_arr, $uuid);
                                 $counter++;
                                 $category_2 .= ' <li class="flex-shrink-0 nav-item flex-xl-shrink-1">
-                                <a class="nav-link font-weight-medium '.$active.' nav-link-caret" id="category-'.$category->id.'" data-toggle="pill" href="#category-'.$category->id.'-content" role="tab" aria-controls="category-'.$category->id.'-content" aria-selected="true">
+                                <a class="nav-link font-weight-medium '.$active.' nav-link-caret category-'.$category->id.'-'.$uuid_arr[$counter-2].'" data-toggle="pill" href=".category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" role="tab" aria-controls="category-'.$category->id.'-content" aria-selected="true">
                                     <div class="text-center">
                                         <figure class="mb-0 d-md-block text-primary-indigo">
                                            <i class="glyph-icon flaticon-gallery font-size-12"></i>
@@ -405,7 +408,7 @@ class PageBuilderController extends Controller
                             foreach($categories->where('is_child', '0') as $category) {
                                 $active = $counter == 1 ? 'active' : '';
                                 $counter++;
-                                $category_2 .= '<div class="tab-pane fade '. $active .' show" id="category-'.$category->id.'-content" role="tabpanel" aria-labelledby="pills-one-example2-tab">
+                                $category_2 .= '<div class="tab-pane fade '. $active .' show category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" role="tabpanel" aria-labelledby="pills-one-example2-tab">
                                 <div class="pt-2">
                                     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 ">';
                                         foreach ( $category->products->where('show_in_page_builder', '1') as $product ) {
@@ -541,12 +544,15 @@ class PageBuilderController extends Controller
                         </header>
                         <ul class="px-5 pb-2 mb-5 overflow-auto bg-gray-200 rounded-md nav justify-content-between py-md-3 flex-nowrap flex-xl-wrap overflow-xl-visible" role="tablist">';
                             $counter = 1;
+                            $uuid_arr       = [];
                             foreach ($categories2 as $category) {
                                 $products_m2 = \App\Product::query()->where('sub_category_id', '=', $category->id)->where('show_in_page_builder', '1');
                                 if($products_m2->count() < 1) continue;
                                 if($products_m2->count() >= 1) $active = $counter == 1 ? 'active' : '';$counter++;
+                                $uuid   = uniqid();
+                                array_push($uuid_arr, $uuid);
                                 $child_category_2 .= ' <li class="flex-shrink-0 nav-item flex-xl-shrink-1">
-                                <a class="nav-link font-weight-medium '.$active.' nav-link-caret" id="child-category-'.$category->id.'" data-toggle="pill" href="#child-category-'.$category->id.'-content" role="tab" aria-controls="child-category-'.$category->id.'-content" aria-selected="true">
+                                <a class="nav-link font-weight-medium '.$active.' nav-link-caret child-category-'.$category->id.'" data-toggle="pill" href=".child-category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" role="tab" aria-controls="child-category-'.$category->id.'-content" aria-selected="true">
                                     <div class="text-center">
                                         <figure class="mb-0 d-md-block text-primary-indigo">
                                            <i class="glyph-icon flaticon-gallery font-size-12"></i>
@@ -565,7 +571,7 @@ class PageBuilderController extends Controller
                                 $products_m2 = \App\Product::query()->where('sub_category_id', '=', $category->id)->where('show_in_page_builder', '1');
                                 if($products_m2->count() < 1) continue;
                                 if($products_m2->count() >= 1) $active = $counter == 1 ? 'active' : '';$counter++;
-                                $child_category_2 .= '<div class="tab-pane fade '. $active .' show" id="child-category-'.$category->id.'-content" role="tabpanel" aria-labelledby="pills-one-example2-tab">
+                                $child_category_2 .= '<div class="tab-pane fade '. $active .' show child-category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" role="tabpanel" aria-labelledby="pills-one-example2-tab">
                                 <div class="pt-2">
                                     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 ">';
                                         foreach ( $products_m2->get() as $product ) {
@@ -738,22 +744,25 @@ class PageBuilderController extends Controller
                             <h2 class="font-size-7 text-center">Featured Books</h2>
                         </header>
                         <div class="container">
-                            <ul class="nav justify-content-md-center nav-gray-700 mb-5 flex-nowrap flex-md-wrap overflow-auto overflow-md-visible" id="featuredBooks" role="tablist">';
+                            <ul class="nav justify-content-md-center nav-gray-700 mb-5 flex-nowrap flex-md-wrap overflow-auto overflow-md-visible featuredBooks" role="tablist">';
+                            $uuid_arr       = [];
                                 foreach( $categories  as $category ) {
                                     $active = $category->id == 1 ? 'active' : '';
+                                    $uuid   = uniqid();
+                                    $uuid_arr[$category->id]    = $uuid;
                                     $tab_1 .= '
                                     <li class="nav-item mx-5 mb-1 flex-shrink-0 flex-md-shrink-1">
-                                        <a class="nav-link px-0 '. $active .'" id="featured-'. $category->id .'-tab" data-toggle="tab" href="#featured-'. $category->id .'" role="tab" aria-controls="featured" aria-selected="true">'. $category->name .'</a>
+                                        <a class="nav-link px-0 '. $active .' featured-'. $category->id .'-tab" data-toggle="tab" href=".featured-'. $category->id .'-'.$uuid_arr[$category->id].'" role="tab" aria-controls="featured" aria-selected="true">'. $category->name .'</a>
                                     </li>
                                     ';
                                 }
 
                             $tab_1 .= '</ul>
-                            <div class="tab-content" id="featuredBooksContent">';
+                            <div class="tab-content featuredBooksContent">';
                                 foreach( $categories as $category ) {
                                     $active = $category->id == 1 ? 'active' : '';
                                     $tab_1 .= '
-                                    <div class="tab-pane fade show '. $active .'" id="featured-'. $category->id .'" role="tabpanel" aria-labelledby="featured-tab">
+                                    <div class="tab-pane fade show '. $active .' featured-'. $category->id .'-'.$uuid_arr[$category->id].'" role="tabpanel" aria-labelledby="featured-tab">
                                         <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 border-top border-left my-0">';
                                             foreach ( $category->products->where('show_in_page_builder', '1') as $product ) {
                                                 $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
@@ -799,20 +808,23 @@ class PageBuilderController extends Controller
                         <header class="d-md-flex justify-content-between mb-5">
                             <h2 class="font-size-7">Featured Books</h2>
                             <ul class="nav nav-gray-700 flex-nowrap flex-md-wrap overflow-auto overflow-md-visible" role="tablist">';
+                            $uuid_arr       = [];
                                 foreach($categories as $category) {
                                     $active = $category->id == 1 ? 'active' : '';
+                                    $uuid   = uniqid();
+                                    $uuid_arr[$category->id]    = $uuid;
                                     $tab_3 .= '<li class="nav-item mx-4 flex-shrink-0 flex-md-shrink-1">
-                                    <a class="nav-link pb-1 px-0 '.$active.'" id="'.$category->slug.'-pill-tab" data-toggle="tab" href="#'.$category->slug.'-pill" role="pill" aria-controls="'.$category->slug.'-pill" aria-selected="true">'.$category->name.'</a>
+                                    <a class="nav-link pb-1 px-0 '.$active.' '.$category->slug.'-pill-tab" data-toggle="tab" href=".'.$category->slug.'-'.$uuid_arr[$category->id].'-pill" role="pill" aria-controls="'.$category->slug.'-pill" aria-selected="true">'.$category->name.'</a>
                                 </li>';
                                 }
 
                             $tab_3 .= '</ul>
                         </header>
-                        <div class="tab-content" id="pills-tabcontent">';
+                        <div class="tab-content pills-tabcontent">';
                                 foreach ($categories as $category ) {
                                     $active = $category->id == 1 ? 'active' : '';
                                     $show = $category->id == 1 ? 'show' : '';
-                                    $tab_3 .= '<div class="tab-pane fade '.$show.' '.$active.'" id="'.$category->slug.'-pill" role="tabpanel" aria-labelledby="history-pill-tab">
+                                    $tab_3 .= '<div class="tab-pane fade '.$show.' '.$active.' '.$category->slug.'-'.$uuid_arr[$category->id].'-pill" role="tabpanel" aria-labelledby="history-pill-tab">
                                         <div class="row">
                                             <div class="col-lg-8 mb-5 mb-md-0">
                                                 <ul class="products row row-cols-2 row-cols-lg-2 row-cols-xl-3 row-cols-wd-4 list-unstyled mb-0">';
@@ -888,20 +900,23 @@ class PageBuilderController extends Controller
                         <header class="mb-5 d-md-flex justify-content-between align-items-center">
                             <h2 class="font-size-7 mb-3 mb-md-0">New Releases</h2>
                             <ul class="nav nav-gray-700 flex-nowrap flex-md-wrap overflow-auto overflow-md-visible">';
+                                $uuid_arr   = [];
                                 foreach( $categories as $category ) {
                                     $active = $category->id == 1 ? 'active' : '';
+                                    $uuid   = uniqid();
+                                    $uuid_arr[$category->id]    = $uuid;
                                     $tab_4 .= '<li class="nav-item mx-4 flex-shrink-0 flex-md-shrink-1">
-                                    <a class="nav-link pb-1 px-0 '.$active.'" id="tab4-'.$category->id.'-tab" data-toggle="tab" href="#tab4-'.$category->id.'" role="tab" aria-controls="tab4-'.$category->id.'" aria-selected="true">'.$category->name.'</a>
+                                    <a class="nav-link pb-1 px-0 '.$active.' tab4-'.$category->id.'-tab" data-toggle="tab" href=".tab4-'.$category->id.'-'.$uuid_arr[$category->id].'" role="tab" aria-controls="tab4-'.$category->id.'" aria-selected="true">'.$category->name.'</a>
                                 </li>';
                                 }
 
                             $tab_4 .= '</ul>
                         </header>
-                        <div class="tab-content" id="NewReleases">';
+                        <div class="tab-content NewReleases">';
                             foreach ( $categories as $category ) {
                                 $active = $category->id == 1 ? 'active' : '';
                                 $show = $category->id == 1 ? 'show' : '';
-                                $tab_4 .= '<div class="tab-pane fade '.$show.' '.$active.'" id="tab4-'.$category->id.'" role="tabpanel" aria-labelledby="tab4-'.$category->id.'-tab">
+                                $tab_4 .= '<div class="tab-pane fade '.$show.' '.$active.' tab4-'.$category->id.'-'.$uuid_arr[$category->id].'" role="tabpanel" aria-labelledby="tab4-'.$category->id.'-tab">
                                 <div class="row no-gutters">
                                     <div class="col-xl-4 border-right-0 border bg-gray-200 px-1">
                                         <div class="banner px-lg-8 px-3 py-4 py-xl-0 d-flex h-100 align-items-center justify-content-center">
@@ -962,22 +977,25 @@ class PageBuilderController extends Controller
                         <header class="d-md-flex justify-content-between mb-5 pt-5">
                             <h2 class="font-size-26">New Releases</h2>
                             <ul class="nav nav-gray-700 flex-nowrap flex-md-wrap overflow-auto overflow-md-visible" role="tablist">';
+                                $uuid_arr   = [];
                                 foreach($categories as $category) {
                                     $active = $category->id == 1 ? 'active' : '';
+                                    $uuid   = uniqid();
+                                    $uuid_arr[$category->id]    = $uuid;
                                     $tab_5 .= '
                                     <li class="nav-item mx-4 flex-shrink-0 flex-md-shrink-1">
-                                        <a class="nav-link pb-1 px-0 '.$active.'" id="Sale-pill-tab-'.$category->id.'" data-toggle="tab" href="#Sale-pill-'.$category->id.'" role="pill" aria-controls="Sale-pill-'.$category->id.'" aria-selected="true">'.$category->name.'</a>
+                                        <a class="nav-link pb-1 px-0 '.$active.' Sale-pill-tab-'.$category->id.'" data-toggle="tab" href=".Sale-pill-'.$category->id.'-'.$uuid_arr[$category->id].'" role="pill" aria-controls="Sale-pill-'.$category->id.'" aria-selected="true">'.$category->name.'</a>
                                     </li>
                                     ';
                                 }
 
                             $tab_5 .= '</ul>
                         </header>
-                        <div class="tab-content" id="pills-tabcontent">';
+                        <div class="tab-content pills-tabcontent">';
                             foreach( $categories as $category ) {
                                 $active = $category->id == 1 ? 'active' : '';
                                 $show = $category->id == 1 ? 'show' : '';
-                                $tab_5 .= '<div class="tab-pane fade '.$show.' '.$active.'" id="Sale-pill-'.$category->id.'" role="tabpanel" aria-labelledby="Sale-pill-tab">
+                                $tab_5 .= '<div class="tab-pane fade '.$show.' '.$active.' Sale-pill-'.$category->id.'-'.$uuid_arr[$category->id].'" role="tabpanel" aria-labelledby="Sale-pill-tab">
                                 <ul class="products row row-cols-2 row-cols-md-3 list-unstyled mb-0">';
                                     foreach( $category->products->where('show_in_page_builder', '1') as $product ) {
                                         $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
@@ -1031,10 +1049,13 @@ class PageBuilderController extends Controller
                         <header class="d-md-flex justify-content-between align-items-center mb-5 pt-5">
                             <h2 class="font-size-7 mb-4 mb-md-0">Books</h2>
                             <ul class="nav justify-content-md-center nav-gray-700 flex-nowrap flex-md-wrap overflow-auto overflow-md-visible"  role="tablist">';
+                                $uuid_arr   = [];
                                 foreach ( $categories as $category ) {
                                     $active = $category->id == 1 ? 'active' : '';
+                                    $uuid   = uniqid();
+                                    $uuid_arr[$category->id]    = $uuid;
                                     $tab_6 .= '<li class="nav-item mx-5 mb-1 flex-shrink-0 flex-md-shrink-1">
-                                    <a class="nav-link px-0 '.$active.'" id="One-tab-'.$category->id.'" data-toggle="tab" href="#One-'.$category->id.'" role="tab" aria-controls="One" aria-selected="true">'.$category->name.'</a>
+                                    <a class="nav-link px-0 '.$active.' One-tab-'.$category->id.'" data-toggle="tab" href=".One-'.$category->id.'-'.$uuid_arr[$category->id].'" role="tab" aria-controls="One" aria-selected="true">'.$category->name.'</a>
                                 </li>';
                                 }
 
@@ -1044,7 +1065,7 @@ class PageBuilderController extends Controller
                                 foreach($categories as $category) {
                                     $active = $category->id == 1 ? 'active' : '';
                                     $show = $category->id == 1 ? 'show' : '';
-                                    $tab_6 .= '<div class="tab-pane fade '.$show.' '.$active.'" id="One-'.$category->id.'" aria-labelledby="One-tab">
+                                    $tab_6 .= '<div class="tab-pane fade '.$show.' '.$active.' One-'.$category->id.'-'.$uuid_arr[$category->id].'" aria-labelledby="One-tab">
                                     <ul class="list-unstyled products row row-cols-2 row-cols-lg-4 row-cols-wd-5 mb-0">';
                                         foreach ($category->products->where('show_in_page_builder', '1') as $product) {
                                             $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
@@ -1094,20 +1115,23 @@ class PageBuilderController extends Controller
                                     <h2 class="font-size-7">Featured Books</h2>
                                 </header>
                                 <ul class="nav justify-content-md-center nav-gray-700 mb-5 flex-nowrap flex-lg-wrap overflow-auto overflow-lg-visible" role="tablist">';
+                                    $uuid_arr   = [];
                                     foreach ($categories as $category) {
                                         $active = $category->id == 1 ? 'active' : '';
+                                        $uuid   = uniqid();
+                                        $uuid_arr[$category->id]    = $uuid;
                                         $tab_7 .= '<li class="nav-item mx-5 mb-1 flex-shrink-0 flex-lg-shrink-1">
-                                        <a class="nav-link px-0 '.$active.'" id="example7-'.$category->id.'-tab" data-toggle="tab" href="#example7-'.$category->id.'" role="tab" aria-controls="example1" aria-selected="true">'.$category->name.'</a>
+                                        <a class="nav-link px-0 '.$active.' example7-'.$category->id.'-tab" data-toggle="tab" href=".example7-'.$category->id.'-'.$uuid_arr[$category->id].'" role="tab" aria-controls="example1" aria-selected="true">'.$category->name.'</a>
                                     </li>';
                                     }
 
                                 $tab_7 .= '</ul>
                             </div>
-                            <div class="tab-content" id="featuredBooksContent">';
+                            <div class="tab-content featuredBooksContent">';
                                     foreach ( $categories as $category ) {
                                         $active = $category->id == 1 ? 'active' : '';
                                         $show = $category->id == 1 ? 'show' : '';
-                                        $tab_7 .= '<div class="tab-pane fade '.$show.' '.$active.'" id="example7-'.$category->id.'" role="tabpanel" aria-labelledby="example7-'.$category->id.'-tab">
+                                        $tab_7 .= '<div class="tab-pane fade '.$show.' '.$active.' example7-'.$category->id.'-'.$uuid_arr[$category->id].'" role="tabpanel" aria-labelledby="example7-'.$category->id.'-tab">
                                         <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 border-top border-left my-0">';
                                             foreach($category->products->where('show_in_page_builder', '1') as $product) {
                                                 $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
@@ -1153,20 +1177,23 @@ class PageBuilderController extends Controller
                                     <h2 class="font-size-7">Featured Books</h2>
                                 </header>
                                 <ul class="nav justify-content-md-center nav-gray-700 mb-5 flex-nowrap flex-lg-wrap overflow-auto overflow-lg-visible" role="tablist">';
+                                        $uuid_arr   = [];
                                         foreach ($categories as $category) {
                                             $active = $category->id == 1 ? 'active' : '';
+                                            $uuid   = uniqid();
+                                            $uuid_arr[$category->id]    = $uuid;
                                             $tab_8 .= '<li class="nav-item mx-5 mb-1 flex-shrink-0 flex-lg-shrink-1">
-                                            <a class="nav-link px-0 '.$active.'" id="example8-'.$category->id.'-tab" data-toggle="tab" href="#example8-'.$category->id.'" role="tab" aria-controls="example8-'.$category->id.'" aria-selected="true">'.$category->name.'</a>
+                                            <a class="nav-link px-0 '.$active.' example8-'.$category->id.'-tab" data-toggle="tab" href=".example8-'.$category->id.'-'.$uuid_arr[$category->id].'" role="tab" aria-controls="example8-'.$category->id.'" aria-selected="true">'.$category->name.'</a>
                                         </li>';
                                         }
 
                                 $tab_8 .= '</ul>
                             </div>
-                            <div class="tab-content" id="featuredBooksContent">';
+                            <div class="tab-content featuredBooksContent">';
                             foreach ($categories as $category ) {
                                 $active = $category->id == 1 ? 'active' : '';
                                 $show = $category->id == 1 ? 'show' : '';
-                                $tab_8 .= '<div class="tab-pane fade '.$show.' '.$active.'" id="example8-'.$category->id.'" role="tabpanel" aria-labelledby="example8-'.$category->id.'-tab">
+                                $tab_8 .= '<div class="tab-pane fade '.$show.' '.$active.' example8-'.$category->id.'-'.$uuid_arr[$category->id].'" role="tabpanel" aria-labelledby="example8-'.$category->id.'-tab">
                                 <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 border-top border-left my-0">';
                                     foreach( $category->products->where('show_in_page_builder', '1') as $product ) {
                                         $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
