@@ -1,9 +1,10 @@
 <?php
 
-namespace App;
+namespace App\Models\Unscoped;
 
 use App\MenuScope;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Pcategory extends Model
 {
@@ -13,6 +14,7 @@ class Pcategory extends Model
         'status','slug',
         'is_child',
         'menu_level',
+        'sort_order',
         'show_in_menu',
         'parent_menu_id'
     ];
@@ -24,8 +26,16 @@ class Pcategory extends Model
     public static function boot()
     {
         parent::boot();
+        static::addGlobalScope('sort_order', function (Builder $builder) {
+            $builder->orderBy('sort_order', 'ASC');
+        });
+    }
 
-        static::addGlobalScope(new MenuScope);
+    public function getTitleAttribute() {
+        return $this->name ;
+    }
+    public function getTotalChildCatsAttribute() {
+        return $this->child_cats()->count() ;
     }
 
     public function parent_category() {
@@ -49,13 +59,16 @@ class Pcategory extends Model
         return $this->products_all()->orWhere('category_id', $this->id)->orWhere('sub_category_id', $this->id);
     }
     public function products_sub_0() {
-        return $this->hasMany('App\Product','category_id','id');
+
+        return $this->products_all()->where('category_id', $this->id);
     }
     public function products_sub_1() {
-        return $this->hasMany('App\Product','sub_category_id','id');
+
+        return $this->products_all()->where('sub_category_id', $this->id);
     }
     public function products_sub_2() {
-        return $this->hasMany('App\Product','sub_child_category_id','id');
+
+        return $this->products_all()->where('sub_child_category_id', $this->id);
     }
 
     public function language() {

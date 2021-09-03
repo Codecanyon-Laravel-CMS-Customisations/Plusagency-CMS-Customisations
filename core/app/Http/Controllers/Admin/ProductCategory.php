@@ -144,7 +144,19 @@ class ProductCategory extends Controller
 
             $this->deleteFromMegaMenu($pcategory);
 
+            $child_ids      = Pcategory::query()->where('parent_menu_id', $pcategory->id)->pluck('id');
+            $sub_child_ids  = Pcategory::query()->whereIn('parent_menu_id', $child_ids)->pluck('id');
+            foreach ($child_ids as $id) {
+                $pcategory  = Pcategory::findOrFail($id);
+                $pcategory->delete();
+            }
+            foreach ($sub_child_ids as $id) {
+                $pcategory = Pcategory::findOrFail($id);
+                $pcategory->delete();
+            }
+
             $pcategory->delete();
+
         }
 
         Session::flash('success', 'product categories deleted successfully!');

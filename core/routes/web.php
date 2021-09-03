@@ -905,6 +905,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin', 'checkstatus',
         Route::post('/product/update', 'Admin\ProductController@update')->name('admin.product.update');
         Route::post('/product/delete', 'Admin\ProductController@delete')->name('admin.product.delete');
         Route::post('/product/bulk-active', 'Admin\ProductController@bulkActivate')->name('admin.product.bulk.activate');
+        Route::post('/product/bulk-deactive', 'Admin\ProductController@bulkDeactivate')->name('admin.product.bulk.deactivate');
         Route::post('/product/page-builder/{id}', 'Admin\ProductController@toggleInPageBuilder')->name('admin.product.page-builder');
         Route::get('/product/populer/tags/', 'Admin\ProductController@populerTag')->name('admin.product.tags');
         Route::post('/product/populer/tags/update', 'Admin\ProductController@populerTagupdate')->name('admin.popular-tag.update');
