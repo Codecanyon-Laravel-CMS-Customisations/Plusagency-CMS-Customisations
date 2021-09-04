@@ -14,8 +14,9 @@ jobs:
     - name: 📂 Sync files
       uses: SamKirkland/web-deploy@master
       with:
-        target-server: angelbookhouse.com
+        target-server: 103.50.161.248
         remote-user: ignatius2
         remote-key: ${{ secrets.ftp_password }}
-        destination-path: /clone.angelbookhouse.com/
+        destination-path: /clone3.angelbookhouse.com/
+        rsync-options: --dry-run
 
