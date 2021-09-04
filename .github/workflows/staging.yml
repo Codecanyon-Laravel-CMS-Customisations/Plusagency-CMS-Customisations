@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v2.1.0
     
     - name: 📂 Sync files
-      uses: SamKirkland/web-deploy
+      uses: SamKirkland/web-deploy@master
       with:
         target-server: angelbookhouse.com
         remote-user: ignatius2
