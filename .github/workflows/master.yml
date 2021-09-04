@@ -17,5 +17,5 @@ jobs:
         server: ftp.angelbookhouse.com
         username: ${{ secrets.ftp_username }}
         password: ${{ secrets.ftp_password }}
-        server-dir: /clone.angelbookhouse.com
+        server-dir: /clone.angelbookhouse.com/
         dry-run: true
