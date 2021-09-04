@@ -18,5 +18,4 @@ jobs:
         remote-user: ignatius2
         remote-key: ${{ secrets.ftp_password }}
         destination-path: /clone.angelbookhouse.com/
-        rsync-options: --dry-run
 
