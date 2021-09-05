@@ -10,8 +10,19 @@
     <div class="topbar border-bottom d-none d-md-block">
         <div class="container">
             <div class="topbar__nav d-md-flex justify-content-between align-items-center font-size-2">
+                @php
+                    $header_shipping_text   = '';
+                    try
+                    {
+                        $lang           = App\Language::where('code', request()->has('language', 'en'))->first();
+                        $settings       = $lang->basic_extended;
+
+                        $header_shipping_text= $settings->header_shipping_text;
+                    }
+                    catch (\Exception $e) { }
+                @endphp
                 <ul class="topbar__nav--left nav">
-                    <li class="nav-item"><span class="link-black-100">Free Shipping on Orders Over $99 </span></li>
+                    <li class="nav-item"><span class="link-black-100">{{ $header_shipping_text }}</span></li>
                 </ul>
                 <ul class="topbar__nav--right nav">
                     <li class="nav-item"><a href="{{ route('front.contact') }}" class="nav-link p-2 link-black-100 d-flex align-items-center"><i class="glph-icon flaticon-pin mr-2 font-size-3"></i>Store Location</a></li>
@@ -137,12 +148,25 @@
                         </ul>
                     </div>
                     <div class="d-none d-md-flex align-items-center mt-3 mt-md-0 ml-md-auto">
+                        @php
+                            $support_email  = '';
+                            $support_phone  = '';
+                            try
+                            {
+                                $lang           = App\Language::where('code', request()->has('language', 'en'))->first();
+                                $settings       = $lang->basic_setting;
+
+                                $support_email  = $settings->support_email;
+                                $support_phone  = $settings->support_phone;
+                            }
+                            catch (\Exception $e) { }
+                        @endphp
                         <!-- question -->
-                        <a href="mailto:info@bookworm.com" class="mr-4 mb-4 mb-md-0">
+                        <a href="mailto:{{ $support_email }}" class="mr-4 mb-4 mb-md-0">
                             <div class="d-flex align-items-center text-dark font-size-2 text-lh-sm">
                                 <i class="flaticon-question font-size-5 mt-2 mr-1"></i>
                                 <div class="ml-2">
-                                    <span class="text-secondary-gray-1090 font-size-1">info@bookworm.com</span>
+                                    <span class="text-secondary-gray-1090 font-size-1">{{ $support_email }}</span>
                                     <div class="h6 mb-0">Any questions</div>
                                 </div>
                             </div>
@@ -150,11 +174,11 @@
                         <!-- End question -->
 
                         <!-- Customer care -->
-                        <a href="tel:+1246-345-0695">
+                        <a href="tel:{{ $support_phone }}">
                             <div class="d-flex align-items-center text-dark font-size-2 text-lh-sm">
                                 <i class="flaticon-phone font-size-5 mt-2 mr-1"></i>
                                 <div class="ml-2">
-                                    <span class="text-secondary-gray-1090 font-size-1">+1 246-345-0695</span>
+                                    <span class="text-secondary-gray-1090 font-size-1">{{ $support_phone }}</span>
                                     <div class="h6 mb-0">Call toll-free</div>
                                 </div>
                             </div>

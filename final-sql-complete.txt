@@ -1,4 +1,7 @@
 ALTER TABLE `basic_settings_extended`
+ADD `header_shipping_text` varchar(255) NULL;
+
+ALTER TABLE `basic_settings_extended`
 ADD `bookworm_slider_version` varchar(255) NULL;
 
 ALTER TABLE `basic_settings_extended`

@@ -281,6 +281,7 @@ class BasicController extends Controller
             'base_currency_text' => 'required',
             'base_currency_text_position' => 'required',
             'base_currency_rate' => 'required|numeric',
+            'header_shipping_text' => 'required',
         ];
 
         $be = BasicExtended::first();
@@ -319,8 +320,9 @@ class BasicController extends Controller
             }
 
 
-            $be->breadcrumb_overlay_color = $request->breadcrumb_area_overlay_color;
+            $be->breadcrumb_overlay_color   = $request->breadcrumb_area_overlay_color;
             $be->breadcrumb_overlay_opacity = $request->breadcrumb_area_overlay_opacity;
+            $be->header_shipping_text       = $request->header_shipping_text;
             $be->save();
         }
 

@@ -56,6 +56,7 @@ class EmailController extends Controller
 
     public function mailToAdmin() {
         $data['abe'] = BasicExtended::first();
+
         return view('admin.basic.email.mail_to_admin', $data);
     }
 

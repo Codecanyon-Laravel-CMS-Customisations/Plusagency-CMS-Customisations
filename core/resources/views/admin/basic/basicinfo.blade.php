@@ -204,6 +204,15 @@
                             @endif
                         </div>
                     </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Header V3 shipping text</label>
+                            <input type="text" class="form-control ltr" name="header_shipping_text" value="{{$abe->header_shipping_text}}">
+                            @if ($errors->has('header_shipping_text'))
+                              <p class="mb-0 text-danger">{{$errors->first('header_shipping_text')}}</p>
+                            @endif
+                        </div>
+                    </div>
                 </div>
 
               </div>
