@@ -85,9 +85,21 @@
                     <div class="site-search ml-xl-0 ml-md-auto w-r-100 flex-grow-1 mr-md-5 mt-2 mt-md-0 order-1 order-md-0">
                         <div class="form-inline my-2 my-xl-0">
                             <div class="input-group input-group-borderless w-100">
-                                <input type="text" class="form-control border-left rounded-left-1 rounded-left-xl-0 px-3" placeholder="Search for books by keyword" aria-label="Amount (to the nearest dollar)" id="search" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : ''}}">
+                                <div class="input-group-prepend mr-0 d-none d-xl-block">
+                                    <select class="custom-select pr-7 pl-4 rounded-right-0 height-5 shadow-none border-0 text-dark" id="category_id">
+                                        <option selected>All Categories</option>
+                                        @php
+                                            $active_category      = request()->has('category_id') ? request('category_id') : '';
+                                            $search_categories    = App\Pcategory::query()->where('show_in_menu', '1')->where('menu_level', '1')->orderBy('name')->get();
+                                        @endphp
+                                        @foreach($search_categories as $search_category)
+                                            <option @if($active_category == $search_category->id) selected @endif value="{{ $search_category->id }}">{{ $search_category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <input type="text" class="form-control border-left rounded-left-1 rounded-left-xl-0 px-3" placeholder="Search for books by keyword" aria-label="Amount (to the nearest dollar)" id="search" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : ''}}">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary-green btn-search px-3 py-2" type="button"><i class="mx-1 glph-icon flaticon-loupe text-white" onclick="window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=&type=new&tag=&review=`" style="cursor: pointer;"></i></button>
+                                    <button class="btn btn-primary-green btn-search px-3 py-2" type="button"><i class="mx-1 glph-icon flaticon-loupe text-white" onclick="window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`" style="cursor: pointer;"></i></button>
                                 </div>
                             </div>
                         </div>

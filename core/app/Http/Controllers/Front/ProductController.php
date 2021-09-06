@@ -31,7 +31,6 @@ class ProductController extends Controller
 
     public function product(Request $request)
     {
-
         $bex = BasicExtra::first();
         $data['colors'] = WebsiteColors::all();
         if ($bex->is_shop == 0) {
@@ -55,6 +54,7 @@ class ProductController extends Controller
         $minprice = $request->minprice;
         $maxprice = $request->maxprice;
         $category = $request->category_id;
+        if(!Pcategory::find($category)) $category = null;
         $tag = $request->tag;
 
         if($request->type){
