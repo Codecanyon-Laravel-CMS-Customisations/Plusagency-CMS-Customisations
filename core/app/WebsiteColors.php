@@ -43,6 +43,18 @@ class WebsiteColors extends Model
                     "attr_default"          => "header .btn-search",
                     "attr_hover"            => "header .btn-search:hover",
                 ],
+                [
+                    "section_title"         => "Site Navigation top menu",
+                    "section_description"   => "This area controls the look of the site top menu colors",
+                    "attr_default"          => ".site-navigation > ul > li, .site-navigation > ul > li > a",
+                    "attr_hover"            => ".site-navigation > ul > li:hover, .site-navigation > ul > li > a:hover",
+                ],
+                [
+                    "section_title"         => "Site Navigation dropdown menu",
+                    "section_description"   => "This area controls the look of the site dropdown menu colors",
+                    "attr_default"          => ".site-navigation > ul > li ul > li, .site-navigation > ul > li ul > li > a",
+                    "attr_hover"            => ".site-navigation > ul > li  ul > li:hover, .site-navigation > ul > li  ul > li > a:hover",
+                ],
             ],
         ],
         'pagebuilder_section'       => [
