@@ -131,6 +131,14 @@
                 }
             @endforeach
         @endif
+        .site-navigation > ul > li  ul > li:hover .dropdown-toggle::after {
+            transform: rotate(-90deg);
+            transition-duration: .5s;
+        }
+        .site-navigation > ul > li  ul > li > a:hover .dropdown-toggle::after {
+            transform: rotate(-90deg);
+            transition-duration: .5s;
+        }
     </style>
 </head>
 <body>
