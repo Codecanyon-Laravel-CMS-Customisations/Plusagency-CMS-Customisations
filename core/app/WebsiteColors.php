@@ -55,6 +55,14 @@ class WebsiteColors extends Model
                     "attr_default"          => ".pagebuilder-content .nav .nav-item > a, .pagebuilder-content .nav .nav-item *",
                     "attr_hover"            => ".pagebuilder-content .nav .nav-item:hover *,.pagebuilder-content .nav .nav-item a:hover *",
                 ],
+                [
+                    "section_title"         => "Pagebuilder tabs Arrow",
+                    "section_description"   => "This section involves setting color themes for tab arrow that shows which tab is active",
+                    "attr_default"          => ".pagebuilder-content .nav-link-caret.active::after",
+                    "attr_hover"            => ".pagebuilder-content .nav-link-caret.hover::after",
+                    "attr_config"           => "border-bottom-color",
+                    "attr_mono"             => true,
+                ],
             ],
         ],
     ];
