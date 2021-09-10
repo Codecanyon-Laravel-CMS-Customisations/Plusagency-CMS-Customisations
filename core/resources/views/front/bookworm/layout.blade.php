@@ -116,7 +116,7 @@
     @endphp
 
     <style>
-        .height-5.form-control, .widget-content select, footer .widget select, .widget_search .search-field, .height-5.custom-select, .widget-content select.custom-select, footer .widget select.custom-select, .widget_search .custom-select.search-field {
+        .height-5.form-control, .widget-content select, footer .widget select, .widget_search .search-field, .height-5.custom-select, .widget-content select.custom-select, footer .widget select.custom-select, .widget_search .custom-select.search-field, header select[id="category_id"] {
             /*height: calc( 1.5em + ( 1rem * 1.5 ) + 10px);*/
             height: 50px;
         }
