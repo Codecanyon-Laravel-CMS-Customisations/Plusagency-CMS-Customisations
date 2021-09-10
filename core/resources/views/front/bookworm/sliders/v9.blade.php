@@ -2,7 +2,11 @@
 <section class="mb-8">
     <div class="container">
         <div class="pt-5 pb-5">
-            <div class="bg-img-hero img-fluid rounded-md" style="background-image:url({{ asset('assets/bookworm/img/1076x761/img1.jpg') }});">
+            @if($sliders->first())
+                <div class="bg-img-hero img-fluid rounded-md" style="background-image:url({{ asset('assets/front/img/sliders/'.$sliders->first()->image) }});">
+            @else
+                <div class="bg-img-hero img-fluid rounded-md" style="background-image:url({{ asset('assets/bookworm/img/1076x761/img1.jpg') }});">
+            @endif
                 <div class="js-slick-carousel u-slick"
                     data-pagi-classes="d-lg-none text-center u-slick__pagination mt-5 position-absolute left-0 right-0"
                     data-arrows-classes="d-none d-lg-block u-slick__arrow u-slick__arrow--v4 u-slick__arrow-centered--y"
