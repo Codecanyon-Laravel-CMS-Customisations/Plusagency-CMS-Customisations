@@ -110,7 +110,7 @@ class SliderController extends Controller
 
         if ($request->filled('image')) {
             $filename = uniqid() .'.'. $extImage;
-            @copy(str_replace(' ', '%20', $image), 'assets/front/img/sliders/' . $filename);
+            @copy(str_replace(' ', '%20', $image), 'assets/front/img/sliders/' . $filename, stream_context_create((new BasicController())->arrContextOptions));
             $slider->image = $filename;
         }
 
@@ -177,7 +177,7 @@ class SliderController extends Controller
         if ($request->filled('image')) {
             @unlink('assets/front/img/sliders/' . $slider->image);
             $filename = uniqid() .'.'. $extImage;
-            @copy(str_replace(' ', '%20', $image), 'assets/front/img/sliders/' . $filename);
+            @copy(str_replace(' ', '%20', $image), 'assets/front/img/sliders/' . $filename, stream_context_create((new BasicController())->arrContextOptions));
             $slider->image = $filename;
         }
 
