@@ -46,7 +46,7 @@
                                     <option selected>All Categories</option>
                                     @php
                                         $active_category      = request()->has('category_id') ? request('category_id') : '';
-                                        $search_categories    = App\Pcategory::query()->where('show_in_menu', '1')->where('menu_level', '1')->orderBy('name')->get();
+                                        $search_categories    = App\Pcategory::query()->where('language_id', $lang->id)->where('show_in_menu', '1')->where('menu_level', '1')->orderBy('name')->get();
                                     @endphp
                                     @foreach($search_categories as $search_category)
                                         <option @if($active_category == $search_category->id) selected @endif value="{{ $search_category->id }}">{{ $search_category->name }}</option>
