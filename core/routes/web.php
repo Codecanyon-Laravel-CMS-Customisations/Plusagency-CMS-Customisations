@@ -408,6 +408,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin', 'checkstatus',
   Route::post('/colorSettings/store', 'Admin\WebsiteColorsController@store1')->name('admin.colorSettings.store1');
   Route::post('/colorSettings/{websiteColor}/post', 'Admin\WebsiteColorsController@update')->name('admin.colorSettings.update');
   Route::get('/colorSettings/{websiteColor}', 'Admin\WebsiteColorsController@destroy')->name('admin.colorSettings.destroy');
+  Route::get('/website-colors/bulk-destroy', 'Admin\WebsiteColorsController@bulkDestroy')->name('admin.colorSettings.bulk-destroy');
 
   Route::group(['middleware' => 'checkpermission:Theme & Home'], function () {
     // Admin Home Version Setting Routes

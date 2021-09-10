@@ -78,6 +78,9 @@
                                         <button class="my-2 btn btn-block btn-success save-all-presets" >
                                             <strong>SAVE ALL</strong>
                                         </button>
+                                        <button class="my-2 btn btn-block btn-danger clear-all-presets" >
+                                            <strong>RESET ALL</strong>
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="col-9">
@@ -608,6 +611,9 @@
             setTimeout(function() {
                 $('.save-all-presets').html(initialHtml);
             }, 2000);
+        });
+        $('.clear-all-presets').on('click', function(){
+            window.location.assign("{{ route('admin.colorSettings.bulk-destroy') }}");
         });
 
         function savePreset(f1, progress){

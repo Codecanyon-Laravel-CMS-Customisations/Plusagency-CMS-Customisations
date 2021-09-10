@@ -116,6 +116,10 @@
     @endphp
 
     <style>
+        .height-5.form-control, .widget-content select, footer .widget select, .widget_search .search-field, .height-5.custom-select, .widget-content select.custom-select, footer .widget select.custom-select, .widget_search .custom-select.search-field {
+            /*height: calc( 1.5em + ( 1rem * 1.5 ) + 10px);*/
+            height: 50px;
+        }
         /* .head .body .knees */
         /* .head:hover body {} */
         .site-branding img{
@@ -213,6 +217,24 @@
     <script src="{{ asset('assets/bookworm/js/components/hs.slick-carousel.js') }}"></script>
     <script src="{{ asset('assets/bookworm/js/components/hs.selectpicker.js') }}"></script>
     <script src="{{ asset('assets/bookworm/js/components/hs.show-animation.js') }}"></script>
+
+
+    <script>
+        var links = $(".site-navigation ul li ul");
+        for (var a =0;a<links.length; a++)
+        {
+            var mylink = links[a];
+            sortUL(mylink);
+        }
+
+        function sortUL(selector) {
+            $(selector).children("li").sort(function(a, b) {
+                var upA = $(a).text().toUpperCase();
+                var upB = $(b).text().toUpperCase();
+                return (upA < upB) ? -1 : (upA > upB) ? 1 : 0;
+            }).appendTo(selector);
+        }
+    </script>
 
     <script>
         // language dropdown toggle on clicking button

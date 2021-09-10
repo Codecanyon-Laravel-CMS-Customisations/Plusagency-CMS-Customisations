@@ -158,4 +158,10 @@ class WebsiteColorsController extends Controller
         Session::flash('success', 'Website Color deleted successfully!');
         return back();
     }
+
+    public function bulkDestroy() {
+        WebsiteColors::where('id', '!=', '')->delete();
+        Session::flash('success', 'Website Colors reset successfully!');
+        return back();
+    }
 }

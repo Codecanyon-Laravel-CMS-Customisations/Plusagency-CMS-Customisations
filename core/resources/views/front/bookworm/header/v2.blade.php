@@ -162,7 +162,7 @@
 
                                     @if (!array_key_exists("children",$link))
                                         {{--- Level1 links which doesn't have dropdown menus ---}}
-                                        <!--TODO add dynamic actve class-->
+{{--                                        <!--TODO add dynamic actve class-->--}}
                                         <li class="nav-item"><a href="{{ $href }}" target="{{ $link["target"] }}"class="nav-link link-black-100 mx-4 px-0 py-5 font-weight-medium">{{ $link["text"] }}</a></li>
 
                                     @else
@@ -305,6 +305,9 @@
                             @endforeach
                         </ul>
                     </div>
+                    <a href="{{ route('feedback') }}" class="btn btn-dark rounded-0 btn-wide py-3 font-weight-medium ml-auto">
+                        GIVE US FEEDBACK
+                    </a>
                 </div>
             </div>
         </div>
