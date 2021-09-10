@@ -196,7 +196,7 @@
                                                     @endphp
 
                                                     <li @if(array_key_exists("children", $level2)) class="submenus" @endif>
-                                                
+
 
                                                         {{-- START: 3rd Level links --}}
                                                         @if(array_key_exists("children", $level2))
