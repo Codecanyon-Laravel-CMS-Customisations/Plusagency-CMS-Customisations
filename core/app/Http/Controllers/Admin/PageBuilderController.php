@@ -424,7 +424,7 @@ class PageBuilderController extends Controller
                                                             <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                                 <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="' . route('front.product.details',$product->slug) . '">'. $title .'</a></h2>
                                                                 <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>' . $product->current_price . '</span>
+                                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>' . $product->current_price . '</span>
                                                                 </div>
                                                             </div>
                                                             <div class="product__hover d-flex align-items-center">
@@ -587,7 +587,7 @@ class PageBuilderController extends Controller
                                                             <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                                 <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="' . route('front.product.details',$product->slug) . '">'. $title .'</a></h2>
                                                                 <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>' . $product->current_price . '</span>
+                                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>' . $product->current_price . '</span>
                                                                 </div>
                                                             </div>
                                                             <div class="product__hover d-flex align-items-center">
@@ -776,7 +776,7 @@ class PageBuilderController extends Controller
                                                             <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                                 <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'. route('front.product.details',$product->slug) .'">'. $title .'</a></h2>
                                                                 <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'. $product->current_price .'</span>
+                                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>'. $product->current_price .'</span>
                                                                 </div>
                                                             </div>
                                                             <div class="product__hover d-flex align-items-center">
@@ -841,7 +841,7 @@ class PageBuilderController extends Controller
                                                                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                                             <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
                                                                             <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'.$product->current_price.'</span>
+                                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>'.$product->current_price.'</span>
                                                                             </div>
                                                                             <div class="product__rating d-none align-items-center font-size-2">
                                                                                 <div class="text-yellow-darker mr-2">
@@ -946,7 +946,7 @@ class PageBuilderController extends Controller
                                                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                             <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
                                                             <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'.$product->current_price.'</span>
+                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>'.$product->current_price.'</span>
                                                             </div>
                                                         </div>
                                                         <div class="product__hover d-flex align-items-center">
@@ -1009,7 +1009,7 @@ class PageBuilderController extends Controller
                                                     <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                         <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
                                                         <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'.$product->current_price.'</span>
+                                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>'.$product->current_price.'</span>
                                                         </div>
                                                         <div class="product__rating d-none align-items-center font-size-2">
                                                             <div class="text-yellow-darker mr-2">
@@ -1079,7 +1079,7 @@ class PageBuilderController extends Controller
                                                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                             <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
                                                             <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'.$product->current_price.'</span>
+                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>'.$product->current_price.'</span>
                                                             </div>
 
                                                         </div>
@@ -1144,7 +1144,7 @@ class PageBuilderController extends Controller
                                                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                             <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
                                                             <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'.$product->current_price.'</span>
+                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>'.$product->current_price.'</span>
                                                             </div>
                                                         </div>
                                                         <div class="product__hover d-flex align-items-center">
@@ -1206,7 +1206,7 @@ class PageBuilderController extends Controller
                                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                     <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
                                                     <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                        <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'.$product->current_price.'</span>
+                                                        <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>'.$product->current_price.'</span>
                                                     </div>
                                                 </div>
                                                 <div class="product__hover d-flex align-items-center">
@@ -1858,8 +1858,8 @@ class PageBuilderController extends Controller
                                         <span class="font-size-3 text-secondary-gray-700">Rachel Hollis</span>
                                     </div>
                                     <div class="price d-flex align-items-center font-weight-medium font-size-3 mb-2">
-                                        <ins class="text-decoration-none mr-2"><span class="woocommerce-Price-amount amount font-size-3 font-weight-medium text-dark"><span class="woocommerce-Price-currencySymbol">$</span>15</span></ins>
-                                        <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount font-size-1 text-primary-home-v3 opacity-md"><span class="woocommerce-Price-currencySymbol">$</span>78,96</span></del>
+                                        <ins class="text-decoration-none mr-2"><span class="woocommerce-Price-amount amount font-size-3 font-weight-medium text-dark"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>15</span></ins>
+                                        <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount font-size-1 text-primary-home-v3 opacity-md"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>78,96</span></del>
                                     </div>
                                     <div class="mb-3 pb-1">
                                         <span class="d-inline-block product__add-to-cart">ADD TO CART</span>
@@ -2400,8 +2400,8 @@ class PageBuilderController extends Controller
                                             <h2 class="woocommerce-loop-product__title font-size-3 text-lh-md mb-2 text-height-2 crop-text-2 h-dark"><a href="#">Dark in Death: An Eve Dallas Novel (In Death, Book 46)</a></h2>
                                             <div class="font-size-2 text-gray-700 mb-1 text-truncate"><a href="#" class="text-gray-700">Nora Roberts</a></div>
                                             <div class="price d-flex align-items-center font-weight-medium font-size-22">
-                                                <ins class="text-decoration-none mr-2"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>79</span></ins>
-                                                <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>99</span></del>
+                                                <ins class="text-decoration-none mr-2"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>79</span></ins>
+                                                <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>99</span></del>
                                             </div>
                                         </div>
                                         <div class="countdown-timer mb-5">

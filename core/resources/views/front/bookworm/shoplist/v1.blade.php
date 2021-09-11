@@ -142,8 +142,7 @@
 {{--                                                <p class="font-size-2 mb-2 crop-text-2">{!! nl2br($product->summary) !!}</p>--}}
                                                 <p class="font-size-2 mb-2 crop-text-2">{!! str_replace('\n', '', nl2br($product->summary, false)) !!}</p>
                                                 <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">
-                                                        {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}  </span>{{ $product->current_price }}</span>
+                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">{{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}</span>{{ $product->current_price }}</span>
                                                 </div>
                                             </div>
                                             <div class="col-md-auto d-flex align-items-center">
