@@ -44,8 +44,8 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             $product->tags              = trim($row['tags']);
     //        $product->feature_image     = trim(explode(',', $row['images'])[0]);
             //$product->pending_images_download   = trim(trim($row['images']));
-            $product->summary           = trim(e($row['short_description']));
-            $product->description       = trim(e($row['description']));
+            $product->summary           = trim(e($this->parse_tabs($row['short_description'])));
+            $product->description       = trim(e($this->parse_tabs($row['description'])));
             $product->current_price     = trim(trim(preg_replace("/[^\d\.]/", "", $row['regular_price'])) != "" ? preg_replace("/[^\d\.]/", "", $row['regular_price']) : '0.00');
             $product->is_feature        = trim($row['is_featured']);
             $product->status            = trim(1);
@@ -378,5 +378,82 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             return $link;
         }catch(\Exception $e){}
         return $link;
+    }
+
+
+    public function parse_tabs($html)
+    {
+        try
+        {
+            $html_template = '
+            <table id="tabs-a">
+            <tr>
+                <td>t==111 Lorem ipsum.</td>
+                <td>t==222 Lorem ipsum.</td>
+                <td>t==333 Lorem ipsum.</td>
+            </tr>
+            <tr>
+                <td>111==Lorem ipsum dolor sit.</td>
+                <td>222==Lorem ipsum dolor sit amet, consectetur.</td>
+                <td>333==Lorem ipsum dolor sit amet, consectetur adipisicing.</td>
+            </tr>
+            </table>
+            <table id="tabs">
+            <tr>
+                <td>t1 Lorem ipsum.</td>
+                <td>t2 Lorem ipsum.</td>
+                <td>t3 Lorem ipsum.</td>
+            </tr>
+            <tr>
+                <td>Lorem ipsum dolor sit.</td>
+                <td>Lorem ipsum dolor sit amet, consectetur.</td>
+                <td>Lorem ipsum dolor sit amet, consectetur adipisicing.</td>
+            </tr>
+            </table>
+            <table id="tabs-z">
+            <tr>
+                <td>t111 Lorem ipsum.</td>
+                <td>t222 Lorem ipsum.</td>
+                <td>t333 Lorem ipsum.</td>
+            </tr>
+            <tr>
+                <td>111Lorem ipsum dolor sit.</td>
+                <td>222Lorem ipsum dolor sit amet, consectetur.</td>
+                <td>333Lorem ipsum dolor sit amet, consectetur adipisicing.</td>
+            </tr>
+            </table>';
+
+
+            $index          = 0;
+            $html_t         = "";
+            $html_d         = "";
+            $html_x         = "";
+            $titles         = array();
+            $descriptions   = array();
+            $crawler        = new Crawler($html);
+            $crawler        = $crawler->filter('table#tabs > tr');
+            $crawler_t_tr   = $crawler->eq(0);
+            $crawler_d_tr   = $crawler->eq(1);
+
+            foreach ($crawler_t_tr->filter('td') as $node) { array_push($titles, $node->nodeValue); }
+            foreach ($crawler_d_tr->filter('td') as $node) { array_push($descriptions, $node->nodeValue); }
+
+
+            foreach ($titles as $title)
+            {
+                $tab_id         = "tab-".rand(0, 777);
+                $active_status  = $index == 0 ? " active " : "";
+                $description    = isset($descriptions[$index]) ? $descriptions[$index] : "";
+                $html_t         .= "<li class='nav-item'><a class='nav-link $active_status' data-toggle='tab' href='#$tab_id' role='tab'>$title</a></li>";
+                $html_d         .= "<div class='tab-pane $active_status' id='$tab_id' role='tabpanel'>$description</div>";
+                $index++;
+            }
+            $html_x .= "<ul class='nav nav-pills mb-3' role='tablist'>$html_t</ul>";
+            $html_x .= "<div class='tab-content'>$html_d</div>";
+
+            return "<div class='py-2 pt-5'>$html_x</div>";
+        }
+        catch (\Exception $exception)
+        { return $html; }
     }
 }
