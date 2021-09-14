@@ -71,7 +71,7 @@
                                                             <p class="lead mt-3">{{ $variation->title }}</p>
                                                             <a href="{{ $url }}?variation={{ $variation->id }}">
                                                                 {{-- <img src="{{ asset('assets/' . json_decode($variation->variation_data)->thumbnail) }}" alt="" width="75" style="border-radius: 50%; @if(isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif"> --}}
-                                                                <img src="{{ asset(json_decode($variation->variation_data)->thumbnail }}" alt="" width="75" style="border-radius: 50%; @if(isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif">
+                                                                <img src="{{ asset(json_decode($variation->variation_data)->thumbnail) }}" alt="" width="75" style="border-radius: 50%; @if(isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif">
                                                             </a>
 
                                                         </div>
