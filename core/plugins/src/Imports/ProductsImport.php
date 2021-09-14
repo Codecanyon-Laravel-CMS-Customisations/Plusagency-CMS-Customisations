@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Concerns\OnEachRow;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Symfony\Component\DomCrawler\Crawler;
 
 class ProductsImport implements OnEachRow, WithHeadingRow
 {
