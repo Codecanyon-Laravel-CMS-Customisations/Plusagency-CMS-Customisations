@@ -28,13 +28,13 @@
       <div class="card">
         <form class="" action="{{route('admin.basicinfo.update')}}" method="post">
           @csrf
-          <div class="card-header">
-              <div class="row">
-                  <div class="col-lg-10">
-                      <div class="card-title">Update Basic Informations</div>
-                  </div>
-              </div>
-          </div>
+{{--          <div class="card-header">--}}
+{{--              <div class="row">--}}
+{{--                  <div class="col-lg-10">--}}
+{{--                      <div class="card-title">Update Basic Informations</div>--}}
+{{--                  </div>--}}
+{{--              </div>--}}
+{{--          </div>--}}
           <div class="card-body pt-5 pb-5">
             <div class="row">
               <div class="col-lg-8 offset-lg-2">
@@ -205,6 +205,13 @@
                         </div>
                     </div>
                     <div class="col-12">
+                        <div class="form-group">
+                            <label>Header V2 button text</label>
+                            <input type="text" class="form-control ltr" name="header_v2_button_text" value="{{$abe->header_v2_button_text}}">
+                            @if ($errors->has('header_v2_button_text'))
+                              <p class="mb-0 text-danger">{{$errors->first('header_v2_button_text')}}</p>
+                            @endif
+                        </div>
                         <div class="form-group">
                             <label>Header V3 shipping text</label>
                             <input type="text" class="form-control ltr" name="header_shipping_text" value="{{$abe->header_shipping_text}}">

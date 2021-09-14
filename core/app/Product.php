@@ -40,16 +40,17 @@ class Product extends Model
 
     public function getTitleAttribute($title)
     {
-        return html_entity_decode($title);
+        return trim(nl2br(html_entity_decode($title, ENT_QUOTES)));
     }
     public function getSummaryAttribute($summary)
     {
-        return html_entity_decode($summary);
+        return trim(nl2br(html_entity_decode($summary, ENT_QUOTES)));
     }
     public function getDescriptionAttribute($description)
     {
-        return html_entity_decode($description);
+        return trim(nl2br(html_entity_decode($description, ENT_QUOTES)));
     }
+
     public function getFeatureImageAttribute($feature_image)
     {
         if(Str::startsWith($feature_image, 'http')) return trim($feature_image);

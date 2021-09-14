@@ -452,6 +452,13 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             $html_x .= "<ul class='nav nav-pills mb-3' role='tablist'>$html_t</ul>";
             $html_x .= "<div class='tab-content'>$html_d</div>";
 
+            //////////////
+//            $crawler        = new Crawler($html);
+//            $a = $crawler->filter('table#tabs');
+//            $b = $crawler->addContent('///////////');
+//            return $b;
+            /// ///////////
+
             return "<div class='py-2 pt-5'>$html_x</div>";
         }
         catch (\Exception $exception)

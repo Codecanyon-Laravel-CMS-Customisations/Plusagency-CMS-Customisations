@@ -305,8 +305,19 @@
                             @endforeach
                         </ul>
                     </div>
+                    @php
+                        $header_v2_button_text    = 'GIVE US FEEDBACK';
+                        try
+                        {
+                            $lang           = App\Language::where('code', request()->has('language', 'en'))->first();
+                            $settings       = $lang->basic_extended;
+
+                            $header_v2_button_text= $settings->header_v2_button_text;
+                        }
+                        catch (\Exception $e) { }
+                    @endphp
                     <a href="{{ route('feedback') }}" class="btn btn-dark rounded-0 btn-wide py-3 font-weight-medium ml-auto">
-                        GIVE US FEEDBACK
+                        {{ $header_v2_button_text }}
                     </a>
                 </div>
             </div>

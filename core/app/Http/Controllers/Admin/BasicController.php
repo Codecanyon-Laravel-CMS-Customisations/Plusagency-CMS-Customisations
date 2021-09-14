@@ -269,19 +269,20 @@ class BasicController extends Controller
     public function updatebasicinfo(Request $request)
     {
         $rules = [
-            'website_title' => 'required',
-            'base_color' => 'required',
-            'secondary_base_color' => 'required',
-            'hero_area_overlay_color' => 'required',
-            'hero_area_overlay_opacity' => 'required|numeric|max:1|min:0',
-            'breadcrumb_area_overlay_color' => 'required',
-            'breadcrumb_area_overlay_opacity' => 'required|numeric|max:1|min:0',
-            'base_currency_symbol' => 'required',
-            'base_currency_symbol_position' => 'required',
-            'base_currency_text' => 'required',
-            'base_currency_text_position' => 'required',
-            'base_currency_rate' => 'required|numeric',
-            'header_shipping_text' => 'required',
+            'website_title'                     => 'required',
+            'base_color'                        => 'required',
+            'secondary_base_color'              => 'required',
+            'hero_area_overlay_color'           => 'required',
+            'hero_area_overlay_opacity'         => 'required|numeric|max:1|min:0',
+            'breadcrumb_area_overlay_color'     => 'required',
+            'breadcrumb_area_overlay_opacity'   => 'required|numeric|max:1|min:0',
+            'base_currency_symbol'              => 'required',
+            'base_currency_symbol_position'     => 'required',
+            'base_currency_text'                => 'required',
+            'base_currency_text_position'       => 'required',
+            'base_currency_rate'                => 'required|numeric',
+            'header_v2_button_text'             => 'required',
+            'header_shipping_text'              => 'required',
         ];
 
         $be = BasicExtended::first();
@@ -322,6 +323,7 @@ class BasicController extends Controller
 
             $be->breadcrumb_overlay_color   = $request->breadcrumb_area_overlay_color;
             $be->breadcrumb_overlay_opacity = $request->breadcrumb_area_overlay_opacity;
+            $be->header_v2_button_text      = $request->header_v2_button_text;
             $be->header_shipping_text       = $request->header_shipping_text;
             $be->save();
         }
