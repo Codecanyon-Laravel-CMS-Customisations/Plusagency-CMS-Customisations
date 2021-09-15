@@ -31,6 +31,9 @@ ADD `bookworm_header_version` varchar(255) NULL;
 ALTER TABLE `basic_settings_extended`
 ADD `bookworm_blog_version` varchar(255) NULL;
 
+ALTER TABLE `tickets`
+ADD `product_id` bigint(20) unsigned NULL;
+
 ALTER TABLE `products`
 ADD `offline` INT NULL DEFAULT 0;
 
@@ -121,3 +124,27 @@ CREATE TABLE `website_colors` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+
+--
+-- Indexes for table `tickets`
+--
+ALTER TABLE `tickets`
+  ADD KEY `tickets_product_id_index` (`product_id`);
+  
+
+--
+-- Constraints for table `tickets`
+--
+ALTER TABLE `tickets`
+  ADD CONSTRAINT `tickets_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON UPDATE CASCADE ON DELETE SET NULL;
+  
+  
+  
+  
+  
+  
+  
+  
+  

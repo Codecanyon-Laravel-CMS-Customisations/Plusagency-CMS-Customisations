@@ -65,12 +65,14 @@ Product Details
                                 <span class="ml-3 font-weight-medium">By (author)</span>
                                 <span class="ml-2 text-gray-600">Anna Banks</span> --}}
                             </div>
-                            <p class="price font-size-22 font-weight-medium mb-3">
-                                <span class="woocommerce-Price-amount amount">
-                                    <span class="woocommerce-Price-currencySymbol">
-                                        {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}</span>{{ $pvariation ?$pvariation->current_price : $product->current_price }}
-                                </span>
-                            </p>
+                            @if(!$product->offline)
+                                <p class="price font-size-22 font-weight-medium mb-3">
+                                    <span class="woocommerce-Price-amount amount">
+                                        <span class="woocommerce-Price-currencySymbol">
+                                            {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}</span>{{ $pvariation ?$pvariation->current_price : $product->current_price }}
+                                    </span>
+                                </p>
+                            @endif
                             {{-- <div class="mb-2 font-size-2">
                                 <span class="font-weight-medium">Book Format:</span>
                                 <span class="ml-2 text-gray-600">Choose an option</span>
@@ -112,20 +114,22 @@ Product Details
                             </div>
 
                             <form class="cart d-md-flex align-items-center" method="post" enctype="multipart/form-data">
-                                <div class="quantity mb-4 mb-md-0 d-flex align-items-center">
-                                    <!-- Quantity -->
-                                    <div class="px-3 width-120">
-                                        <div class="product-quantity  d-flex" id="quantity">
-                                            <button type="button" id="sub" class="sub subclick">-</button>
-                                            <input type="text" class="cart-amount" id="1" value="1" />
-                                            <button type="button" id="add" class="add addclick">+</button>
+                                @if($product->offline)
+                                    <a href="{{ route('product.inquiries.form',$product->id) }}" data-href="{{ route('product.inquiries.form',$product->id) }}" class="btn btn-dark border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link" style="color: #fff">{{ $be->offline_resource_text }}</a>
+                                @else
+                                    <div class="quantity mb-4 mb-md-0 d-flex align-items-center">
+                                        <!-- Quantity -->
+                                        <div class="px-3 width-120">
+                                            <div class="product-quantity  d-flex" id="quantity">
+                                                <button type="button" id="sub" class="sub subclick">-</button>
+                                                <input type="text" class="cart-amount" id="1" value="1" />
+                                                <button type="button" id="add" class="add addclick">+</button>
+                                            </div>
                                         </div>
+                                        <!-- End Quantity -->
                                     </div>
-                                    <!-- End Quantity -->
-                                </div>
-
-                                <a data-href="{{ $pvariation ? route('add.cart',$pvariation->id) : route('add.cart',$product->id) }}" class="btn btn-dark border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link" style="color: #fff">Add to cart</a>
-
+                                    <a data-href="{{ $pvariation ? route('add.cart',$pvariation->id) : route('add.cart',$product->id) }}" class="btn btn-dark border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link" style="color: #fff">Add to cart</a>
+                                @endif
                             </form>
                             @if( ! is_null($product->variations) )
                                 @php

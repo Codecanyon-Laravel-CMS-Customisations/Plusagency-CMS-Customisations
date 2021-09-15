@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Front;
 
+use App\Ticket;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\BasicSetting as BS;
@@ -12,7 +13,9 @@ use App\Product;
 use App\ShippingCharge;
 use App\ProductReview;
 use Auth;
+use XSSCleaner;
 use App\Pcategory;
+use PHPMailer\PHPMailer\PHPMailer;
 use Session;
 use App\Language;
 use App\OfflineGateway;
@@ -562,5 +565,96 @@ class ProductController extends Controller
                 return response()->json(['status' => 'error', 'message' => "Coupon is not valid"]);
             }
         }
+    }
+
+    public function product_iquiries(Product $product)
+    {
+        if (session()->has('lang')) {
+            $currentLang = Language::where('code', session()->get('lang'))->first();
+        } else {
+            $currentLang = Language::where('is_default', 1)->first();
+        }
+
+        $bse                = $currentLang->basic_extra;
+        $currentLang        = $currentLang;
+
+        $be                     = $currentLang->basic_extended;
+        $version                = $be->theme_version;
+
+        if ($version == 'dark') {
+            $version = 'default';
+        }
+
+        return view('front.product_offline_inquiry'
+            , compact('product', 'bse', 'currentLang', 'version')
+        );
+    }
+
+    public function product_iquiries_store(Request $request, Product $product)
+    {
+
+        if (session()->has('lang')) {
+            $currentLang = Language::where('code', session()->get('lang'))->first();
+        } else {
+            $currentLang = Language::where('is_default', 1)->first();
+        }
+        $bs = $currentLang->basic_setting;
+
+        $messages = [
+            'g-recaptcha-response.required' => 'Please verify that you are not a robot.',
+            'g-recaptcha-response.captcha'  => 'Captcha error! try again later or contact site admin.',
+        ];
+
+        $rules = [
+            'name'      => 'required',
+            'email'     => 'required|email',
+            'subject'   => 'required',
+            'message'   => 'required'
+        ];
+        if ($bs->is_recaptcha == 1) {
+            $rules['g-recaptcha-response'] = 'required|captcha';
+        }
+
+        $request->validate($rules, $messages);
+
+        $request->validate($rules, $messages);
+
+        $be             = BE::firstOrFail();
+        $from           = $request->email;
+        $to             = $be->to_mail;
+        $subject        = $request->subject;
+        $message        = XSSCleaner::clean($request->message);
+
+
+        ///create a ticket
+        $input['subject']       = $subject;
+        $input['message']       = $message;
+        $input['user_id']       = auth()->check() ? Auth::user()->id : NULL;
+        $input['product_id']    = $product->id;
+        $input['ticket_number'] = rand(1000000,9999999);
+        $input['last_message']  = Carbon::now();
+
+
+        //send email
+        try {
+
+            $mail       = new PHPMailer(true);
+            $mail->setFrom($from, $request->name);
+            $mail->addAddress($to);     // Add a recipient
+
+            // Content
+            $mail->isHTML(true);  // Set email format to HTML
+            $mail->Subject = $subject;
+            $mail->Body    = $message." <br/> <small>ticket number <strong>#".$input['ticket_number']."</strong></small>";
+
+            $mail->send();
+        }catch (\Exception $e) { }
+
+
+        $data                   = new Ticket;
+        $data->create($input);
+
+        Session::flash('success', 'Email sent successfully!');
+        return back();
     }
 }

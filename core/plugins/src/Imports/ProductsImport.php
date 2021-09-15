@@ -2,6 +2,8 @@
 
 namespace AngelBooks\Plugins\Imports;
 
+use App\BasicExtended;
+use App\Language;
 use App\User;
 use App\Group;
 use App\Product;
@@ -27,6 +29,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 'sku'               => trim(convertUtf8($row['sku'])),
                 // 'status'    => 1,
             ]);
+            if (!isset($row['offline'])) $row['offline'] = 0;
 
             $product_categories         = $this->setProductCategories($row);
 
@@ -38,6 +41,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             $product->title             = convertUtf8($row['name']);
             $product->slug              = trim(Str::slug(convertUtf8($row['name'])));
             $product->language_id       = trim(169);
+            $product->offline           = intval($row['offline']);
             $product->stock             = trim($row['stock']);
             $product->category_id       = trim($parent_category->id);
             $product->sub_category_id   = $sub_category ? trim($sub_category->id) : NULL;
@@ -45,8 +49,8 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             $product->tags              = trim($row['tags']);
     //        $product->feature_image     = trim(explode(',', $row['images'])[0]);
             //$product->pending_images_download   = trim(trim($row['images']));
-            $product->summary           = trim(e($this->parse_tabs($row['short_description'])));
-            $product->description       = trim(e($this->parse_tabs($row['description'])));
+            $product->summary           = trim(e($this->parse_digital_links($this->parse_tabs($row['short_description']))));
+            $product->description       = trim(e($this->parse_digital_links($this->parse_tabs($row['description']))));
             $product->current_price     = trim(trim(preg_replace("/[^\d\.]/", "", $row['regular_price'])) != "" ? preg_replace("/[^\d\.]/", "", $row['regular_price']) : '0.00');
             $product->is_feature        = trim($row['is_featured']);
             $product->status            = trim(1);
@@ -463,5 +467,28 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         }
         catch (\Exception $exception)
         { return $html; }
+    }
+
+
+    public function parse_digital_links($string)
+    {
+        if (!Str::contains("$string", "**DL**")) return trim($string);
+
+
+        $lang       = Language::where('code', request()->has('language') ? request()->has('language') : 'en')->first();
+
+        $bse        = BasicExtended::query();
+        $bse->when($lang, function ($query) use ($lang){
+            return $query->where('language_id', $lang->id);
+        });
+        $bse->orderBy('id', 'DESC');
+
+        $data           = $bse->get()->first();
+
+        $digital_link   = $data->digital_resource_link;
+        $digital_text   = $data->digital_resource_text;
+        $digital_html   = "<a href='$digital_link' class='btn btn-link px-2'>$digital_text</a>";
+
+        return  str_replace("**DL**", " $digital_html ", trim($string));
     }
 }

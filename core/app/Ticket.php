@@ -9,12 +9,18 @@ class Ticket extends Model
     protected $fillable = [
         'user_id',
         'admin_id',
+        'product_id',
         'ticket_number',
         'subject',
         'message',
         'zip_file',
         'last_message'
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class)->withDefault();
+    }
 
     public function messages() {
         return $this->hasMany('App\Conversation');
@@ -23,7 +29,7 @@ class Ticket extends Model
         return $this->belongsTo('App\Admin');
       }
     public function user() {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User')->withDefault();
       }
 
 }
