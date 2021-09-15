@@ -1256,6 +1256,16 @@ id="course"
             <span class="sub-item">General Settings</span>
         </a>
     </li>
+{{--    <li class="@if(request()->path() == 'admin/basicinfo') active @endif">--}}
+{{--        <a href="{{route('admin.basicinfo')}}">--}}
+{{--            <span class="sub-item">Currency Settings</span>--}}
+{{--        </a>--}}
+{{--    </li>--}}
+{{--    <li class="@if(request()->path() == 'admin/basicinfo') active @endif">--}}
+{{--        <a href="{{route('admin.basicinfo')}}">--}}
+{{--            <span class="sub-item">Countries Settings</span>--}}
+{{--        </a>--}}
+{{--    </li>--}}
     <li class="submenu">
         <a data-toggle="collapse" href="#emailset" aria-expanded="{{(request()->path() == 'admin/mail-from-admin' || request()->path() == 'admin/mail-to-admin' || request()->path() == 'admin/email-templates' || request()->routeIs('admin.email.editTemplate')) ? 'true' : 'false' }}">
             <span class="sub-item">Email Settings</span>

@@ -31,11 +31,16 @@ class Product extends Model
         'download_link',
         'download_file',
         'attributes',
+        'offline',
         'options',
         'sub_categories',
         'is_variation',
         'sub_category_id',
         'sub_child_category_id'
+    ];
+
+    protected $casts    = [
+        'offline'       => 'boolean',
     ];
 
     public function getTitleAttribute($title)

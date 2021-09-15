@@ -220,6 +220,33 @@
                             @endif
                         </div>
                     </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Digital Resource Link</label>
+                            <input type="text" class="form-control ltr" placeholder="e.g https://digital.angelbookhouse.com/" name="digital_resource_link" value="{{$abe->digital_resource_link}}">
+                            @if ($errors->has('digital_resource_link'))
+                              <p class="mb-0 text-danger">{{$errors->first('digital_resource_link')}}</p>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Digital Resource Text</label>
+                            <input type="text" class="form-control ltr" placeholder="e.g CLICK  TO ACCESS RESOURCE" name="digital_resource_text" value="{{$abe->digital_resource_text}}">
+                            @if ($errors->has('digital_resource_text'))
+                              <p class="mb-0 text-danger">{{$errors->first('digital_resource_text')}}</p>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Offline Resource Text</label>
+                            <input type="text" class="form-control ltr" placeholder="e.g CLICK  TO ACCESS RESOURCE" name="offline_resource_text" value="{{$abe->offline_resource_text}}">
+                            @if ($errors->has('offline_resource_text'))
+                              <p class="mb-0 text-danger">{{$errors->first('offline_resource_text')}}</p>
+                            @endif
+                        </div>
+                    </div>
                 </div>
 
               </div>

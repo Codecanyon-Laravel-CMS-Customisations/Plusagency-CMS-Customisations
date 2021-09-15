@@ -282,6 +282,9 @@ class BasicController extends Controller
             'base_currency_text_position'       => 'required',
             'base_currency_rate'                => 'required|numeric',
             'header_v2_button_text'             => 'required',
+            'digital_resource_link'             => 'required',
+            'digital_resource_text'             => 'required',
+            'offline_resource_text'             => 'required',
             'header_shipping_text'              => 'required',
         ];
 
@@ -324,6 +327,9 @@ class BasicController extends Controller
             $be->breadcrumb_overlay_color   = $request->breadcrumb_area_overlay_color;
             $be->breadcrumb_overlay_opacity = $request->breadcrumb_area_overlay_opacity;
             $be->header_v2_button_text      = $request->header_v2_button_text;
+            $be->digital_resource_link      = $request->digital_resource_link;
+            $be->digital_resource_text      = $request->digital_resource_text;
+            $be->offline_resource_text      = $request->offline_resource_text;
             $be->header_shipping_text       = $request->header_shipping_text;
             $be->save();
         }

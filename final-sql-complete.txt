@@ -8,6 +8,15 @@ ALTER TABLE `basic_settings_extended`
 ADD `bookworm_slider_version` varchar(255) NULL;
 
 ALTER TABLE `basic_settings_extended`
+ADD `digital_resource_link` varchar(255) NULL;
+
+ALTER TABLE `basic_settings_extended`
+ADD `digital_resource_text` varchar(255) NULL;
+
+ALTER TABLE `basic_settings_extended`
+ADD `offline_resource_text` varchar(255) NULL;
+
+ALTER TABLE `basic_settings_extended`
 ADD `bookworm_shop_list_version` varchar(255) NULL;
 
 ALTER TABLE `basic_settings_extended`
@@ -21,6 +30,9 @@ ADD `bookworm_header_version` varchar(255) NULL;
 
 ALTER TABLE `basic_settings_extended`
 ADD `bookworm_blog_version` varchar(255) NULL;
+
+ALTER TABLE `products`
+ADD `offline` INT NULL DEFAULT 0;
 
 ALTER TABLE `products`
 ADD `attributes` json NULL;
