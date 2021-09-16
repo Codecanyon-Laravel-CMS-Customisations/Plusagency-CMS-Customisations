@@ -80,18 +80,18 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-lg-5 woocommerce-product-gallery woocommerce-product-gallery--with-images images">
-                    <figure class="woocommerce-product-gallery__wrapper pt-0 mb-0">
-                        <div class="js-slick-carousel u-slick"
-                             data-pagi-classes="text-center u-slick__pagination my-4">
-                            @foreach ($product->product_images as $image)
-                                <div class="js-slide">
-                                    <img src="{{trim($image->featured_image)}}" alt="" class="mx-auto img-fluid" width="300">
-                                </div>
-                            @endforeach
-                        </div>
-                    </figure>
-                </div>
+                <div class="col-md-5 woocommerce-product-gallery woocommerce-product-gallery--with-images images">
+		        <figure class="woocommerce-product-gallery__wrapper pt-8 mb-0">
+		            <div class="js-slick-carousel u-slick"
+		            data-pagi-classes="text-center u-slick__pagination my-4">
+		            @foreach ($product->product_images as $image)
+		                <div class="js-slide">
+		                    <img src="{{trim($image->image)}}" alt="Image Description" class="mx-auto img-fluid" width="300">
+		                </div>
+		                @endforeach
+		            </div>
+		        </figure>
+		    </div>
             </div>
         </div>
     </div>
