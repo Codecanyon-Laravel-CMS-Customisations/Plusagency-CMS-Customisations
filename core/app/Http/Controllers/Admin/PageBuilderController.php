@@ -382,15 +382,16 @@ class PageBuilderController extends Controller
                            <a href="#" class="d-flex h-primary">All Categories<span class="ml-2 flaticon-next font-size-3"></span></a>
                         </header>
                         <ul class="px-5 pb-2 mb-5 overflow-auto bg-gray-200 rounded-md nav justify-content-between py-md-3 flex-nowrap flex-xl-wrap overflow-xl-visible" role="tablist">';
-                            $counter    = 1;
-                            $uuid_arr   = [];
+                            $counter        = 1;
+                            $uuid_arr       = [];
                             foreach ($categories->where('is_child', '0') as $category) {
-                                $active = $counter == 1 ? 'active' : '';
-                                $uuid   = uniqid();
+                                $active     = $counter == 1 ? 'active' : '';
+                                $selected   = $counter == 1 ? 'true'   : 'false';
+                                $uuid       = uniqid();
                                 array_push($uuid_arr, $uuid);
                                 $counter++;
                                 $category_2 .= ' <li class="flex-shrink-0 nav-item flex-xl-shrink-1">
-                                <a class="nav-link font-weight-medium '.$active.' nav-link-caret category-'.$category->id.'-'.$uuid_arr[$counter-2].'" data-toggle="pill" href=".category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" role="tab" aria-controls="category-'.$category->id.'-content" aria-selected="true">
+                                <a class="nav-link font-weight-medium '.$active.' nav-link-caret " id="category-'.$category->id.'-'.$uuid_arr[$counter-2].'" data-toggle="pill" href="#category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" role="tab" aria-controls="#category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" aria-selected=".'.$selected.'">
                                     <div class="text-center">
                                         <figure class="mb-0 d-md-block text-primary-indigo">
                                            <i class="glyph-icon flaticon-gallery font-size-12"></i>
@@ -406,9 +407,10 @@ class PageBuilderController extends Controller
                         <div class="tab-content">';
                             $counter = 1;
                             foreach($categories->where('is_child', '0') as $category) {
-                                $active = $counter == 1 ? 'active' : '';
+                                $active     = $counter == 1 ? 'active' : '';
+                                $show       = $counter == 1 ? 'show'   : '';
                                 $counter++;
-                                $category_2 .= '<div class="tab-pane fade '. $active .' show category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" role="tabpanel" aria-labelledby="pills-one-example2-tab">
+                                $category_2 .= '<div class="tab-pane fade '. $active .' '.$show.' " id="category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" role="tabpanel" aria-labelledby="category-'.$category->id.'-'.$uuid_arr[$counter-2].'-tab">
                                 <div class="pt-2">
                                     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 ">';
                                         foreach ( $category->products->where('show_in_page_builder', '1') as $product ) {
@@ -548,11 +550,13 @@ class PageBuilderController extends Controller
                             foreach ($categories2 as $category) {
                                 $products_m2 = \App\Product::query()->where('sub_category_id', '=', $category->id)->where('show_in_page_builder', '1');
                                 if($products_m2->count() < 1) continue;
-                                if($products_m2->count() >= 1) $active = $counter == 1 ? 'active' : '';$counter++;
-                                $uuid   = uniqid();
+                                $active     = $counter == 1 ? 'active' : '';
+                                $selected   = $counter == 1 ? 'true'   : 'false';
+                                $uuid       = uniqid();
+                                $counter++;
                                 array_push($uuid_arr, $uuid);
                                 $child_category_2 .= ' <li class="flex-shrink-0 nav-item flex-xl-shrink-1">
-                                <a class="nav-link font-weight-medium '.$active.' nav-link-caret child-category-'.$category->id.'" data-toggle="pill" href=".child-category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" role="tab" aria-controls="child-category-'.$category->id.'-content" aria-selected="true">
+                                <a class="nav-link font-weight-medium '.$active.' nav-link-caret " id="child-category-'.$category->id.'" data-toggle="pill" href="#child-category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" role="tab" aria-controls="#child-category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" aria-selected="'.$selected.'">
                                     <div class="text-center">
                                         <figure class="mb-0 d-md-block text-primary-indigo">
                                            <i class="glyph-icon flaticon-gallery font-size-12"></i>
@@ -570,8 +574,10 @@ class PageBuilderController extends Controller
                             foreach($categories2 as $category) {
                                 $products_m2 = \App\Product::query()->where('sub_category_id', '=', $category->id)->where('show_in_page_builder', '1');
                                 if($products_m2->count() < 1) continue;
-                                if($products_m2->count() >= 1) $active = $counter == 1 ? 'active' : '';$counter++;
-                                $child_category_2 .= '<div class="tab-pane fade '. $active .' show child-category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" role="tabpanel" aria-labelledby="pills-one-example2-tab">
+                                $active     = $counter == 1 ? 'active' : '';
+                                $show       = $counter == 1 ? 'show'   : '';
+                                $counter++;
+                                $child_category_2 .= '<div class="tab-pane fade '. $active .' '.$show.' " id="child-category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" role="tabpanel" aria-labelledby="child-category-'.$category->id.'-'.$uuid_arr[$counter-2].'-tab">
                                 <div class="pt-2">
                                     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 ">';
                                         foreach ( $products_m2->get() as $product ) {
