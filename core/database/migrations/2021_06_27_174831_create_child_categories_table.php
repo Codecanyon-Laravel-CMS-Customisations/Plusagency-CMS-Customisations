@@ -14,13 +14,22 @@ class CreateChildCategoriesTable extends Migration
     public function up()
     {
         Schema::create('child_categories', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name')->nullabe();
-            $table->string('slug')->nullabe();
-            $table->integer('language_id')->default(0);
-            $table->integer('status')->default(1);
-            $table->integer('is_feature')->default(0);
-            $table->timestamps();
+            try
+            {
+                $table->bigIncrements('id');
+                $table->string('name')->nullabe();
+                $table->string('slug')->nullabe();
+                $table->bigInteger('language_id')->unsigned()->default(0)->index();
+                $table->integer('status')->default(1);
+                $table->integer('is_feature')->default(0);
+                $table->timestamps();
+
+                $table->foreign('language_id')->references('id')->on('languages')->onUpdate('cascade')->onDelete('cascade');
+            }
+            catch (\Exception $exception)
+            {
+                //throw $exception;
+            }
         });
     }
 

@@ -17,9 +17,10 @@ class Ticket extends Model
         'last_message'
     ];
 
-    public function product()
+    public function products()
     {
-        return $this->belongsTo(Product::class)->withDefault();
+        return $this->belongsToMany(Product::class)
+        ->withPivot('user_id', 'email');
     }
 
     public function messages() {
@@ -29,7 +30,17 @@ class Ticket extends Model
         return $this->belongsTo('App\Admin');
       }
     public function user() {
-        return $this->belongsTo('App\User')->withDefault();
-      }
+        $email              = null;
+        try
+        {
+            $email          = $this->products()->first()->pivot->email;
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+        return $this->belongsTo('App\User')->withDefault(function($user, $ticket) use($email) {
+            $user->username = "Guest User";
+            $user->email    = $email;//$ticket->pivot->email;
+        });
+    }
 
 }

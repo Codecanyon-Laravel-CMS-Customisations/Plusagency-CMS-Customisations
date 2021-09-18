@@ -592,7 +592,6 @@ class ProductController extends Controller
 
     public function product_iquiries_store(Request $request, Product $product)
     {
-
         if (session()->has('lang')) {
             $currentLang = Language::where('code', session()->get('lang'))->first();
         } else {
@@ -630,7 +629,7 @@ class ProductController extends Controller
         $input['subject']       = $subject;
         $input['message']       = $message;
         $input['user_id']       = auth()->check() ? Auth::user()->id : NULL;
-        $input['product_id']    = $product->id;
+        //$input['product_id']    = $product->id;
         $input['ticket_number'] = rand(1000000,9999999);
         $input['last_message']  = Carbon::now();
 
@@ -650,11 +649,35 @@ class ProductController extends Controller
             $mail->send();
         }catch (\Exception $e) { }
 
+        $pivot              = [];
+        if(auth()->check())
+        {
+            foreach($request->products as $key => $value)
+            {
+                $pivot[$value]  = [
+                    'user_id'   => auth()->id(),
+                    'email'     => auth()->user()->email,
+                ];
+            }
+        }
+        else
+        {
+            foreach($request->products as $key => $value)
+            {
+                $pivot[$value]  = [
+                    'email'     => $request->email,
+                ];
+            }
+        }
 
-        $data                   = new Ticket;
-        $data->create($input);
 
-        Session::flash('success', 'Email sent successfully!');
+
+        $ticket                 = Ticket::firstOrCreate($input);
+        if(auth()->check()) $ticket->user_id    = auth()->id();
+        $ticket->products()->sync($pivot);
+
+        session()->flash('product_ids', $request->products);
+        session()->flash('success', 'Email sent successfully!');
         return back();
     }
 }

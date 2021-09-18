@@ -57,19 +57,33 @@
                      </div>
                   </div>
                   <div class="row">
-                     @if($ticket->product->id)
-                          <div class="col-md-7">
-                              <p style="font-size: 16px;">{!! replaceBaseUrl($ticket->message) !!}</p>
-                              @if($ticket->zip_file)
-                                  <a href="{{asset('assets/front/user-suppor-file/'.$ticket->zip_file)}}" download="{{__('support_file')}}" class="btn btn-primary"><i class="fas fa-download"></i> Download Attachment</a>
-                              @endif
-                              <p class="lead">PRODUCT:: <a
-                                      href="{{ route('admin.product.edit', $ticket->product->id) }}">{{ $ticket->product->title }}</a></p>
-                          </div>
-                          <div class="col-md-5 woocommerce-product-gallery woocommerce-product-gallery--with-images images">
-                              <img src="{{trim($ticket->product->feature_image)}}" alt="" class="mx-auto img-fluid" width="300">
-                          </div>
-                      @else
+                        @if($ticket->products)
+                            <div class="col-md-7">
+                                <p style="font-size: 16px;">{!! replaceBaseUrl($ticket->message) !!}</p>
+                                @if($ticket->zip_file)
+                                    <a href="{{asset('assets/front/user-suppor-file/'.$ticket->zip_file)}}" download="{{__('support_file')}}" class="btn btn-primary"><i class="fas fa-download"></i> Download Attachment</a>
+                                @endif
+                            </div>
+                            <div class="col-md-5 woocommerce-product-gallery woocommerce-product-gallery--with-images images">
+                                @foreach ($ticket->products as $product)
+                                    @if($product->id)
+                                        <div class="d-flex py-3 text-left">
+                                            <div class="d-flex col-md-5 woocommerce-product-gallery woocommerce-product-gallery--with-images images">
+                                                <img src="{{trim($product->feature_image)}}" alt="" class="mx-auto img-fluid" width="250">
+                                            </div>
+                                            <div class="d-block">
+                                                <p class="lead">PRODUCT::<br/> <a href="{{ route('admin.product.edit', $product->id) }}">
+                                                    {{ $product->title }}</a>
+                                                </p>
+                                                <div class="price d-flex lead">
+                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">{{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}</span>{{ $product->current_price }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        @else
                           <div class="col-lg-8 offset-lg-2">
                               <p style="font-size: 16px;">{!! replaceBaseUrl($ticket->message) !!}</p>
                               @if($ticket->zip_file)

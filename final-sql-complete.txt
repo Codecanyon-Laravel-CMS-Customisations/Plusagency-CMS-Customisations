@@ -140,7 +140,59 @@ ALTER TABLE `tickets`
 ALTER TABLE `tickets`
   ADD CONSTRAINT `tickets_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON UPDATE CASCADE ON DELETE SET NULL;
   
-  
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_ticket`
+--
+
+CREATE TABLE `product_ticket` (
+  `id` bigint UNSIGNED NOT NULL,
+  `product_id` bigint UNSIGNED DEFAULT NULL,
+  `ticket_id` bigint UNSIGNED DEFAULT NULL,
+  `user_id` bigint UNSIGNED DEFAULT NULL,
+  `email` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `product_ticket`
+--
+ALTER TABLE `product_ticket`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_ticket_product_id_index` (`product_id`),
+  ADD KEY `product_ticket_ticket_id_index` (`ticket_id`),
+  ADD KEY `product_ticket_user_id_index` (`user_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `product_ticket`
+--
+ALTER TABLE `product_ticket`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `product_ticket`
+--
+ALTER TABLE `product_ticket`
+  ADD CONSTRAINT `product_ticket_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `product_ticket_ticket_id_foreign` FOREIGN KEY (`ticket_id`) REFERENCES `tickets` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `product_ticket_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+COMMIT;
   
   
   

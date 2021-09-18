@@ -27,6 +27,15 @@
                     <form action="{{route('product.inquiries.store', $product->id)}}" class="contact-form" method="POST">
                         @csrf
                         <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-element">
+                                    <label for="">{{__('Add More Products')}}</label>
+                                    <select name="products[]" class="form-control select2" multiple="multiple" data-placeholder="{{__('Add More Products')}}"></select>
+                                </div>
+                                @if ($errors->has('name'))
+                                    <p class="text-danger mb-0">{{$errors->first('name')}}</p>
+                                @endif
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-element">
                                     <input name="name" type="text" placeholder="{{__('Name')}}" required>
@@ -96,4 +105,58 @@
         </div>
     </div>
     <!--    contact form and map end   -->
+@endsection
+@section('styles')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endsection
+@section('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            @php
+                $products   = \App\Product::query()
+                ->orderBy('title', 'ASC')
+                ->get()
+                ->each(function($query) use($product){
+                    if($product->id == $query->id)
+                    {
+                        $query->selected = true;
+                        return $query;
+                    }
+                    else if(session()->has('product_ids'))
+                    {
+                        $product_ids    = (Array)session('product_ids');
+                        if(in_array($query->id, $product_ids))
+                        {
+                            $query->selected = true;
+                            return $query;
+                        }
+                    }
+                });//->pluck('title', 'current_price', 'id');
+                echo "var productsArrayData = ".json_encode($products).";";
+            @endphp
+
+            var data = $.map(productsArrayData, function (obj) {
+                obj.text = obj.text || obj.title; // replace name with the property used for the text
+
+                return obj;
+            });
+
+            $('.select2').select2({
+                data: data,
+                placeholder: "{{__('Add More Products')}}",
+                templateResult: formatProduct
+            });
+        });
+
+        function formatProduct (product) {
+            if (!product.id) {
+                return product.text;
+            }
+            var $product = $(
+                '<span><img src="' + product.feature_image + '" class="img-flag" style="max-width: 50px;max-height: 40px;"/> ' + product.text + '</span>'
+            );
+            return $product;
+        };
+    </script>
 @endsection
