@@ -98,6 +98,6 @@ if ($data->count() > 0) {
             @endphp
         <li><a href="{{$detailsUrl}}" class="dropdown-item link-black-100">{{strlen($mItem->title) > 30 ? mb_substr($mItem->title,0,30,'utf-8') . '...' : $mItem->title}}</a></li>
         @endforeach
-        
+
     </ul>
 </li>
