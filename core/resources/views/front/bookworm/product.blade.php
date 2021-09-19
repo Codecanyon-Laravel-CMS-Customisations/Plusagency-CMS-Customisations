@@ -6,6 +6,9 @@
 
 @section('styles')
 <link rel="stylesheet" href="{{asset('assets/front/css/slick.css')}}">
+@if($product->offline)
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+@endif
 @endsection
 
 @section('meta-keywords', "$product->meta_keywords")
@@ -297,7 +300,6 @@
 
 <script src="{{asset('assets/front/js/slick.min.js')}}"></script>
 <script src="{{asset('assets/front/js/product.js')}}"></script>
-<script src="{{asset('assets/front/js/cart.js')}}"></script>
 <script>
     $('.image-popup').magnificPopup({
         type: 'image',
@@ -317,5 +319,60 @@
         $('#reviewValue').val(reviewValue);
     })
 </script>
+
+@if($product->offline)
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            @php
+                $products   = \App\Product::query()
+                ->orderBy('title', 'ASC')
+                ->get()
+                ->each(function($query) use($product){
+                    if($product->id == $query->id)
+                    {
+                        $query->selected = true;
+                        return $query;
+                    }
+                    else if(session()->has('product_ids'))
+                    {
+                        $product_ids    = (Array)session('product_ids');
+                        if(in_array($query->id, $product_ids))
+                        {
+                            $query->selected = true;
+                            return $query;
+                        }
+                    }
+                });//->pluck('title', 'current_price', 'id');
+                echo "var productsArrayData = ".json_encode($products).";";
+            @endphp
+
+            var data = $.map(productsArrayData, function (obj) {
+                obj.text = obj.text || obj.title; // replace name with the property used for the text
+
+                return obj;
+            });
+
+            $('.select2').select2({
+                data: data,
+                dropdownParent: $('#productInquiryModal'),
+                placeholder: "{{__('Add More Products')}}",
+                templateResult: formatProduct
+            });
+        });
+
+        function formatProduct (product) {
+            if (!product.id) {
+                return product.text;
+            }
+            var $product = $(
+                '<span><img src="' + product.feature_image + '" class="img-flag" style="max-width: 50px;max-height: 40px;"/> ' + product.text + '</span>'
+            );
+            return $product;
+        };
+    </script>
+@else
+    <script src="{{asset('assets/front/js/cart.js')}}"></script>
+@endif
 
 @endsection
