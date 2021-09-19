@@ -55,6 +55,7 @@
                     </div>
                     <div class="col-lg-4">
                         <div class="border mt-md-8">
+                            @if(!$product->offline)
                             <div class="bg-white-100 py-4 px-5">
                                 <p class="price font-size-22 font-weight-medium mb-0">
                                     <span class="woocommerce-Price-amount amount">
@@ -62,10 +63,13 @@
                                     </span>
                                 </p>
                             </div>
+                            @endif
                             <div class="py-4 px-5">
                                 <!-- End Select -->
 
-
+                                @if($product->offline)
+                                    @includeIf('front.bookworm.chemistry.molecules.offline_modal')
+                                @else
                                 <div class="px-3 d-flex justify-content-center">
                                     <div class="product-quantity  d-flex" id="quantity">
                                         <button type="button" id="sub" class="sub subclick">-</button>
@@ -73,10 +77,11 @@
                                         <button type="button" id="add" class="add addclick">+</button>
                                     </div>
                                 </div>
+                                <a data-href="{{ $pvariation ? route('add.cart',$pvariation->id) : route('add.cart',$product->id) }}" class="btn btn-block btn-dark border-0 rounded-0 p-3 single_add_to_cart_button button alt mt-3 cart-btn cart-link" style="color: #fff;">Add to cart</a>
 
-                                    <a data-href="{{ $pvariation ? route('add.cart',$pvariation->id) : route('add.cart',$product->id) }}" class="btn btn-block btn-dark border-0 rounded-0 p-3 single_add_to_cart_button button alt mt-3 cart-btn cart-link" style="color: #fff;">Add to cart</a>
+                                @endif
 
-                                    @if( ! is_null($product->variations) )
+                                @if( ! is_null($product->variations) )
                                         @php
                                         if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')
                                              $url = "https://";
