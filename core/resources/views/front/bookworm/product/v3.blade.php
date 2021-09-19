@@ -27,11 +27,13 @@
                                     <div class="rating" style="width:{{$product->rating * 20}}%"></div>
                                 </div>
                                 @endif
+                                @if(!$product->offline)
                                 <p class="price font-size-22 font-weight-medium mb-3">
                                     <span class="woocommerce-Price-amount amount">
                                         <span class="woocommerce-Price-currencySymbol">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}</span>{{ $pvariation ?$pvariation->current_price : $product->current_price }}
                                     </span>
                                 </p>
+                                @endif
 
 
                                 <div class="woocommerce-product-details__short-description font-size-2 mb-5">
@@ -39,6 +41,9 @@
                                 </div>
 
                                 <div class="px-3 d-flex mb-5 align-items-center">
+                                    @if($product->offline)
+                                        @includeIf('front.bookworm.chemistry.molecules.offline_modal')
+                                    @else
                                     <div class="product-quantity d-none d-md-flex" id="quantity">
                                         <button type="button" id="sub" class="sub subclick">-</button>
                                         <input type="text" class="cart-amount" id="1" value="1" />
@@ -52,6 +57,7 @@
 
                                     <a data-href="{{ $pvariation ? route('add.cart',$pvariation->id) : route('add.cart',$product->id) }}" class="mb-4 mb-md-0 btn btn-dark border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link" style="color: #fff">Add to cart</a>
 
+                                    @endif
                                     <div class="product-social-icon social-link a2a_kit a2a_kit_size_32 mt-3 ml-md-4">
                                         <ul class="social-share d-flex justify-around">
                                             <li>
