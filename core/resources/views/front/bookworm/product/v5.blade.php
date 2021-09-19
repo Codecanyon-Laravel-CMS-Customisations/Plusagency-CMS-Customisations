@@ -31,13 +31,18 @@
                                             <div class="">{!! str_replace("\\n", "", convertUtf8(nl2br($product->summary))) !!}</div>
                                         </div>
                                     </div>
+                                    @if(!$product->offline)
                                     <p class="price font-size-22 font-weight-medium mb-4">
                                         <span class="woocommerce-Price-amount amount">
                                             <span class="woocommerce-Price-currencySymbol">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}</span>{{ $pvariation ?$pvariation->current_price : $product->current_price }}
                                         </span>
                                     </p>
+                                    @endif
 
                                         <div class="px-3 d-flex align-items-center">
+                                            @if($product->offline)
+                                                @includeIf('front.bookworm.chemistry.molecules.offline_modal')
+                                            @else
                                             <div class="product-quantity d-flex mr-3" id="quantity">
                                                 <button type="button" id="sub" class="sub subclick">-</button>
                                                 <input type="text" class="cart-amount" id="1" value="1" />
@@ -45,6 +50,7 @@
                                             </div>
 
                                             <a data-href="{{ $pvariation ? route('add.cart',$pvariation->id) : route('add.cart',$product->id) }}" class="btn btn-block ml-md-3 btn-dark border-0 rounded-0 p-3 single_add_to_cart_button button alt cart-btn cart-link" style="color: #fff;">Add to cart</a>
+                                            @endif
                                         </div>
 
                                         @if( ! is_null($product->variations) )
