@@ -3,15 +3,15 @@
 namespace League\Glide\Manipulators;
 
 use Intervention\Image\Image;
-use League\Glide\Helpers\Color;
+use League\Glide\Manipulators\Helpers\Color;
 
 /**
  * @property string $bg
  */
-class Background extends Manipulator
+class Background extends BaseManipulator
 {
     /**
-     * Perform blur image manipulation.
+     * Perform background image manipulation.
      * @param  Image $image The source image.
      * @return Image The manipulated image.
      */

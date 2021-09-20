@@ -100,21 +100,25 @@ class Profile extends BaseResource
     }
 
     /**
-     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Profile
+     * @return Profile
      * @throws ApiException
      */
     public function update()
     {
-        $body = [
+        if (! isset($this->_links->self->href)) {
+            return $this;
+        }
+
+        $body = json_encode([
             "name" => $this->name,
             "website" => $this->website,
             "email" => $this->email,
             "phone" => $this->phone,
             "categoryCode" => $this->categoryCode,
             "mode" => $this->mode,
-        ];
+        ]);
 
-        $result = $this->client->profiles->update($this->id, $body);
+        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_PATCH, $this->_links->self->href, $body);
 
         return ResourceFactory::createFromApiResult($result, new Profile($this->client));
     }

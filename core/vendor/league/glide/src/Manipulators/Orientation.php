@@ -7,7 +7,7 @@ use Intervention\Image\Image;
 /**
  * @property string $or
  */
-class Orientation extends Manipulator
+class Orientation extends BaseManipulator
 {
     /**
      * Perform orientation image manipulation.

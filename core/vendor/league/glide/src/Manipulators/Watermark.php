@@ -3,12 +3,9 @@
 namespace League\Glide\Manipulators;
 
 use Intervention\Image\Image;
-use InvalidArgumentException;
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
-use League\Glide\Exceptions\FilesystemException;
-use League\Glide\Helpers\Dimension;
+use League\Glide\Filesystem\FilesystemException;
+use League\Glide\Manipulators\Helpers\Dimension;
 
 /**
  * @property string $dpr
@@ -22,7 +19,7 @@ use League\Glide\Helpers\Dimension;
  * @property string $marky
  * @property string $markalpha
  */
-class Watermark extends Manipulator
+class Watermark extends BaseManipulator
 {
     /**
      * The watermarks file system.
@@ -38,9 +35,9 @@ class Watermark extends Manipulator
 
     /**
      * Create Watermark instance.
-     * @param FilesystemInterface|string $watermarks The watermarks file system.
+     * @param FilesystemInterface $watermarks The watermarks file system.
      */
-    public function __construct($watermarks = null, $watermarksPathPrefix = '')
+    public function __construct(FilesystemInterface $watermarks = null, $watermarksPathPrefix = '')
     {
         $this->setWatermarks($watermarks);
         $this->setWatermarksPathPrefix($watermarksPathPrefix);
@@ -48,20 +45,10 @@ class Watermark extends Manipulator
 
     /**
      * Set the watermarks file system.
-     * @param FilesystemInterface|string $watermarks The watermarks file system.
+     * @param FilesystemInterface $watermarks The watermarks file system.
      */
-    public function setWatermarks($watermarks = null)
+    public function setWatermarks(FilesystemInterface $watermarks = null)
     {
-        if (is_string($watermarks)) {
-            $watermarks = new Filesystem(
-                new Local($watermarks)
-            );
-        }
-
-        if (!is_null($watermarks) and !is_a($watermarks, FilesystemInterface::class)) {
-            throw new InvalidArgumentException('Not a valid "watermarks" file system.');
-        }
-
         $this->watermarks = $watermarks;
     }
 

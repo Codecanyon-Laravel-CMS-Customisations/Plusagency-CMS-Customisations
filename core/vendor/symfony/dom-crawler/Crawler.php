@@ -21,34 +21,20 @@ use Symfony\Component\CssSelector\CssSelectorConverter;
  */
 class Crawler implements \Countable, \IteratorAggregate
 {
-    /**
-     * @var string|null
-     */
     protected $uri;
 
     /**
-     * The default namespace prefix to be used with XPath and CSS expressions.
-     *
-     * @var string
+     * @var string The default namespace prefix to be used with XPath and CSS expressions
      */
     private $defaultNamespacePrefix = 'default';
 
     /**
-     * A map of manually registered namespaces.
-     *
-     * @var array<string, string>
+     * @var array A map of manually registered namespaces
      */
     private $namespaces = [];
 
     /**
-     * @var \ArrayObject A map of cached namespaces
-     */
-    private $cachedNamespaces;
-
-    /**
-     * The base href value.
-     *
-     * @var string|null
+     * @var string The base href value
      */
     private $baseHref;
 
@@ -82,7 +68,6 @@ class Crawler implements \Countable, \IteratorAggregate
         $this->uri = $uri;
         $this->baseHref = $baseHref ?: $uri;
         $this->html5Parser = class_exists(HTML5::class) ? new HTML5(['disable_html_ns' => true]) : null;
-        $this->cachedNamespaces = new \ArrayObject();
 
         $this->add($node);
     }
@@ -90,7 +75,7 @@ class Crawler implements \Countable, \IteratorAggregate
     /**
      * Returns the current URI.
      *
-     * @return string|null
+     * @return string
      */
     public function getUri()
     {
@@ -100,7 +85,7 @@ class Crawler implements \Countable, \IteratorAggregate
     /**
      * Returns base href.
      *
-     * @return string|null
+     * @return string
      */
     public function getBaseHref()
     {
@@ -114,7 +99,6 @@ class Crawler implements \Countable, \IteratorAggregate
     {
         $this->nodes = [];
         $this->document = null;
-        $this->cachedNamespaces = new \ArrayObject();
     }
 
     /**
@@ -152,7 +136,7 @@ class Crawler implements \Countable, \IteratorAggregate
     public function addContent(string $content, string $type = null)
     {
         if (empty($type)) {
-            $type = str_starts_with($content, '<?xml') ? 'application/xml' : 'text/html';
+            $type = 0 === strpos($content, '<?xml') ? 'application/xml' : 'text/html';
         }
 
         // DOM only for HTML/XML content
@@ -503,27 +487,13 @@ class Crawler implements \Countable, \IteratorAggregate
     }
 
     /**
-     * Returns the parent nodes of the current selection.
+     * Returns the parents nodes of the current selection.
      *
      * @return static
      *
      * @throws \InvalidArgumentException When current node is empty
      */
     public function parents()
-    {
-        trigger_deprecation('symfony/dom-crawler', '5.3', 'The %s() method is deprecated, use ancestors() instead.', __METHOD__);
-
-        return $this->ancestors();
-    }
-
-    /**
-     * Returns the ancestors of the current selection.
-     *
-     * @return static
-     *
-     * @throws \InvalidArgumentException When the current node is empty
-     */
-    public function ancestors()
     {
         if (!$this->nodes) {
             throw new \InvalidArgumentException('The current node list is empty.');
@@ -964,11 +934,11 @@ class Crawler implements \Countable, \IteratorAggregate
      */
     public static function xpathLiteral(string $s)
     {
-        if (!str_contains($s, "'")) {
+        if (false === strpos($s, "'")) {
             return sprintf("'%s'", $s);
         }
 
-        if (!str_contains($s, '"')) {
+        if (false === strpos($s, '"')) {
             return sprintf('"%s"', $s);
         }
 
@@ -997,14 +967,12 @@ class Crawler implements \Countable, \IteratorAggregate
      */
     private function filterRelativeXPath(string $xpath): object
     {
-        $crawler = $this->createSubCrawler(null);
-        if (null === $this->document) {
-            return $crawler;
-        }
+        $prefixes = $this->findNamespacePrefixes($xpath);
 
-        $domxpath = $this->createDOMXPath($this->document, $this->findNamespacePrefixes($xpath));
+        $crawler = $this->createSubCrawler(null);
 
         foreach ($this->nodes as $node) {
+            $domxpath = $this->createDOMXPath($node->ownerDocument, $prefixes);
             $crawler->add($domxpath->query($xpath, $node));
         }
 
@@ -1063,29 +1031,29 @@ class Crawler implements \Countable, \IteratorAggregate
             }
             $expression = rtrim(substr($xpath, $startPosition, $i - $startPosition));
 
-            if (str_starts_with($expression, 'self::*/')) {
+            if (0 === strpos($expression, 'self::*/')) {
                 $expression = './'.substr($expression, 8);
             }
 
             // add prefix before absolute element selector
             if ('' === $expression) {
                 $expression = $nonMatchingExpression;
-            } elseif (str_starts_with($expression, '//')) {
+            } elseif (0 === strpos($expression, '//')) {
                 $expression = 'descendant-or-self::'.substr($expression, 2);
-            } elseif (str_starts_with($expression, './/')) {
+            } elseif (0 === strpos($expression, './/')) {
                 $expression = 'descendant-or-self::'.substr($expression, 3);
-            } elseif (str_starts_with($expression, './')) {
+            } elseif (0 === strpos($expression, './')) {
                 $expression = 'self::'.substr($expression, 2);
-            } elseif (str_starts_with($expression, 'child::')) {
+            } elseif (0 === strpos($expression, 'child::')) {
                 $expression = 'self::'.substr($expression, 7);
-            } elseif ('/' === $expression[0] || '.' === $expression[0] || str_starts_with($expression, 'self::')) {
+            } elseif ('/' === $expression[0] || '.' === $expression[0] || 0 === strpos($expression, 'self::')) {
                 $expression = $nonMatchingExpression;
-            } elseif (str_starts_with($expression, 'descendant::')) {
+            } elseif (0 === strpos($expression, 'descendant::')) {
                 $expression = 'descendant-or-self::'.substr($expression, 12);
             } elseif (preg_match('/^(ancestor|ancestor-or-self|attribute|following|following-sibling|namespace|parent|preceding|preceding-sibling)::/', $expression)) {
                 // the fake root has no parent, preceding or following nodes and also no attributes (even no namespace attributes)
                 $expression = $nonMatchingExpression;
-            } elseif (!str_starts_with($expression, 'descendant-or-self::')) {
+            } elseif (0 !== strpos($expression, 'descendant-or-self::')) {
                 $expression = 'self::'.$expression;
             }
             $expressions[] = $parenthesis.$expression;
@@ -1126,9 +1094,11 @@ class Crawler implements \Countable, \IteratorAggregate
     }
 
     /**
+     * @param \DOMElement $node
+     *
      * @return array
      */
-    protected function sibling(\DOMNode $node, string $siblingDir = 'nextSibling')
+    protected function sibling($node, string $siblingDir = 'nextSibling')
     {
         $nodes = [];
 
@@ -1215,18 +1185,14 @@ class Crawler implements \Countable, \IteratorAggregate
      */
     private function discoverNamespace(\DOMXPath $domxpath, string $prefix): ?string
     {
-        if (\array_key_exists($prefix, $this->namespaces)) {
+        if (isset($this->namespaces[$prefix])) {
             return $this->namespaces[$prefix];
-        }
-
-        if ($this->cachedNamespaces->offsetExists($prefix)) {
-            return $this->cachedNamespaces[$prefix];
         }
 
         // ask for one namespace, otherwise we'd get a collection with an item for each node
         $namespaces = $domxpath->query(sprintf('(//namespace::*[name()="%s"])[last()]', $this->defaultNamespacePrefix === $prefix ? '' : $prefix));
 
-        return $this->cachedNamespaces[$prefix] = ($node = $namespaces->item(0)) ? $node->nodeValue : null;
+        return ($node = $namespaces->item(0)) ? $node->nodeValue : null;
     }
 
     private function findNamespacePrefixes(string $xpath): array
@@ -1251,7 +1217,6 @@ class Crawler implements \Countable, \IteratorAggregate
         $crawler->isHtml = $this->isHtml;
         $crawler->document = $this->document;
         $crawler->namespaces = $this->namespaces;
-        $crawler->cachedNamespaces = $this->cachedNamespaces;
         $crawler->html5Parser = $this->html5Parser;
 
         return $crawler;

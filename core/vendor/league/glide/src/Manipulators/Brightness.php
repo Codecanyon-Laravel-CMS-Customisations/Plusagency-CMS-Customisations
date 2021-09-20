@@ -7,7 +7,7 @@ use Intervention\Image\Image;
 /**
  * @property string $bri
  */
-class Brightness extends Manipulator
+class Brightness extends BaseManipulator
 {
     /**
      * Perform brightness image manipulation.

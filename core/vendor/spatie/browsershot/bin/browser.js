@@ -1,3 +1,4 @@
+const puppeteer = require('puppeteer');
 const fs = require('fs');
 const URL = require('url').URL;
 const URLParse = require('url').parse;
@@ -41,7 +42,7 @@ const callChrome = async pup => {
     let page;
     let output;
     let remoteInstance;
-	const puppet = (pup || require('puppeteer'));
+	const puppet = (pup || puppeteer);
 
     try {
         if (request.options.remoteInstanceUrl || request.options.browserWSEndpoint ) {
@@ -69,11 +70,7 @@ const callChrome = async pup => {
                 ignoreHTTPSErrors: request.options.ignoreHttpsErrors,
                 executablePath: request.options.executablePath,
                 args: request.options.args || [],
-                pipe: request.options.pipe || false,
-                env: {
-                    ...(request.options.env || {}),
-                    ...process.env
-                },
+                pipe: request.options.pipe || false
             });
         }
 
@@ -84,23 +81,6 @@ const callChrome = async pup => {
         }
 
         await page.setRequestInterception(true);
-
-        if (request.postParams) {
-            const postParamsArray = request.postParams;
-            const queryString = Object.keys(postParamsArray)
-                .map(key => `${key}=${postParamsArray[key]}`)
-                .join('&');
-            page.once("request", interceptedRequest => {
-                interceptedRequest.continue({
-                    method: "POST",
-                    postData: queryString,
-                    headers: {
-                        ...interceptedRequest.headers(),
-                        "Content-Type": "application/x-www-form-urlencoded"
-                    }
-                });
-            });
-        }
 
         page.on('request', request => {
             requestsList.push({
@@ -150,7 +130,7 @@ const callChrome = async pup => {
         }
 
         if (request.options && request.options.device) {
-            const devices = puppet.devices;
+            const devices = puppeteer.devices;
             const device = devices[request.options.device];
             await page.emulate(device);
         }
@@ -235,22 +215,11 @@ const callChrome = async pup => {
         }
 
         if (request.options.delay) {
-            await page.waitForTimeout(request.options.delay);
+            await page.waitFor(request.options.delay);
         }
 
         if (request.options.selector) {
-        	var element;
-            const index = request.options.selectorIndex || 0;
-            if(index){
-            	element = await page.$$(request.options.selector);
-            	if(!element.length || typeof element[index] === 'undefined'){
-            		element = null;
-            	}else{
-            		element = element[index];
-            	}
-            }else{
-            	element = await page.$(request.options.selector);
-            }
+            const element = await page.$(request.options.selector);
             if (element === null) {
                 throw {type: 'ElementNotFound'};
             }

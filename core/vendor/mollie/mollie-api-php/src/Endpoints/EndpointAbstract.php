@@ -80,35 +80,6 @@ abstract class EndpointAbstract
     }
 
     /**
-     * Sends a PATCH request to a single Molle API object.
-     *
-     * @param string $id
-     * @param array $body
-     *
-     * @return BaseResource
-     * @throws ApiException
-     */
-    protected function rest_update($id, array $body = [])
-    {
-        if (empty($id)) {
-            throw new ApiException("Invalid resource id.");
-        }
-
-        $id = urlencode($id);
-        $result = $this->client->performHttpCall(
-            self::REST_UPDATE,
-            "{$this->getResourcePath()}/{$id}",
-            $this->parseRequestBody($body)
-        );
-
-        if ($result === null) {
-            return null;
-        }
-
-        return ResourceFactory::createFromApiResult($result, $this->getResourceObject());
-    }
-
-    /**
      * Retrieves a single object from the REST API.
      *
      * @param string $id Id of the object to retrieve.
@@ -234,7 +205,7 @@ abstract class EndpointAbstract
         }
 
         try {
-            $encoded = @json_encode($body);
+            $encoded = \GuzzleHttp\json_encode($body);
         } catch (\InvalidArgumentException $e) {
             throw new ApiException("Error encoding parameters into JSON: '".$e->getMessage()."'.");
         }

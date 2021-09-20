@@ -11,7 +11,7 @@
  * bundled with this package in the LICENSE file.
  *
  * @package    Stripe
- * @version    2.4.5
+ * @version    2.4.4
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
  * @copyright  (c) 2011-2021, Cartalyst LLC
@@ -61,6 +61,6 @@ class Utility
             'KMF', 'MGA', 'RWF', 'VUV', 'XOF',
         ];
 
-        return ! $hasCurrency || ($hasCurrency && ! in_array(strtoupper($parameters['currency']), $currencies));
+        return ! $hasCurrency || ($hasCurrency && ! in_array($parameters['currency'], $currencies));
     }
 }

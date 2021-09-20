@@ -8,7 +8,7 @@ use Intervention\Image\Image;
  * @property string $fm
  * @property string $q
  */
-class Encode extends Manipulator
+class Encode extends BaseManipulator
 {
     /**
      * Perform output image manipulation.
@@ -46,6 +46,7 @@ class Encode extends Manipulator
             'jpg' => 'image/jpeg',
             'pjpg' => 'image/jpeg',
             'png' => 'image/png',
+            'webp' => 'image/webp',
         ];
 
         if (array_key_exists($this->fm, $allowed)) {

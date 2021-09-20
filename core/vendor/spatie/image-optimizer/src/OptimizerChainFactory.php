@@ -30,7 +30,6 @@ class OptimizerChainFactory
             ->addOptimizer(new Pngquant([
                 $pngQuality,
                 '--force',
-                '--skip-if-larger',
             ]))
 
             ->addOptimizer(new Optipng([

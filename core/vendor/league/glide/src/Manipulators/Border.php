@@ -3,14 +3,14 @@
 namespace League\Glide\Manipulators;
 
 use Intervention\Image\Image;
-use League\Glide\Helpers\Color;
-use League\Glide\Helpers\Dimension;
+use League\Glide\Manipulators\Helpers\Color;
+use League\Glide\Manipulators\Helpers\Dimension;
 
 /**
  * @property string $border
  * @property string $dpr
  */
-class Border extends Manipulator
+class Border extends BaseManipulator
 {
     /**
      * Perform border image manipulation.

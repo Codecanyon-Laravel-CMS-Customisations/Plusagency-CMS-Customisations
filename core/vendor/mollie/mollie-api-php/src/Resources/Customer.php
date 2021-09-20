@@ -2,6 +2,8 @@
 
 namespace Mollie\Api\Resources;
 
+use Mollie\Api\MollieApiClient;
+
 class Customer extends BaseResource
 {
     /**
@@ -59,18 +61,22 @@ class Customer extends BaseResource
     public $_links;
 
     /**
-     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Customer
+     * @return Customer
      */
     public function update()
     {
-        $body = [
+        if (! isset($this->_links->self->href)) {
+            return $this;
+        }
+
+        $body = json_encode([
             "name" => $this->name,
             "email" => $this->email,
             "locale" => $this->locale,
             "metadata" => $this->metadata,
-        ];
+        ]);
 
-        $result = $this->client->customers->update($this->id, $body);
+        $result = $this->client->performHttpCallToFullUrl(MollieApiClient::HTTP_PATCH, $this->_links->self->href, $body);
 
         return ResourceFactory::createFromApiResult($result, new Customer($this->client));
     }

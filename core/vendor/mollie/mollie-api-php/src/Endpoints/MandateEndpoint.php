@@ -79,7 +79,7 @@ class MandateEndpoint extends CollectionEndpointAbstract
      * @param string $mandateId
      * @param array $parameters
      *
-     * @return \Mollie\Api\Resources\BaseResource|\Mollie\Api\Resources\Mandate
+     * @return \Mollie\Api\Resources\BaseResource
      * @throws \Mollie\Api\Exceptions\ApiException
      */
     public function getForId($customerId, $mandateId, array $parameters = [])

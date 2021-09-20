@@ -74,11 +74,11 @@ Or you could opt to just install it globally
 npm install puppeteer --global
 ```
 
-On a [Forge](https://forge.laravel.com) provisioned Ubuntu 20.04 server you can install the latest stable version of Chrome like this:
+On a [Forge](https://forge.laravel.com) provisioned Ubuntu 16.04 server you can install the latest stable version of Chrome like this:
 
 ```bash
-curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-sudo apt-get install -y nodejs gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget libgbm-dev libxshmfence-dev
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo apt-get install -y nodejs gconf-service libasound2 libatk1.0-0 libc6 libcairo2 libcups2 libdbus-1-3 libexpat1 libfontconfig1 libgbm1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget libgbm-dev
 sudo npm install --global --unsafe-perm puppeteer
 sudo chmod -R o+rx /usr/lib/node_modules/puppeteer/.local-chromium
 ```
@@ -227,11 +227,11 @@ Browsershot::url('https://example.com')
     ->save($pathToImage);
 ```
 
-You can take a screenshot of an element matching a selector using `select` and an optional `$selectorIndex` which is used to select the nth element (e.g. use `$selectorIndex = 3` to get the fourth element like `div:eq(3)`). By default `$selectorIndex` is `0` which represents the first matching element.
+You can take a screenshot of an element matching a selector using `select`.
 
 ```php
 Browsershot::url('https://example.com')
-    ->select('.some-selector', $selectorIndex)
+    ->select('.some-selector')
     ->save($pathToImage);
 ```
 
@@ -426,16 +426,6 @@ $image = Browsershot::url('https://example.com')
     ->screenshot()
 ```
 
-#### Setting the user data directory
-
-You can set the [user data directory](https://chromium.googlesource.com/chromium/src/+/refs/heads/main/docs/user_data_dir.md) that is used to store the browser session and additional data. Setting this to a static value may introduce cache problems, could also increase performance. It needs to be an absolute path.
-
-```php
-$image = Browsershot::url('https://example.com')
-    ->userDataDir('/tmp/session-1')
-    ->screenshot()
-```
-
 ### PDFs
 
 Browsershot will save a pdf if the path passed to the `save` method has a `pdf` extension.
@@ -457,12 +447,6 @@ You can also pass some html which will be converted to a pdf.
 Browsershot::html($someHtml)->savePdf('example.pdf');
 ```
 
-If you need the base64 version of a PDF you can use the `base64pdf` method. This can come in handy when you don't want to save the screenshot on disk in environments like Heroku that don't allow you to save a file. You can then proceed to create the file and upload it directly as a base64 string using a package like [Laravel Media Library](https://spatie.be/docs/laravel-medialibrary/v9/api/adding-files#addmediafrombase64).
-
-```php
-$base64Data = Browsershot::url('https://example.com')
-    ->base64pdf();
-```
 #### Sizing the pdf
 
 You can specify the width and the height.
@@ -551,16 +535,6 @@ Call `landscape` if you want to resulting pdf to be landscape oriented.
 Browsershot::html($someHtml)
    ->landscape()
    ->save('example.pdf');
-```
-
-#### Scale
-
-Scale can be set. Defaults to 1. Scale amount must be between 0.1 and 2.
-
-```php
-Browsershot::html($someHtml)
-    ->scale(0.5)
-    ->save('example.pdf');
 ```
 
 #### Only export specific pages
@@ -652,8 +626,6 @@ Browsershot::url('https://example.com')
     ->savePdf($pathToPdf);
 ```
 
-#### Setting the timeout
-
 The default timeout of Browsershot is set to 60 seconds. Of course, you can modify this timeout:
 
 ```php
@@ -727,17 +699,6 @@ You can specify the domain to register cookies to, if necessary:
 ```php
 Browsershot::url('https://example.com')
     ->useCookies(['Cookie-Key' => 'Cookie-Value'], 'ui.example.com')
-   ...
-```
-
-#### Sending POST requests
-
-By default, all requests sent using GET method. You can make POST request to the given url by using the `post` method.
-Note: POST request sent using `application/x-www-form-urlencoded` content type.
-
-```php
-Browsershot::url('https://example.com')
-    ->post(['foo' => 'bar'])
    ...
 ```
 
@@ -821,17 +782,6 @@ Browsershot::url('https://example.com')
    ->usePipe()
    ...
 ```
-
-#### Passing environment variables to the browser
-
-If you want to set custom environment variables which affect the browser instance you can use:
-
-```php
-Browsershot::url('https://example.com')
-   ->setEnvironmentOptions(['TZ' => 'Pacific/Auckland'])
-   ...
-```
-
 
 ## Related packages
 

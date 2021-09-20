@@ -7,7 +7,7 @@ use Intervention\Image\Image;
 /**
  * @property string $crop
  */
-class Crop extends Manipulator
+class Crop extends BaseManipulator
 {
     /**
      * Perform crop image manipulation.

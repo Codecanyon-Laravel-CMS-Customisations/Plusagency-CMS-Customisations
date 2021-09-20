@@ -7,7 +7,7 @@ use Intervention\Image\Image;
 /**
  * @property string $pixel
  */
-class Pixelate extends Manipulator
+class Pixelate extends BaseManipulator
 {
     /**
      * Perform pixelate image manipulation.

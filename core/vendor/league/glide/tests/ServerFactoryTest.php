@@ -2,18 +2,20 @@
 
 namespace League\Glide;
 
+use InvalidArgumentException;
 use Mockery;
+use PHPUnit\Framework\TestCase;
 
-class ServerFactoryTest extends \PHPUnit_Framework_TestCase
+class ServerFactoryTest extends TestCase
 {
-    public function testCreateInstance()
+    public function testCreateServerFactory()
     {
-        $this->assertInstanceOf('League\Glide\ImageServerFactory', new ImageServerFactory());
+        $this->assertInstanceOf('League\Glide\ServerFactory', new ServerFactory());
     }
 
     public function testGetServer()
     {
-        $server = new ImageServerFactory([
+        $server = new ServerFactory([
             'source' => Mockery::mock('League\Flysystem\FilesystemInterface'),
             'cache' => Mockery::mock('League\Flysystem\FilesystemInterface'),
             'response' => Mockery::mock('League\Glide\Responses\ResponseFactoryInterface'),
@@ -24,13 +26,13 @@ class ServerFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSource()
     {
-        $server = new ImageServerFactory([
+        $server = new ServerFactory([
             'source' => Mockery::mock('League\Flysystem\FilesystemInterface'),
         ]);
 
         $this->assertInstanceOf('League\Flysystem\FilesystemInterface', $server->getSource());
 
-        $server = new ImageServerFactory([
+        $server = new ServerFactory([
             'source' => sys_get_temp_dir(),
         ]);
 
@@ -39,18 +41,16 @@ class ServerFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSourceWithNoneSet()
     {
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            'A "source" file system must be set.'
-        );
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('A "source" file system must be set.');
 
-        $server = new ImageServerFactory();
+        $server = new ServerFactory();
         $server->getSource();
     }
 
     public function testGetSourcePathPrefix()
     {
-        $server = new ImageServerFactory([
+        $server = new ServerFactory([
             'source_path_prefix' => 'source',
         ]);
 
@@ -59,13 +59,13 @@ class ServerFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCache()
     {
-        $server = new ImageServerFactory([
+        $server = new ServerFactory([
             'cache' => Mockery::mock('League\Flysystem\FilesystemInterface'),
         ]);
 
         $this->assertInstanceOf('League\Flysystem\FilesystemInterface', $server->getCache());
 
-        $server = new ImageServerFactory([
+        $server = new ServerFactory([
             'cache' => sys_get_temp_dir(),
         ]);
 
@@ -74,18 +74,16 @@ class ServerFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCacheWithNoneSet()
     {
-        $this->setExpectedException(
-            'InvalidArgumentException',
-            'A "cache" file system must be set.'
-        );
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('A "cache" file system must be set.');
 
-        $server = new ImageServerFactory();
+        $server = new ServerFactory();
         $server->getCache();
     }
 
     public function testGetCachePathPrefix()
     {
-        $server = new ImageServerFactory([
+        $server = new ServerFactory([
             'cache_path_prefix' => 'cache',
         ]);
 
@@ -94,11 +92,11 @@ class ServerFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetGroupCacheInFolders()
     {
-        $server = new ImageServerFactory();
+        $server = new ServerFactory();
 
         $this->assertTrue($server->getGroupCacheInFolders());
 
-        $server = new ImageServerFactory([
+        $server = new ServerFactory([
             'group_cache_in_folders' => false,
         ]);
 
@@ -107,11 +105,11 @@ class ServerFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCacheWithFileExtensions()
     {
-        $server = new ImageServerFactory();
+        $server = new ServerFactory();
 
         $this->assertFalse($server->getCacheWithFileExtensions());
 
-        $server = new ImageServerFactory([
+        $server = new ServerFactory([
             'cache_with_file_extensions' => true,
         ]);
 
@@ -120,13 +118,13 @@ class ServerFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetWatermarks()
     {
-        $server = new ImageServerFactory([
+        $server = new ServerFactory([
             'watermarks' => Mockery::mock('League\Flysystem\FilesystemInterface'),
         ]);
 
         $this->assertInstanceOf('League\Flysystem\FilesystemInterface', $server->getWatermarks());
 
-        $server = new ImageServerFactory([
+        $server = new ServerFactory([
             'watermarks' => sys_get_temp_dir(),
         ]);
 
@@ -135,7 +133,7 @@ class ServerFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetWatermarksPathPrefix()
     {
-        $server = new ImageServerFactory([
+        $server = new ServerFactory([
             'watermarks_path_prefix' => 'watermarks',
         ]);
 
@@ -144,14 +142,14 @@ class ServerFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetApi()
     {
-        $server = new ImageServerFactory();
+        $server = new ServerFactory();
 
         $this->assertInstanceOf('League\Glide\Api\Api', $server->getApi());
     }
 
     public function testGetImageManager()
     {
-        $server = new ImageServerFactory([
+        $server = new ServerFactory([
             'driver' => 'imagick',
         ]);
         $imageManager = $server->getImageManager();
@@ -162,7 +160,7 @@ class ServerFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetImageManagerWithNoneSet()
     {
-        $server = new ImageServerFactory();
+        $server = new ServerFactory();
         $imageManager = $server->getImageManager();
 
         $this->assertInstanceOf('Intervention\Image\ImageManager', $imageManager);
@@ -171,16 +169,16 @@ class ServerFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetManipulators()
     {
-        $server = new ImageServerFactory();
+        $server = new ServerFactory();
         $manipulators = $server->getManipulators();
 
-        $this->assertInternalType('array', $manipulators);
+        $this->assertIsArray($manipulators);
         $this->assertInstanceOf('League\Glide\Manipulators\ManipulatorInterface', $manipulators[0]);
     }
 
     public function testGetMaxImageSize()
     {
-        $server = new ImageServerFactory([
+        $server = new ServerFactory([
             'max_image_size' => 100,
         ]);
 
@@ -193,7 +191,7 @@ class ServerFactoryTest extends \PHPUnit_Framework_TestCase
             'fm' => 'jpg',
         ];
 
-        $server = new ImageServerFactory([
+        $server = new ServerFactory([
             'defaults' => $defaults,
         ]);
 
@@ -208,7 +206,7 @@ class ServerFactoryTest extends \PHPUnit_Framework_TestCase
             ],
         ];
 
-        $server = new ImageServerFactory([
+        $server = new ServerFactory([
             'presets' => $presets,
         ]);
 
@@ -217,7 +215,7 @@ class ServerFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetBaseUrl()
     {
-        $server = new ImageServerFactory([
+        $server = new ServerFactory([
             'base_url' => 'img/',
         ]);
 
@@ -226,7 +224,7 @@ class ServerFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponseFactory()
     {
-        $server = new ImageServerFactory([
+        $server = new ServerFactory([
             'response' => Mockery::mock('League\Glide\Responses\ResponseFactoryInterface'),
         ]);
 
@@ -235,14 +233,14 @@ class ServerFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetResponseFactoryWithNoneSet()
     {
-        $server = new ImageServerFactory();
+        $server = new ServerFactory();
 
         $this->assertNull($server->getResponseFactory());
     }
 
     public function testCreate()
     {
-        $server = ImageServer::create([
+        $server = ServerFactory::create([
             'source' => Mockery::mock('League\Flysystem\FilesystemInterface'),
             'cache' => Mockery::mock('League\Flysystem\FilesystemInterface'),
             'response' => Mockery::mock('League\Glide\Responses\ResponseFactoryInterface'),

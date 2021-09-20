@@ -7,7 +7,7 @@ use Intervention\Image\Image;
 /**
  * @property string $sharp
  */
-class Sharpen extends Manipulator
+class Sharpen extends BaseManipulator
 {
     /**
      * Perform sharpen image manipulation.
