@@ -15,4 +15,4 @@ jobs:
         server: 103.50.161.248
         username: ignatius2
         password: ${{ secrets.ftp_password }}
-        server_dir: /var/www/vhosts/angelbookhouse.com/httpdocs/
+        server-dir: /var/www/vhosts/angelbookhouse.com/httpdocs/
