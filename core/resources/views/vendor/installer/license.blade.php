@@ -14,7 +14,7 @@
 
 
 
-        <form method="post" action="{{ route('licenseCheck') }}" class="tabs-wrap">
+        <form method="post" action="{{ route('LaravelInstaller::licenseCheck') }}" class="tabs-wrap">
             @if(session()->has('license_error'))
                 <div class="alert alert-danger" id="error_alert">
                     <button type="button" class="close" id="close_alert" data-dismiss="alert" aria-hidden="true">
