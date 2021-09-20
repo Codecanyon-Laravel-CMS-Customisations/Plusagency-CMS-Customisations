@@ -161,11 +161,6 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                                             <span class="badge badge-dark">Non Mega Menu</span>
                                             <a data-text="{{__('Products')}}" data-type="products" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a>
                                         </li>
-                                        <li class="list-group-item">
-                                            {{__('Categories')}}
-                                            {{-- <span class="badge badge-dark">Non Mega Menu</span> --}}
-                                            <a data-text="{{__('Categories')}}" data-type="categories" class="addToMenus btn btn-primary btn-sm float-right" href="">Add to Menus</a>
-                                        </li>
                                     @endif
 
 

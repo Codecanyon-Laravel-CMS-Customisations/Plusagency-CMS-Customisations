@@ -13,7 +13,7 @@ return [
     |
     */
     'core' => [
-        'minPhpVersion' => '7.1.3',
+        'minPhpVersion' => '7.3',
     ],
     'final' => [
         'key' => true,
@@ -50,7 +50,6 @@ return [
         '../assets/admin/img/'    => '775',
         '../assets/front/img/'    => '775',
         '../assets/front/invoices/'    => '775',
-        '../assets/front/ndas/'    => '775',
         '../assets/front/receipt/'    => '775',
         '../assets/front/temp/'    => '775',
         '../assets/front/user-suppor-file/'    => '775',

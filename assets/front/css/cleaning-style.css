@@ -2329,3 +2329,6 @@ a.main-btn.cart-btn.cart-link {
   .main-menu .mega-menu ul li:hover > a, .main-menu .mega-menu ul li.active a {
     background-color: transparent;
   }
+a.proceed-checkout-btn {
+    line-height: initial !important;
+}  

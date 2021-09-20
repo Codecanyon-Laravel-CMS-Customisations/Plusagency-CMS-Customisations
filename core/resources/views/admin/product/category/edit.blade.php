@@ -78,16 +78,6 @@
                   </select>
                   <p id="errstatus" class="mb-0 text-danger em"></p>
                 </div>
-
-                <div class="form-group">
-                  <label for="">Show In Menu </label>
-                  <select class="form-control ltr" name="show_in_menu">
-                    <option value="" selected disabled>Please select an option</option>
-                    <option value="1" {{$data->show_in_menu ==1 ? 'selected' : ''}}>True</option>
-                    <option value="0" {{$data->show_in_menu ==0 ? 'selected' : ''}}>False</option>
-                  </select>
-                  <p id="errstatus" class="mb-0 text-danger em"></p>
-                </div>
               </form>
             </div>
           </div>

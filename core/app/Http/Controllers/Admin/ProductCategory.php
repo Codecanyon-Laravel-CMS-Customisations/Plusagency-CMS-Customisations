@@ -17,10 +17,7 @@ class ProductCategory extends Controller
     {
         $lang = Language::where('code', $request->language)->first();
         $lang_id = $lang->id;
-        $data['pcategories'] = Pcategory::where('language_id', $lang_id)
-        ->where('parent_menu_id', NULL)
-        ->where('menu_level', '1')
-        ->orderBy('id', 'DESC')->paginate(10);
+        $data['pcategories'] = Pcategory::where('language_id', $lang_id)->orderBy('id', 'DESC')->paginate(10);
 
         $data['lang_id'] = $lang_id;
         return view('admin.product.category.index',$data);
@@ -62,17 +59,6 @@ class ProductCategory extends Controller
         return view('admin.product.category.edit',compact('data'));
     }
 
-    public function toggle_show_in_menu($id)
-    {
-        $product    = Pcategory::findOrFail($id);
-        $new_value  = $product->show_in_menu == '1' ? 0 : 1;
-        $product->show_in_menu  = $new_value;
-        $product->save();
-
-        session()->flash('success', $product->show_in_menu  == '1' ? 'Product category added to menu successfully!' : 'Product category removed from menu successfully!');
-        return back();
-    }
-
     public function update(Request $request)
     {
         $data = Pcategory::findOrFail($request->category_id);
@@ -108,18 +94,6 @@ class ProductCategory extends Controller
         }
 
         $this->deleteFromMegaMenu($category);
-
-
-        $child_ids      = Pcategory::query()->where('parent_menu_id', $category->id)->pluck('id');
-        $sub_child_ids  = Pcategory::query()->whereIn('parent_menu_id', $child_ids)->pluck('id');
-        foreach ($child_ids as $id) {
-            $pcategory = Pcategory::findOrFail($id);
-            $pcategory->delete();
-        }
-        foreach ($sub_child_ids as $id) {
-            $pcategory = Pcategory::findOrFail($id);
-            $pcategory->delete();
-        }
 
         $category->delete();
 

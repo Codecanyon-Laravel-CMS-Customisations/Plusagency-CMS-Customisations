@@ -14,13 +14,12 @@ use App\Permalink;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('test', function (){
-    return abort(404);
-});
 
 Route::fallback(function () {
   return view('errors.404');
 });
+
+Route::post('/licenseCheck', 'LicenseCheckController')->name('licenseCheck');
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth:admin', 'setLfmPath']], function () {
     \UniSharp\LaravelFilemanager\Lfm::routes();
@@ -401,13 +400,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin', 'checkstatus',
   Route::post('/propic/update', 'Admin\ProfileController@updatePropic')->name('admin.propic.update');
   Route::post('/profile/update', 'Admin\ProfileController@updateProfile')->name('admin.updateProfile');
 
-  // Admin Home Color Setting Routes
-  Route::get('/website-colors', 'Admin\WebsiteColorsController@index')->name('admin.websiteColors');
-  Route::post('/colorSettings/presets', 'Admin\WebsiteColorsController@presetsFirstOrCreate')->name('admin.colorSettings.presets');
-  Route::post('/colorSettings/create', 'Admin\WebsiteColorsController@store')->name('admin.colorSettings.store');
-  Route::post('/colorSettings/store', 'Admin\WebsiteColorsController@store1')->name('admin.colorSettings.store1');
-  Route::post('/colorSettings/{websiteColor}/post', 'Admin\WebsiteColorsController@update')->name('admin.colorSettings.update');
-  Route::get('/colorSettings/{websiteColor}', 'Admin\WebsiteColorsController@destroy')->name('admin.colorSettings.destroy');
 
   Route::group(['middleware' => 'checkpermission:Theme & Home'], function () {
     // Admin Home Version Setting Routes
@@ -821,18 +813,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin', 'checkstatus',
         Route::get('/megamenus/edit', 'Admin\MenuBuilderController@megaMenuEdit')->name('admin.megamenu.edit');
         Route::post('/megamenus/update', 'Admin\MenuBuilderController@megaMenuUpdate')->name('admin.megamenu.update');
 
-        // Category Mega Menus Management Routes
-        Route::get('/categorymegamenus', 'Admin\CategoryMenuBuilderController@categorymegamenus')->name('admin.categorymegamenus');
-        Route::get('/categorymegamenus/edit', 'Admin\CategoryMenuBuilderController@megaMenuEdit')->name('admin.categorymegamenu.edit');
-        Route::post('/categorymegamenus/update', 'Admin\CategoryMenuBuilderController@megaMenuUpdate')->name('admin.categorymegamenu.update');
-
         // Menus Builder Management Routes
         Route::get('/menu-builder', 'Admin\MenuBuilderController@index')->name('admin.menu_builder.index');
         Route::post('/menu-builder/update', 'Admin\MenuBuilderController@update')->name('admin.menu_builder.update');
-
-        // Category Menus Builder Management Routes
-        Route::get('/category-menu-builder', 'Admin\CategoryMenuBuilderController@index')->name('admin.category_menu_builder.index');
-        Route::post('/category-menu-builder/update', 'Admin\CategoryMenuBuilderController@update')->name('admin.category_menu_builder.update');
 
         // Permalinks Routes
         Route::get('/permalinks', 'Admin\MenuBuilderController@permalinks')->name('admin.permalinks.index');
@@ -887,7 +870,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin', 'checkstatus',
         Route::get('/category/{id}/edit', 'Admin\ProductCategory@edit')->name('admin.category.edit');
         Route::post('/category/update', 'Admin\ProductCategory@update')->name('admin.category.update');
         Route::post('/category/delete', 'Admin\ProductCategory@delete')->name('admin.category.delete');
-        Route::post('/category/toggle_show_in_menu/{id}', 'Admin\ProductCategory@toggle_show_in_menu')->name('admin.category.toggle_show_in_menu');
         Route::post('/category/bulk-delete', 'Admin\ProductCategory@bulkDelete')->name('admin.pcategory.bulk.delete');
 
         Route::get('/shipping', 'Admin\ShopSettingController@index')->name('admin.shipping.index');
@@ -904,8 +886,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin', 'checkstatus',
         Route::get('/product/{id}/edit', 'Admin\ProductController@edit')->name('admin.product.edit');
         Route::post('/product/update', 'Admin\ProductController@update')->name('admin.product.update');
         Route::post('/product/delete', 'Admin\ProductController@delete')->name('admin.product.delete');
-        Route::post('/product/bulk-active', 'Admin\ProductController@bulkActivate')->name('admin.product.bulk.activate');
-        Route::post('/product/page-builder/{id}', 'Admin\ProductController@toggleInPageBuilder')->name('admin.product.page-builder');
         Route::get('/product/populer/tags/', 'Admin\ProductController@populerTag')->name('admin.product.tags');
         Route::post('/product/populer/tags/update', 'Admin\ProductController@populerTagupdate')->name('admin.popular-tag.update');
         Route::post('/product/paymentStatus', 'Admin\ProductController@paymentStatus')->name('admin.product.paymentStatus');

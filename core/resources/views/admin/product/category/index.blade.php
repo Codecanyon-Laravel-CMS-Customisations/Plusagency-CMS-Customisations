@@ -89,7 +89,6 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                         </th>
                         <th scope="col">Name</th>
                         <th scope="col">Status</th>
-                        <th scope="col">Visible In Menu</th>
                         <th scope="col">Actions</th>
                       </tr>
                     </thead>
@@ -109,57 +108,23 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                               <h2 class="d-inline-block"><span class="badge badge-danger">Deactive</span></h2>
                             @endif
                           </td>
-
                           <td>
-                            @if ($category->show_in_menu == 1)
-                              <h2 class="d-inline-block"><span class="badge badge-success">true</span></h2>
-                            @else
-                              <h2 class="d-inline-block"><span class="badge badge-danger">false</span></h2>
-                            @endif
-                          </td>
-
-                          <td>
-                            <div class="btn-group">
-                                @if($category->show_in_menu == 1)
-                                    <button class="btn btn-sm btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Select Action
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a href="{{route('admin.category.edit', $category->id) . '?language=' . request()->input('language')}}" class="dropdown-item">
-                                            <i class="fas fa-edit"> Edit cateory</i>
-                                        </a>
-                                        <a onclick="event.preventDefault(); document.getElementById('addtomenuform-{{$category->id}}').submit();" href="javascript:;" class="dropdown-item">
-                                            <strong><i class="fab fa-audible"> Remove from menu</i></strong>
-                                        </a>
-                                        <a onclick="event.preventDefault(); document.getElementById('deleteform-{{$category->id}}').submit();" href="javascript:;" class="dropdown-item">
-                                            <i class="fas fa-trash"> Delete category</i>
-                                        </a>
-                                    </div>
-                                @else
-                                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Select Action
-                                    </button>
-                                    <div class="dropdown-menu">
-                                        <a href="{{route('admin.category.edit', $category->id) . '?language=' . request()->input('language')}}" class="dropdown-item">
-                                            <i class="fas fa-edit"> Edit category</i>
-                                        </a>
-                                        <a onclick="event.preventDefault(); document.getElementById('addtomenuform-{{$category->id}}').submit();" href="javascript:;" class="dropdown-item">
-                                            <strong><i class="fab fa-audible"> Add to menu</i></strong>
-                                        </a>
-                                        <a onclick="event.preventDefault(); document.getElementById('deleteform-{{$category->id}}').submit();" href="javascript:;" class="dropdown-item">
-                                            <i class="fas fa-trash"> Delete category</i>
-                                        </a>
-                                    </div>
-                                @endif
-                                <form id="addtomenuform-{{$category->id}}" class="deleteform d-none" action="{{route('admin.category.toggle_show_in_menu', $category->id)}}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="category_id" value="{{$category->id}}">
-                                </form>
-                                <form id="deleteform-{{$category->id}}" class="deleteform d-none" action="{{route('admin.category.delete')}}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="category_id" value="{{$category->id}}">
-                                </form>
-                            </div>
+                            <a class="btn btn-secondary btn-sm editbtn" href="{{route('admin.category.edit', $category->id) . '?language=' . request()->input('language')}}">
+                              <span class="btn-label">
+                                <i class="fas fa-edit"></i>
+                              </span>
+                              Edit
+                            </a>
+                            <form class="deleteform d-inline-block" action="{{route('admin.category.delete')}}" method="post">
+                              @csrf
+                              <input type="hidden" name="category_id" value="{{$category->id}}">
+                              <button type="submit" class="btn btn-danger btn-sm deletebtn">
+                                <span class="btn-label">
+                                  <i class="fas fa-trash"></i>
+                                </span>
+                                Delete
+                              </button>
+                            </form>
                           </td>
                         </tr>
                       @endforeach

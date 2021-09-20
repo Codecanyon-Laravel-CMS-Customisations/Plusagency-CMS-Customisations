@@ -1,6 +1,5 @@
 @php
 
-    $type = 'themeHome'; $theme = 'default';
 if ($be->theme_version == 'default') {
     $type = 'themeHome'; $theme = 'default';
 }
@@ -24,9 +23,6 @@ elseif ($be->theme_version == 'logistic') {
 }
 elseif ($be->theme_version == 'lawyer') {
     $type = 'themeHome'; $theme = 'lawyer';
-}
-elseif ($be->theme_version == 'bookworm') {
-    $type = 'themeHome'; $theme = 'bookworm';
 }
 @endphp
 

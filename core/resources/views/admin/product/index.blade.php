@@ -70,7 +70,6 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                 </div>
                 <div class="col-lg-4 offset-lg-1 mt-2 mt-lg-0">
                     <a href="{{route('admin.product.type')}}" class="btn btn-primary float-right btn-sm"><i class="fas fa-plus"></i> Add Product</a>
-                    <button class="btn btn-secondary float-right btn-sm mr-2 d-none bulk-activate" data-href="{{route('admin.product.bulk.activate')}}"><i class="fas fa-tasks"></i> Add to menu</button>
                     <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-delete" data-href="{{route('admin.product.bulk.delete')}}"><i class="flaticon-interface-5"></i> Delete</button>
                 </div>
             </div>
@@ -82,20 +81,20 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                 <h3 class="text-center">NO Products FOUND</h3>
               @else
                 <div class="table-responsive">
-                  <table class="table table-striped mt-3" id="products-datatables">
+                  <table class="table table-striped mt-3" id="basic-datatables">
                     <thead>
                       <tr>
-                        <th scope="col" class="no-sort">
+                        <th scope="col">
                             <input type="checkbox" class="bulk-check" data-val="all">
                         </th>
-                        <th scope="col" class="no-sort">Featured Image</th>
+                        <th scope="col">Featured Image</th>
                         <th scope="col">Title</th>
                         @if ($bex->catalog_mode == 0)
                             <th>Price ({{$bex->base_currency_text}})</th>
                         @endif
                         <th scope="col">Type</th>
                         <th scope="col">Category</th>
-                        <th scope="col" class="no-sort">Actions</th>
+                        <th scope="col">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -104,8 +103,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                           <td>
                             <input type="checkbox" class="bulk-check" data-val="{{$product->id}}">
                           </td>
-                          {{-- <td><img src="{{asset('assets/front/img/product/featured/'.$product->feature_image)}}" width="80"></td> --}}
-                          <td><img src="{{trim($product->feature_image)}}" width="80"></td>
+                          <td><img src="{{asset('assets/front/img/product/featured/'.$product->feature_image)}}" width="80"></td>
                           <td>
                               {{strlen($product->title) > 30 ? mb_substr($product->title,0,30,'utf-8') . '...' : $product->title}}
                           </td>
@@ -120,47 +118,20 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                           </td>
 
                           <td>
-                                <div class="btn-group">
-                                    @if($product->show_in_page_builder == '1')
-                                        <button class="btn btn-sm btn-success dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Select Action
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a href="{{route('admin.product.edit', $product->id) . '?language=' . request()->input('language')}}" class="dropdown-item">
-                                                <i class="fas fa-edit"> Edit product</i>
-                                            </a>
-                                            <a onclick="event.preventDefault(); document.getElementById('addtopagebuilderform-{{$product->id}}').submit();" href="javascript:;" class="dropdown-item">
-                                                <strong><i class="fab fa-audible"> Remove from page-builder</i></strong>
-                                            </a>
-                                            <a onclick="event.preventDefault(); document.getElementById('deleteform-{{$product->id}}').submit();" href="javascript:;" class="dropdown-item">
-                                                <i class="fas fa-trash"> Delete product</i>
-                                            </a>
-                                        </div>
-                                    @else
-                                        <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Select Action
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a href="{{route('admin.product.edit', $product->id) . '?language=' . request()->input('language')}}" class="dropdown-item">
-                                                <i class="fas fa-edit"> Edit product</i>
-                                            </a>
-                                            <a onclick="event.preventDefault(); document.getElementById('addtopagebuilderform-{{$product->id}}').submit();" href="javascript:;" class="dropdown-item">
-                                                <strong><i class="fas fa-tasks"> Add to menu-builder</i></strong>
-                                            </a>
-                                            <a onclick="event.preventDefault(); document.getElementById('deleteform-{{$product->id}}').submit();" href="javascript:;" class="dropdown-item">
-                                                <i class="fas fa-trash"> Delete product</i>
-                                            </a>
-                                        </div>
-                                    @endif
-                                    <form id="addtopagebuilderform-{{$product->id}}" class="deleteform d-none" action="{{route('admin.product.page-builder', $product->id)}}" method="post">
-                                        @csrf
-                                        <input type="hidden" name="product_id" value="{{$product->id}}">
-                                    </form>
-                                    <form id="deleteform-{{$product->id}}" class="deleteform d-none" action="{{route('admin.product.delete')}}" method="post">
-                                        @csrf
-                                        <input type="hidden" name="product_id" value="{{$product->id}}">
-                                    </form>
-                                </div>
+                            <a class="btn btn-secondary btn-sm" href="{{route('admin.product.edit', $product->id) . '?language=' . request()->input('language')}}">
+                            <span class="btn-label">
+                              <i class="fas fa-edit"></i>
+                            </span>
+                            </a>
+                            <form class="deleteform d-inline-block" action="{{route('admin.product.delete')}}" method="post">
+                              @csrf
+                              <input type="hidden" name="product_id" value="{{$product->id}}">
+                              <button type="submit" class="btn btn-danger btn-sm deletebtn">
+                                <span class="btn-label">
+                                  <i class="fas fa-trash"></i>
+                                </span>
+                              </button>
+                            </form>
                           </td>
                         </tr>
                       @endforeach

@@ -87,7 +87,7 @@ $data = \App\BasicExtra::first();
                     <i class="la flaticon-file"></i>
                     <p>Theme & Home
                         @if ($bex->home_page_pagebuilder == 1)
-                            <span class="badge badge-danger p-1 sidenav-badge">Pagebuilder</span>
+                        <span class="badge badge-danger p-1 sidenav-badge">Pagebuilder</span>
                         @endif
                     </p>
                     <span class="caret"></span>
@@ -95,7 +95,6 @@ $data = \App\BasicExtra::first();
                 <div class="collapse
                 @if(request()->path() == 'admin/home-settings') show
                 @elseif(request()->path() == 'admin/home-page') show
-                @elseif(request()->path() == 'admin/website-colors') show
                 @endif" id="themeHome">
                 <ul class="nav nav-collapse">
                     <li class="@if(request()->path() == 'admin/home-settings') active @endif">
@@ -103,13 +102,6 @@ $data = \App\BasicExtra::first();
                             <span class="sub-item">Settings</span>
                         </a>
                     </li>
-
-                    <li class="@if(request()->path() == 'admin/website-colors') active @endif">
-                        <a href="{{route('admin.websiteColors')}}">
-                            <span class="sub-item">Website Colors</span>
-                        </a>
-                    </li>
-
                     @if ($bex->home_page_pagebuilder == 1)
 
                     <li class="@if(request()->path() == 'admin/home-page') active @endif">
@@ -140,8 +132,6 @@ $data = \App\BasicExtra::first();
         <div class="collapse
         @if(request()->path() == 'admin/menu-builder') show
         @elseif(request()->path() == 'admin/megamenus') show
-        @elseif(request()->path() == 'admin/categorymegamenus') show
-        @elseif(request()->path() == 'admin/category-menu-builder') show
         @elseif(request()->path() == 'admin/permalinks') show
         @elseif(request()->path() == 'admin/megamenus/edit') show
         @endif" id="websiteMenu">
@@ -156,18 +146,6 @@ $data = \App\BasicExtra::first();
             <li class="@if(request()->path() == 'admin/menu-builder') active @endif">
                 <a href="{{route('admin.menu_builder.index') . '?language=' . $default->code}}">
                     <span class="sub-item">Main Menu</span>
-                </a>
-            </li>
-            <li class="@if(request()->path() == 'admin/categorymegamenus') active
-                @elseif(request()->path() == 'admin/categorymegamenus/edit') active
-                @endif">
-                <a href="{{route('admin.categorymegamenus') . '?language=' . $default->code}}">
-                    <span class="sub-item">Category Mega Menus</span>
-                </a>
-            </li>
-            <li class="@if(request()->path() == 'admin/category-menu-builder') active @endif">
-                <a href="{{route('admin.category_menu_builder.index') . '?language=' . $default->code}}">
-                    <span class="sub-item">Category Menu</span>
                 </a>
             </li>
             <li class="@if(request()->path() == 'admin/permalinks') active @endif">
@@ -468,15 +446,6 @@ $data = \App\BasicExtra::first();
 {{-- Product --}}
 <li class="nav-item
 @if(request()->path() == 'admin/category') active
-@elseif(request()->path() == 'admin/plugins/tabs') active
-@elseif(request()->path() == 'admin/plugins/import') active
-@elseif(request()->path() == 'admin/plugins/fields') active
-@elseif(request()->path() == 'admin/plugins/variations') active
-@elseif(request()->path() == 'admin/plugins/attributes') active
-@elseif(request()->path() == 'admin/plugins/child-categories') active
-@elseif(request()->is('admin/plugins/child-categories/*/edit')) active
-@elseif(request()->path() == 'admin/plugins/sub-child-categories') active
-@elseif(request()->is('admin/plugins/sub-child-categories/*/edit')) active
 @elseif(request()->path() == 'admin/product') active
 @elseif(request()->routeIs('admin.product.type')) active
 @elseif(request()->is('admin/product/*/edit')) active
@@ -504,20 +473,6 @@ $data = \App\BasicExtra::first();
 <div class="collapse
 @if(request()->path() == 'admin/category') show
 @elseif(request()->is('admin/category/*/edit')) show
-@elseif(request()->path() == 'admin/plugins/tabs') show
-@elseif(request()->path() == 'admin/plugins/import') show
-@elseif(request()->path() == 'admin/plugins/fields') show
-@elseif(request()->path() == 'admin/plugins/variations') show
-@elseif(request()->path() == 'admin/plugins/attributes') show
-@elseif(request()->path() == 'admin/plugins/child-categories') show
-@elseif(request()->is('admin/plugins/child-categories/*/edit')) show
-@elseif(request()->is('admin/plugins/child-categories')) show
-@elseif(request()->is('admin/plugins/child-categories/*')) show
-
-@elseif(request()->path() == 'admin/plugins/sub-child-categories') show
-@elseif(request()->is('admin/plugins/sub-child-categories/*/edit')) show
-@elseif(request()->is('admin/plugins/sub-child-categories')) show
-@elseif(request()->is('admin/plugins/sub-child-categories/*')) show
 @elseif(request()->routeIs('admin.product.type')) show
 @elseif(request()->path() == 'admin/product') show
 @elseif(request()->is('admin/product/*/edit')) show
@@ -550,14 +505,14 @@ $data = \App\BasicExtra::first();
 
     @if ($bex->catalog_mode == 0)
     <li class="
-        @if(request()->path() == 'admin/shipping') active
-        @elseif(request()->routeIs('admin.shipping.edit')) active
-        @endif">
-        <a href="{{route('admin.shipping.index'). '?language=' . $default->code}}">
-            <span class="sub-item">Shipping Charges</span>
-        </a>
-    </li>
-    @endif
+    @if(request()->path() == 'admin/shipping') active
+    @elseif(request()->routeIs('admin.shipping.edit')) active
+    @endif">
+    <a href="{{route('admin.shipping.index'). '?language=' . $default->code}}">
+        <span class="sub-item">Shipping Charges</span>
+    </a>
+</li>
+@endif
 
 @if ($bex->catalog_mode == 0)
 <li class="
@@ -571,22 +526,13 @@ $data = \App\BasicExtra::first();
 @endif
 <li class="submenu">
     <a data-toggle="collapse" href="#productManagement"
-    aria-expanded="{{(request()->path() == 'admin/category' || request()->is('admin/category/*/edit') || request()->path() == 'admin/plugins/tabs' || request()->path() == 'admin/plugins/import' || request()->path() == 'admin/plugins/fields' || request()->path() == 'admin/plugins/import' || request()->path() == 'admin/plugins/variations' || request()->path() == 'admin/plugins/attributes' || request()->path() == 'admin/plugins/child-categories' || request()->is('admin/plugins/child-categories/*/edit') || request()->path() == 'admin/plugins/sub-child-categories' || request()->is('admin/plugins/sub-child-categories/*/edit') || request()->routeIs('admin.product.type') || request()->routeIs('admin.product.create') || request()->routeIs('admin.product.index') || request()->routeIs('admin.product.edit')) ? 'true' : 'false' }}">
+    aria-expanded="{{(request()->path() == 'admin/category' || request()->is('admin/category/*/edit') || request()->routeIs('admin.product.type') || request()->routeIs('admin.product.create') || request()->routeIs('admin.product.index') || request()->routeIs('admin.product.edit')) ? 'true' : 'false' }}">
     <span class="sub-item">Manage Products</span>
     <span class="caret"></span>
 </a>
 <div class="collapse
 @if(request()->path() == 'admin/category') show
 @elseif(request()->is('admin/category/*/edit')) show
-@elseif(request()->path() == 'admin/plugins/tabs') show
-@elseif(request()->path() == 'admin/plugins/import') show
-@elseif(request()->path() == 'admin/plugins/fields') show
-@elseif(request()->path() == 'admin/plugins/variations') show
-@elseif(request()->path() == 'admin/plugins/attributes') show
-@elseif(request()->path() == 'admin/plugins/child-categories') show
-@elseif(request()->is('admin/plugins/child-categories/*/edit')) show
-@elseif(request()->path() == 'admin/plugins/sub-child-categories') show
-@elseif(request()->is('admin/plugins/sub-child-categories/*/edit')) show
 @elseif(request()->routeIs('admin.product.type')) show
 @elseif(request()->routeIs('admin.product.create')) show
 @elseif(request()->routeIs('admin.product.index')) show
@@ -594,29 +540,13 @@ $data = \App\BasicExtra::first();
 @endif" id="productManagement" style="">
 <ul class="nav nav-collapse subnav">
     <li class="
-        @if(request()->path() == 'admin/category') active
-        @elseif(request()->is('admin/category/*/edit')) active
-        @endif">
-        <a href="{{route('admin.category.index') . '?language=' . $default->code}}">
-            <span class="sub-item">Category</span>
-        </a>
-    </li>
-    <li class="
-        @if(request()->path() == 'admin/plugins/child-categories') active
-        @elseif(request()->is('admin/plugins/child-categories/*/edit')) active
-        @endif">
-        <a href="{{route('plugins.category.index') . '?language=' . $default->code}}">
-            <span class="sub-item">Child Category</span>
-        </a>
-    </li>
-    <li class="
-        @if(request()->path() == 'admin/plugins/sub-child-categories') active
-        @elseif(request()->is('admin/plugins/sub-child-categories/*/edit')) active
-        @endif">
-        <a href="{{route('plugins.child-category.index') . '?language=' . $default->code}}">
-            <span class="sub-item">Sub Child Category</span>
-        </a>
-    </li>
+    @if(request()->path() == 'admin/category') active
+    @elseif(request()->is('admin/category/*/edit')) active
+    @endif">
+    <a href="{{route('admin.category.index') . '?language=' . $default->code}}">
+        <span class="sub-item">Category</span>
+    </a>
+</li>
 <li class="
 @if(request()->routeIs('admin.product.type')) active
 @elseif(request()->routeIs('admin.product.create')) active
@@ -631,47 +561,6 @@ $data = \App\BasicExtra::first();
 @endif">
 <a href="{{route('admin.product.index'). '?language=' . $default->code}}">
     <span class="sub-item">Products</span>
-</a>
-</li>
-
-<li class="
-@if(request()->path() == 'admin/plugins/import') active
-@elseif(request()->is('admin/plugins/import')) active
-@endif">
-<a href="{{route('plugins.importer.show'). '?language=' . $default->code}}">
-    <span class="sub-item">Custom Product Features - Import</span>
-</a>
-</li>
-<li class="
-@if(request()->path() == 'admin/plugins/tabs') active
-@elseif(request()->is('admin/plugins/tabs')) active
-@endif">
-<a href="{{route('plugins.tabs.show'). '?language=' . $default->code}}">
-    <span class="sub-item">Custom Product Features - Tabs</span>
-</a>
-</li>
-<li class="
-@if(request()->path() == 'admin/plugins/fields') active
-@elseif(request()->is('admin/plugins/fields')) active
-@endif">
-<a href="{{route('plugins.fields.show'). '?language=' . $default->code}}">
-    <span class="sub-item">Custom Product Features - Custom Fields</span>
-</a>
-</li>
-<li class="
-@if(request()->path() == 'admin/plugins/variations') active
-@elseif(request()->is('admin/plugins/variations')) active
-@endif">
-<a href="{{route('plugins.variations.show'). '?language=' . $default->code}}">
-    <span class="sub-item">Custom Product Features - Product Variations</span>
-</a>
-</li>
-<li class="
-@if(request()->path() == 'admin/plugins/attributes') active
-@elseif(request()->is('admin/plugins/attributes')) active
-@endif">
-<a href="{{route('plugins.attributes.show'). '?language=' . $default->code}}">
-    <span class="sub-item">Custom Product Features - Product Attributes</span>
 </a>
 </li>
 </ul>
@@ -1469,13 +1358,6 @@ id="course"
     </a>
 </li>
 @endif
-
-{{-- <li class="nav-item @if(request()->path() == 'admin/plugins/import') active @endif">
-    <a href="{{route('plugins.importer.show')}}">
-        <i class="la flaticon-paint-palette"></i>
-        <p>Importer Plugin</p>
-    </a>
-</li> --}}
 </ul>
 </div>
 </div>

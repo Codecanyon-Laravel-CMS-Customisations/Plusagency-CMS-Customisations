@@ -43,13 +43,6 @@ return [
 
     'disks' => [
 
-        'baze' => [
-            'driver' => 'local',
-            'root' => '../assets/',
-            'url' => '',
-            'visibility' => 'public',
-        ],
-
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
@@ -58,12 +51,6 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => 'assets/lfm',
-            'url' => '',
-            'visibility' => 'public',
-        ],
-        'assets' => [
-            'driver' => 'local',
-            'root' => 'assets',
             'url' => '',
             'visibility' => 'public',
         ],

@@ -123,17 +123,9 @@ $type = request()->input('type');
                                 <div class="form-group">
                                     <label for="">Language **</label>
                                     <select id="language" name="language_id" class="form-control">
-                                        <option value="" disabled>Select a language</option>
-                                        <?php
-                                        $current_url = url()->current();
-                                        $p_type     = $_GET['type'];
-                                        $p_lang     = $_GET['language'];
-                                        ?>
+                                        <option value="" selected disabled>Select a language</option>
                                         @foreach ($langs as $lang)
-                                            <?php
-                                            $redirect_url   = "$current_url?language=$lang->code&type=$p_type";
-                                            ?>
-                                        <option data-link="{{ $redirect_url }}" @if($lang->code == $p_lang) selected @endif value="{{$lang->id}}">{{$lang->name}}</option>
+                                        <option value="{{$lang->id}}">{{$lang->name}}</option>
                                         @endforeach
                                     </select>
                                     <p id="errlanguage_id" class="mb-0 text-danger em"></p>
@@ -166,31 +158,13 @@ $type = request()->input('type');
                                     <label for="category">Category **</label>
                                     <select  class="form-control categoryData" name="category_id" id="category">
                                         <option value="" selected disabled>Select a category</option>
-                                        @foreach ($categories->where('menu_level', 1) as $category)
-                                            <?php $sub_cat_1        = $categories->where('parent_menu_id', $category->id); ?>
-                                            <?php $sub_cat_1_html   = ''; ?>
-                                            @foreach ($sub_cat_1 as $sc1)
-                                                <?php $sub_cat_1_html   .= '<option data-kids=\'parent'.$sc1->id.'\'  value=\''.$sc1->id.'\'>'.$sc1->name.'</option>'; ?>
-                                            @endforeach
-                                        <option  data-sub-cats="{!! $sub_cat_1_html !!}" value="{{$category->id}}">{{$category->name}}</option>
+                                        @foreach ($categories as $categroy)
+                                        <option value="{{$categroy->id}}">{{$categroy->name}}</option>
                                         @endforeach
                                     </select>
                                     <p id="errcategory_id" class="mb-0 text-danger em"></p>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="category">Child Category **</label>
-                                    <select  class="form-control" name="sub_category_id" id="scategory">
-                                        <option value="" selected disabled>Select a category</option>
-{{--                                        @foreach ($scategories as $scategroy)--}}
-{{--                                        <option  value="{{$scategroy->id}}">{{$scategroy->name}}</option>--}}
-{{--                                        @endforeach--}}
-                                    </select>
-                                    {{-- <p id="errcategory_id" class="mb-0 text-danger em"></p> --}}
-                                </div>
-                            </div>
-
                             <div class="col-lg-6">
                                 @if ($type == 'physical')
                                 <div class="form-group">
@@ -209,15 +183,6 @@ $type = request()->input('type');
                                     <p id="errfile_type" class="mb-0 text-danger em"></p>
                                 </div>
                                 @endif
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="form-group">
-                                    <label for="category">Sub Child Category **</label>
-                                    <select  class="form-control" name="sub_child_category_id" id="sscategory">
-                                        <option value="" selected disabled>Select a category</option>
-                                    </select>
-                                    {{-- <p id="errcategory_id" class="mb-0 text-danger em"></p> --}}
-                                </div>
                             </div>
                         </div>
                         @if ($type == 'digital')
@@ -311,86 +276,6 @@ $type = request()->input('type');
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-group" id="attributes-form-group">
-                                    <label for="">Product Attributes</label>
-                                    <input type="hidden" name="attributes" id="attributes" value="">
-                                    <button type="button" class="btn btn-warning btn-sm mb-3" id="add-attribute">Add Attribute</button>
-                                    <div id="attributes-form" class="form-group" style="display: none;">
-                                        <input type="hidden" name="edit" value="hidden" id="attribute-edit">
-                                        <input type="text" class="form-control" id="attribute-name" placeholder="Attribute Name">
-                                        <input type="text" class="form-control" id="attribute-value" placeholder="Attribute Value">
-                                        <button class="btn btn-success btn-sm" id="save-attribute">Save Atribute</button>
-                                    </div>
-                                    <ul style="display: none;" id="attributes-list"></ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        <h3>Custom Fields</h3>
-                        @if ( ! is_null( $product_fields ) )
-                            @foreach ( json_decode( $product_fields ) as $field )
-                                <div class="form-group">
-                                    <label for="">{{ $field->name }}</label>
-                                    @switch( $field->type )
-                                        @case( 'text' )
-                                            <input type="text" class="form-control" name="{{ Str::slug($field->name) }}">
-                                            @break
-
-                                            @case( 'number' )
-                                            <input type="number" class="form-control" name="{{ Str::slug($field->name) }}">
-                                            @break
-
-                                            @case( 'textarea' )
-                                            <textarea name="{{ Str::slug($field->name) }}" id="" cols="30" rows="10" class="form-control"></textarea>
-                                            @break
-
-                                            @case( 'color' )
-                                            <input type="color" class="form-control" name="{{ Str::slug($field->name) }}">
-                                            @break
-
-                                            @case( 'date' )
-                                            <input type="date" class="form-control" name="{{ Str::slug($field->name) }}">
-                                            @break
-
-                                            @case( 'select' )
-                                            <select name="{{ Str::slug($field->name) }}" class="form-control" id="">
-                                                @if ( ! is_null(json_decode( $field->options )) )
-                                                @foreach( json_decode( $field->options ) as $option)
-                                                    <option value="{{ $option }}">{{ $option }}</option>
-                                                @endforeach
-                                                @endif
-                                            </select>
-                                            @break
-
-                                            @case( 'radio' )
-                                            <br>
-                                            @if ( ! is_null(json_decode( $field->options )) )
-                                            @foreach( json_decode( $field->options ) as $option)
-                                                <input type="radio" name="{{ Str::slug( $field->name ) }}" value="{{ $option }}">
-                                                <label for="">{{ $option }}</label><br>
-                                            @endforeach
-                                            @endif
-                                            @break
-
-                                            @case( 'checkbox' )
-                                            <br>
-                                            @if ( ! is_null(json_decode( $field->options )) )
-                                            @foreach( json_decode( $field->options ) as $option)
-                                                <input type="checkbox" name="{{ Str::slug( $field->name ) }}" value="{{ $option }}">
-                                                <label for="">{{ $option }}</label><br>
-                                            @endforeach
-                                            @endif
-                                            @break
-
-
-
-                                    @endswitch
-                                </div>
-                            @endforeach
-                        @endif
                     </form>
                 </div>
             </div>
@@ -409,110 +294,6 @@ $type = request()->input('type');
 </div>
 @endsection
 @section('scripts')
-
-    <script>
-        var category    = $('select[name="category_id"]');
-        var subCategory1= $('select[name="sub_category_id"]');
-        var subCategory2= $('select[name="sub_child_category_id"]');
-
-        category.on('change', function () {
-            if (category.find('option:selected').attr('data-sub-cats') != 'undefined' || category.find('option:selected').attr('data-sub-cats') != undefined){
-                subCategory1.html(category.find('option:selected').attr('data-sub-cats'));
-            }
-        });
-        subCategory1.on('change', function () {
-            var p   = subCategory1.find('option:selected').attr('data-kids');
-            if (p != 'undefined' || p != undefined){
-                subCategory2.html(kids[p]);
-            }
-        });
-
-        <?php
-        echo "var kids = {";
-        foreach ($categories->where('menu_level', 2) as $kids)
-        {
-            $sub_cat_2        = $categories->where('parent_menu_id', $kids->id);
-            $sub_cat_2_html   = count($sub_cat_2) >= 1 ? '<option value=\'\' selected disabled>Select a category</option>' :  '<option value=\'\' selected disabled>No categories found</option>';
-            foreach ($sub_cat_2 as $sc2)
-            {
-                $sub_cat_2_html   .= '<option  value=\''.$sc2->id.'\'>'.$sc2->name.'</option>';
-            }
-            echo "\"parent$kids->id\" : \"$sub_cat_2_html\", ";
-        }
-        echo "
-                }; ";
-        ?>
-    </script>
-    <script>
-        let currently_editing = '';
-        $(document).ready(function() {
-
-            // update_attributes();
-
-            $('#add-attribute').click(function() {
-                $('#attribute-name').val('');
-                $('#attribute-value').val('');
-                $('#attribute-name').removeAttr('disabled')
-                $('#attribute-edit').val('0');
-                $('#attributes-form').css('display', 'block');
-            });
-
-            $('#save-attribute').click(function() {
-                let attributes = [];
-                if ($('#attributes').val() != '') {
-                    attributes = JSON.parse($('#attributes').val());
-                }
-                if ($('#attribute-edit').val() == '1') {
-                    attributes.find(attribute => attribute.name == currently_editing ).value = $('#attribute-value').val();
-                    attributes.find(attribute => attribute.name == currently_editing ).name = $('#attribute-name').val();
-                } else {
-                    attributes.push({
-                        name: $('#attribute-name').val(),
-                        value: $('#attribute-value').val(),
-                        visible: 1,
-                        global: 1
-                    })
-                }
-                $('#attributes').val(JSON.stringify(attributes));
-                update_attributes();
-                hide_attributes_form();
-                alert('Attribute saved')
-            })
-        });
-
-        function update_attributes() {
-            const attributes = JSON.parse($('#attributes').val());
-            let html = '';
-            attributes.forEach( attribute => {
-                html += `<li class="mb-3">${attribute.name} - <button type="button" class="btn btn-info btn-sm d-inline-block" onclick="edit_attribute( '${attribute.name}', '${attribute.value}' )">Edit</button></li>`;
-            } )
-
-            if (attributes.length > 0) {
-                $('#attributes-list').css('display', 'block');
-                $('#attributes-list').html(html);
-            }
-        }
-
-        function edit_attribute(name, value) {
-            currently_editing = name;
-            $('#attribute-name').val(name);
-            // $('#attribute-name').attr('disabled', 'disabled');
-            $('#attribute-value').val(value);
-            $('#attribute-edit').val('1');
-            $('#attributes-form').css('display', 'block');
-            $('#attributes-form-group')[0].scrollIntoView({
-                behavior: "smooth", // or "auto" or "instant"
-                block: "start" // or "end"
-            });
-        }
-
-        function hide_attributes_form() {
-            $('#attribute-name').val();
-            $('#attribute-value').val();
-            $('#attributes-form').css('display', 'none');
-        }
-
-    </script>
 
 @if($type == 'digital')
 <script>
@@ -543,21 +324,17 @@ $type = request()->input('type');
 
             $("#category").removeAttr('disabled');
 
-            //let langid = $(this).val();
-            let url = $("select[name='language_id']").find("option:selected").attr('data-link');
-            window.location.assign(url);
+            let langid = $(this).val();
+            let url = "{{url('/')}}/admin/product/" + langid + "/getcategory";
             // console.log(url);
             $.get(url, function(data) {
                 // console.log(data);
-                document.open();
-                document.write(data);
-                document.close();
-                // let options = `<option value="" disabled selected>Select a category</option>`;
-                // for (let i = 0; i < data.length; i++) {
-                //     options += `<option value="${data[i].id}">${data[i].name}</option>`;
-                // }
-                //
-                // $(".categoryData").html(options);
+                let options = `<option value="" disabled selected>Select a category</option>`;
+                for (let i = 0; i < data.length; i++) {
+                    options += `<option value="${data[i].id}">${data[i].name}</option>`;
+                }
+
+                $(".categoryData").html(options);
 
             });
         });
