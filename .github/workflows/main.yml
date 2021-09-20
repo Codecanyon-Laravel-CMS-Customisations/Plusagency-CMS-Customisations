@@ -13,7 +13,7 @@ jobs:
       with:
         port: 22
         protocol: ftps
-        server: sftp://103.50.161.248
+        server: 103.50.161.248
         username: ignatius2
         password: ${{ secrets.ftp_password }}
         server-dir: /var/www/vhosts/angelbookhouse.com/httpdocs/
