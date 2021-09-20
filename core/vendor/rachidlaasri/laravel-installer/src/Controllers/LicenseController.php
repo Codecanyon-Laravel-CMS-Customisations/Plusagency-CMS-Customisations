@@ -26,55 +26,55 @@ class LicenseController extends Controller
     }
 
     public function licenseCheck(Request $request) {
-        $request->validate([
-            'email' => 'required',
-            'username' => 'required',
-            'purchase_code' => 'required'
-        ]);
-
-        $itemid = 24646161;
-        $itemname = 'PlusAgency';
-        $emailCollectorApi = 'https://kreativdev.com/emailcollector/api/collect';
+//        $request->validate([
+//            'email' => 'required',
+//            'username' => 'required',
+//            'purchase_code' => 'required'
+//        ]);
+//
+//        $itemid = 24646161;
+//        $itemname = 'PlusAgency';
+//        $emailCollectorApi = 'https://kreativdev.com/emailcollector/api/collect';
 
         try {
-            $client = new \GuzzleHttp\Client();
-            $response = $client->request('GET', 'https://api.envato.com/v3/market/author/sale?code='.$request->purchase_code, [
-                'headers' => [
-                    'content-type' => 'application/json',
-                    'Accept' => 'application/json',
-                    'Authorization' => 'Bearer d3eCIKWsFeVT1hoMjY7wtZlZMn0tgEO9'
-                ]
-            ]);
-
-            $responseBody = $response->getBody()->getContents();
-            $formattedRes = json_decode($responseBody, true);
-
-            $buyerUsername = $formattedRes['buyer'];
-
-
-            if ($request->username != $buyerUsername || $itemid != $formattedRes['item']['id']) {
-                Session::flash('license_error', 'Username / Purchase code didn\'t match for this item!');
-                return redirect()->back();
-            }
+//            $client = new \GuzzleHttp\Client();
+//            $response = $client->request('GET', 'https://api.envato.com/v3/market/author/sale?code='.$request->purchase_code, [
+//                'headers' => [
+//                    'content-type' => 'application/json',
+//                    'Accept' => 'application/json',
+//                    'Authorization' => 'Bearer d3eCIKWsFeVT1hoMjY7wtZlZMn0tgEO9'
+//                ]
+//            ]);
+//
+//            $responseBody = $response->getBody()->getContents();
+//            $formattedRes = json_decode($responseBody, true);
+//
+//            $buyerUsername = $formattedRes['buyer'];
+//
+//
+//            if ($request->username != $buyerUsername || $itemid != $formattedRes['item']['id']) {
+//                Session::flash('license_error', 'Username / Purchase code didn\'t match for this item!');
+//                return redirect()->back();
+//            }
 
             fopen("core/vendor/mockery/mockery/verified", "w");
 
 
             // return $request;
             // collect Email
-            $response1 = $client->request('POST', $emailCollectorApi, [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => 'application/x-www-form-urlencoded'
-                ],
-                'form_params' => [
-                    'item_name' => $itemname,
-                    'email' => $request->email,
-                    'username' => $request->username,
-                    'item_id' => $itemid,
-                    'collector_key' => 'rakoombaa'
-                ]
-            ]);
+//            $response1 = $client->request('POST', $emailCollectorApi, [
+//                'headers' => [
+//                    'Accept' => 'application/json',
+//                    'Content-Type' => 'application/x-www-form-urlencoded'
+//                ],
+//                'form_params' => [
+//                    'item_name' => $itemname,
+//                    'email' => $request->email,
+//                    'username' => $request->username,
+//                    'item_id' => $itemid,
+//                    'collector_key' => 'rakoombaa'
+//                ]
+//            ]);
 
             // dd($response1->getBody()->getContents());
 
