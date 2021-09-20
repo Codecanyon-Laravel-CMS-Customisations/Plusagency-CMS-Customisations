@@ -60,7 +60,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
 
              $this->setProductImages($product, $row);
             // $this->setChildSubCategory($product, $row);
-            // $this->setProductAttributes($product, $row);
+             $this->setProductAttributes($product, $row);
         }
 
     }
@@ -215,10 +215,10 @@ class ProductsImport implements OnEachRow, WithHeadingRow
 
         if ( isset( $row[ 'attribute_1_name' ] ) ) {
             $attributes[] = [
-                'name' => $row[ 'attribute_1_name' ],
-                'value' => $row[ 'attribute_1_values'],
-                'visible' => $row[ 'attribute_1_visible' ],
-                'global' => $row[ 'attribute_1_global' ]
+                'name'      => $row[ 'attribute_1_name' ],
+                'value'     => $row[ 'attribute_1_values'],
+                'visible'   => $row[ 'attribute_1_visible' ],
+                'global'    => $row[ 'attribute_1_global' ]
             ];
         }
         if ( isset( $row[ 'attribute_2_name' ] ) ) {
