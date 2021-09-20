@@ -22,6 +22,8 @@ yarn-error.log
 /core/Homestead.yaml
 /core/npm-debug.log
 /core/yarn-error.log
+/core/vendor
+/core/vendor1
 /core/.idea
 /core/*.zip
 
