@@ -14,8 +14,27 @@ class Ticket extends Model
         'subject',
         'message',
         'zip_file',
-        'last_message'
+        'last_message',
+        'digital_system_user_id',
+        'digital_system_stack_trace',
     ];
+
+    public function setDigitalSystemStackTraceAttribute($value)
+    {
+        $this->attributes['digital_system_stack_trace'] = json_encode(trim($value));
+    }
+
+    public function getDigitalSystemStackTraceAttribute($value)
+    {
+        try
+        {
+            return trim(json_decode($value));
+        }
+        catch (\Exception $th)
+        {
+            return trim($value);
+        }
+    }
 
     public function products()
     {

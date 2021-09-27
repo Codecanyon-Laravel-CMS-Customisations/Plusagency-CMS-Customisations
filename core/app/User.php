@@ -48,6 +48,7 @@ class User extends Authenticatable
     'status',
     'verification_link',
     'email_verified',
+    'is_digital_system',
   ];
 
   /**
@@ -66,6 +67,7 @@ class User extends Authenticatable
    */
   protected $casts = [
     'email_verified_at' => 'datetime',
+    'is_digital_system' => 'boolean',
   ];
 
   public function conversations()

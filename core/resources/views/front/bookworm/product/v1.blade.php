@@ -114,6 +114,7 @@ Product Details
                             </div>
 
                             @if($product->offline)
+{{--                                @includeIf('front.bookworm.chemistry.molecules.offline_modal')--}}
                                 @includeIf('front.bookworm.chemistry.molecules.offline_modal')
                             @else
                                 <form class="cart d-md-flex align-items-center" method="post" enctype="multipart/form-data">

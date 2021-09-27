@@ -197,6 +197,88 @@ ALTER TABLE `product_ticket`
   
   
   
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `easy_forms`
+--
+
+CREATE TABLE `easy_forms` (
+  `id` bigint UNSIGNED NOT NULL,
+  `easy_form_server_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `easy_form_digital` text COLLATE utf8mb4_unicode_ci,
+  `easy_form_restricted` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `easy_forms`
+--
+ALTER TABLE `easy_forms`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `easy_forms`
+--
+ALTER TABLE `easy_forms`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  
+
+  
+  
+  
+  
+-- --------------------------------------------------------
+
+--
+-- ADD EXTRAS for table `users`
+--
+ALTER TABLE `users`
+  ADD `is_digital_system` boolean NULL DEFAULT false;
+  
+
+  
+  
+  
+  
+-- --------------------------------------------------------
+
+--
+-- ADD EXTRAS for table `tickets`
+--
+ALTER TABLE `tickets`
+  ADD `digital_system_stack_trace` text NULL;
+  
+ALTER TABLE `tickets`
+  ADD `digital_system_user_id` bigInt NULL;
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   

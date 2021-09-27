@@ -453,6 +453,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin', 'checkstatus',
     Route::get('/basicinfo', 'Admin\BasicController@basicinfo')->name('admin.basicinfo');
     Route::post('/basicinfo/post', 'Admin\BasicController@updatebasicinfo')->name('admin.basicinfo.update');
 
+    // Admin Easy-Forms Routes
+    Route::get('/easy-forms', 'Admin\EasyFormsController@easyForms')->name('admin.easy-forms');
+    Route::post('/easy-forms', 'Admin\EasyFormsController@updateEasyForms')->name('admin.easy-forms.update');
+
     // Admin Email Settings Routes
     Route::get('/mail-from-admin', 'Admin\EmailController@mailFromAdmin')->name('admin.mailFromAdmin');
     Route::post('/mail-from-admin/update', 'Admin\EmailController@updateMailFromAdmin')->name('admin.mailfromadmin.update');
@@ -1140,6 +1144,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin', 'checkstatus',
         Route::post('/zip-file/upload/', 'Admin\TicketController@zip_file_upload')->name('admin.zip_file.upload');
         Route::post('/ticket/reply/{id}', 'Admin\TicketController@ticketReply')->name('admin.ticket.reply');
         Route::get('/ticket/close/{id}', 'Admin\TicketController@ticketclose')->name('admin.ticket.close');
+        Route::get('/ticket/close/{id}/{verdict}', 'Admin\TicketController@ticket_digital_approval')->name('admin.ticket.digital_approval');
         Route::post('/ticket/assign/staff', 'Admin\TicketController@ticketAssign')->name('ticket.assign.staff');
         Route::get('/ticket/settings', 'Admin\TicketController@settings')->name('admin.ticket.settings');
         Route::post('/ticket/settings', 'Admin\TicketController@updateSettings')->name('admin.ticket.settings');

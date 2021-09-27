@@ -12,6 +12,7 @@ use App\Conversation;
 use Session;
 use App\Admin;
 use App\BasicExtra;
+use App\Http\Controllers\API\DigitalSystemController;
 
 class TicketController extends Controller
 {
@@ -197,10 +198,59 @@ class TicketController extends Controller
 
     public function ticketclose($id)
     {
+        return $id;
 
         Ticket::where('id',$id)->update([
             'status' => 'close',
         ]);
+        Session::flash('success', 'ticket close successfully.');
+        return 'success';
+    }
+
+    public function ticket_digital_approval($id, $verdict)
+    {
+        //send verdict to digital
+        $ticket     = Ticket::findOrFail($id);
+        $client     = $ticket->digital_system_user_id;
+
+        if(!is_int($client) || intval($client) < 1) return abort(404);
+
+        $approve    = $verdict == "approve" ? md5("true") : md5("false");
+        $response   = (new DigitalSystemController())
+        ->sendTicketApprovalToDigital($approve, $client);
+
+        if($response)
+        {
+            if($verdict == "approve")
+            {
+                session()->flash('success', 'Client Account Approved successfully');
+                $ticket->status = 'close';$ticket->save(); return 'success';
+            }
+            else
+            {
+                session()->flash('success', 'Client Account Revoked successfully');
+                $ticket->status = 'close';$ticket->save(); return 'success';
+            }
+        }
+        else
+        {
+            if($verdict == "approve")
+            {
+                session()->flash('error', 'Error Approving Client Account');
+                return 'error';
+            }
+            else
+            {
+                session()->flash('error', 'Error Revoking Client Account');
+                return 'error';
+            }
+        }
+
+
+
+        // Ticket::where('id',$id)->update([
+        //     'status' => 'close',
+        // ]);
         Session::flash('success', 'ticket close successfully.');
         return 'success';
     }
