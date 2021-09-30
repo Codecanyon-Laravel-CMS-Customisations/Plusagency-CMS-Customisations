@@ -102,7 +102,7 @@
                         </div>
                     </div>
                     <div class="d-flex align-items-center">
-                        <div class="d-flex align-items-center text-white font-size-2 text-lh-sm">
+                        {{-- <div class="d-flex align-items-center text-white font-size-2 text-lh-sm">
                             <i class="flaticon-user font-size-5"></i>
                             <div class="ml-2 d-none d-lg-block">
                                 @auth
@@ -120,7 +120,31 @@
                                     <a class="text-secondary-gray-1080 font-size-2" href="{{route('user-logout')}}" target="_self">{{__('Logout')}}</a>
                                 </div>
                             </div>
-                        @endauth
+                        @endauth --}}
+                        <!-- Account Sidebar Toggle Button -->
+                        <a id="sidebarAuthToggler"
+                            href="javascript:;"
+                            role="button"
+                            aria-controls="sidebarContent"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            data-unfold-event="click"
+                            data-unfold-hide-on-scroll="false"
+                            data-unfold-target="#sidebarContent"
+                            data-unfold-type="css-animation"
+                            data-unfold-animation-in="fadeInRight"
+                            data-unfold-animation-out="fadeOutRight"
+                            data-unfold-duration="500"
+                            class="target-of-invoker-has-unfolds">
+                            <div class="d-flex align-items-center text-white font-size-2 text-lh-sm">
+                                <i class="flaticon-user font-size-4 text-secondary-gray-1080"></i>
+                                <div class="ml-2 d-none d-lg-block">
+                                    <span class="text-secondary-gray-1080 font-size-1">Sign In</span>
+                                    <div class="font-size-2">My Account</div>
+                                </div>
+                            </div>
+                        </a>
+                        <!-- End Account Sidebar Toggle Button -->
                         <!-- Cart Sidebar Toggle Button -->
                         <a id="sidebarNavToggler1" href="javascript:;" role="button" class="ml-4 d-none d-lg-block target-of-invoker-has-unfolds" aria-controls="sidebarContent1" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent1" data-unfold-type="css-animation" data-unfold-overlay="{
                                 &quot;className&quot;: &quot;u-sidebar-bg-overlay&quot;,
@@ -159,9 +183,19 @@
                         }
                         catch (\Exception $e) { }
                     @endphp
-                    <a href="{{ route('feedback') }}" class="btn btn-dark rounded-0 btn-wide py-3 font-weight-medium ml-auto">
+                    {{-- <a href="{{ route('feedback') }}" class="btn btn-dark rounded-0 btn-wide py-1 px-3 font-weight-medium ml-auto">
                         {{ $header_v2_button_text }}
-                    </a>
+                    </a> --}}
+                    @if (trim($header_v2_button_text) != "")
+                        <div class="secondary-navigation">
+                            <ul class="nav">
+                                <li class="nav-item"><a href="{{ route('feedback') }}" class="nav-link link-black-100 mx-2 px-0 py-3 font-size-2 font-weight-medium">{{ $header_v2_button_text }}</a></li>
+                                {{-- <li class="nav-item"><a href="#" class="nav-link link-black-100 mx-2 px-0 py-3 font-size-2 font-weight-medium">Best Seller</a></li>
+                                <li class="nav-item"><a href="#" class="nav-link link-black-100 mx-2 px-0 py-3 font-size-2 font-weight-medium">Trending Books</a></li>
+                                <li class="nav-item"><a href="#" class="nav-link link-black-100 mx-2 px-0 py-3 font-size-2 font-weight-medium">Gift Cards</a></li> --}}
+                            </ul>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

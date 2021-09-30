@@ -270,15 +270,9 @@
                     $('#sidebarNavToggler').on('click', function(){
                         $('.u-sidebar-bg-overlay').css({display : "block"});
                     });
-                    // Helper function for accordions in hidden block
-                    /* $('#headerSidebarList .u-header-collapse__nav-pointer').on('click', function (e) {
-                        e.preventDefault();
-
-                        var target = $(this).attr('href');
-
-                        $('#headerSidebarList .u-header-collapse__submenu-list').collapse('hide');
-                        $(target).collapse('show');
-                    }); */
+                    $('#sidebarAuthToggler').on('click', function(){
+                        $('.u-sidebar-bg-overlay').css({display : "block"});
+                    });
                 },
                 afterClose: function () {
                     $('.u-sidebar-bg-overlay').css({display : "none"});
