@@ -98,17 +98,30 @@
             <div class="container">
                 <div class="d-lg-flex text-center text-lg-left justify-content-between align-items-center">
                     <!-- Copyright -->
-                    <p class="mb-4 mb-lg-0 font-size-2 text-gray-450">{!! replaceBaseUrl(convertUtf8($bs->copyright_text)) !!}</p>
+                    <div class="mb-4 mb-lg-0 font-size-2 text-gray-450">{!! replaceBaseUrl(convertUtf8($bs->copyright_text)) !!}</div>
                     <!-- End Copyright -->
 
                     <div class="ml-auto d-lg-flex justify-content-xl-end align-items-center">
                         <!-- Select -->
-                        <div class="dropdown bootstrap-select js-select dropdown-select ml-lg-4 mb-3 mb-md-0"><select class="js-select selectpicker dropdown-select ml-lg-4 mb-3 mb-md-0" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true" tabindex="-98">
-                            <option value="one" selected="">English (United States)</option>
-                            <option value="two">Deutsch</option>
-                            <option value="three">Français</option>
-                            <option value="four">Español</option>
-                        </select><button type="button" class="btn dropdown-toggle text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-toggle="dropdown" role="button" title="English (United States)"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">English (United States)</div></div> </div></button><div class="dropdown-menu dropdown-menu-right" role="combobox"><div class="inner show" role="listbox" aria-expanded="false" tabindex="-1"><ul class="dropdown-menu inner show"></ul></div></div></div>
+                        <div class="dropdown bootstrap-select js-select dropdown-select ml-lg-4 mb-3 mb-md-0">
+                            <select class="js-select selectpicker dropdown-select ml-lg-4 mb-3 mb-md-0 changeLanguage" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true" tabindex="-98">
+                                @php
+                                    $languages = \App\Language::all()->sortBy('name', 0, false);
+                                @endphp
+                                @foreach($languages as $language)
+                                    <option data-link="{{ route('changeLanguage', $language->code) }}" value="{{ $language->code }}" @if($language->code == session('lang')) selected @endif>{{ $language->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <script>
+                            var tgt = $('.changeLanguage');
+                            tgt.on('change', function () {
+                                changeDL();
+                            });
+                            function changeDL() {
+                                window.location.assign(tgt.find('option:selected').attr('data-link'));
+                            }
+                        </script>
                         <!-- End Select -->
 
                         <!-- Select -->
