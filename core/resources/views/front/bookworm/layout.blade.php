@@ -37,6 +37,10 @@
           right: auto;
           left: 20px;
       }
+      .hero__title-line-1 {
+        font-weight: 500 !important;
+        font-size: 2.75rem;
+      }
     </style>
     @endif
     @if (count($langs) == 0)
@@ -143,10 +147,23 @@
             transform: rotate(-90deg);
             transition-duration: .5s;
         }
+        .u-sidebar-bg-overlay {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            z-index: 1001;
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+        .u-sidebar {
+            z-index: 1002;
+        }
     </style>
 </head>
 <body>
     @include('front.bookworm.partials.navbar')
+    <div class="u-sidebar-bg-overlay" style="background-color: rgba(0, 0, 0, 0.7); display: none;"></div>
     @if (!request()->routeIs('front.index') && !request()->routeIs('front.packageorder.confirmation'))
         <div class="page-header border-bottom">
             <div class="container">
@@ -248,7 +265,25 @@
     <script>
         $(document).on('ready', function () {
             // initialization of unfold component
-            $.HSCore.components.HSUnfold.init($('[data-unfold-target]'));
+            $.HSCore.components.HSUnfold.init($('[data-unfold-target]'),{
+                afterOpen: function () {
+                    $('#sidebarNavToggler').on('click', function(){
+                        $('.u-sidebar-bg-overlay').css({display : "block"});
+                    });
+                    // Helper function for accordions in hidden block
+                    /* $('#headerSidebarList .u-header-collapse__nav-pointer').on('click', function (e) {
+                        e.preventDefault();
+
+                        var target = $(this).attr('href');
+
+                        $('#headerSidebarList .u-header-collapse__submenu-list').collapse('hide');
+                        $(target).collapse('show');
+                    }); */
+                },
+                afterClose: function () {
+                    $('.u-sidebar-bg-overlay').css({display : "none"});
+                }
+            });
 
             // initialization of slick carousel=
             $.HSCore.components.HSSlickCarousel.init('.js-slick-carousel');

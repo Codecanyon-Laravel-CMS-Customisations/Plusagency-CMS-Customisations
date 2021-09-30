@@ -177,30 +177,25 @@
             <div class="container">
                 <div class="d-md-flex position-relative">
                     <div class="offcanvas-toggler align-self-center mr-md-8 d-flex d-md-block">
-                        <a id="sidebarNavToggler2" href="javascript:;" role="button" class="cat-menu text-dark"
-                        aria-controls="sidebarContent2"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        data-unfold-event="click"
-                        data-unfold-hide-on-scroll="false"
-                        data-unfold-target="#sidebarContent2"
-                        data-unfold-type="css-animation"
-                        data-unfold-overlay='{
-                            "className": "u-sidebar-bg-overlay",
-                            "background": "rgba(0, 0, 0, .7)",
-                            "animationSpeed": 100
-                        }'
-                        data-unfold-animation-in="fadeInLeft"
-                        data-unfold-animation-out="fadeOutLeft"
-                        data-unfold-duration="100">
+                        {{-- <!-- Account Sidebar Toggle Button --> --}}
+                        <a id="sidebarNavToggler" class="cat-menu" href="javascript:;" role="button"
+                            aria-controls="sidebarContent"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            data-unfold-event="click"
+                            data-unfold-hide-on-scroll="false"
+                            data-unfold-target="#sidebar001Content"
+                            data-unfold-type="css-animation"
+                            data-unfold-animation-in="fadeInLeft"
+                            data-unfold-animation-out="fadeOutLeft"
+                            data-unfold-duration="500">
                             <svg width="20px" height="18px">
-                                <path fill-rule="evenodd"  fill="rgb(0, 0, 0)" d="M-0.000,-0.000 L20.000,-0.000 L20.000,2.000 L-0.000,2.000 L-0.000,-0.000 Z"/>
-                                <path fill-rule="evenodd"  fill="rgb(0, 0, 0)" d="M-0.000,8.000 L15.000,8.000 L15.000,10.000 L-0.000,10.000 L-0.000,8.000 Z"/>
-                                <path fill-rule="evenodd"  fill="rgb(0, 0, 0)" d="M-0.000,16.000 L20.000,16.000 L20.000,18.000 L-0.000,18.000 L-0.000,16.000 Z"/>
+                                <path fill-rule="evenodd"  fill="rgb(255, 255, 255)" d="M-0.000,-0.000 L20.000,-0.000 L20.000,2.000 L-0.000,2.000 L-0.000,-0.000 Z"/>
+                                <path fill-rule="evenodd"  fill="rgb(255, 255, 255)" d="M-0.000,8.000 L15.000,8.000 L15.000,10.000 L-0.000,10.000 L-0.000,8.000 Z"/>
+                                <path fill-rule="evenodd"  fill="rgb(255, 255, 255)" d="M-0.000,16.000 L20.000,16.000 L20.000,18.000 L-0.000,18.000 L-0.000,16.000 Z"/>
                             </svg>
-                            <span class="ml-3 font-weight-medium">Browse categories</span>
                         </a>
-
+                        {{-- <!-- End Account Sidebar Toggle Button --> --}}
                         <ul class="nav d-md-none ml-auto">
                             <li class="nav-item">
                                 <!-- Account Sidebar Toggle Button - Mobile -->

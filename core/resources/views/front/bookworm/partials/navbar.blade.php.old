@@ -12,11 +12,8 @@
 @endphp
 @include('front.bookworm.header.' . $be->bookworm_header_version )
 
-
-
-
-<!-- Sidebar Navigation -->
-<aside id="sidebar001Content" class="u-sidebar u-sidebar__md u-sidebar--left" aria-labelledby="sidebarNavToggler">
+<!-- Categories Sidebar Navigation -->
+<aside id="sidebarContent2" class="u-sidebar u-sidebar__md u-sidebar--left" aria-labelledby="sidebarNavToggler2">
     <div class="u-sidebar__scroller js-scrollbar">
         <div class="u-sidebar__container">
             <div class="u-header-sidebar__footer-offset">
@@ -29,12 +26,12 @@
 
                             <div class="d-flex align-items-center">
                                 <button type="button" class="close ml-auto"
-                                        aria-controls="sidebar001Content"
+                                        aria-controls="sidebarContent2"
                                         aria-haspopup="true"
                                         aria-expanded="false"
                                         data-unfold-event="click"
                                         data-unfold-hide-on-scroll="false"
-                                        data-unfold-target="#sidebar001Content"
+                                        data-unfold-target="#sidebarContent2"
                                         data-unfold-type="css-animation"
                                         data-unfold-animation-in="fadeInLeft"
                                         data-unfold-animation-out="fadeOutLeft"
@@ -168,6 +165,30 @@
                                     window.location.assign(tgtN.find('option:selected').attr('data-link'));
                                 }
                             </script>
+
+{{--                            <ul class="list-inline mb-0">--}}
+{{--                                <li class="list-inline-item">--}}
+{{--                                    <a class="h-primary pr-2 font-size-2" href="#">--}}
+{{--                                        <span class="fab fa-facebook-f btn-icon__inner"></span>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
+{{--                                <li class="list-inline-item">--}}
+{{--                                    <a class="h-primary pr-2 font-size-2" href="#">--}}
+{{--                                        <span class="fab fa-google btn-icon__inner"></span>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
+{{--                                <li class="list-inline-item">--}}
+{{--                                    <a class="h-primary pr-2 font-size-2" href="#">--}}
+{{--                                        <span class="fab fa-twitter btn-icon__inner"></span>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
+{{--                                <li class="list-inline-item">--}}
+{{--                                    <a class="h-primary pr-2 font-size-2" href="#">--}}
+{{--                                        <span class="fab fa-github btn-icon__inner"></span>--}}
+{{--                                    </a>--}}
+{{--                                </li>--}}
+{{--                            </ul>--}}
+
                         </div>
                     </div>
                 </div>
@@ -175,4 +196,4 @@
         </div>
     </div>
 </aside>
-<!-- End Sidebar Navigation -->
+<!-- End Categories Sidebar Navigation -->

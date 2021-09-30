@@ -54,28 +54,25 @@
             <div class="container pt-3 pt-md-4 pb-3 pb-md-5">
                 <div class="d-flex align-items-center position-relative flex-wrap justify-content-between">
                     <div class="offcanvas-toggler mr-4">
-                        <a id="sidebarNavToggler2" href="javascript:;" role="button" class="cat-menu"
-                        aria-controls="sidebarContent2"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        data-unfold-event="click"
-                        data-unfold-hide-on-scroll="false"
-                        data-unfold-target="#sidebarContent2"
-                        data-unfold-type="css-animation"
-                        data-unfold-overlay='{
-                            "className": "u-sidebar-bg-overlay",
-                            "background": "rgba(0, 0, 0, .7)",
-                            "animationSpeed": 100
-                        }'
-                        data-unfold-animation-in="fadeInLeft"
-                        data-unfold-animation-out="fadeOutLeft"
-                        data-unfold-duration="100">
+                        {{-- <!-- Account Sidebar Toggle Button --> --}}
+                        <a id="sidebarNavToggler" class="cat-menu" href="javascript:;" role="button"
+                            aria-controls="sidebarContent"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            data-unfold-event="click"
+                            data-unfold-hide-on-scroll="false"
+                            data-unfold-target="#sidebar001Content"
+                            data-unfold-type="css-animation"
+                            data-unfold-animation-in="fadeInLeft"
+                            data-unfold-animation-out="fadeOutLeft"
+                            data-unfold-duration="500">
                             <svg width="20px" height="18px">
                                 <path fill-rule="evenodd"  fill="rgb(255, 255, 255)" d="M-0.000,-0.000 L20.000,-0.000 L20.000,2.000 L-0.000,2.000 L-0.000,-0.000 Z"/>
                                 <path fill-rule="evenodd"  fill="rgb(255, 255, 255)" d="M-0.000,8.000 L15.000,8.000 L15.000,10.000 L-0.000,10.000 L-0.000,8.000 Z"/>
                                 <path fill-rule="evenodd"  fill="rgb(255, 255, 255)" d="M-0.000,16.000 L20.000,16.000 L20.000,18.000 L-0.000,18.000 L-0.000,16.000 Z"/>
                             </svg>
                         </a>
+                        {{-- <!-- End Account Sidebar Toggle Button --> --}}
                     </div>
                     <div class="site-branding pr-7">
                         <a href="{{route('front.index')}}" class="d-block mb-2">
