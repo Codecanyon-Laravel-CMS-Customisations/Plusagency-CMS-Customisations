@@ -139,8 +139,10 @@ class ProductController extends Controller
         }
 
         Session::put('link', url()->current());
-        $data['product'] = Product::where('slug', $slug)->where('language_id',$currentLang->id)->first();
+        $data['product']    = Product::where('slug', $slug)->where('language_id',$currentLang->id)->first();
         $data['categories'] = Pcategory::where('status', 1)->where('language_id',$currentLang->id)->get();
+
+        ///dd($data);
 
         $data['related_product'] = Product::where('category_id', $data['product']->category_id)->where('language_id',$currentLang->id)->where('id', '!=', $data['product']->id)->get();
 

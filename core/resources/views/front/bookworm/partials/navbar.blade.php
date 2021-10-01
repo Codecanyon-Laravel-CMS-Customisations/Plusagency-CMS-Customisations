@@ -15,8 +15,207 @@
 
 
 
+
+
+
+
+
+
+
 <!-- Sidebar Navigation -->
-<aside id="sidebar001Content" class="u-sidebar u-sidebar__md u-sidebar--left" aria-labelledby="sidebarNavToggler">
+<aside id="sidebar001Content" class="u-sidebar u-sidebar__md u-sidebar--left" aria-labelledby="sidebar001Content">
+    <div class="u-sidebar__scroller js-scrollbar">
+        <div class="u-sidebar__container">
+            <div class="u-header-sidebar__footer-offset">
+
+                <div class="u-sidebar__body">
+                    <div class="u-sidebar__content u-header-sidebar__content">
+
+                        <header class="border-bottom px-4 px-md-5 py-4 d-flex align-items-center justify-content-between">
+                            <h2 class="font-size-3 mb-0">SHOP BY CATEGORY</h2>
+
+                            <div class="d-flex align-items-center">
+                                <button
+                                    type="button"
+                                    class="close ml-auto"
+                                    aria-controls="sidebar001Content"
+                                    aria-haspopup="true"
+                                    aria-expanded="false"
+                                    data-unfold-event="click"
+                                    data-unfold-hide-on-scroll="false"
+                                    data-unfold-target="#sidebar001Content"
+                                    data-unfold-type="css-animation"
+                                    data-unfold-animation-in="fadeInLeft"
+                                    data-unfold-animation-out="fadeOutLeft"
+                                    data-unfold-duration="500">
+                                    <span aria-hidden="true"><i class="fas fa-times ml-2"></i></span>
+                                </button>
+                            </div>
+
+                        </header>
+
+                        <div class="border-bottom">
+                            <div class="zeynep pt-4">
+                                <ul>
+                                    @foreach($categories1 as $category1)
+                                        @php
+                                            $products_m1 = \App\Product::query()->where('category_id', '=', $category1->id);
+                                            if($products_m1->count() < 1) continue;
+                                        @endphp
+                                        <li class="has-submenu">
+                                            <a href="#" data-submenu="p-category-{{ $category1->id }}">{{ $category1->name }}</a>
+                                            <div id="p-category-{{ $category1->id }}" class="submenu">
+                                                <div class="submenu-header" data-submenu-close="p-category-{{ $category1->id }}">
+                                                    <a href="#">{{ $category1->name }}</a>
+                                                </div>
+                                                <ul>
+                                                    <li class="has-submenu">
+                                                        <a href="#" data-submenu="off-home">Home Pages</a>
+                                                        <div id="off-home" class="submenu js-scrollbar">
+                                                            <div class="submenu-header" data-submenu-close="off-home">
+                                                                <a href="#">Home Pages</a>
+                                                            </div>
+                                                            <ul class="">
+                                                                <li>
+                                                                    <a href="../home/index.html">Home v1</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="../home/index.html">Home v1</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="../home/index.html">Home v1</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="../home/index.html">Home v1</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="../home/index.html">Home v1</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="../home/index.html">Home v1</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+
+                                                    <li class="has-submenu">
+                                                        <a href="#" data-submenu="off-single-product">Single Product</a>
+                                                        <div id="off-single-product" class="submenu js-scrollbar">
+                                                            <div class="submenu-header" data-submenu-close="off-single-product">
+                                                                <a href="#">Single Product</a>
+                                                            </div>
+                                                            <ul class="">
+                                                                <li>
+                                                                    <a href="../shop/single-product-v1.html">Single Product v1</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="../shop/single-product-v1.html">Single Product v1</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="../shop/single-product-v1.html">Single Product v1</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="../shop/single-product-v1.html">Single Product v1</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="../shop/single-product-v1.html">Single Product v1</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+
+
+                                                    <li class="has-submenu">
+                                                        <a href="#" data-submenu="off-others">Others</a>
+                                                        <div id="off-others" class="submenu js-scrollbar">
+                                                            <div class="submenu-header" data-submenu-close="off-others">
+                                                                <a href="#">Others</a>
+                                                            </div>
+                                                            <ul class="">
+                                                                <li>
+                                                                    <a href="../others/404.html">404</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="../others/404.html">404</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="../others/404.html">404</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="../others/404.html">404</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="px-4 px-md-5 pt-5 pb-4 border-bottom">
+                            <h2 class="font-size-3 mb-3">HELP & SETTINGS </h2>
+                            <ul class="list-group list-group-flush list-group-borderless">
+                                <li class="list-group-item px-0 py-2 border-0"><a href="#" class="h-primary">Your Account</a></li>
+                                <li class="list-group-item px-0 py-2 border-0"><a href="#" class="h-primary">Help</a></li>
+                                <li class="list-group-item px-0 py-2 border-0"><a href="#" class="h-primary">Sign In</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="px-4 px-md-5 py-5">
+                            <select class="custom-select mb-4 rounded-0 pl-4 height-4 shadow-none text-dark">
+                                <option selected>English (United States)</option>
+                                <option value="1">English (UK)</option>
+                                <option value="2">Arabic (Saudi Arabia)</option>
+                                <option value="3">Deutsch</option>
+                            </select>
+                            <select class="custom-select mb-4 rounded-0 pl-4 height-4 shadow-none text-dark">
+                                <option selected>$ USD</option>
+                                <option value="1">د.إ AED</option>
+                                <option value="2">¥ CNY</option>
+                                <option value="3">€ EUR</option>
+                            </select>
+
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item">
+                                    <a class="h-primary pr-2 font-size-2" href="#">
+                                        <span class="fab fa-facebook-f btn-icon__inner"></span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a class="h-primary pr-2 font-size-2" href="#">
+                                        <span class="fab fa-google btn-icon__inner"></span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a class="h-primary pr-2 font-size-2" href="#">
+                                        <span class="fab fa-twitter btn-icon__inner"></span>
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <a class="h-primary pr-2 font-size-2" href="#">
+                                        <span class="fab fa-github btn-icon__inner"></span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</aside>
+<!-- End Sidebar Navigation -->
+
+
+
+
+<!-- Sidebar Navigation -->
+{{-- <aside id="sidebar001Content" class="u-sidebar u-sidebar__md u-sidebar--left" aria-labelledby="sidebarNavToggler">
     <div class="u-sidebar__scroller js-scrollbar">
         <div class="u-sidebar__container">
             <div class="u-header-sidebar__footer-offset">
@@ -52,7 +251,7 @@
                                         @php
                                             $products_m1 = \App\Product::query()->where('category_id', '=', $category1->id)
                                         @endphp
-                                        {{--only show categories with either products or sub-categories--}}
+                                        {{--only show categories with either products or sub-categories--} }
                                         @if(
                                             $categories2->where('parent_menu_id', $category1->id)->count() >= 1 ||
                                             $products_m1->count() >= 1
@@ -72,7 +271,7 @@
                                                                 @php
                                                                     $products_m2 = \App\Product::query()->where('sub_category_id', '=', $category2->id)
                                                                 @endphp
-                                                                {{--only show categories with either products or sub-categories--}}
+                                                                {{--only show categories with either products or sub-categories--} }
                                                                 @if(
                                                                     $categories2->where('parent_menu_id', $category1->id)->count() >= 1 ||
                                                                     $products_m2->count() >= 1
@@ -93,7 +292,7 @@
                                                                                             @php
                                                                                                 $products_m3 = \App\Product::query()->where('sub_child_category_id', '=', $category3->id)
                                                                                             @endphp
-                                                                                            {{--only show categories with either products or sub-categories--}}
+                                                                                            {{--only show categories with either products or sub-categories--} }
                                                                                             @if(
                                                                                                 $categories3->where('parent_menu_id', $category2->id)->count() >= 1 &&
                                                                                                 $products_m3->count() >= 1
@@ -174,5 +373,5 @@
             </div>
         </div>
     </div>
-</aside>
+</aside> --}}
 <!-- End Sidebar Navigation -->
