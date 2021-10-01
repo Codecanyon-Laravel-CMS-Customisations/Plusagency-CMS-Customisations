@@ -273,6 +273,9 @@
                     $('#sidebarAuthToggler').on('click', function(){
                         $('.u-sidebar-bg-overlay').css({display : "block"});
                     });
+                    $('#sidebarNavToggler1').on('click', function(){
+                        $('.u-sidebar-bg-overlay').css({display : "block"});
+                    });
                 },
                 afterClose: function () {
                     $('.u-sidebar-bg-overlay').css({display : "none"});

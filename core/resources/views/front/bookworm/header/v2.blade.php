@@ -146,11 +146,20 @@
                         </a>
                         <!-- End Account Sidebar Toggle Button -->
                         <!-- Cart Sidebar Toggle Button -->
-                        <a id="sidebarNavToggler1" href="javascript:;" role="button" class="ml-4 d-none d-lg-block target-of-invoker-has-unfolds" aria-controls="sidebarContent1" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent1" data-unfold-type="css-animation" data-unfold-overlay="{
-                                &quot;className&quot;: &quot;u-sidebar-bg-overlay&quot;,
-                                &quot;background&quot;: &quot;rgba(0, 0, 0, .7)&quot;,
-                                &quot;animationSpeed&quot;: 500
-                            }" data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
+                        <a id="sidebarNavToggler1"
+                            href="javascript:;"
+                            role="button"
+                            class="ml-4 d-none d-lg-block target-of-invoker-has-unfolds"
+                            aria-controls="sidebarContent1"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            data-unfold-event="click"
+                            data-unfold-hide-on-scroll="false"
+                            data-unfold-target="#sidebarContent1"
+                            data-unfold-type="css-animation"
+                            data-unfold-animation-in="fadeInRight"
+                            data-unfold-animation-out="fadeOutRight"
+                            data-unfold-duration="500">
                             <div class="d-flex align-items-center text-white font-size-2 text-lh-sm position-relative">
                                 {{-- <span class="position-absolute bg-white width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-dark font-size-n9 left-0 top-0 ml-n2 mt-n1">3</span> --}}
                                 <i class="flaticon-icon-126515 font-size-5"></i>
