@@ -24,7 +24,7 @@
 
 <!-- Sidebar Navigation -->
 <aside id="sidebar001Content" class="u-sidebar u-sidebar__md u-sidebar--left" aria-labelledby="sidebar001Content">
-    <div class="u-sidebar__scroller js-scrollbar">
+    <div class="u-sidebar__scroller js-scrollbar----naaaah">
         <div class="u-sidebar__container">
             <div class="u-header-sidebar__footer-offset">
 
@@ -133,7 +133,7 @@
                         </div>
 
                         <div class="px-4 px-md-5 py-5">
-                            {{-- <select class="custom-select mb-4 rounded-0 pl-4 height-4 shadow-none text-dark changeLanguageNav">
+                            <select class="custom-select mb-4 rounded-0 pl-4 height-4 shadow-none text-dark changeLanguageNav">
                                 @php
                                     $languages = \App\Language::all()->sortBy('name', 0, false);
                                 @endphp
@@ -149,7 +149,7 @@
                                 function changeDLNav() {
                                     window.location.assign(tgtN.find('option:selected').attr('data-link'));
                                 }
-                            </script> --}}
+                            </script>
 
                             {{-- <ul class="list-inline mb-0">
                                 <li class="list-inline-item">
