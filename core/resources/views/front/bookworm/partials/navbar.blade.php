@@ -59,94 +59,55 @@
                                 <ul>
                                     @foreach($categories1 as $category1)
                                         @php
-                                            $products_m1 = \App\Product::query()->where('category_id', '=', $category1->id);
+                                            $products_m1    = \App\Product::query()->where('category_id', '=', $category1->id);
+                                            $products_m11   = \App\Product::query()->whereIn('sub_category_id', $category1->child_cats->pluck('id'));
                                             if($products_m1->count() < 1) continue;
                                         @endphp
                                         <li class="has-submenu">
-                                            <a href="#" data-submenu="p-category-{{ $category1->id }}">{{ $category1->name }}</a>
-                                            <div id="p-category-{{ $category1->id }}" class="submenu">
-                                                <div class="submenu-header" data-submenu-close="p-category-{{ $category1->id }}">
+                                            <a href="#" data-submenu="navCat1-{{ $category1->id }}">{{ $category1->name }}</a>
+                                            <div id="navCat1-{{ $category1->id }}" class="submenu">
+                                                <div class="submenu-header" data-submenu-close="navCat1-{{ $category1->id }}">
                                                     <a href="#">{{ $category1->name }}</a>
                                                 </div>
                                                 <ul>
-                                                    <li class="has-submenu">
-                                                        <a href="#" data-submenu="off-home">Home Pages</a>
-                                                        <div id="off-home" class="submenu js-scrollbar">
-                                                            <div class="submenu-header" data-submenu-close="off-home">
-                                                                <a href="#">Home Pages</a>
+                                                    @foreach($category1->child_cats as $category2)
+                                                        @php
+                                                            $products_m2    = \App\Product::query()->where('category_id', '=', $category2->id);
+                                                            $products_m22   = \App\Product::query()->whereIn('sub_child_category_id', $category2->child_sub_cats->pluck('id'));
+                                                            if($products_m2->count() < 1) continue;
+                                                        @endphp
+                                                        <li class="has-submenu">
+                                                            <a href="#" data-submenu="navCat2-{{ $category2->id }}">{{ $category2->name }}</a>
+                                                            <div id="navCat2-{{ $category2->id }}" class="submenu">
+                                                                <div class="submenu-header" data-submenu-close="navCat2-{{ $category2->id }}">
+                                                                    <a href="#">{{ $category2->name }}</a>
+                                                                </div>
+                                                                <ul>
+                                                                    @foreach($category2->child_sub_cats as $category3)
+                                                                        @php
+                                                                            $products_m3    = \App\Product::query()->where('sub_child_category_id', '=', $category3->id);
+                                                                            if($products_m3->count() < 1) continue;
+                                                                        @endphp
+                                                                        <li class="has-submenu">
+                                                                            <a href="#" data-submenu="navCat3-{{ $category3->id }}">{{ $category3->name }}</a>
+                                                                            <div id="navCat3-{{ $category3->id }}" class="submenu">
+                                                                                <div class="submenu-header" data-submenu-close="navCat3-{{ $category3->id }}">
+                                                                                    <a href="#">{{ $category3->name }}</a>
+                                                                                </div>
+                                                                                <ul>
+                                                                                    @foreach ($products_m3->get() as $product3)
+                                                                                        <li>
+                                                                                            <a href="{{route('front.product.details',$product3->slug)}}">{{ $product3->title }}</a>
+                                                                                        </li>
+                                                                                    @endforeach
+                                                                                </ul>
+                                                                            </div>
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
                                                             </div>
-                                                            <ul class="">
-                                                                <li>
-                                                                    <a href="../home/index.html">Home v1</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="../home/index.html">Home v1</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="../home/index.html">Home v1</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="../home/index.html">Home v1</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="../home/index.html">Home v1</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="../home/index.html">Home v1</a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </li>
-
-                                                    <li class="has-submenu">
-                                                        <a href="#" data-submenu="off-single-product">Single Product</a>
-                                                        <div id="off-single-product" class="submenu js-scrollbar">
-                                                            <div class="submenu-header" data-submenu-close="off-single-product">
-                                                                <a href="#">Single Product</a>
-                                                            </div>
-                                                            <ul class="">
-                                                                <li>
-                                                                    <a href="../shop/single-product-v1.html">Single Product v1</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="../shop/single-product-v1.html">Single Product v1</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="../shop/single-product-v1.html">Single Product v1</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="../shop/single-product-v1.html">Single Product v1</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="../shop/single-product-v1.html">Single Product v1</a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </li>
-
-
-                                                    <li class="has-submenu">
-                                                        <a href="#" data-submenu="off-others">Others</a>
-                                                        <div id="off-others" class="submenu js-scrollbar">
-                                                            <div class="submenu-header" data-submenu-close="off-others">
-                                                                <a href="#">Others</a>
-                                                            </div>
-                                                            <ul class="">
-                                                                <li>
-                                                                    <a href="../others/404.html">404</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="../others/404.html">404</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="../others/404.html">404</a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="../others/404.html">404</a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </li>
+                                                        </li>
+                                                    @endforeach
                                                 </ul>
                                             </div>
                                         </li>
