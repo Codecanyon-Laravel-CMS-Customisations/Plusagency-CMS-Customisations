@@ -61,7 +61,7 @@
                                         @php
                                             $products_m1    = \App\Product::query()->where('category_id', '=', $category1->id);
                                             $products_m11   = \App\Product::query()->whereIn('sub_category_id', $category1->child_cats->pluck('id'));
-                                            if($products_m1->count() < 1) continue;
+                                            //if($products_m1->count() < 1) continue;
                                         @endphp
                                         <li class="has-submenu">
                                             <a href="#" data-submenu="navCat1-{{ $category1->id }}">{{ $category1->name }}</a>
@@ -70,44 +70,52 @@
                                                     <a href="#">{{ $category1->name }}</a>
                                                 </div>
                                                 <ul>
-                                                    @foreach($category1->child_cats as $category2)
-                                                        @php
-                                                            $products_m2    = \App\Product::query()->where('category_id', '=', $category2->id);
-                                                            $products_m22   = \App\Product::query()->whereIn('sub_child_category_id', $category2->child_sub_cats->pluck('id'));
-                                                            if($products_m2->count() < 1) continue;
-                                                        @endphp
-                                                        <li class="has-submenu">
-                                                            <a href="#" data-submenu="navCat2-{{ $category2->id }}">{{ $category2->name }}</a>
-                                                            <div id="navCat2-{{ $category2->id }}" class="submenu">
-                                                                <div class="submenu-header" data-submenu-close="navCat2-{{ $category2->id }}">
-                                                                    <a href="#">{{ $category2->name }}</a>
-                                                                </div>
-                                                                <ul>
-                                                                    @foreach($category2->child_sub_cats as $category3)
-                                                                        @php
-                                                                            $products_m3    = \App\Product::query()->where('sub_child_category_id', '=', $category3->id);
-                                                                            if($products_m3->count() < 1) continue;
-                                                                        @endphp
-                                                                        <li class="has-submenu">
-                                                                            <a href="#" data-submenu="navCat3-{{ $category3->id }}">{{ $category3->name }}</a>
-                                                                            <div id="navCat3-{{ $category3->id }}" class="submenu">
-                                                                                <div class="submenu-header" data-submenu-close="navCat3-{{ $category3->id }}">
-                                                                                    <a href="#">{{ $category3->name }}</a>
+                                                    @if ($products_m11->count() >= 1)
+                                                        @foreach($category1->child_cats as $category2)
+                                                            @php
+                                                                $products_m2    = \App\Product::query()->where('category_id', '=', $category2->id);
+                                                                $products_m22   = \App\Product::query()->whereIn('sub_child_category_id', $category2->child_sub_cats->pluck('id'));
+                                                                //if($products_m2->count() < 1) continue;
+                                                            @endphp
+                                                            <li class="has-submenu">
+                                                                <a href="#" data-submenu="navCat2-{{ $category2->id }}">{{ $category2->name }}</a>
+                                                                <div id="navCat2-{{ $category2->id }}" class="submenu">
+                                                                    <div class="submenu-header" data-submenu-close="navCat2-{{ $category2->id }}">
+                                                                        <a href="#">{{ $category2->name }}</a>
+                                                                    </div>
+                                                                    <ul>
+                                                                        @foreach($category2->child_sub_cats as $category3)
+                                                                            @php
+                                                                                $products_m3    = \App\Product::query()->where('sub_child_category_id', '=', $category3->id);
+                                                                                //if($products_m3->count() < 1) continue;
+                                                                            @endphp
+                                                                            <li class="has-submenu">
+                                                                                <a href="#" data-submenu="navCat3-{{ $category3->id }}">{{ $category3->name }}</a>
+                                                                                <div id="navCat3-{{ $category3->id }}" class="submenu">
+                                                                                    <div class="submenu-header" data-submenu-close="navCat3-{{ $category3->id }}">
+                                                                                        <a href="#">{{ $category3->name }}</a>
+                                                                                    </div>
+                                                                                    <ul>
+                                                                                        @foreach ($products_m3->get() as $product3)
+                                                                                            <li>
+                                                                                                <a href="{{route('front.product.details',$product3->slug)}}">{{ $product3->title }}</a>
+                                                                                            </li>
+                                                                                        @endforeach
+                                                                                    </ul>
                                                                                 </div>
-                                                                                <ul>
-                                                                                    @foreach ($products_m3->get() as $product3)
-                                                                                        <li>
-                                                                                            <a href="{{route('front.product.details',$product3->slug)}}">{{ $product3->title }}</a>
-                                                                                        </li>
-                                                                                    @endforeach
-                                                                                </ul>
-                                                                            </div>
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            </div>
-                                                        </li>
-                                                    @endforeach
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                </div>
+                                                            </li>
+                                                        @endforeach
+                                                    @else
+                                                        @foreach ($products_m1->get() as $product1)
+                                                            <li>
+                                                                <a href="{{route('front.product.details',$product1->slug)}}">{{ $product1->title }}</a>
+                                                            </li>
+                                                        @endforeach
+                                                    @endif
                                                 </ul>
                                             </div>
                                         </li>
@@ -119,27 +127,31 @@
                         <div class="px-4 px-md-5 pt-5 pb-4 border-bottom">
                             <h2 class="font-size-3 mb-3">HELP & SETTINGS </h2>
                             <ul class="list-group list-group-flush list-group-borderless">
-                                <li class="list-group-item px-0 py-2 border-0"><a href="#" class="h-primary">Your Account</a></li>
-                                <li class="list-group-item px-0 py-2 border-0"><a href="#" class="h-primary">Help</a></li>
-                                <li class="list-group-item px-0 py-2 border-0"><a href="#" class="h-primary">Sign In</a></li>
+                                <li class="list-group-item px-0 py-2 border-0"><a href="{{ route('front.faq') }}" class="h-primary">Help</a></li>
+                                <li class="list-group-item px-0 py-2 border-0"><a href="{{ route('user.login') }}" class="h-primary">Sign In</a></li>
                             </ul>
                         </div>
 
                         <div class="px-4 px-md-5 py-5">
-                            <select class="custom-select mb-4 rounded-0 pl-4 height-4 shadow-none text-dark">
-                                <option selected>English (United States)</option>
-                                <option value="1">English (UK)</option>
-                                <option value="2">Arabic (Saudi Arabia)</option>
-                                <option value="3">Deutsch</option>
+                            {{-- <select class="custom-select mb-4 rounded-0 pl-4 height-4 shadow-none text-dark changeLanguageNav">
+                                @php
+                                    $languages = \App\Language::all()->sortBy('name', 0, false);
+                                @endphp
+                                @foreach($languages as $language)
+                                    <option data-link="{{ route('changeLanguage', $language->code) }}" value="{{ $language->code }}" @if($language->code == session('lang')) selected @endif>{{ $language->name }}</option>
+                                @endforeach
                             </select>
-                            <select class="custom-select mb-4 rounded-0 pl-4 height-4 shadow-none text-dark">
-                                <option selected>$ USD</option>
-                                <option value="1">د.إ AED</option>
-                                <option value="2">¥ CNY</option>
-                                <option value="3">€ EUR</option>
-                            </select>
+                            <script>
+                                var tgtN = $('.changeLanguageNav');
+                                tgtN.on('change', function () {
+                                    changeDLNav();
+                                });
+                                function changeDLNav() {
+                                    window.location.assign(tgtN.find('option:selected').attr('data-link'));
+                                }
+                            </script> --}}
 
-                            <ul class="list-inline mb-0">
+                            {{-- <ul class="list-inline mb-0">
                                 <li class="list-inline-item">
                                     <a class="h-primary pr-2 font-size-2" href="#">
                                         <span class="fab fa-facebook-f btn-icon__inner"></span>
@@ -160,7 +172,7 @@
                                         <span class="fab fa-github btn-icon__inner"></span>
                                     </a>
                                 </li>
-                            </ul>
+                            </ul> --}}
 
                         </div>
                     </div>
