@@ -72,12 +72,18 @@ class ProductController extends Controller
             Product::has('category')->with('category')->when($category, function ($query, $category) {
                 return $query->where('category_id', $category);
             })
+            ->when($request->has('sc-id'), function ($query) {
+                return trim(request('sc-id')) == '' ? $query : $query->where('sub_category_id', request('sc-id'));
+            })
+            ->when($request->has('scc-id'), function ($query) {
+                return trim(request('scc-id')) == '' ? $query : $query->where('sub_child_category_id', request('scc-id'));
+            })
             ->when($lang_id, function ($query, $lang_id) {
                 return $query->where('language_id', $lang_id);
             })
             ->when($search, function ($query, $search) {
                 //return $query->where('title', 'like', '%' . $search . '%')->orwhere('summary', 'like', '%' . $search . '%')->orwhere('description', 'like', '%' . $search . '%');
-                return $query->where('title', 'like', '%' . $search . '%');
+                return trim($search) == '' ? $query : $query->where('title', 'like', '%' . $search . '%');
             })
             ->when($minprice, function ($query, $minprice) {
                 return $query->where('current_price', '>=', $minprice);

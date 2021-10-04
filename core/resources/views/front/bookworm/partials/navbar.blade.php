@@ -101,7 +101,7 @@
                                                                     <ul class="">
                                                                         @foreach(getCurrentC3($cat2) as $cat3)
                                                                         <li>
-                                                                            <a href="/products?search=&sub-category-id={{$cat3->id}}&type=new">{{$cat3->name}}</a>
+                                                                            <a href="/products?search=&scc-id={{$cat3->id}}&type=new">{{$cat3->name}}</a>
                                                                         </li>
                                                                         @endforeach
                                                                     </ul>
@@ -109,7 +109,7 @@
                                                             </li>
                                                         @else
                                                             <li>
-                                                                <a href="/products?search=&category_id={{$cat2->id}}&type=new' class='h-primary">{{$cat2->name}}</a>
+                                                                <a href="/products?search=&sc-id={{$cat2->id}}&type=new' class='h-primary">{{$cat2->name}}</a>
                                                             </li>
                                                         @endif
                                                     @endforeach
