@@ -22,6 +22,8 @@ Route::get('test', function (){
     // ->withCount('products')
     // ->get();
     // return $products;
+    return App\Models\Unscoped\Pcategory::query()
+    ->where('parent_menu_id', 109)->where('menu_level', 3)->get();
     return abort(404);
 });
 
