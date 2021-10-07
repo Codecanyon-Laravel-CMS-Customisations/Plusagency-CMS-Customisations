@@ -134,8 +134,10 @@ class ProductController extends Controller
             $in = $request->all();
             $in['language_id']  = 169;
             $in['is_variation'] = 1;
-            $in['summary']      = trim(e((new ProductsImport())->parse_tabs($request->short_description)));
-            $in['description']  = trim(e((new ProductsImport())->parse_tabs($request->description)));
+            $importer           = new ProductsImport();
+
+            $in['summary']      = trim(e($importer->parse_digital_links($importer->parse_tabs($request->short_description))));
+            $in['description']  = trim(e($importer->parse_digital_links($importer->parse_tabs($request->description))));
 
             if (isset($request['summary'])) unset($request['summary']);
             if (isset($request['description'])) unset($request['description']);
