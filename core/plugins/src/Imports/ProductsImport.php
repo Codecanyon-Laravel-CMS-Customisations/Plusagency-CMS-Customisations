@@ -463,10 +463,11 @@ class ProductsImport implements OnEachRow, WithHeadingRow
 //            return $b;
             /// ///////////
 
-            return "<div class='py-2 pt-5'>$html_x</div>";
+            return intval($index) >= 1 ? "<div class='py-2 pt-5'>$html_x</div>" : trim($html);
         }
         catch (\Exception $exception)
-        { return $html; }
+        { return trim($html); }
+        return trim($html);
     }
 
 
