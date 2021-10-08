@@ -31,6 +31,7 @@ class Product extends Model
         'download_link',
         'download_file',
         'attributes',
+        'digital',
         'offline',
         'options',
         'sub_categories',
@@ -40,6 +41,7 @@ class Product extends Model
     ];
 
     protected $casts    = [
+        'digital'       => 'boolean',
         'offline'       => 'boolean',
     ];
 

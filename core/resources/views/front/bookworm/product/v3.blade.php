@@ -27,7 +27,7 @@
                                     <div class="rating" style="width:{{$product->rating * 20}}%"></div>
                                 </div>
                                 @endif
-                                @if(!$product->offline)
+                                @if(!$product->digital && !$product->offline)
                                 <p class="price font-size-22 font-weight-medium mb-3">
                                     <span class="woocommerce-Price-amount amount">
                                         <span class="woocommerce-Price-currencySymbol">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}</span>{{ $pvariation ?$pvariation->current_price : $product->current_price }}
@@ -41,7 +41,11 @@
                                 </div>
 
                                 <div class="px-3 d-flex mb-5 align-items-center">
-                                    @if($product->offline)
+                                    @if ($product->digital)
+                                        <a href="{{ $be->digital_resource_link }}" class="btn btn-dark border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link" style="color: #fff" data-toggle="modal" data-target="#productInquiryModal">
+                                            {{ $be->digital_resource_text }}
+                                        </a>
+                                    @elseif($product->offline)
                                         @includeIf('front.bookworm.chemistry.molecules.offline_modal')
                                     @else
                                     <div class="product-quantity d-none d-md-flex" id="quantity">

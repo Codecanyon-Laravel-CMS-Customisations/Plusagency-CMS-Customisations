@@ -49,8 +49,8 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             $product->tags              = trim($row['tags']);
     //        $product->feature_image     = trim(explode(',', $row['images'])[0]);
             //$product->pending_images_download   = trim(trim($row['images']));
-            $product->summary           = trim(e($this->parse_digital_links($this->parse_tabs($row['short_description']))));
-            $product->description       = trim(e($this->parse_digital_links($this->parse_tabs($row['description']))));
+            $product->summary           = trim(e($this->parse_digital_links($product, $this->parse_tabs($row['short_description']))));
+            $product->description       = trim(e($this->parse_digital_links($product, $this->parse_tabs($row['description']))));
             $product->current_price     = trim(trim(preg_replace("/[^\d\.]/", "", $row['regular_price'])) != "" ? preg_replace("/[^\d\.]/", "", $row['regular_price']) : '0.00');
             $product->is_feature        = trim($row['is_featured']);
             $product->status            = trim(1);
@@ -471,24 +471,26 @@ class ProductsImport implements OnEachRow, WithHeadingRow
     }
 
 
-    public function parse_digital_links($string)
+    public function parse_digital_links(Product $product, string $string)
     {
         if (!Str::contains("$string", "**DL**")) return trim($string);
 
 
-        $lang       = Language::where('code', request()->has('language') ? request()->has('language') : 'en')->first();
+        $lang               = Language::where('code', request()->has('language') ? request()->has('language') : 'en')->first();
 
-        $bse        = BasicExtended::query();
+        $bse                = BasicExtended::query();
         $bse->when($lang, function ($query) use ($lang){
             return $query->where('language_id', $lang->id);
         });
         $bse->orderBy('id', 'DESC');
 
-        $data           = $bse->get()->first();
+        $data               = $bse->get()->first();
+        $product->digital   = '1';
+        $product->save();
 
-        $digital_link   = $data->digital_resource_link;
-        $digital_text   = $data->digital_resource_text;
-        $digital_html   = "<a href='$digital_link' class='btn btn-link px-2'>$digital_text</a>";
+        $digital_link       = $data->digital_resource_link;
+        $digital_text       = $data->digital_resource_text;
+        $digital_html       = "<a href='$digital_link' class='btn btn-link px-2'>$digital_text</a>";
 
         return  str_replace("**DL**", " $digital_html ", trim($string));
     }

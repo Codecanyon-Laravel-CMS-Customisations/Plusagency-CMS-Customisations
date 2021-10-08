@@ -35,6 +35,9 @@ ALTER TABLE `tickets`
 ADD `product_id` bigint(20) unsigned NULL;
 
 ALTER TABLE `products`
+ADD `digital` INT NULL DEFAULT 0;
+
+ALTER TABLE `products`
 ADD `offline` INT NULL DEFAULT 0;
 
 ALTER TABLE `products`

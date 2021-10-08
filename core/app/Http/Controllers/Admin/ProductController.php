@@ -136,15 +136,17 @@ class ProductController extends Controller
             $in['is_variation'] = 1;
             $importer           = new ProductsImport();
 
-            $in['summary']      = trim(e($importer->parse_digital_links($importer->parse_tabs($request->short_description))));
-            $in['description']  = trim(e($importer->parse_digital_links($importer->parse_tabs($request->description))));
-
             if (isset($request['summary'])) unset($request['summary']);
             if (isset($request['description'])) unset($request['description']);
 
             $product = Product::create($in);
             $product->custom_fields = json_encode( $product_fields );
             // $featured_image = uniqid() .'.'.'png';
+
+
+            $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($request->short_description))));
+            $in['description']  = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($request->description))));
+
             $thubmnail = '';
             try {
                 $thumbnail = $request->file('thumbnail')->store('front/img/product/featured', 'assets');
