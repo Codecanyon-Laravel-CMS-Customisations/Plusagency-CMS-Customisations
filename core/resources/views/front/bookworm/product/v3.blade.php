@@ -42,7 +42,7 @@
 
                                 <div class="px-3 d-flex mb-5 align-items-center">
                                     @if ($product->digital)
-                                        <a href="{{ $be->digital_resource_link }}" class="btn btn-dark border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link" style="color: #fff" data-toggle="modal" data-target="#productInquiryModal">
+                                        <a href="{{ $be->digital_resource_link }}" class="btn btn-dark border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link" style="color: #fff">
                                             {{ $be->digital_resource_text }}
                                         </a>
                                     @elseif($product->offline)
