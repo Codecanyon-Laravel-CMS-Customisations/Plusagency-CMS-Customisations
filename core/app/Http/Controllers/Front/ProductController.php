@@ -2,29 +2,32 @@
 
 namespace App\Http\Controllers\Front;
 
-use App\Ticket;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\BasicSetting as BS;
-use App\BasicExtended as BE;
-use App\BasicExtra;
-use App\Coupon;
-use App\Product;
-use App\ShippingCharge;
-use App\ProductReview;
 use Auth;
-use XSSCleaner;
-use App\Pcategory;
-use PHPMailer\PHPMailer\PHPMailer;
 use Session;
+use App\Coupon;
+use App\Ticket;
+use XSSCleaner;
+use App\Product;
 use App\Language;
+use App\Pcategory;
+use Carbon\Carbon;
+use App\BasicExtra;
+use App\ProductReview;
+use App\WebsiteColors;
 use App\OfflineGateway;
 use App\PaymentGateway;
-use App\WebsiteColors;
-use Carbon\Carbon;
+use App\ShippingCharge;
+use App\Models\EasyForm;
+use App\BasicSetting as BS;
+use App\BasicExtended as BE;
+use Illuminate\Http\Request;
+use PHPMailer\PHPMailer\PHPMailer;
+use App\Http\Controllers\Controller;
+use Symfony\Component\DomCrawler\Crawler;
 
 class ProductController extends Controller
 {
+    public $forms_url   = "https://forms.upwork-plus.test";
 
     public function __construct()
     {
@@ -159,7 +162,9 @@ class ProductController extends Controller
             $version = 'default';
         }
 
-        $data['version'] = $version;
+        $data['payload']    = $this->getForm();
+
+        $data['version']    = $version;
 
         if($be->theme_version == 'bookworm') {
             return view('front.bookworm.product', $data);
@@ -687,5 +692,206 @@ class ProductController extends Controller
         session()->flash('product_ids', $request->products);
         session()->flash('success', 'Email sent successfully!');
         return back();
+    }
+
+    public function product_iquiries_bulk(Request $request)
+    {
+        if (session()->has('lang')) {
+            $currentLang = Language::where('code', session()->get('lang'))->first();
+        } else {
+            $currentLang = Language::where('is_default', 1)->first();
+        }
+        $bs = $currentLang->basic_setting;
+
+        $messages = [
+            'g-recaptcha-response.required' => 'Please verify that you are not a robot.',
+            'g-recaptcha-response.captcha'  => 'Captcha error! try again later or contact site admin.',
+        ];
+
+        $rules = [
+            'name'      => 'required',
+            'email'     => 'required|email',
+            'subject'   => 'required',
+            'message'   => 'required'
+        ];
+        if ($bs->is_recaptcha == 1) {
+            $rules['g-recaptcha-response'] = 'required|captcha';
+        }
+
+        $request->validate($rules, $messages);
+
+        $request->validate($rules, $messages);
+
+        $be             = BE::firstOrFail();
+        $from           = $request->email;
+        $to             = $be->to_mail;
+        $subject        = $request->subject;
+        $products       = Product::query()->whereIn('id', $request->products)->get();
+        $message        = XSSCleaner::clean($request->message);
+
+
+        ///create a ticket
+        $input['subject']       = $subject;
+        $input['message']       = $message;
+        $input['user_id']       = auth()->check() ? Auth::user()->id : NULL;
+        //$input['product_id']    = $product->id;
+        $input['ticket_number'] = rand(1000000,9999999);
+        $input['last_message']  = Carbon::now();
+
+        $products_string        = "<hr/><table>
+        <thead>
+        <td>PRODUCTS</td>
+        </thead>
+        <tbody>";
+
+        foreach ($products as $product)
+        {
+            $products_string       .= "
+        <tr>
+        <td style='display: flex;'>
+        <img style='max-width:7rem;' src='$product->feature_image'/>
+        <div>
+        <p>$product->title</p>
+        <p>PRICE: $product->current_price</p>
+        <p>SKU  : $product->sku</p>
+        </div>
+        </td>
+        </tr>";
+        }
+
+        $products_string       .= "</tbody></table>";
+
+        //return $message.$products_string." <hr/> <small>ticket number <strong>#".$input['ticket_number']."</strong></small>";
+
+
+        //send email
+        try {
+
+            $mail       = new PHPMailer(true);
+            $mail->setFrom($from, $request->name);
+            $mail->addAddress($to);     // Add a recipient
+
+            // Content
+            $mail->isHTML(true);  // Set email format to HTML
+            $mail->Subject = $subject;
+            $mail->Body    = $message.$products_string." <hr/> <small>ticket number <strong>#".$input['ticket_number']."</strong></small>";
+
+            $mail->send();
+        }catch (\Exception $e) { }
+
+        $pivot              = [];
+        if(auth()->check())
+        {
+            foreach($request->products as $key => $value)
+            {
+                $pivot[$value]  = [
+                    'user_id'   => auth()->id(),
+                    'email'     => auth()->user()->email,
+                ];
+            }
+        }
+        else
+        {
+            foreach($request->products as $key => $value)
+            {
+                $pivot[$value]  = [
+                    'email'     => $request->email,
+                ];
+            }
+        }
+
+
+
+        $ticket                 = Ticket::firstOrCreate($input);
+        if(auth()->check()) $ticket->user_id    = auth()->id();
+        $ticket->products()->sync($pivot);
+
+        session()->flash('product_ids', $request->products);
+        session()->flash('success', 'Email sent successfully!');
+        return back();
+    }
+
+
+
+    public function getForm()
+    {
+        try
+        {
+            $hash               = md5('Angel');
+            $resource_url       = env("ANGEL_URL", "https://angelbookhouse.com");
+            $payload            = EasyForm::count() >= 1 ? EasyForm::first() : new EasyForm();
+
+
+            // dd($payload);
+
+            $this->forms_url    = trim(html_entity_decode($payload->easy_form_server_url));
+            $crawler            = new Crawler(html_entity_decode($payload->easy_form_restricted));
+
+            //form
+            $form               = $crawler->filter("body form");
+
+            //styles
+            $style_links        = $crawler->filter("link")->each(function($link)
+            {
+                $link           = $this->make_abs_url($link->outerHtml(), "href");
+                if (!str_contains($link, 'bootstrap.min.css') ) return  $link;
+            });
+            $style_tags     = $crawler->filter("style");
+
+            //scripts
+            $script_links   = $crawler->filter("script[src]")->each(function($script)
+            {
+                $link           = $this->make_abs_url($script->outerHtml(), "src");
+                if (!str_contains($link, 'static_files/js/libs/jquery.js') ) return  $link;
+            });
+            $script_tags     = $crawler->filter("script");
+
+
+
+
+            // return $form->html("");
+            //return $form->outerHtml("");
+            // dd("<style>".$style_tags->eq(0)->html('')."</style>");
+            // dd($style_links);
+            // dd("<script>".$script_tags->eq(0)->html('')."</script>");
+            // dd($script_links);
+
+            return [
+                "form"      => [
+                    "inner" => $form->html(""),
+                    "outer" => $form->outerHtml(""),
+                ],
+                "styles"    => [
+                    "tags"  => "<style>".str_replace('body', '.body', $style_tags->eq(0)->html("") )." body{padding:0px !important}</style>",
+                    "links" => str_replace('/static_files/css/bootstrap.min.css', '', $style_links),
+                ],
+                "scripts"   => [
+                    "tags"  => "<script>".$script_tags->eq(0)->html("")."</script>",
+                    "links" => $script_links,
+                ],
+            ];
+        }
+        catch(\Exception $exception)
+        {
+            return [
+                "form"      => [
+                    "inner" => "<div class='text-center py-5'><h2 class=''></h2></div>",
+                    "outer" => "<div class='text-center py-5'><h2 class=''></h2></div>",
+                ],
+                "styles"    => [
+                    "tags"  => "",
+                    "links" => array(),
+                ],
+                "scripts"   => [
+                    "tags"  => "",
+                    "links" => array(),
+                ],
+            ];
+        }
+    }
+
+    public function make_abs_url(string $link, $needle = "href")
+    {
+        return str_replace("$needle=\"", "$needle=\"$this->forms_url/static_files/", $link);
     }
 }

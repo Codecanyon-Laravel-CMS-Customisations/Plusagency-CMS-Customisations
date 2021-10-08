@@ -25,4 +25,5 @@ yarn-error.log
 /core/yarn-error.log
 /core/.idea
 /core/*.zip
+/core/*.txt
 

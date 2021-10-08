@@ -353,7 +353,7 @@
                 return obj;
             });
 
-            $('.select2').select2({
+            $('#productInquiryModal .select2').select2({
                 data: data,
                 dropdownParent: $('#productInquiryModal'),
                 placeholder: "{{__('Add More Products')}}",

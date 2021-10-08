@@ -14,7 +14,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{route('product.inquiries.store', $product->id)}}" class="contact-form" method="POST">
+                        <form action="{{route('product.inquiries.bulk-inquiry')}}" class="contact-form" method="POST">
                             @csrf
                             <div class="form-group">
                                 <label for="productsSelect">{{__('Add More Products')}}</label>
@@ -82,7 +82,7 @@
     </div>
 </div>
 <script>
-    $('.submit-button').on('click', function (e) {
+    $('#productInquiryModal .submit-button').on('click', function (e) {
         e.preventDefault();
         $('#productInquiryModal form').submit();
     });

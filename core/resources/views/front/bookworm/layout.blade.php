@@ -29,7 +29,9 @@
 
     <!-- common css -->
     <link rel="stylesheet" href="{{asset('assets/front/css/common-style.css')}}">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @yield('styles')
+
 
     @if ($bs->is_tawkto == 1 || $bex->is_whatsapp == 1)
     <style>
@@ -485,6 +487,56 @@ $(document).ready(function() {
 {!! $bs->addthis_script !!}
 @endif
 <!--End of AddThis script-->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        @php
+            $products   = \App\Product::query()
+            ->orderBy('title', 'ASC')
+            ->get()
+            ->each(function($query) {
+                if(session()->has('product_ids'))
+                {
+                    $product_ids    = (Array)session('product_ids');
+                    if(in_array($query->id, $product_ids))
+                    {
+                        $query->selected = true;
+                        return $query;
+                    }
+                }
+            });//->pluck('title', 'current_price', 'id');
+            echo "var productsArrayData = ".json_encode($products).";";
+        @endphp
+
+        var data = $.map(productsArrayData, function (obj) {
+            obj.text = obj.text || obj.title; // replace name with the property used for the text
+
+            return obj;
+        });
+
+        $('#headerProductInquiryModal .select2').select2({
+            data: data,
+            dropdownParent: $('#headerProductInquiryModal'),
+            placeholder: "{{__('Attach Products')}}",
+            templateResult: formatProduct
+        });
+    });
+
+    function formatProduct (product) {
+        if (!product.id) {
+            return product.text;
+        }
+        var $product = $(
+            '<span><img src="' + product.feature_image + '" class="img-flag" style="max-width: 50px;max-height: 40px;"/> ' + product.text + '</span>'
+        );
+        return $product;
+    };
+
+    $('#headerProductInquiryModal .submit-button').on('click', function (e) {
+        e.preventDefault();
+        $('#headerProductInquiryModal form').submit();
+    });
+</script>
 @yield('scripts')
 </body>
 </html>

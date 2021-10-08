@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Front\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Permalink;
 
@@ -14,7 +15,8 @@ use App\Permalink;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('test/{sku}', function ($sku){
+Route::get('test/{sku?}', function ($sku = ''){
+    //return route('product.inquiries.bulk-inquiry');// (new ProductController)->getForm();
 //    $html = ' Decision Are A**DL** Professional Attorney & Lawyers Services Provider Institutions. Suitable For Law Firm, Injury Law, Traffic Ticket Attorney, Legacy And More.Decision Are A Professional Attorney & Lawyers Services Provider Institutions. Suitable For Law Firm, Injury Law, Traffic Ticket Attorney, Legacy And More.Decision Are A Professional Attorney & Lawyers Services Provider Institutions. Suitable For Law Firm, Injury Law, Traffic Ticket Attorney, Legacy And More.Decision Are A Professional Attorney & Lawyers Services Provider Institutions. Suitable For Law Firm, Injury Law, Traffic Ticket Attorney, Legacy And More.                                                         <table id="tabs"> <tr>      <td>title one</td>            <td>title two</td>            <td>title three</td> </tr>       <tr>        <td>description <h2>100</h2></td>            <td>description 2     FOR TEACHERS – Resource Book  This series is complemented with an EXTENDED RESOURCE book for teachers which includes the course overview, which states the purpose of the course, detailed lesson plans, the learning objectives, the methods and materials used, the course length and time guideline, and the evaluation plan. There are Assessments plans included to check the understanding of the children’s knowledge. Click here for “Teacher’s Resource Book” for all parts of Gaming with Mathematics series.     </td>            <td>description 3</td>   </tr> </table> ';
 //    return (new \AngelBooks\Plugins\Imports\ProductsImport())->parse_digital_links($html);
     // $products   = App\Models\Unscoped\Pcategory::query()
@@ -156,6 +158,7 @@ Route::group(['middleware' => 'setlang'], function () {
       Route::group(['prefix'=>'inquiries', 'as'=>'.inquiries'], function (){
           Route::get('/{product}', 'Front\ProductController@product_iquiries')->name('.form');
           Route::post('/{product}', 'Front\ProductController@product_iquiries_store')->name('.store');
+          Route::post('/bulk/inquiry', 'Front\ProductController@product_iquiries_bulk')->name('.bulk-inquiry');
       });
   });
 

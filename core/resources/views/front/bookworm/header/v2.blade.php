@@ -198,7 +198,7 @@
                     @if (trim($header_v2_button_text) != "")
                         <div class="secondary-navigation">
                             <ul class="nav">
-                                <li class="nav-item"><a href="{{ route('feedback') }}" class="nav-link link-black-100 mx-2 px-0 py-3 font-size-2 font-weight-medium">{{ $header_v2_button_text }}</a></li>
+                                <li class="nav-item"><a href="javascript:;" data-href="{{ route('feedback') }}" class="nav-link link-black-100 mx-2 px-0 py-3 font-size-2 font-weight-medium" data-toggle="modal" data-target="#headerProductInquiryModal">{{ $header_v2_button_text }}</a></li>
                                 {{-- <li class="nav-item"><a href="#" class="nav-link link-black-100 mx-2 px-0 py-3 font-size-2 font-weight-medium">Best Seller</a></li>
                                 <li class="nav-item"><a href="#" class="nav-link link-black-100 mx-2 px-0 py-3 font-size-2 font-weight-medium">Trending Books</a></li>
                                 <li class="nav-item"><a href="#" class="nav-link link-black-100 mx-2 px-0 py-3 font-size-2 font-weight-medium">Gift Cards</a></li> --}}
@@ -209,6 +209,86 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="modal fade" id="headerProductInquiryModal" tabindex="-1" aria-labelledby="headerProductInquiryModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="headerProductInquiryModalLabel">{{convertUtf8($bs->contact_form_subtitle)}}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{route('product.inquiries.bulk-inquiry')}}" class="contact-form" method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="headerProductsSelect">{{__('Add More Products')}}</label>
+                                    <select id="headerProductsSelect" name="products[]" class="form-control select2" multiple="multiple" data-placeholder="{{__('Add More Products')}}" aria-describedby="productsHelp" style="width: 100%"></select>
+                                    @if ($errors->has('products'))
+                                        <small id="productsHelp" class="form-text text-danger">{{$errors->first('products')}}</small>
+                                    @endif
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input class="form-control" name="name" type="text" placeholder="{{__('Name')}}" required>
+                                            @if ($errors->has('name'))
+                                                <small id="nameHelp" class="form-text text-danger">{{$errors->first('name')}}</small>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <input class="form-control" name="email" type="email" placeholder="{{__('Email')}}" required>
+                                            @if ($errors->has('email'))
+                                                <small id="emailHelp" class="form-text text-danger">{{$errors->first('email')}}</small>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <input name="subject" class="form-control" type="text" placeholder="{{__('Subject')}}" required value="{{ old('subject', 'Inquiry of a number of products') }}">
+                                            @if ($errors->has('subject'))
+                                                <small id="subjectHelp" class="form-text text-danger">{{$errors->first('subject')}}</small>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <textarea name="message" class="form-control" id="comment" cols="30" rows="10" placeholder="{{__('Comment')}}" required></textarea>
+                                            @if ($errors->has('message'))
+                                                <small id="messageHelp" class="form-text text-danger">{{$errors->first('message')}}</small>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    @if ($bs->is_recaptcha == 1)
+                                        <div class="col-md-12 my-2">
+                                            {!! NoCaptcha::renderJs() !!}
+                                            {!! NoCaptcha::display() !!}
+                                            @if ($errors->has('g-recaptcha-response'))
+                                                @php
+                                                    $errmsg = $errors->first('g-recaptcha-response');
+                                                @endphp
+                                                <p class="text-danger mb-0">{{__("$errmsg")}}</p>
+                                            @endif
+                                        </div>
+                                    @endif
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            {{--                                                        <button type="button" class="btn btn-secondary py-3" data-dismiss="modal">Close</button>--}}
+                            <button type="button" class="btn btn-dark submit-button border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link" style="color: #fff">{{__('Submit')}}</button>
+                            {{--                                                        <input class="py-3" type="submit" value="{{__('Submit')}}">--}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </header>
 
 @include('front.bookworm.header.aside')

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use AngelBooks\Plugins\Imports\ProductsImport;
 use Session;
+use App\User;
 use Validator;
 use App\Product;
 use App\Language;
@@ -13,6 +13,7 @@ use App\BasicExtra;
 use App\ProductImage;
 use App\ProductOrder;
 use App\ChildCategory;
+use App\Models\EasyForm;
 use Illuminate\Support\Str;
 use App\BasicExtended as BE;
 use Illuminate\Http\Request;
@@ -21,6 +22,7 @@ use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use AngelBooks\Plugins\Imports\ProductsImport;
 
 class ProductController extends Controller
 {
