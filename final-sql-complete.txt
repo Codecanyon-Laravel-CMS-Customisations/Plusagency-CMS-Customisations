@@ -159,6 +159,8 @@ CREATE TABLE `product_ticket` (
   `product_id` bigint UNSIGNED DEFAULT NULL,
   `ticket_id` bigint UNSIGNED DEFAULT NULL,
   `user_id` bigint UNSIGNED DEFAULT NULL,
+  `preferred_communication` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `whatsapp_number` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -259,7 +261,7 @@ ALTER TABLE `users`
 -- --------------------------------------------------------
 
 --
--- ADD EXTRAS for table `tickets`
+-- ADD EXTRAS for table `tickets` 
 --
 ALTER TABLE `tickets`
   ADD `digital_system_stack_trace` text NULL;

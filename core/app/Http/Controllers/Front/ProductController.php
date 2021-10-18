@@ -618,10 +618,12 @@ class ProductController extends Controller
         ];
 
         $rules = [
-            'name'      => 'required',
-            'email'     => 'required|email',
-            'subject'   => 'required',
-            'message'   => 'required'
+            'name'                          => 'required',
+            'email'                         => 'required|email',
+            'whatsapp_number'               => 'nullable',
+            'preferred_communication'       => 'nullable',
+            'subject'                       => 'required',
+            'message'                       => 'required'
         ];
         if ($bs->is_recaptcha == 1) {
             $rules['g-recaptcha-response'] = 'required|captcha';
@@ -667,9 +669,11 @@ class ProductController extends Controller
         {
             foreach($request->products as $key => $value)
             {
-                $pivot[$value]  = [
-                    'user_id'   => auth()->id(),
-                    'email'     => auth()->user()->email,
+                $pivot[$value]                  = [
+                    'user_id'                   => auth()->id(),
+                    'email'                     => auth()->user()->email,
+                    'whatsapp_number'           => trim($request->whatsapp_number),
+                    'preferred_communication'   => trim($request->preferred_communication),
                 ];
             }
         }
@@ -677,8 +681,10 @@ class ProductController extends Controller
         {
             foreach($request->products as $key => $value)
             {
-                $pivot[$value]  = [
-                    'email'     => $request->email,
+                $pivot[$value]                  = [
+                    'email'                     => $request->email,
+                    'whatsapp_number'           => trim($request->whatsapp_number),
+                    'preferred_communication'   => trim($request->preferred_communication),
                 ];
             }
         }
@@ -709,10 +715,12 @@ class ProductController extends Controller
         ];
 
         $rules = [
-            'name'      => 'required',
-            'email'     => 'required|email',
-            'subject'   => 'required',
-            'message'   => 'required'
+            'name'                          => 'required',
+            'email'                         => 'required|email',
+            'whatsapp_number'               => 'nullable',
+            'preferred_communication'       => 'nullable',
+            'subject'                       => 'required',
+            'message'                       => 'required'
         ];
         if ($bs->is_recaptcha == 1) {
             $rules['g-recaptcha-response'] = 'required|captcha';
@@ -784,9 +792,11 @@ class ProductController extends Controller
         {
             foreach($request->products as $key => $value)
             {
-                $pivot[$value]  = [
-                    'user_id'   => auth()->id(),
-                    'email'     => auth()->user()->email,
+                $pivot[$value]                  = [
+                    'user_id'                   => auth()->id(),
+                    'email'                     => auth()->user()->email,
+                    'whatsapp_number'           => trim($request->whatsapp_number),
+                    'preferred_communication'   => trim($request->preferred_communication),
                 ];
             }
         }
@@ -794,8 +804,10 @@ class ProductController extends Controller
         {
             foreach($request->products as $key => $value)
             {
-                $pivot[$value]  = [
-                    'email'     => $request->email,
+                $pivot[$value]                  = [
+                    'email'                     => $request->email,
+                    'whatsapp_number'           => trim($request->whatsapp_number),
+                    'preferred_communication'   => trim($request->preferred_communication),
                 ];
             }
         }

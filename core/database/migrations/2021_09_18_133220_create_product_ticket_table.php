@@ -20,6 +20,8 @@ class CreateProductTicketTable extends Migration
                 $table->bigInteger('product_id')->unsigned()->nullable()->index();
                 $table->bigInteger('ticket_id')->unsigned()->nullable()->index();
                 $table->bigInteger('user_id')->unsigned()->nullable()->index();
+                $table->string('preferred_communication', 77)->nullable();
+                $table->string('whatsapp_number', 77)->nullable();
                 $table->string('email', 77)->nullable();
                 $table->timestamps();
 

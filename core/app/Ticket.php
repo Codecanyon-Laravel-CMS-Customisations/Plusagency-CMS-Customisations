@@ -39,7 +39,12 @@ class Ticket extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class)
-        ->withPivot('user_id', 'email');
+        ->withPivot([
+            'user_id',
+            'email',
+            'whatsapp_number',
+            'preferred_communication'
+        ]);
     }
 
     public function messages() {

@@ -13,7 +13,7 @@
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="productInquiryModalLabel">{{convertUtf8($bs->contact_form_subtitle)}}</h5>
+                        <h5 class="modal-title" id="productInquiryModalLabel">Books Inquiry & Info</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -22,14 +22,14 @@
                         <form action="{{route('product.inquiries.bulk-inquiry')}}" class="contact-form" method="POST">
                             @csrf
                             <div class="form-group">
-                                <label for="productsSelect">{{__('Add More Products')}}</label>
-                                <select id="productsSelect" name="products[]" class="form-control select2" multiple="multiple" data-placeholder="{{__('Add More Products')}}" aria-describedby="productsHelp" style="width: 100%"></select>
+                                <label for="productsSelect">{{__('Book(s) Selector')}}</label>
+                                <select id="productsSelect" name="products[]" class="form-control select2" multiple="multiple" data-placeholder="{{__('Select/Type Name, Author or ISBN')}}" aria-describedby="productsHelp" style="width: 100%"></select>
                                 @if ($errors->has('products'))
                                     <small id="productsHelp" class="form-text text-danger">{{$errors->first('products')}}</small>
                                 @endif
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <input class="form-control" name="name" type="text" placeholder="{{__('Name')}}" required>
                                         @if ($errors->has('name'))
@@ -39,10 +39,33 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <input class="form-control" name="whatsapp_number" type="text" placeholder="{{__('Whatsapp Number')}}" required>
+                                        @if ($errors->has('whatsapp_number'))
+                                            <small id="whatsappNumberHelp" class="form-text text-danger">{{$errors->first('whatsapp_number')}}</small>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <input class="form-control" name="email" type="email" placeholder="{{__('Email')}}" required>
                                         @if ($errors->has('email'))
                                             <small id="emailHelp" class="form-text text-danger">{{$errors->first('email')}}</small>
                                         @endif
+                                    </div>
+                                </div>
+                                <div class="col-md-12 pt-2 pb-4">
+                                    <div class="form-check-inline">
+                                        <label class="form-check-label">Preferred Communication: </label>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <label class="form-check-label" for="radioCom1">
+                                            <input type="radio" class="form-check-input" id="radioCom1" name="preferred_communication" value="Whatsapp" checked> Whatsapp
+                                        </label>
+                                    </div>
+                                    <div class="form-check-inline">
+                                        <label class="form-check-label" for="radioCom2">
+                                            <input type="radio" class="form-check-input" id="radioCom2" name="preferred_communication" value="Email"> Email
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">

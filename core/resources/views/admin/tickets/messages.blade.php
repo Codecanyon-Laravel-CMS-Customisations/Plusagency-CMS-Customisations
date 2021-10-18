@@ -101,7 +101,12 @@
                             </div>
                         @elseif($ticket->products && $ticket->products->count() >= 1)
                             <div class="col-md-7">
-                                <p style="font-size: 16px;">{!! replaceBaseUrl($ticket->message) !!}</p>
+                                <div class="text-left" style="font-weight: bold">
+                                    <p style="font-size: 16px;">Email: {!! replaceBaseUrl($ticket->products()->first()->pivot->email) !!}</p>
+                                    <p style="font-size: 16px;">Phone: {!! replaceBaseUrl($ticket->products()->first()->pivot->whatsapp_number) !!}</p>
+                                    <p style="font-size: 16px;">Preferred Communication: {!! replaceBaseUrl($ticket->products()->first()->pivot->preferred_communication) !!}</p>
+                                </div>
+                                <p style="font-size: 16px;" class="text-justify">{!! replaceBaseUrl($ticket->message) !!}</p>
                                 @if($ticket->zip_file)
                                     <a href="{{asset('assets/front/user-suppor-file/'.$ticket->zip_file)}}" download="{{__('support_file')}}" class="btn btn-primary"><i class="fas fa-download"></i> Download Attachment</a>
                                 @endif
