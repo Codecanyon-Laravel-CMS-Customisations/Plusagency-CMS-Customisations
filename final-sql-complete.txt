@@ -47,6 +47,9 @@ ALTER TABLE `products`
 ADD `options` json NULL;
 
 ALTER TABLE `products`
+ADD `tabs` json NULL;
+
+ALTER TABLE `products`
 ADD `sub_categories` json NULL;
 
 ALTER TABLE `basic_settings_extended`

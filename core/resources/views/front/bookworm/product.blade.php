@@ -82,6 +82,22 @@
                             </li>
                             @endforeach
                         @endif
+                        @if ( ! is_null( $product->tabs ) )
+                            @php
+                                try
+                                {
+                                    $tabs           = json_decode( $product->tabs );
+                                    foreach ($tabs as $tab)
+                                    {
+                                        $tab_title  = $tab->title;
+                                        echo "<li class='nav-item'>";
+                                        echo "<a class='nav-link' id='pills-". Str::slug( $tab_title ) ."-tab' data-toggle='pill' href='#pills-". \Illuminate\Support\Str::slug($tab_title) ."' role='tab' aria-controls='pills-". \Illuminate\Support\Str::slug($tab_title) ."' aria-selected='false'>".$tab_title."</a>";
+                                        echo "</li>";
+                                    }
+                                }
+                                catch (\Exception $exception){}
+                            @endphp
+                        @endif
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
@@ -226,6 +242,23 @@
                                     @endif
                             </div>
                         </div>
+                        @endif
+                        @if( ! is_null( $product->tabs ) )
+                            @php
+                                try
+                                {
+                                    $tabs           = json_decode( $product->tabs );
+                                    foreach ($tabs as $tab)
+                                    {
+                                        $tab_title  = $tab->title;
+                                        $tab_content= $tab->content;
+                                        echo "<div class='tab-pane fade' id='pills-".\Illuminate\Support\Str::slug($tab_title)."' role='tabpanel' aria-labelledby='pills-".\Illuminate\Support\Str::slug($tab_title)."-tab'>";
+                                        echo str_replace('\n', '', nl2br(replaceBaseUrl(convertUtf8($tab_content)), false));
+                                        echo "</div>";
+                                    }
+                                }
+                                catch (\Exception $exception){}
+                            @endphp
                         @endif
                     </div>
                 </div>

@@ -28,6 +28,7 @@ class Product extends Model
         'meta_keywords',
         'meta_description',
         'type',
+        'tabs',
         'download_link',
         'download_file',
         'attributes',

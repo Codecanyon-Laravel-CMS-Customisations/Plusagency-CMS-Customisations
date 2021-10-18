@@ -61,6 +61,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
              $this->setProductImages($product, $row);
             // $this->setChildSubCategory($product, $row);
              $this->setProductAttributes($product, $row);
+             $this->setProductTabs($product, $row);
         }
 
     }
@@ -327,6 +328,26 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         ];
 
         $product->options = json_encode( $options );
+
+        $product->save();
+    }
+
+    public function setProductTabs(Product $product, Array $row)
+    {
+        $tabs                   = [];
+
+        for ($a=0; $a<20; $a++)
+        {
+            $tab_title          = "tab_".$a."_tittle";
+            $tab_content        = "tab_".$a."_content";
+            if ( isset( $row[$tab_title] ) && trim( $row[$tab_title] ) != '' ) {
+                $tabs[]         = [
+                    'title'     => $row[$tab_title],
+                    'content'   => $row[$tab_content],
+                ];
+            }
+        }
+        $product->tabs      = json_encode( $tabs );
 
         $product->save();
     }
