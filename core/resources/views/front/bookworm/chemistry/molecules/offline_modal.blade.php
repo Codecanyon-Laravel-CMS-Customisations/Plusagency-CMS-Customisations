@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-12"> 
+    <div class="col-12">
         @if ($product->digital)
             <a href="{{ $be->digital_resource_link }}" class="btn btn-dark border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link" style="color: #fff" data-toggle="modal" data-target="#productInquiryModal">
                 {{ $be->digital_resource_text }}
