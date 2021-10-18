@@ -281,11 +281,11 @@ class BasicController extends Controller
             'base_currency_text'                => 'required',
             'base_currency_text_position'       => 'required',
             'base_currency_rate'                => 'required|numeric',
-            'header_v2_button_text'             => 'required',
-            'digital_resource_link'             => 'required',
-            'digital_resource_text'             => 'required',
-            'offline_resource_text'             => 'required',
-            'header_shipping_text'              => 'required',
+            'header_v2_button_text'             => 'nullable',
+            'digital_resource_link'             => 'nullable',
+            'digital_resource_text'             => 'nullable',
+            'offline_resource_text'             => 'nullable',
+            'header_shipping_text'              => 'nullable',
         ];
 
         $be = BasicExtended::first();
