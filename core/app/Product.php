@@ -61,6 +61,9 @@ class Product extends Model
 
     public function getFeatureImageAttribute($feature_image)
     {
+        if(trim($feature_image) == '') return trim(asset("assets/front/img/product/edition_placeholder.png"));
+        if(Str::endsWith($feature_image, 'featured')) return trim(asset("assets/front/img/product/edition_placeholder.png"));
+        if(Str::endsWith($feature_image, 'featured/')) return trim(asset("assets/front/img/product/edition_placeholder.png"));
         if(Str::startsWith($feature_image, 'http')) return trim($feature_image);
 
         //make link http
