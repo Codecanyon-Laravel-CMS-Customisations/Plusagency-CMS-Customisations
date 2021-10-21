@@ -68,6 +68,8 @@ class ProductsImport implements OnEachRow, WithHeadingRow
 
     public function setCategory(Product $product, Array $row)
     {
+        //product category
+        if (!isset($row['categories']))   $row['categories'] = "Default Category";
         $category_col           = trim($row['categories']);
         if (strlen(trim($category_col)) < 3)            $category_col           = "Default Category";
 
@@ -93,8 +95,9 @@ class ProductsImport implements OnEachRow, WithHeadingRow
     public function setProductCategories(Array $row)
     {
         //product category
+        if (!isset($row['child_categories']))       $row['child_categories']     = "Default Category";
         if (!isset($row['sub_child_categories']))   $row['sub_child_categories'] = "Default Category";
-        $category_col           = trim($row['categories']);
+        $category_col           = isset($row['categories']) ? trim($row['categories']) : "Default Category";
         $child_category_col     = Str::contains($row['child_categories'], '>') ?     trim(explode('>', $row['child_categories'])[0])     : trim($row['child_categories']);
         $sub_child_category_col = Str::contains($row['sub_child_categories'], '>') ? trim(explode('>', $row['sub_child_categories'])[0]) : trim($row['sub_child_categories']);
 
@@ -165,6 +168,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
 
     public function setSubCategory(Pcategory $parent_category, Product $product, Array $row)
     {
+        if (!isset($row['child_categories']))   $row['child_categories'] = "Default Category";
         $child_category_col         = trim(explode('>', $row['child_categories'])[0]);
         if (strlen(trim($child_category_col)) < 3)      $child_category_col     = "Default Category";
 
@@ -240,10 +244,10 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         }
         if ( isset( $row[ 'attribute_4_name' ] ) ) {
             $attributes[] = [
-                'name' => $row[ 'attribute_4_name' ],
-                'value' => $row[ 'attribute_4_values'],
+                'name'    => $row[ 'attribute_4_name' ],
+                'value'   => isset($row[ 'attribute_4_values']) ? $row[ 'attribute_4_values'] : '',
                 'visible' => $row[ 'attribute_4_visible' ],
-                'global' => $row[ 'attribute_4_global' ]
+                'global'  => $row[ 'attribute_4_global' ]
             ];
         }
         if ( isset( $row[ 'attribute_5_name' ] ) ) {
