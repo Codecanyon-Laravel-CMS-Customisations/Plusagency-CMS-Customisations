@@ -523,13 +523,13 @@ $(document).ready(function() {
     });
 
     function formatProduct (product) {
-        if (!product.id) {
+        //if (!product.id) {
             return product.text;
-        }
-        var $product = $(
-            '<span><img src="' + product.feature_image + '" class="img-flag" style="max-width: 50px;max-height: 40px;"/> ' + product.text + '</span>'
-        );
-        return $product;
+        //}
+        // var $product = $(
+        //     '<span><img src="' + product.feature_image + '" class="img-flag" style="max-width: 50px;max-height: 40px;"/> ' + product.text + '</span>'
+        // );
+        // return $product;
     };
 
     $('#headerProductInquiryModal .submit-button').on('click', function (e) {
