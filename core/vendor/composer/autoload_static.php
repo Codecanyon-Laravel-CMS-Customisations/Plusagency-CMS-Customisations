@@ -1124,6 +1124,7 @@ class ComposerStaticInit4691b200bcf447398fddfc6208a77084
         'App\\MenuScope' => __DIR__ . '/../..' . '/app/MenuScope.php',
         'App\\Models\\Country' => __DIR__ . '/../..' . '/app/Models/Country.php',
         'App\\Models\\Currency' => __DIR__ . '/../..' . '/app/Models/Currency.php',
+        'App\\Models\\CurrencyConversion' => __DIR__ . '/../..' . '/app/Models/CurrencyConversion.php',
         'App\\Models\\EasyForm' => __DIR__ . '/../..' . '/app/Models/EasyForm.php',
         'App\\Models\\Unscoped\\Pcategory' => __DIR__ . '/../..' . '/app/Models/Unscoped/Pcategory.php',
         'App\\Models\\Unscoped\\Product' => __DIR__ . '/../..' . '/app/Models/Unscoped/Product.php',

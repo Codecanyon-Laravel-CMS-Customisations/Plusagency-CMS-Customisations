@@ -18,4 +18,9 @@ class Currency extends Model
     protected $casts    = [
         'status'        => 'boolean',
     ];
+
+    public function countries()
+    {
+        return $this->belongsToMany(Country::class);
+    }
 }

@@ -44,4 +44,9 @@ class Country extends Model
     {
         return explode(',', $timezones);
     }
+
+    public function currencies()
+    {
+        return $this->belongsToMany(Currency::class);
+    }
 }

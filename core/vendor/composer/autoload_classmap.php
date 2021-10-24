@@ -269,6 +269,7 @@ return array(
     'App\\MenuScope' => $baseDir . '/app/MenuScope.php',
     'App\\Models\\Country' => $baseDir . '/app/Models/Country.php',
     'App\\Models\\Currency' => $baseDir . '/app/Models/Currency.php',
+    'App\\Models\\CurrencyConversion' => $baseDir . '/app/Models/CurrencyConversion.php',
     'App\\Models\\EasyForm' => $baseDir . '/app/Models/EasyForm.php',
     'App\\Models\\Unscoped\\Pcategory' => $baseDir . '/app/Models/Unscoped/Pcategory.php',
     'App\\Models\\Unscoped\\Product' => $baseDir . '/app/Models/Unscoped/Product.php',
