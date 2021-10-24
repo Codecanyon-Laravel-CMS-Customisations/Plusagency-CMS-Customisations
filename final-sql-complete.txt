@@ -787,7 +787,61 @@ ALTER TABLE `currencies`
 --
 ALTER TABLE `currencies`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=164;
-  
+ 
+ 
+ 
+ 
+ 
+ 
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `currency_conversions`
+--
+
+CREATE TABLE `currency_conversions` (
+  `id` bigint UNSIGNED NOT NULL,
+  `base_currency_id` bigint UNSIGNED DEFAULT NULL COMMENT 'the base currency id',
+  `converted_currency_id` bigint UNSIGNED DEFAULT NULL COMMENT 'the currency being converted to id',
+  `rate` double(7,2) DEFAULT '1.00',
+  `status` tinyint(1) DEFAULT '0' COMMENT 'only active conversions will be visible to clients',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `currency_conversions`
+--
+ALTER TABLE `currency_conversions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `currency_conversions_base_currency_id_index` (`base_currency_id`),
+  ADD KEY `currency_conversions_converted_currency_id_index` (`converted_currency_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `currency_conversions`
+--
+ALTER TABLE `currency_conversions`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `currency_conversions`
+--
+ALTER TABLE `currency_conversions`
+  ADD CONSTRAINT `currency_conversions_base_currency_id_foreign` FOREIGN KEY (`base_currency_id`) REFERENCES `currencies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `currency_conversions_converted_currency_id_foreign` FOREIGN KEY (`converted_currency_id`) REFERENCES `currencies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE; 
   
   
   
