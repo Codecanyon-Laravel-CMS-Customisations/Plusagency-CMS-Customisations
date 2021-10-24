@@ -845,9 +845,55 @@ ALTER TABLE `currency_conversions`
   
   
   
-  
-  
-  
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `country_currency`
+--
+
+CREATE TABLE `country_currency` (
+  `id` bigint UNSIGNED NOT NULL,
+  `country_id` bigint UNSIGNED DEFAULT NULL,
+  `currency_id` bigint UNSIGNED DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '0' COMMENT 'only active countries + currencies will be visible to clients',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `country_currency`
+--
+ALTER TABLE `country_currency`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `country_currency_country_id_index` (`country_id`),
+  ADD KEY `country_currency_currency_id_index` (`currency_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `country_currency`
+--
+ALTER TABLE `country_currency`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `country_currency`
+--
+ALTER TABLE `country_currency`
+  ADD CONSTRAINT `country_currency_country_id_foreign` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `country_currency_currency_id_foreign` FOREIGN KEY (`currency_id`) REFERENCES `currencies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
   
   
   
