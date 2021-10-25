@@ -119,7 +119,7 @@
                                                         </ul>
                                                     </li> --}}
                                                     <li>
-                                                        <a class="dropdown-item link-black-100" href="{{route('front.product.details',$subsubcat->slug)}}">{{ $subsubcat->name }}</a>
+                                                        <a class="dropdown-item link-black-100" href="/products?search=&scc-id={{$subsubcat->id}}&type=new">{{ $subsubcat->name }}</a>
                                                     </li>
                                                 @endforeach
                                             </ul>
