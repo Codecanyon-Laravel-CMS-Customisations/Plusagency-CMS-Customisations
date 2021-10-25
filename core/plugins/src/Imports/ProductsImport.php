@@ -30,6 +30,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 // 'status'    => 1,
             ]);
             if (!isset($row['offline'])) $row['offline'] = 0;
+            if (!isset($row['digital'])) $row['digital'] = 0;
 
             $product_categories         = $this->setProductCategories($row);
 
@@ -42,6 +43,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             $product->slug              = trim(Str::slug(convertUtf8($row['name'])));
             $product->language_id       = trim(169);
             $product->offline           = intval($row['offline']);
+            $product->digital           = intval($row['digital']);
             $product->stock             = trim($row['stock']);
             $product->category_id       = trim($parent_category->id);
             $product->sub_category_id   = $sub_category ? trim($sub_category->id) : NULL;
@@ -49,8 +51,8 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             $product->tags              = trim($row['tags']);
     //        $product->feature_image     = trim(explode(',', $row['images'])[0]);
             //$product->pending_images_download   = trim(trim($row['images']));
-            $product->summary           = trim(e($this->parse_digital_links($product, $this->parse_tabs($row['short_description']))));
-            $product->description       = trim(e($this->parse_digital_links($product, $this->parse_tabs($row['description']))));
+            $product->summary           = trim(e($product, $this->parse_tabs($row['short_description'])));
+            $product->description       = trim(e($product, $this->parse_tabs($row['description'])));
             $product->current_price     = trim(trim(preg_replace("/[^\d\.]/", "", $row['regular_price'])) != "" ? preg_replace("/[^\d\.]/", "", $row['regular_price']) : '0.00');
             $product->is_feature        = trim($row['is_featured']);
             $product->status            = trim(1);
@@ -498,7 +500,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
 
     public function parse_digital_links(Product $product, string $string)
     {
-        if (!Str::contains("$string", "**DL**")) return trim($string);
+        if (!Str::contains("$string", "**DL**")) $product->digital   = '0'; $product->save(); return trim($string);
 
 
         $lang               = Language::where('code', request()->has('language') ? request()->has('language') : 'en')->first();
