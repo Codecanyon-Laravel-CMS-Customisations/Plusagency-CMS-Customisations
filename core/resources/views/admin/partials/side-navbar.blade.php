@@ -1303,6 +1303,13 @@ id="course"
                         <span class="sub-item">Currency Conversions</span>
                     </a>
                 </li>
+                <li class="@if(request()->path() == 'admin/currency/settings') active
+                    @elseif(request()->routeIs('admin.currency.settings.index')) active
+                    @endif">
+                    <a href="{{route('admin.email.templates')}}">
+                        <span class="sub-item">Currencies</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </li>
