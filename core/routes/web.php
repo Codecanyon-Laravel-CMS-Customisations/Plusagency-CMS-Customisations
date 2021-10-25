@@ -388,10 +388,14 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth', 'userstatus', 'setlan
 =======================================================*/
 
 Route::group(['prefix' => 'admin', 'middleware' => 'guest:admin'], function () {
-  Route::post('/login', 'Admin\LoginController@authenticate')->name('admin.auth');
+    Route::post('/login', 'Admin\LoginController@authenticate')->name('admin.auth');
 
-  Route::get('/mail-form', 'Admin\ForgetController@mailForm')->name('admin.forget.form');
-  Route::post('/sendmail', 'Admin\ForgetController@sendmail')->name('admin.forget.mail');
+    Route::get('/mail-form', 'Admin\ForgetController@mailForm')->name('admin.forget.form');
+    Route::post('/sendmail', 'Admin\ForgetController@sendmail')->name('admin.forget.mail');
+});
+
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth:admin', 'checkstatus', 'setLfmPath']], function () {
+    Route::get('/currency/countries', 'Admin\Currency\CountriesController@index')->name('currency.countries');
 });
 
 
