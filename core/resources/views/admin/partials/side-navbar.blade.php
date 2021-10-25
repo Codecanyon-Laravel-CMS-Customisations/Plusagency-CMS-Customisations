@@ -1208,6 +1208,7 @@ id="course"
 @elseif(request()->path() == 'admin/maintainance') active
 @elseif(request()->path() == 'admin/cookie-alert') active
 @elseif(request()->path() == 'admin/currency') active
+@elseif(request()->path() == 'admin/currency/currencies') active
 @elseif(request()->path() == 'admin/currency/countries') active
 @elseif(request()->path() == 'admin/mail-from-admin') active
 @elseif(request()->path() == 'admin/mail-to-admin') active
@@ -1242,6 +1243,7 @@ id="course"
 @elseif(request()->path() == 'admin/maintainance') show
 @elseif(request()->path() == 'admin/cookie-alert') show
 @elseif(request()->path() == 'admin/currency') show
+@elseif(request()->path() == 'admin/currency/currencies') show
 @elseif(request()->path() == 'admin/currency/countries') show
 @elseif(request()->path() == 'admin/mail-from-admin') show
 @elseif(request()->path() == 'admin/mail-to-admin') show
@@ -1285,12 +1287,12 @@ id="course"
         <div class="collapse {{(request()->path() == 'admin/currency/countries' || request()->path() == 'admin/currency/currencies' || request()->path() == 'admin/currency/conversions' || request()->routeIs('admin.currency.conversions.index')) ? 'show' : '' }}" id="currencyset" style="">
             <ul class="nav nav-collapse subnav">
                 <li class="@if(request()->path() == 'admin/currency/countries') active @endif">
-                    <a href="{{route('admin.currency.countries')}}">
+                    <a href="{{route('admin.currency.countries.index')}}">
                         <span class="sub-item">Countries</span>
                     </a>
                 </li>
                 <li class="@if(request()->path() == 'admin/currency/currencies') active @endif">
-                    <a href="{{route('admin.mailToAdmin')}}">
+                    <a href="{{route('admin.currency.currencies.index')}}">
                         <span class="sub-item">Currencies</span>
                     </a>
                 </li>
