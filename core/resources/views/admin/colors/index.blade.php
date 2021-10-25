@@ -500,7 +500,7 @@
                                                         <div class="col-lg-3">
                                                             <div class="form-group">
                                                                 <label>Color **</label>
-                                                                <input class="jscolor form-control ltr" name="color" value="{{ $color->value }}">
+                                                                <input class="jscolor form-control ltr" name="color" value="{{ str_replace(' !important', '', $color->value) }}">
                                                                 @if (Session::get('data') == 2)
                                                                     @if ($errors->has('color'))
                                                                         <p class="mb-0 text-danger">{{$errors->first('color')}}</p>
