@@ -46,8 +46,8 @@ class WebsiteColors extends Model
                 [
                     "section_title"         => "Website header section",
                     "section_description"   => "This color settings will affect all website header colors",
-                    "attr_default"          => "header, header .masthead div",
-                    "attr_hover"            => "header:hover, , header .masthead div:hover",
+                    "attr_default"          => "body > header, body > header .masthead div",
+                    "attr_hover"            => "body > header:hover, , body > header .masthead div:hover",
                     "important_default"     => " !important",
                     "important_hover"       => " !important",
                 ],
