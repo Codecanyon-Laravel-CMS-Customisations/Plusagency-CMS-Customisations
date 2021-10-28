@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\BasicExtended;
+use Config;
+use Artisan;
+use App\Home;
+use Validator;
+use App\Service;
+use App\Language;
+use App\Timezone;
 use App\BasicExtra;
 use App\BasicSetting;
-use App\Home;
-use App\Http\Controllers\Controller;
-use App\Language;
-use App\Service;
-use App\Timezone;
-use Artisan;
-use Config;
+use App\BasicExtended;
+use App\Models\Country;
+use App\Models\Currency;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
-use Validator;
 
 class BasicController extends Controller
 {
@@ -262,6 +264,10 @@ class BasicController extends Controller
         $data['abe'] = BasicExtended::first();
         $data['abx'] = BasicExtra::first();
         $data['timezones'] = Timezone::all();
+
+        $data['world_currencies']   = Country::with('currencies')->whereHas('currencies')->get()->sortBy('name', 0, false);
+        $data['countries']          = Country::all()->where('status', true)->sortBy('name', 0, false);
+        $data['currencies']         = Currency::all()->where('status', true)->sortBy('name', 0, false);
 
         return view('admin.basic.basicinfo', $data);
     }

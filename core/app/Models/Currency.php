@@ -23,4 +23,9 @@ class Currency extends Model
     {
         return $this->belongsToMany(Country::class);
     }
+
+    public function conversion()
+    {
+        return $this->hasOne(CurrencyConversion::class, 'converted_currency_id');
+    }
 }
