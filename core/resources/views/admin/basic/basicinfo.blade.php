@@ -81,6 +81,7 @@
                         <div class="form-group">
                             <label>Base Currency Text **</label>
                             <input type="text" class="form-control ltr" name="base_currency_text" disabled value="{{$abx->base_currency_text}}">
+                            <input type="hidden" class="form-control ltr" name="base_currency_text" value="{{$abx->base_currency_text}}">
                             @if ($errors->has('base_currency_text'))
                               <p class="mb-0 text-danger">{{$errors->first('base_currency_text')}}</p>
                             @endif
@@ -90,6 +91,7 @@
                         <div class="form-group">
                             <label>Base Currency Symbol **</label>
                             <input type="text" class="form-control ltr" name="base_currency_symbol" disabled value="{{$abx->base_currency_symbol}}">
+                            <input type="hidden" class="form-control ltr" name="base_currency_symbol" value="{{$abx->base_currency_symbol}}">
                             @if ($errors->has('base_currency_symbol'))
                               <p class="mb-0 text-danger">{{$errors->first('base_currency_symbol')}}</p>
                             @endif
@@ -99,6 +101,7 @@
                         <div class="form-group">
                             <label>Base Currency Symbol Position **</label>
                             <input name="base_currency_symbol_position" class="form-control ltr" disabled>
+                            <input name="base_currency_symbol_position" class="form-control ltr" type="hidden">
                             @if ($errors->has('base_currency_symbol_position'))
                               <p class="mb-0 text-danger">{{$errors->first('base_currency_symbol_position')}}</p>
                             @endif
@@ -112,6 +115,7 @@
                                   <span class="input-group-text">1 USD =</span>
                                 </div>
                                 <input type="text" name="base_currency_rate" class="form-control ltr" disabled value="{{$abx->base_currency_rate}}">
+                                <input type="hidden" name="base_currency_rate" class="form-control ltr" value="{{$abx->base_currency_rate}}">
                                 <div class="input-group-append">
                                   <span class="input-group-text span-rated-symbol">{{$abx->base_currency_text}}</span>
                                 </div>
@@ -125,7 +129,8 @@
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label>Base Currency Text Position **</label>
-                            <input name="base_currency_text_position" class="form-control ltr" disabled>
+                            <input name="base_currency_text_position" class="form-control ltr" disabled value="">
+                            <input name="base_currency_text_position" class="form-control ltr" type="hidden" value="">
                             @if ($errors->has('base_currency_text_position'))
                               <p class="mb-0 text-danger">{{$errors->first('base_currency_text_position')}}</p>
                             @endif
