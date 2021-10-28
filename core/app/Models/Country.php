@@ -17,7 +17,6 @@ class Country extends Model
         'demonym',
         'timezones',
         'native_name',
-        'currencies',
         'status',
     ];
 
@@ -26,7 +25,6 @@ class Country extends Model
         'alt_spellings' => 'array',
         'timezones'     => 'array',
         'native_name'   => 'array',
-        'currencies'    => 'array',
         'status'        => 'boolean',
     ];
 
@@ -47,6 +45,6 @@ class Country extends Model
 
     public function currencies()
     {
-        return $this->belongsToMany(Currency::class);
+        return $this->belongsToMany(Currency::class)->withPivot('status')->withTimestamps();
     }
 }

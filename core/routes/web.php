@@ -401,6 +401,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth:admi
     Route::post('/currency/conversions', 'Admin\Currency\CurrenciesController@conversions_store')->name('currency.conversions.store');
     Route::delete('/currency/conversions', 'Admin\Currency\CurrenciesController@conversions_delete')->name('currency.conversions.delete');
     Route::patch('/currency/conversions/update', 'Admin\Currency\CurrenciesController@conversions_update')->name('currency.conversions.update');
+    Route::get('/currency/world-currencies', 'Admin\Currency\CurrenciesController@world_currencies_index')->name('currency.world-currencies.index');
+    Route::post('/currency/world-currencies', 'Admin\Currency\CurrenciesController@world_currencies_store')->name('currency.world-currencies.store');
+
+    Route::post('/currency/world-currencies/{country}/toggle-activate', 'Admin\Currency\CurrenciesController@world_currencies_toggle_activate')->name('currency.world-currencies.toggle_activate');
+    Route::delete('/currency/world-currencies/', 'Admin\Currency\CurrenciesController@world_currencies_delete')->name('currency.world-currencies.delete');
+    Route::patch('/currency/world-currencies/update', 'Admin\Currency\CurrenciesController@world_currencies_update')->name('currency.world-currencies.update');
+
     Route::post('/currency/conversions/{currency_conversion}/toggle-activate', 'Admin\Currency\CurrenciesController@conversions_toggle_activate')->name('currency.conversions.toggle_activate');
     Route::get('/currency/currencies/{currency}/edit', 'Admin\Currency\CurrenciesController@edit')->name('currency.currencies.edit');
     Route::post('/currency/currencies/update', 'Admin\Currency\CurrenciesController@update')->name('currency.currencies.update');

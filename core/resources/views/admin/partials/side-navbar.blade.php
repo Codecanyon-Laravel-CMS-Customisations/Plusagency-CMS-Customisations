@@ -1208,6 +1208,7 @@ id="course"
 @elseif(request()->path() == 'admin/maintainance') active
 @elseif(request()->path() == 'admin/cookie-alert') active
 @elseif(request()->path() == 'admin/currency') active
+@elseif(request()->path() == 'admin/currency/world-currencies') active
 @elseif(request()->path() == 'admin/currency/currencies') active
 @elseif(request()->path() == 'admin/currency/countries') active
 @elseif(request()->path() == 'admin/mail-from-admin') active
@@ -1243,6 +1244,7 @@ id="course"
 @elseif(request()->path() == 'admin/maintainance') show
 @elseif(request()->path() == 'admin/cookie-alert') show
 @elseif(request()->path() == 'admin/currency') show
+@elseif(request()->path() == 'admin/currency/world-currencies') show
 @elseif(request()->path() == 'admin/currency/conversions') show
 @elseif(request()->path() == 'admin/currency/currencies') show
 @elseif(request()->path() == 'admin/currency/countries') show
@@ -1281,11 +1283,11 @@ id="course"
 {{--        </a>--}}
 {{--    </li>--}}
     <li class="submenu">
-        <a data-toggle="collapse" href="#currencyset" aria-expanded="{{(request()->path() == 'admin/currency/countries' || request()->path() == 'admin/currency/currencies' || request()->path() == 'admin/currency/conversions' || request()->routeIs('admin.currency.conversions.index')) ? 'true' : 'false' }}">
+        <a data-toggle="collapse" href="#currencyset" aria-expanded="{{(request()->path() == 'admin/currency/countries' || request()->path() == 'admin/currency/currencies' || request()->path() == 'admin/currency/world-currencies' || request()->path() == 'admin/currency/conversions' || request()->routeIs('admin.currency.conversions.index')) ? 'true' : 'false' }}">
             <span class="sub-item">Currency Settings</span>
             <span class="caret"></span>
         </a>
-        <div class="collapse {{(request()->path() == 'admin/currency/countries' || request()->path() == 'admin/currency/currencies' || request()->path() == 'admin/currency/conversions' || request()->routeIs('admin.currency.conversions.index')) ? 'show' : '' }}" id="currencyset" style="">
+        <div class="collapse {{(request()->path() == 'admin/currency/countries' || request()->path() == 'admin/currency/currencies' || request()->path() == 'admin/currency/world-currencies' || request()->path() == 'admin/currency/conversions' || request()->routeIs('admin.currency.conversions.index')) ? 'show' : '' }}" id="currencyset" style="">
             <ul class="nav nav-collapse subnav">
                 <li class="@if(request()->path() == 'admin/currency/countries') active @endif">
                     <a href="{{route('admin.currency.countries.index')}}">
@@ -1304,10 +1306,10 @@ id="course"
                         <span class="sub-item">Currency Conversions</span>
                     </a>
                 </li>
-                <li class="@if(request()->path() == 'admin/currency/settings') active
-                    @elseif(request()->routeIs('admin.currency.settings.index')) active
+                <li class="@if(request()->path() == 'admin/currency/world-currencies') active
+                    @elseif(request()->routeIs('admin.currency.world-currencies.index')) active
                     @endif">
-                    <a href="{{route('admin.email.templates')}}">
+                    <a href="{{route('admin.currency.world-currencies.index')}}">
                         <span class="sub-item">Currencies</span>
                     </a>
                 </li>

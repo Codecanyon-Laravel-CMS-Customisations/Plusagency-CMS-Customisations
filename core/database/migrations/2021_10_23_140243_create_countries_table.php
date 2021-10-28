@@ -25,7 +25,6 @@ class CreateCountriesTable extends Migration
             $table->string('demonym')->nullable();
             $table->string('timezones')->nullable()->comment('csv entries');
             $table->string('native_name')->nullable();
-            $table->string('currencies')->nullable()->comment('csv entries');
             $table->boolean('status')->nullable()->default(false)->comment('only active countries will be visible to clients');
             $table->timestamps();
         });

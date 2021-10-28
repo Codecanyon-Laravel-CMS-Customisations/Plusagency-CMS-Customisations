@@ -288,7 +288,7 @@ CREATE TABLE `countries` (
   `demonym` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `timezones` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'csv entries',
   `native_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `currencies` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'csv entries',
+  `test_currencies_list` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'this column is un-used and should be removed if possible',
   `status` tinyint(1) DEFAULT '0' COMMENT 'only active countries will be visible to clients',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL

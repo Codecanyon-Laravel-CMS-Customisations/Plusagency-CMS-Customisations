@@ -30,7 +30,6 @@ class CountrySeeder extends Seeder
                 'demonym' => $country->demonym,
                 'timezones' => implode(',', $country->timezones),
                 'native_name' => $country->nativeName,
-                'currencies' => $country->currencies,
             ]);
         }
     }

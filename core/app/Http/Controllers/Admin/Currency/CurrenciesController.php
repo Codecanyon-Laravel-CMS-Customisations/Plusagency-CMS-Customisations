@@ -7,6 +7,7 @@ use App\Models\Currency;
 use Illuminate\Http\Request;
 use App\Models\CurrencyConversion;
 use App\Http\Controllers\Controller;
+use App\Models\Country;
 
 class CurrenciesController extends Controller
 {
@@ -15,12 +16,21 @@ class CurrenciesController extends Controller
         return view('admin.currency.currencies.index',
         compact('currencies'));
     }
-
     public function conversions_index() {
         $currencies             = Currency::all()->sortBy('name', 0, false);
         $currency_conversions   = CurrencyConversion::all()->sortBy('name', 0, false);
         return view('admin.currency.conversions.index',
         compact('currencies', 'currency_conversions'));
+    }
+    public function world_currencies_index() {
+        $world_currencies       = Country::with('currencies')->whereHas('currencies')->get()->sortBy('name', 0, false);
+        $countries              = Country::all()->sortBy('name', 0, false);
+        $currencies             = Currency::all()->sortBy('name', 0, false);
+
+        // return $world_currencies;
+
+        return view('admin.currency.world-currencies.index',
+        compact('currencies', 'world_currencies', 'countries'));
     }
 
     public function conversions_store(Request $request) {
@@ -38,6 +48,25 @@ class CurrenciesController extends Controller
         $currency_conversion->save();
 
         session()->flash('success', 'Currency conversion created successfully');
+        return 'success';
+    }
+    public function world_currencies_store(Request $request) {
+        $world_currency             = Country::firstOrCreate([
+            'id'                    => intval($request->country),
+        ]);
+        $world_currency->status     = boolval(request('status'));
+        $world_currency->save();
+
+        $pivot                    = [];
+
+        foreach ($request->currencies as $currency_id) {
+            //collect all the ids
+            $pivot[$currency_id] = ['status' => (boolval(request('status')))];
+        }
+        $world_currency->currencies()->sync($pivot);
+        // $world_currency->save();
+
+        session()->flash('success', 'World Currency created successfully');
         return 'success';
     }
 
@@ -59,6 +88,25 @@ class CurrenciesController extends Controller
         session()->flash('success', 'currency conversion updated successfully');
         return $request->expectsJson() ? 'success' : redirect()->back();
     }
+    public function world_currencies_update(Request $request) {
+        $world_currency             = Country::firstOrCreate([
+            'id'                    => intval($request->country),
+        ]);
+        $world_currency->status     = boolval(request('status'));
+        $world_currency->save();
+
+        $pivot                    = [];
+
+        foreach ($request->currencies as $currency_id) {
+            //collect all the ids
+            $pivot[$currency_id] = ['status' => (boolval(request('status')))];
+        }
+        $world_currency->currencies()->sync($pivot);
+        // $world_currency->save();
+
+        session()->flash('success', 'World Currency updated successfully');
+        return $request->expectsJson() ? 'success' : redirect()->back();
+    }
 
     public function conversions_delete(Request $request)
     {
@@ -73,6 +121,21 @@ class CurrenciesController extends Controller
 
         //error
         session()->flash('error', 'error deleting currency conversion');
+        return redirect()->back();
+    }
+    public function world_currencies_delete(Request $request)
+    {
+        $world_currency         = Country::find($request->country_id);
+
+        if($world_currency->currencies()->sync([]))
+        {
+            //delete
+            session()->flash('success', 'currency for \''.$world_currency->name.'\' deleted successfully');
+            return redirect()->back();
+        }
+
+        //error
+        session()->flash('error', 'error deleting currencis in \''.$world_currency->name.'\'');
         return redirect()->back();
     }
 
@@ -95,7 +158,6 @@ class CurrenciesController extends Controller
         session()->flash('success', 'currency conversion activated successfully');
         return redirect()->back();
     }
-
     public function toggle_activate(Currency $currency, Request $request)
     {
         if($currency->status)
@@ -113,6 +175,25 @@ class CurrenciesController extends Controller
         $currency->save();
 
         session()->flash('success', 'currency activated successfully');
+        return redirect()->back();
+    }
+    public function world_currencies_toggle_activate(Country $country, Request $request)
+    {
+        if($country->status)
+        {
+            //deactivate
+            $country->status    = 0;
+            $country->save();
+
+            session()->flash('success', 'currency for \''.$country->name.'\' deactivated successfully');
+            return redirect()->back();
+        }
+
+        //activate
+        $country->status        = 1;
+        $country->save();
+
+        session()->flash('success', 'currency for \''.$country->name.'\' activated successfully');
         return redirect()->back();
     }
 
