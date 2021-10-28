@@ -18,6 +18,15 @@ class CurrencyConversion extends Model
         'status'        => 'boolean',
     ];
 
+    public function baseCurrency()
+    {
+        return $this->belongsTo(Currency::class, 'base_currency_id');
+    }
+    public function convertedCurrency()
+    {
+        return $this->belongsTo(Currency::class, 'converted_currency_id');
+    }
+
     public function baseCurrencies()
     {
         return $this->belongsToMany(Currency::class, 'base_currency_id');

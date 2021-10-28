@@ -397,6 +397,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'guest:admin'], function () {
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth:admin', 'checkstatus', 'setLfmPath']], function () {
     Route::get('/currency/countries', 'Admin\Currency\CountriesController@index')->name('currency.countries.index');
     Route::get('/currency/currencies', 'Admin\Currency\CurrenciesController@index')->name('currency.currencies.index');
+    Route::get('/currency/conversions', 'Admin\Currency\CurrenciesController@conversions_index')->name('currency.conversions.index');
+    Route::post('/currency/conversions', 'Admin\Currency\CurrenciesController@conversions_store')->name('currency.conversions.store');
+    Route::delete('/currency/conversions', 'Admin\Currency\CurrenciesController@conversions_delete')->name('currency.conversions.delete');
+    Route::patch('/currency/conversions/update', 'Admin\Currency\CurrenciesController@conversions_update')->name('currency.conversions.update');
+    Route::post('/currency/conversions/{currency_conversion}/toggle-activate', 'Admin\Currency\CurrenciesController@conversions_toggle_activate')->name('currency.conversions.toggle_activate');
     Route::get('/currency/currencies/{currency}/edit', 'Admin\Currency\CurrenciesController@edit')->name('currency.currencies.edit');
     Route::post('/currency/currencies/update', 'Admin\Currency\CurrenciesController@update')->name('currency.currencies.update');
     Route::delete('/currency/currencies/delete', 'Admin\Currency\CurrenciesController@delete')->name('currency.currencies.delete');

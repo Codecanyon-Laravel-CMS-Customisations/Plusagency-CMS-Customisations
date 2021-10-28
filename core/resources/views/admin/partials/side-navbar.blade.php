@@ -1243,6 +1243,7 @@ id="course"
 @elseif(request()->path() == 'admin/maintainance') show
 @elseif(request()->path() == 'admin/cookie-alert') show
 @elseif(request()->path() == 'admin/currency') show
+@elseif(request()->path() == 'admin/currency/conversions') show
 @elseif(request()->path() == 'admin/currency/currencies') show
 @elseif(request()->path() == 'admin/currency/countries') show
 @elseif(request()->path() == 'admin/mail-from-admin') show
@@ -1299,7 +1300,7 @@ id="course"
                 <li class="@if(request()->path() == 'admin/currency/conversions') active
                     @elseif(request()->routeIs('admin.currency.conversions.index')) active
                     @endif">
-                    <a href="{{route('admin.email.templates')}}">
+                    <a href="{{route('admin.currency.conversions.index')}}">
                         <span class="sub-item">Currency Conversions</span>
                     </a>
                 </li>
