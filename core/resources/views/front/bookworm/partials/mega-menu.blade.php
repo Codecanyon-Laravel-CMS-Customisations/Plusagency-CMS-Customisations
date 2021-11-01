@@ -67,7 +67,7 @@ if ($data->count() > 0) {
 @endphp
 
 <li class="nav-item dropdown">
-    <a id="{{ \Str::slug($link['text']) }}DropdownInvoker" href="#" class="dropdown-toggle nav-link link-black-100 mx-4 px-0 py-5 font-weight-medium d-flex align-items-center" aria-haspopup="true" aria-expanded="false" data-unfold-event="hover" data-unfold-target="#{{ \Str::slug($link['text']) }}DropdownMenu" data-unfold-type="css-animation" data-unfold-duration="200" data-unfold-delay="50" data-unfold-hide-on-scroll="true" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+    <a id="{{ \Str::slug($link['text']) }}DropdownInvoker" href="#" class="dropdown-toggle nav-link link-black-100 mx-4 px-0 py-2 font-weight-medium d-flex align-items-center" aria-haspopup="true" aria-expanded="false" data-unfold-event="hover" data-unfold-target="#{{ \Str::slug($link['text']) }}DropdownMenu" data-unfold-type="css-animation" data-unfold-duration="200" data-unfold-delay="50" data-unfold-hide-on-scroll="true" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
         {{ $link['text'] }}
     </a>
     <ul id="{{ \Str::slug($link['text']) }}DropdownMenu" class="dropdown-unfold dropdown-menu font-size-2 rounded-0 border-gray-900 u-unfold--css-animation u-unfold--hidden" aria-labelledby="{{ \Str::slug($link['text']) }}DropdownInvoker" style="animation-duration: 200ms; left: 0px;">
