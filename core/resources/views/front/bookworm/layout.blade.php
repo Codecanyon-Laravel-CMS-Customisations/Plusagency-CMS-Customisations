@@ -127,19 +127,12 @@
             /*height: calc( 1.5em + ( 1rem * 1.5 ) + 10px);*/
             height: 50px;
         }
-        /* .head .body .knees */
-        /* .head:hover body {} */
         .site-branding img{
             max-height: 4rem;
         }
         @if(!empty($colors))
             @foreach($colors as $color)
-{{--                {!! $color->element !!} {--}}
-{{--                    {!! $color->attribute !!} : #{{ $color->value }} !important;--}}
-{{--                }--}}
-                {!! $color->element !!} {
-                    {!! $color->attribute !!} : #{{ $color->value }};
-                }
+                {!! $color->element !!} { {!! $color->attribute !!} : #{{ $color->value }}; }
             @endforeach
         @endif
         .site-navigation > ul > li  ul > li:hover .dropdown-toggle::after {
