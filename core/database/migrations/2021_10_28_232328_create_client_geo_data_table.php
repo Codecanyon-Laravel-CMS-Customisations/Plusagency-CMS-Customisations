@@ -15,6 +15,7 @@ class CreateClientGeoDataTable extends Migration
     {
         Schema::create('client_geo_data', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('user_id')->unsigned()->nullable()->index();
             $table->bigInteger('country_id')->unsigned()->nullable()->index();
             $table->bigInteger('currency_id')->unsigned()->nullable()->index();
             $table->string('ip',77)->unique()->comment('ipv4 entry');
@@ -32,6 +33,7 @@ class CreateClientGeoDataTable extends Migration
             $table->string('unix_expiry_time', 25)->nullable()->comment('time in unix when record will expire');
             $table->timestamps();
 
+            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('country_id')->references('id')->on('countries')->onUpdate('cascade')->onDelete('cascade');
             $table->foreign('currency_id')->references('id')->on('currencies')->onUpdate('cascade')->onDelete('cascade');
         });

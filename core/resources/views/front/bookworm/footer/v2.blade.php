@@ -102,17 +102,22 @@
                     <!-- End Copyright -->
 
                     <div class="ml-auto d-lg-flex justify-content-xl-end align-items-center">
-                        <!-- Select -->
-                        <div class="dropdown bootstrap-select js-select dropdown-select ml-lg-4 mb-3 mb-md-0">
-                            <select class="js-select selectpicker dropdown-select ml-lg-4 mb-3 mb-md-0 changeLanguage" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true" tabindex="-98">
-                                @php
-                                    $languages = \App\Language::all()->sortBy('name', 0, false);
-                                @endphp
-                                @foreach($languages as $language)
-                                    <option data-link="{{ route('changeLanguage', $language->code) }}" value="{{ $language->code }}" @if($language->code == session('lang')) selected @endif>{{ $language->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+
+                        <select class="js-select selectpicker dropdown-select ml-lg-4 mb-3 mb-md-0" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true">
+                            @php
+                                $languages = \App\Language::all()->sortBy('name', 0, false);
+                            @endphp
+                            @foreach($languages as $language)
+                                <option data-link="{{ route('changeLanguage', $language->code) }}" value="{{ $language->code }}" @if($language->code == session('lang')) selected @endif>{{ $language->name }}</option>
+                            @endforeach
+                        </select>
+                        <select class="js-select selectpicker dropdown-select ml-md-3" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-width="fit" data-dropdown-align-right="true">
+                            <option value="one" selected>$ USD</option>
+                            <option value="two">€ EUR</option>
+                            <option value="three">₺ TL</option>
+                            <option value="four">₽ RUB</option>
+                        </select>
+
                         <script>
                             var tgt = $('.changeLanguage');
                             tgt.on('change', function () {
@@ -122,19 +127,7 @@
                                 window.location.assign(tgt.find('option:selected').attr('data-link'));
                             }
                         </script>
-                        <!-- End Select -->
 
-                        <!-- Select -->
-{{--                        <div class="dropdown bootstrap-select js-select dropdown-select ml-md-3 fit-width">--}}
-{{--                            <select class="js-select selectpicker dropdown-select ml-md-3" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-width="fit" data-dropdown-align-right="true" tabindex="-98">--}}
-{{--                                <option value="one" selected="">$ USD</option>--}}
-{{--                                <option value="two">€ EUR</option>--}}
-{{--                                <option value="three">₺ TL</option>--}}
-{{--                                <option value="four">₽ RUB</option>--}}
-{{--                            </select>--}}
-{{--                            <button type="button" class="btn dropdown-toggle text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-toggle="dropdown" role="button" title="$ USD"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">$ USD</div></div> </div></button><div class="dropdown-menu dropdown-menu-right" role="combobox"><div class="inner show" role="listbox" aria-expanded="false" tabindex="-1"><ul class="dropdown-menu inner show"></ul></div></div>--}}
-{{--                        </div>--}}
-                        <!-- End Select -->
                     </div>
                 </div>
             </div>

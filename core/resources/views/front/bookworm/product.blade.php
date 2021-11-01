@@ -5,17 +5,17 @@
 @endsection
 
 @section('styles')
-<link rel="stylesheet" href="{{asset('assets/front/css/slick.css')}}">
-@if($product->offline)
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-@endif
+    <link rel="stylesheet" href="{{asset('assets/front/css/slick.css')}}">
+    @if($product->offline)
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    @endif
 @endsection
 
 @section('meta-keywords', "$product->meta_keywords")
 @section('meta-description', "$product->meta_description")
 
 @php
-    $reviews = App\ProductReview::where('product_id', $product->id)->get();
+    $reviews        = App\ProductReview::where('product_id', $product->id)->get();
     $avarage_rating = App\ProductReview::where('product_id',$product->id)->avg('review');
     $avarage_rating =  round($avarage_rating,2);
 
@@ -34,13 +34,13 @@
 @section('content')
 
 
-<!--====== PRODUCT DETAILS PART START ======-->
+    <!--====== PRODUCT DETAILS PART START ======-->
 
-@include('front.bookworm.product.'. $be->bookworm_shop_single_version)
+    @include('front.bookworm.product.'. $be->bookworm_shop_single_version)
 
-<!--====== PRODUCT DETAILS PART ENDS ======-->
+    <!--====== PRODUCT DETAILS PART ENDS ======-->
 
-<!--====== SHOP TAB PART START ======-->
+    <!--====== SHOP TAB PART START ======-->
 
 <div class="shop-tab-area" @if($related_product->count() == 0) style="padding-bottom:120px;" @endif>
     <div class="container">
@@ -188,57 +188,57 @@
                                 @endif
                                     @if(Auth::user())
                                         @if(App\OrderItem::where('user_id',Auth::user()->id)->where('product_id',$product->id)->exists())
-                                    <div class="shop-review-form">
-                                        @error('error')
-                                        <p class="text-danger my-2">{{Session::get('error')}}</p>
-                                        @enderror
-                                        <form class="mt-5" action="{{route('product.review.submit')}}" method="POST">@csrf
-                                            <div class="input-box">
-                                                <span>{{__('Comment')}}</span>
-                                                <textarea name="comment"  cols="30" rows="10" placeholder="{{__('Comment')}}"></textarea>
-                                            </div>
-                                            <input type="hidden" value="" id="reviewValue" name="review">
-                                            <input type="hidden" value="{{$product->id}}" name="product_id">
-                                            <div class="input-box">
-                                                <span>{{__('Rating')}} *</span>
-                                                <div class="review-content ">
-                                                <ul class="review-value review-1">
-                                                    <li><a class="cursor-pointer" data-href="1"><i class="far fa-star"></i></a></li>
-                                                </ul>
-                                                <ul class="review-value review-2">
-                                                    <li><a class="cursor-pointer" data-href="2"><i class="far fa-star"></i></a></li>
-                                                    <li><a class="cursor-pointer" data-href="2"><i class="far fa-star"></i></a></li>
-                                                </ul>
-                                                <ul class="review-value review-3">
-                                                    <li><a class="cursor-pointer" data-href="3"><i class="far fa-star"></i></a></li>
-                                                    <li><a class="cursor-pointer" data-href="3"><i class="far fa-star"></i></a></li>
-                                                    <li><a class="cursor-pointer" data-href="3"><i class="far fa-star"></i></a></li>
-                                                </ul>
-                                                <ul class="review-value review-4">
-                                                    <li><a class="cursor-pointer" data-href="4"><i class="far fa-star"></i></a></li>
-                                                    <li><a class="cursor-pointer" data-href="4"><i class="far fa-star"></i></a></li>
-                                                    <li><a class="cursor-pointer" data-href="4"><i class="far fa-star"></i></a></li>
-                                                    <li><a class="cursor-pointer" data-href="4"><i class="far fa-star"></i></a></li>
-                                                </ul>
-                                                <ul class="review-value review-5">
-                                                    <li><a class="cursor-pointer" data-href="5"><i class="far fa-star"></i></a></li>
-                                                    <li><a class="cursor-pointer" data-href="5"><i class="far fa-star"></i></a></li>
-                                                    <li><a class="cursor-pointer" data-href="5"><i class="far fa-star"></i></a></li>
-                                                    <li><a class="cursor-pointer" data-href="5"><i class="far fa-star"></i></a></li>
-                                                    <li><a class="cursor-pointer" data-href="5"><i class="far fa-star"></i></a></li>
-                                                </ul>
-                                            </div>
-                                            </div>
-                                            <div class="input-btn mt-3">
-                                                <button type="submit">{{__('Submit')}}</button>
-                                            </div>
-                                        </form>
-                                    </div>
+                                        <div class="shop-review-form">
+                                            @error('error')
+                                            <p class="text-danger my-2">{{Session::get('error')}}</p>
+                                            @enderror
+                                            <form class="mt-5" action="{{route('product.review.submit')}}" method="POST">@csrf
+                                                <div class="input-box">
+                                                    <span>{{__('Comment')}}</span>
+                                                    <textarea name="comment"  cols="30" rows="10" placeholder="{{__('Comment')}}"></textarea>
+                                                </div>
+                                                <input type="hidden" value="" id="reviewValue" name="review">
+                                                <input type="hidden" value="{{$product->id}}" name="product_id">
+                                                <div class="input-box">
+                                                    <span>{{__('Rating')}} *</span>
+                                                    <div class="review-content ">
+                                                    <ul class="review-value review-1">
+                                                        <li><a class="cursor-pointer" data-href="1"><i class="far fa-star"></i></a></li>
+                                                    </ul>
+                                                    <ul class="review-value review-2">
+                                                        <li><a class="cursor-pointer" data-href="2"><i class="far fa-star"></i></a></li>
+                                                        <li><a class="cursor-pointer" data-href="2"><i class="far fa-star"></i></a></li>
+                                                    </ul>
+                                                    <ul class="review-value review-3">
+                                                        <li><a class="cursor-pointer" data-href="3"><i class="far fa-star"></i></a></li>
+                                                        <li><a class="cursor-pointer" data-href="3"><i class="far fa-star"></i></a></li>
+                                                        <li><a class="cursor-pointer" data-href="3"><i class="far fa-star"></i></a></li>
+                                                    </ul>
+                                                    <ul class="review-value review-4">
+                                                        <li><a class="cursor-pointer" data-href="4"><i class="far fa-star"></i></a></li>
+                                                        <li><a class="cursor-pointer" data-href="4"><i class="far fa-star"></i></a></li>
+                                                        <li><a class="cursor-pointer" data-href="4"><i class="far fa-star"></i></a></li>
+                                                        <li><a class="cursor-pointer" data-href="4"><i class="far fa-star"></i></a></li>
+                                                    </ul>
+                                                    <ul class="review-value review-5">
+                                                        <li><a class="cursor-pointer" data-href="5"><i class="far fa-star"></i></a></li>
+                                                        <li><a class="cursor-pointer" data-href="5"><i class="far fa-star"></i></a></li>
+                                                        <li><a class="cursor-pointer" data-href="5"><i class="far fa-star"></i></a></li>
+                                                        <li><a class="cursor-pointer" data-href="5"><i class="far fa-star"></i></a></li>
+                                                        <li><a class="cursor-pointer" data-href="5"><i class="far fa-star"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                                </div>
+                                                <div class="input-btn mt-3">
+                                                    <button type="submit">{{__('Submit')}}</button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     @endif
                                     @else
-                                    <div class="review-login mt-5">
-                                        <a class="boxed-btn d-inline-block mr-2" href="{{route('user.login')}}">{{__('Login')}}</a> {{__('to leave a rating')}}
-                                    </div>
+                                        <div class="review-login mt-5">
+                                            <a class="boxed-btn d-inline-block mr-2" href="{{route('user.login')}}">{{__('Login')}}</a> {{__('to leave a rating')}}
+                                        </div>
                                     @endif
                             </div>
                         </div>

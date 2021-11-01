@@ -59,7 +59,7 @@
                             <div class="bg-white-100 py-4 px-5">
                                 <p class="price font-size-22 font-weight-medium mb-0">
                                     <span class="woocommerce-Price-amount amount">
-                                        <span class="woocommerce-Price-currencySymbol">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}</span>{{ $pvariation ?$pvariation->current_price : $product->current_price }}
+                                        <span class="woocommerce-Price-currencySymbol">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}</span>{{ $pvariation ? $pvariation->current_price : $product->current_price }}
                                     </span>
                                 </p>
                             </div>

@@ -16,7 +16,7 @@
 
             @else
                 <li class="nav-item dropdown">
-                    <a id="{{ \Str::slug($link['text']) }}DropdownInvoker" href="{{ $href }}" target="{{ $link['target'] }}" class="dropdown-toggle nav-link link-black-100 mx-4 px-0 py-5 font-weight-medium d-flex align-items-center"
+                    <a id="{{ \Str::slug($link['text']) }}DropdownInvoker" href="{{ $href }}" target="{{ $link['target'] }}" class="dropdown-toggle nav-link link-black-100 mx-4 px-0 py-3 font-weight-medium d-flex align-items-center"
                        aria-haspopup="true"
                        aria-expanded="false"
                        data-unfold-event="hover"
@@ -76,7 +76,7 @@
         if($item->id == '') continue;
         ?>
         <li class="nav-item dropdown">
-            <a id="{{ \Str::slug($item->name) }}DropdownInvoker" href="#" class="dropdown-toggle nav-link link-black-100 mx-4 px-0 py-5 font-weight-medium d-flex align-items-center" aria-haspopup="true" aria-expanded="false" data-unfold-event="hover" data-unfold-target="#{{ \Str::slug($item->name) }}DropdownMenu" data-unfold-type="css-animation" data-unfold-duration="200" data-unfold-delay="50" data-unfold-hide-on-scroll="true" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+            <a id="{{ \Str::slug($item->name) }}DropdownInvoker" href="#" class="dropdown-toggle nav-link link-black-100 mx-4 px-0 py-3 font-weight-medium d-flex align-items-center" aria-haspopup="true" aria-expanded="false" data-unfold-event="hover" data-unfold-target="#{{ \Str::slug($item->name) }}DropdownMenu" data-unfold-type="css-animation" data-unfold-duration="200" data-unfold-delay="50" data-unfold-hide-on-scroll="true" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
                 {{ $item->name }}
             </a>
             @php

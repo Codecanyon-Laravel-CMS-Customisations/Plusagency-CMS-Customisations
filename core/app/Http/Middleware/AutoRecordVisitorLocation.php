@@ -50,7 +50,7 @@ class AutoRecordVisitorLocation
                 curl_close($ch);
 
                 //store in database
-                $geodata                    = new ClientGeoData();
+                $geodata                    = ClientGeoData::firstOrCreate(['ip'    => $response->ip]);
                 $geodata->ip                = $response->ip;
                 $geodata->country_code      = $response->country_code;
                 $geodata->country_name      = $response->country_name;
@@ -67,6 +67,8 @@ class AutoRecordVisitorLocation
                 $country                    = Country::query()->where('alpha_2_code', $response->country_code)->first();
                 if($country)
                 { $geodata->country_id      = $country->id; }
+                if(auth()->user())
+                { $geodata->user_id         = auth()->id(); }
                 $geodata->save();
             }
             catch (\Exception $exception) { }
