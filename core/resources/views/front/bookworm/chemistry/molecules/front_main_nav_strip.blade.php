@@ -12,7 +12,7 @@
             @if (!array_key_exists("children",$link))
                 {{--- Level1 links which doesn't have dropdown menus ---}}
                 {{--                                        <!--TODO add dynamic actve class-->--}}
-                <li class="nav-item"><a href="{{ $href }}" target="{{ $link["target"] }}"class="nav-link link-black-100 mx-4 px-0 py-5 font-weight-medium">{{ $link["text"] }}</a></li>
+                <li class="nav-item"><a href="{{ $href }}" target="{{ $link["target"] }}"class="nav-link link-black-100 mx-4 px-0 py-3 font-weight-medium">{{ $link["text"] }}</a></li>
 
             @else
                 <li class="nav-item dropdown">
