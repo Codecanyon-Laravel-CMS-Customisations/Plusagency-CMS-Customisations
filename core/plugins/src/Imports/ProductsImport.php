@@ -51,8 +51,8 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             $product->tags              = trim($row['tags']);
     //        $product->feature_image     = trim(explode(',', $row['images'])[0]);
             //$product->pending_images_download   = trim(trim($row['images']));
-            $product->summary           = trim(e($product, $this->parse_tabs($row['short_description'])));
-            $product->description       = trim(e($product, $this->parse_tabs($row['description'])));
+            $product->summary           = trim(e($row['short_description']));
+            $product->description       = trim(e($row['description']));
             $product->current_price     = trim(trim(preg_replace("/[^\d\.]/", "", $row['regular_price'])) != "" ? preg_replace("/[^\d\.]/", "", $row['regular_price']) : '0.00');
             $product->is_feature        = trim($row['is_featured']);
             $product->status            = trim(1);
