@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="{{asset('assets/front/css/style.css')}}">
 
     <!-- common css -->
+    <link href="/assets/front/sidebar-nav/dist/hc-offcanvas-nav.carbon.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{asset('assets/front/css/common-style.css')}}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @yield('styles')
@@ -269,15 +270,15 @@
             // initialization of unfold component
             $.HSCore.components.HSUnfold.init($('[data-unfold-target]'),{
                 afterOpen: function () {
-                    $('#sidebarNavToggler').on('click', function(){
+                    /* $('#sidebarNavToggler').on('click', function(){
                         $('.u-sidebar-bg-overlay').css({display : "block"});
-                    });
+                    }); */
                     $('#sidebarAuthToggler').on('click', function(){
                         $('.u-sidebar-bg-overlay').css({display : "block"});
                     });
-                    $('#sidebarNavToggler1').on('click', function(){
+                    /* $('#sidebarNavToggler1').on('click', function(){
                         $('.u-sidebar-bg-overlay').css({display : "block"});
-                    });
+                    }); */
                 },
                 afterClose: function () {
                     $('.u-sidebar-bg-overlay').css({display : "none"});
@@ -536,6 +537,36 @@ $(document).ready(function() {
         e.preventDefault();
         $('#headerProductInquiryModal form').submit();
     });
+</script>
+<script src="/assets/front/sidebar-nav/dist/hc-offcanvas-nav.js"></script>
+<script>
+    var myNav =new hcOffcanvasNav('#main-nav', {
+        insertClose:true,
+        insertBack:true,
+        labelClose:'SHOP BY CATEGORY',
+        labelBack:'Back',
+        levelTitleAsBack:true,
+        pushContent:false, // default false
+        //width: 280 // width & height,
+        //height:'auto' // width & height,
+        swipeGestures:true, // enable swipe gestures
+        expanded:false, // initialize the menu in expanded mode
+        levelOpen:'expand', // overlap / expand / none
+        levelSpacing: 40, // in pixels
+        levelTitles:false, // shows titles for submenus
+        closeOpenLevels:true, // close sub levels when the nav closes
+        closeActiveLevel:false, // clear active levels when the nav closes
+        navTitle:null,  // the title of the first level
+        navClass:'', // extra CSS class(es)
+        disableBody:true, // disable body scroll
+        closeOnClick:true, // close the nav on click
+        customToggle:'#sidebarNavToggler', // custom toggle element
+        bodyInsert:'prepend', // prepend or append the menu to body
+        keepClasses:true, // should original menus and their items classes be preserved or excluded.
+        removeOriginalNav:false, // remove original menu from the DOM
+        rtl:false // enable RTL mode
+    });
+    $('#sidebarNavToggler').css({'position': 'relative', 'top':'0px'});
 </script>
 @yield('scripts')
 </body>
