@@ -15,7 +15,7 @@ class CreateWebsiteColorsTable extends Migration
     {
         Schema::create('website_colors', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('element');
+            $table->text('element');
             $table->string('attribute');
             $table->string('value');
             $table->timestamps();

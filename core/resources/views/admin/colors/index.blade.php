@@ -73,7 +73,7 @@
                                 <div class="col-3">
                                     <div class="nav flex-column nav-pills" id="v-pills-tab1" role="tablist" aria-orientation="vertical">
                                         @foreach ($website_colors_obj as $key => $value)
-                                            <a class="nav-link my-1 @if($value['active']) active @endif" id="v-pills-tab-{{ $key }}" data-toggle="pill" href="#v-pills-{{ $key }}" role="tab" aria-controls="v-pills-{{ $key }}" aria-selected="@if($value['active']) true @else false @endif">{{ $value['tab_title'] }}</a>
+                                            <a class="nav-link my-1 text-left pl-2 @if($value['active']) active @endif" id="v-pills-tab-{{ $key }}" data-toggle="pill" href="#v-pills-{{ $key }}" role="tab" aria-controls="v-pills-{{ $key }}" aria-selected="@if($value['active']) true @else false @endif">{{ $value['tab_title'] }}</a>
                                         @endforeach
                                         <button class="my-2 btn btn-block btn-success save-all-presets" >
                                             <strong>SAVE ALL</strong>
