@@ -116,14 +116,14 @@
                                                                                                 <label>Attribute **</label>
                                                                                                 <select name="attribute" class="form-control">
                                                                                                     <option @if ($color_set)
-                                                                                                            data-color="{{ $color_set->value }}"
+                                                                                                            data-color="{{ trim(str_replace('!important', '', $color_set->value)) }}"
                                                                                                             @endif
-                                                                                                            data-important="@if(isset($element['important_default'])) {{ $element['important_default'] }} @endif"
+                                                                                                            data-important="@if(isset($element['important_default'])) {{ trim($element['important_default']) }} @endif"
                                                                                                             value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Text Color @endif</option>
                                                                                                     <option @if ($background_set)
-                                                                                                            data-color="{{ $background_set->value }}"
+                                                                                                            data-color="{{ trim(str_replace('!important', '', $background_set->value)) }}"
                                                                                                             @endif
-                                                                                                            data-important="@if(isset($element['important_default'])) {{ $element['important_default'] }} @endif"
+                                                                                                            data-important="@if(isset($element['important_default'])) {{ trim($element['important_default']) }} @endif"
                                                                                                             value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else background-color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Background Color @endif</option>
                                                                                                 </select>
                                                                                                 @if (Session::get('data') == 0)
@@ -162,10 +162,10 @@
                                                                                                 <label>Attribute **</label>
                                                                                                 <select name="attribute" class="form-control">
                                                                                                     <option
-                                                                                                        data-important="@if(isset($element['important_default'])) {{ $element['important_default'] }} @endif"
+                                                                                                        data-important="@if(isset($element['important_default'])) {{ trim($element['important_default']) }} @endif"
                                                                                                         value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Text Color @endif </option>
                                                                                                     <option
-                                                                                                        data-important="@if(isset($element['important_default'])) {{ $element['important_default'] }} @endif"
+                                                                                                        data-important="@if(isset($element['important_default'])) {{ trim($element['important_default']) }} @endif"
                                                                                                         value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else background-color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Background Color @endif </option>
                                                                                                 </select>
                                                                                                 @if (Session::get('data') == 0)
@@ -217,12 +217,12 @@
                                                                                                     <label>Attribute *HOVER*</label>
                                                                                                     <select name="attribute" class="form-control">
                                                                                                         <option @if ($color_set)
-                                                                                                                data-color="{{ $color_set->value }}"
-                                                                                                                data-important="@if(isset($element['important_hover'])) {{ $element['important_hover'] }} @endif"
+                                                                                                                data-color="{{ trim(str_replace('!important', '', $color_set->value)) }}"
+                                                                                                                data-important="@if(isset($element['important_hover'])) {{ trim($element['important_hover']) }} @endif"
                                                                                                                 @endif value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Text Color @endif </option>
                                                                                                         <option @if ($background_set)
-                                                                                                                data-color="{{ $background_set->value }}"
-                                                                                                                data-important="@if(isset($element['important_hover'])) {{ $element['important_hover'] }} @endif"
+                                                                                                                data-color="{{ trim(str_replace('!important', '', $background_set->value)) }}"
+                                                                                                                data-important="@if(isset($element['important_hover'])) {{ trim($element['important_hover']) }} @endif"
                                                                                                                 @endif value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else background-color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Background Color @endif </option>
                                                                                                     </select>
                                                                                                     @if (Session::get('data') == 0)
@@ -261,10 +261,10 @@
                                                                                                     <label>Attribute *HOVER*</label>
                                                                                                     <select name="attribute" class="form-control">
                                                                                                         <option
-                                                                                                            data-important="@if(isset($element['important_hover'])) {{ $element['important_hover'] }} @endif"
+                                                                                                            data-important="@if(isset($element['important_hover'])) {{ trim($element['important_hover']) }} @endif"
                                                                                                             value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Text Color @endif</option>
                                                                                                         <option
-                                                                                                            data-important="@if(isset($element['important_hover'])) {{ $element['important_hover'] }} @endif"
+                                                                                                            data-important="@if(isset($element['important_hover'])) {{ trim($element['important_hover']) }} @endif"
                                                                                                             value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else background-color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Background Color @endif</option>
                                                                                                     </select>
                                                                                                     @if (Session::get('data') == 0)
@@ -500,7 +500,7 @@
                                                         <div class="col-lg-3">
                                                             <div class="form-group">
                                                                 <label>Color **</label>
-                                                                <input class="jscolor form-control ltr" name="color" value="{{ str_replace(' !important', '', $color->value) }}">
+                                                                <input class="jscolor form-control ltr" name="color" value="{{ str_replace(' ', '', str_replace('!important', '', $color->value)) }}">
                                                                 @if (Session::get('data') == 2)
                                                                     @if ($errors->has('color'))
                                                                         <p class="mb-0 text-danger">{{$errors->first('color')}}</p>
