@@ -90,8 +90,18 @@ class WebsiteColors extends Model
                 [
                     "section_title"         => "Search bar button",
                     "section_description"   => "This area controls the look of the search button in the header section",
-                    "attr_default"          => "header .btn-search",
-                    "attr_hover"            => "header .btn-search:hover",
+                    "attr_default"          => "#site-header .btn-search",
+                    "attr_hover"            => "#site-header .btn-search:active, #site-header .btn-search:focus, #site-header .btn-search:hover",
+                ],
+                [
+                    "section_title"         => "Search bar button border",
+                    "section_description"   => "Configure the border color for the top nav search button",
+                    "attr_default"          => "#site-header .btn-search",
+                    "attr_hover"            => "#site-header .btn-search",
+                    "important_default"     => " !important",
+                    "important_hover"       => " !important",
+                    "attr_config"           => "border-color",
+                    "attr_mono"             => true,
                 ],
                 [
                     "section_title"         => "Site Navigation top menu",
@@ -237,7 +247,7 @@ class WebsiteColors extends Model
         ],
         'product_inquiry_form_section'              => [
             "active"                => false,
-            "tab_title"             => "Product inquiry form/modal Section",
+            "tab_title"             => "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ",
             "elements"              => [
                 [
                     "section_title"         => "Modal title text",

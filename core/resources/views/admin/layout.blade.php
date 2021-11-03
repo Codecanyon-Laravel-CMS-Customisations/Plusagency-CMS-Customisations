@@ -34,10 +34,15 @@
         #editModal form select {
             direction: rtl;
         }
-
         #editModal form .note-editor.note-frame .note-editing-area .note-editable {
             direction: rtl;
             text-align: right;
+        }
+        .btn-primary-green:focus, .btn-primary-green.focus {
+            color: #fff;
+            background-color: #6fa900;
+            border-color: #669c00;
+            box-shadow: none !important;
         }
     </style>
     @endif
