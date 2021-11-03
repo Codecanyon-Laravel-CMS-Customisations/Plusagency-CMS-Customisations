@@ -1,4 +1,4 @@
-@if (!empty($sliders))
+@if (isset($sliders___________naaaaaaaaaaaaaah))
 <div class="hero-slider-with-banners space-bottom-2 mt-4d875">
     <div class="container">
         <div class="row">
@@ -51,3 +51,17 @@
     </div>
 </div>
 @endif
+
+
+@if (!empty($sliders))
+<div class="hero-slider-with-banners space-bottom-2 mt-4d875">
+    <div class="container">
+        <div class="row">
+            <div class="col-wd-9 mb-4 mb-xl-0">
+                <img class="img-responsive img-fluid" src="{{asset('assets/front/img/sliders/'.$sliders->first()->image)}}">
+            </div>
+        </div>
+    </div>
+</div>
+@endif
+
