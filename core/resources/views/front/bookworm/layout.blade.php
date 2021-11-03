@@ -155,6 +155,13 @@
         .u-sidebar {
             z-index: 1002;
         }
+        .btn-primary-green:focus, .btn-primary-green.focus ,
+        .btn-primary-green:not(:disabled):not(.disabled):active:focus{
+            box-shadow: none !important;
+        }
+        #site-header .btn-search {
+            border: 0px solid transparent !important;
+        }
     </style>
 </head>
 <body>
