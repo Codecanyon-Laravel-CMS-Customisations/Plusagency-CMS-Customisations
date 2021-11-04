@@ -102,7 +102,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="modal-footer text-center" style="display: inline-block;">
+                    <div class="modal-footer" style="display: flex;align-self: center;">
                         {{--                                                        <button type="button" class="btn btn-secondary py-3" data-dismiss="modal">Close</button>--}}
                         <button type="button" class="btn btn-dark submit-button border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link" style="color: #fff">{{__('Submit')}}</button>
                         {{--                                                        <input class="py-3" type="submit" value="{{__('Submit')}}">--}}
