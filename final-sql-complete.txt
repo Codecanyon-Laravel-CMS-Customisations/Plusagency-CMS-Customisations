@@ -590,10 +590,10 @@ ALTER TABLE `countries`
 CREATE TABLE `currencies` (
   `id` bigint UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'eg Indian Rupee',
-  `acronym` varchar(7) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'eg IN',
-  `symbol` varchar(7) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'eg ₹',
-  `symbol_position` varchar(7) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'eg L for left, R for right',
-  `text_position` varchar(7) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'eg L for left, R for right',
+  `acronym` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'eg IN',
+  `symbol` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'eg ₹',
+  `symbol_position` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'eg L for left, R for right',
+  `text_position` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'eg L for left, R for right',
   `status` tinyint(1) DEFAULT '0' COMMENT 'only active currencies will be visible to clients',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL

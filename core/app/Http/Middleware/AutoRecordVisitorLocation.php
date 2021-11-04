@@ -49,7 +49,7 @@ class AutoRecordVisitorLocation
             try
             {
                 //call the api and get latest data
-                $url        = config('geoip.url', 'https://api.freegeoip.app/json/?apikey=');
+                $url        = config('geoip.url').$client_ip.'?apikey='.config('geoip.api_key');
                 $ch         = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $url);
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
