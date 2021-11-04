@@ -69,7 +69,7 @@
                             <label>Base Currency **</label>
                             <select class="form-control ltr currency_selector">
                                 @foreach ($currencies as $wc)
-                                    <option data-name="{{ $wc->name }}" data-acronym="{{ $wc->acronym }}" data-symbol="{{ $wc->symbol }}" data-symbol-position="{{ $wc->symbol_position == "R" ? "Right" : "Left" }}" data-text-position="{{ $wc->text_position == "R" ? "Right" : "Left"  }}" data-rate="{{ $wc->conversion ? $wc->conversion->rate : ""  }}" value="{{ $wc->id }}">{{ $wc->name }} ({{ $wc->acronym }})</option>
+                                    <option data-name="{{ $wc->name }}" data-acronym="{{ $wc->acronym }}" data-symbol="{{ $wc->symbol }}" data-symbol-position="{{ $wc->symbol_position == "R" ? "Right" : "Left" }}" data-text-position="{{ $wc->text_position == "R" ? "Right" : "Left"  }}" data-rate="{{ $wc->conversion ? $wc->conversion->rate : ""  }}" value="{{ $wc->id }}" {{ $abx->base_currency_text == $wc->name ? 'selected' : '' }}>{{ $wc->name }} ({{ $wc->acronym }})</option>
                                 @endforeach
                             </select>
                             @if ($errors->has('base_currency_text_position'))

@@ -1,3 +1,24 @@
+@php
+    // $bex->base_currency_symbol          = "AI";
+    // $bex->base_currency_symbol_position = strtolower("Left");
+    // $bex->base_currency_text            = "United States Dollar";
+    // $bex->base_currency_text_position   = strtolower("Left");
+    // $bex->base_currency_rate            = "1.00";
+
+
+
+    // echo json_encode($bex);
+    // // return;
+
+    // $geo_data_base_currency             = App\Models\Currency::find(1);
+    // $geo_data_user_currency             = App\Models\Currency::find(2);
+
+    // dd( $geo_data_base_currency);
+    // echo json_encode( $geo_data_base_currency);return;
+
+
+@endphp
+
 <!DOCTYPE html>
 <html>
 <head>

@@ -164,8 +164,9 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
             <div class="form-group">
                 <label for="">Conversion Currency  **</label>
                 <select name="conversion_currency_id" class="form-control">
-                    <option value="" selected disabled>Select a base currency</option>
+                    <option value="" selected disabled>Select currency to convert</option>
                     @foreach ($currencies as $currency)
+                        <?php if($currency->status == false) continue; ?>
                         <option value="{{$currency->id}}">{{$currency->name}} ({{$currency->acronym}})</option>
                     @endforeach
                 </select>

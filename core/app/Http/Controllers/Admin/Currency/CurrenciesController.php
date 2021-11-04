@@ -25,9 +25,9 @@ class CurrenciesController extends Controller
     public function world_currencies_index() {
         $world_currencies       = Country::with('currencies')->whereHas('currencies')->get()->sortBy('name', 0, false);
         $countries              = Country::all()->sortBy('name', 0, false);
-        $currencies             = Currency::with('conversion')->whereHas('conversion')->sortBy('name', 0, false);
+        $currencies             = Currency::with('conversion')->whereHas('conversion')->where('status', true)->orderBy('name', 'asc')->get();
 
-        // return $world_currencies;
+        // return $currencies;
 
         return view('admin.currency.world-currencies.index',
         compact('currencies', 'world_currencies', 'countries'));

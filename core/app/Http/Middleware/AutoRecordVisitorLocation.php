@@ -25,10 +25,20 @@ class AutoRecordVisitorLocation
     {
         $client_ip  = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 
-        $status     = ClientGeoData::all()
-        ->where('ip', $client_ip)
-        ->where('unix_expiry_time', '>=', time())
-        ->count();
+        if(auth()->user())
+        {
+            $status     = ClientGeoData::all()
+            ->where('user_id', auth()->id())
+            ->where('unix_expiry_time', '>=', time())
+            ->count();
+        }
+        else
+        {
+            $status     = ClientGeoData::all()
+            ->where('ip', $client_ip)
+            ->where('unix_expiry_time', '>=', time())
+            ->count();
+        }
 
         if($status)
         {
@@ -70,6 +80,10 @@ class AutoRecordVisitorLocation
                 if(auth()->user())
                 { $geodata->user_id         = auth()->id(); }
                 $geodata->save();
+
+
+                //set client session
+                session()->put('geo_data_user_country', $country->id);
             }
             catch (\Exception $exception) { }
         }

@@ -776,11 +776,7 @@ INSERT INTO `currencies` (`id`, `name`, `acronym`, `symbol`, `symbol_position`, 
 -- Indexes for table `currencies`
 --
 ALTER TABLE `currencies`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `currencies_acronym_unique` (`acronym`),
-  ADD UNIQUE KEY `currencies_symbol_unique` (`symbol`),
-  ADD UNIQUE KEY `currencies_symbol_position_unique` (`symbol_position`),
-  ADD UNIQUE KEY `currencies_text_position_unique` (`text_position`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT for dumped tables

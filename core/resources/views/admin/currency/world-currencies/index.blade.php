@@ -78,60 +78,60 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                       </tr>
                     </thead>
                     <tbody>
-                      @foreach ($world_currencies as $world_currency)
-                        <tr>
-                            <td>
-                                <input type="checkbox" class="bulk-check" data-val="{{$world_currency->id}}">
-                            </td>
-                            <td>
-                                {{ $world_currency->name }}<br/>({{ $world_currency->alpha_2_code }})
-                            </td>
-                            <td>
-                                @foreach ($world_currency->currencies as $pc)
-                                    {{ $pc->acronym }} @if(!$loop->last) {{ ", " }} @endif
-                                @endforeach
-                            </td>
-                            <td>
-                                @if($world_currency->status)
-                                    <span class="badge badge-primary">Active</span>
-                                @else
-                                    <span class="badge badge-warning">Inactive</span>
-                                @endif
-                            </td>
-                            <td>
-                                <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Select Action
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a href="#" data-toggle="modal" data-target="#editModal{{ $world_currency->id }}" class="dropdown-item">
-                                        <i class="fas fa-edit"> Edit currency</i>
-                                    </a>
+                        @foreach ($world_currencies as $world_currency)
+                            <tr>
+                                <td>
+                                    <input type="checkbox" class="bulk-check" data-val="{{$world_currency->id}}">
+                                </td>
+                                <td>
+                                    {{ $world_currency->name }}<br/>({{ $world_currency->alpha_2_code }})
+                                </td>
+                                <td>
+                                    @foreach ($world_currency->currencies as $pc)
+                                        {{ $pc->acronym }} @if(!$loop->last) {{ ", " }} @endif
+                                    @endforeach
+                                </td>
+                                <td>
                                     @if($world_currency->status)
-                                        <a onclick="event.preventDefault(); document.getElementById('deactivateCurrencyForm-{{$world_currency->id}}').submit();" href="javascript:;" class="dropdown-item">
-                                            <strong><i class="fab fa-audible"> Deactivate</i></strong>
-                                        </a>
+                                        <span class="badge badge-primary">Active</span>
                                     @else
-                                        <a onclick="event.preventDefault(); document.getElementById('deactivateCurrencyForm-{{$world_currency->id}}').submit();" href="javascript:;" class="dropdown-item">
-                                            <strong><i class="fab fa-audible"> Activate</i></strong>
-                                        </a>
+                                        <span class="badge badge-warning">Inactive</span>
                                     @endif
-                                    <a onclick="event.preventDefault(); document.getElementById('deleteCurrencyForm-{{$world_currency->id}}').submit();" href="javascript:;" class="dropdown-item">
-                                        <i class="fas fa-trash"> Delete</i>
-                                    </a>
-                                </div>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Select Action
+                                    </button>
+                                    <div class="dropdown-menu">
+                                        <a href="#" data-toggle="modal" data-target="#editModal{{ $world_currency->id }}" class="dropdown-item">
+                                            <i class="fas fa-edit"> Edit currency</i>
+                                        </a>
+                                        @if($world_currency->status)
+                                            <a onclick="event.preventDefault(); document.getElementById('deactivateCurrencyForm-{{$world_currency->id}}').submit();" href="javascript:;" class="dropdown-item">
+                                                <strong><i class="fab fa-audible"> Deactivate</i></strong>
+                                            </a>
+                                        @else
+                                            <a onclick="event.preventDefault(); document.getElementById('deactivateCurrencyForm-{{$world_currency->id}}').submit();" href="javascript:;" class="dropdown-item">
+                                                <strong><i class="fab fa-audible"> Activate</i></strong>
+                                            </a>
+                                        @endif
+                                        <a onclick="event.preventDefault(); document.getElementById('deleteCurrencyForm-{{$world_currency->id}}').submit();" href="javascript:;" class="dropdown-item">
+                                            <i class="fas fa-trash"> Delete</i>
+                                        </a>
+                                    </div>
 
-                                <form id="deactivateCurrencyForm-{{$world_currency->id}}" class="deleteform d-none" action="{{route('admin.currency.world-currencies.toggle_activate', $world_currency->id)}}" method="post">
-                                    @csrf
-                                    <input type="hidden" name="country_id" value="{{$world_currency->id}}">
-                                </form>
-                                <form id="deleteCurrencyForm-{{$world_currency->id}}" class="deleteform d-none" action="{{route('admin.currency.world-currencies.delete')}}" method="post">
-                                    @csrf
-                                    @method('delete')
-                                    <input type="hidden" name="country_id" value="{{$world_currency->id}}">
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
+                                    <form id="deactivateCurrencyForm-{{$world_currency->id}}" class="deleteform d-none" action="{{route('admin.currency.world-currencies.toggle_activate', $world_currency->id)}}" method="post">
+                                        @csrf
+                                        <input type="hidden" name="country_id" value="{{$world_currency->id}}">
+                                    </form>
+                                    <form id="deleteCurrencyForm-{{$world_currency->id}}" class="deleteform d-none" action="{{route('admin.currency.world-currencies.delete')}}" method="post">
+                                        @csrf
+                                        @method('delete')
+                                        <input type="hidden" name="country_id" value="{{$world_currency->id}}">
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                   </table>
                 </div>

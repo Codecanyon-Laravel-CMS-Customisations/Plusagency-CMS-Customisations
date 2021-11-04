@@ -45,9 +45,9 @@ class AppServiceProvider extends ServiceProvider
         $currentLang = Language::where('is_default', 1)->first();
       }
 
-      $bs = $currentLang->basic_setting;
-      $be = $currentLang->basic_extended;
-      $bex = $currentLang->basic_extra;
+      $bs   = $currentLang->basic_setting;
+      $be   = $currentLang->basic_extended;
+      $bex  = $currentLang->basic_extra;
 
       $ulinks = $currentLang->ulinks;
       $apopups = $currentLang->popups()->where('status', 1)->orderBy('serial_number', 'ASC')->get();

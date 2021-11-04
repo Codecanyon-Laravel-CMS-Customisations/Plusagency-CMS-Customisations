@@ -92,6 +92,7 @@ return array(
     '0d8253363903f0ac7b0978dcde4e28a0' => $vendorDir . '/beyondcode/laravel-dump-server/helpers.php',
     'd7354eb4c8441fbf08eec280b61c7c73' => $vendorDir . '/rachidlaasri/laravel-installer/src/Helpers/functions.php',
     'bab4ed692c1fd3872849227e2a85791e' => $vendorDir . '/unicodeveloper/laravel-paystack/src/Support/helpers.php',
+    'b4e3f29b106af37a2bb239f73cdf68c7' => $baseDir . '/app/helpers.php',
     '92c1b38d4675fce54491776e674b6d3a' => $baseDir . '/app/Http/Helpers/Helper.php',
     'c48b09292737aef4e940cd0b73bf6c15' => $baseDir . '/app/Http/Helpers/Sections.php',
 );

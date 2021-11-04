@@ -93,6 +93,7 @@ class ComposerStaticInit4691b200bcf447398fddfc6208a77084
         '0d8253363903f0ac7b0978dcde4e28a0' => __DIR__ . '/..' . '/beyondcode/laravel-dump-server/helpers.php',
         'd7354eb4c8441fbf08eec280b61c7c73' => __DIR__ . '/..' . '/rachidlaasri/laravel-installer/src/Helpers/functions.php',
         'bab4ed692c1fd3872849227e2a85791e' => __DIR__ . '/..' . '/unicodeveloper/laravel-paystack/src/Support/helpers.php',
+        'b4e3f29b106af37a2bb239f73cdf68c7' => __DIR__ . '/../..' . '/app/helpers.php',
         '92c1b38d4675fce54491776e674b6d3a' => __DIR__ . '/../..' . '/app/Http/Helpers/Helper.php',
         'c48b09292737aef4e940cd0b73bf6c15' => __DIR__ . '/../..' . '/app/Http/Helpers/Sections.php',
     );
@@ -1014,6 +1015,7 @@ class ComposerStaticInit4691b200bcf447398fddfc6208a77084
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
+        'App\\Http\\Controllers\\ClientGeoDataController' => __DIR__ . '/../..' . '/app/Http/Controllers/ClientGeoDataController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\CountryController' => __DIR__ . '/../..' . '/app/Http/Controllers/CountryController.php',
         'App\\Http\\Controllers\\CurrencyController' => __DIR__ . '/../..' . '/app/Http/Controllers/CurrencyController.php',
@@ -1089,6 +1091,7 @@ class ComposerStaticInit4691b200bcf447398fddfc6208a77084
         'App\\Http\\Helpers\\KreativMailer' => __DIR__ . '/../..' . '/app/Http/Helpers/KreativMailer.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
+        'App\\Http\\Middleware\\AutoRecordVisitorLocation' => __DIR__ . '/../..' . '/app/Http/Middleware/AutoRecordVisitorLocation.php',
         'App\\Http\\Middleware\\CheckForMaintenanceMode' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckForMaintenanceMode.php',
         'App\\Http\\Middleware\\CheckPermission' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckPermission.php',
         'App\\Http\\Middleware\\CheckStatus' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckStatus.php',

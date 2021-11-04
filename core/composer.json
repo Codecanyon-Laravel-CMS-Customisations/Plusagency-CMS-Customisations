@@ -66,7 +66,7 @@
             "database/seeds",
             "database/factories"
         ],
-        "files": ["app/Http/Helpers/Helper.php", "app/Http/Helpers/Sections.php"]
+        "files": ["app/helpers.php", "app/Http/Helpers/Helper.php", "app/Http/Helpers/Sections.php"]
     },
     "autoload-dev": {
         "psr-4": {

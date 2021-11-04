@@ -143,6 +143,12 @@ Route::group(['middleware' => 'setlang'], function () {
   // change language routes
   Route::get('/changelanguage/{lang}', 'Front\FrontendController@changeLanguage')->name('changeLanguage');
 
+  // change currency routes
+  Route::get('/changecurrency/{hash}/{country?}', 'Front\FrontendController@changeCurrency')->name('changeCurrency');
+
+  // change country routes
+  Route::get('/changecountry/{hash}', 'Front\FrontendController@changeCountry')->name('changeCountry');
+
   // Product
   Route::get('/cart', 'Front\ProductController@cart')->name('front.cart');
   Route::get('/add-to-cart/{id}', 'Front\ProductController@addToCart')->name('add.cart');

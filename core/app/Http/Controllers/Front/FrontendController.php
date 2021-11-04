@@ -47,6 +47,9 @@ use App\Home;
 use App\Mail\ContactMail;
 use App\Mail\OrderPackage;
 use App\Mail\OrderQuote;
+use App\Models\Country;
+use App\Models\CurrencyConversion;
+use App\Models\GeoIP\ClientGeoData;
 use App\OfflineGateway;
 use App\PackageCategory;
 use App\PackageInput;
@@ -180,7 +183,7 @@ class FrontendController extends Controller
             } else {
                 return view('front.bookworm.index1', $data);
             }
-        } 
+        }
     }
 
     public function services(Request $request)
@@ -1188,7 +1191,111 @@ class FrontendController extends Controller
         $be = be::first();
         $version = $be->theme_version;
 
+        return redirect()->back();
         return redirect()->route('front.index');
+    }
+
+    public function changeCurrency($hash, $country = false)
+    {
+        try
+        {
+            $uc_id  = decrypt($hash);
+
+            //get currency conversion
+            $currency_conversion_to     = CurrencyConversion::query()->where('converted_currency_id', $uc_id)->orderBy('id', 'desc')->first();
+
+            $cc     = CurrencyConversion::find($currency_conversion_to->id);
+            session()->put('geo_data_user_currency', $cc->converted_currency_id);
+
+            //update use-geo-data
+            if(auth()->user())
+            {
+                $geodata                = ClientGeoData::query()->where('user_id', auth()->id())->orderBy('id', 'desc')->first();
+                $geodata->currency_id   = $uc_id;
+            }
+            else
+            {
+                $client_ip              = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+                $geodata                = ClientGeoData::query()->where('ip', $client_ip)->orderBy('id', 'desc')->first();
+                $geodata->currency_id   = $uc_id;
+            }
+
+
+            if($country)
+            {
+                try
+                {
+                    $c_id   = trim($country);
+
+                    //get currency conversion
+                    $country= Country::find($c_id);
+
+                    if($country)
+                    {
+                        session()->put('geo_data_user_country', $c_id);
+                        //update use-geo-data
+                        if(auth()->user())
+                        {
+                            $geodata                = ClientGeoData::query()->where('user_id', auth()->id())->orderBy('id', 'desc')->first();
+                            $geodata->country_id    = $c_id;
+                        }
+                        else
+                        {
+                            $client_ip              = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+                            $geodata                = ClientGeoData::query()->where('ip', $client_ip)->orderBy('id', 'desc')->first();
+                            $geodata->country_id    = $c_id;
+                        }
+                    }
+                }
+                catch(\Exception $e)
+                {}
+            }
+
+            $geodata->save();
+
+            session()->flash('success', 'currency changed successfully');
+            return redirect()->back();
+        }
+        catch (\Exception $th)
+        {
+            session()->flash('error', 'error changing currency');
+            return redirect()->back();
+        }
+    }
+
+    public function changeCountry($hash)
+    {
+        try
+        {
+            $c_id   = decrypt($hash);
+
+            //get currency conversion
+            $country= Country::find($c_id);
+
+            session()->put('geo_data_user_country', $c_id);
+
+            //update use-geo-data
+            if(auth()->user())
+            {
+                $geodata                = ClientGeoData::query()->where('user_id', auth()->id())->orderBy('id', 'desc')->first();
+                $geodata->country_id    = $c_id;
+            }
+            else
+            {
+                $client_ip              = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+                $geodata                = ClientGeoData::query()->where('ip', $client_ip)->orderBy('id', 'desc')->first();
+                $geodata->country_id    = $c_id;
+            }
+            $geodata->save();
+
+            session()->flash('success', 'country changed successfully');
+            return redirect()->back();
+        }
+        catch (\Exception $th)
+        {
+            session()->flash('error', 'error changing country');
+            return redirect()->back();
+        }
     }
 
     public function packageorder(Request $request, $id)
