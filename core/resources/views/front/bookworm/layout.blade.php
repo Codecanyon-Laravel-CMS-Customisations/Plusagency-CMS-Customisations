@@ -162,6 +162,7 @@
         #site-header .btn-search {
             border: 0px solid transparent !important;
         }
+        .hc-offcanvas-nav .nav-close-button span::before {margin-left: -6px;}
     </style>
 </head>
 <body>
@@ -567,11 +568,6 @@ $(document).ready(function() {
         rtl:false // enable RTL mode
     });
     $('#sidebarNavToggler').css({'position': 'relative', 'top':'0px'});
-    $(document).ready(function(){
-        setTimeout(function(){
-            $('.nav-close-button a').html("SHOP BY CATEGORYR <i style='float: right;' class='fas fa-times'></i>");
-        }, 5000);
-    });
 </script>
 @yield('scripts')
 </body>
