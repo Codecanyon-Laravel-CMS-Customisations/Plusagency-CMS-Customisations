@@ -280,7 +280,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <textarea name="message" class="form-control" id="comment" cols="30" rows="10" placeholder="{{__('Comment')}}" required></textarea>
+                                            <textarea name="message" class="form-control" id="comment" cols="30" rows="10" placeholder="{{__('Type your message')}}" required></textarea>
                                             @if ($errors->has('message'))
                                                 <small id="messageHelp" class="form-text text-danger">{{$errors->first('message')}}</small>
                                             @endif
