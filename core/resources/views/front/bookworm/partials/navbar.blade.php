@@ -52,7 +52,7 @@
 
 
 
-<aside id="main-nav">
+<aside id="main-nav" style="display:none">
     <div class="sidebar-nav-header"><h2 class="font-size-3 mb-0">SHOP BY CATEGORY</h2></div>
     <ul class="">
         @foreach($c1->get() as $cat1)
