@@ -269,6 +269,16 @@ class WebsiteColors extends Model
                     "attr_config"           => "color",
                     "attr_mono"             => true,
                 ],
+                //select2-results__option select2-results__option--selectable
+                //select2-results__option select2-results__option--selectable select2-results__option--highlighted
+                [
+                    "section_title"         => "Inquiry form products list",
+                    "section_description"   => "Configure how products list color will look like",
+                    "attr_default"          => "#headerProductInquiryModal form .select2-results__option select2-results__option--selectable, #productInquiryModal form .select2-results__option select2-results__option--selectable, #headerProductInquiryModal form .select2-results__option select2-results__option--selectable, #productInquiryModal form .select2-results__option select2-results__option--selectable",
+                    "attr_hover"            => "#headerProductInquiryModal form .select2-results__option select2-results__option--selectable, #productInquiryModal form .select2-results__option select2-results__option--selectable, #headerProductInquiryModal form .select2-results__option select2-results__option--selectable, #productInquiryModal form .select2-results__option select2-results__option--selectable",
+                    "important_default"     => " !important",
+                    "important_hover"       => " !important",
+                ],
                 [
                     "section_title"         => "Inquiry form selected products settings 1",
                     "section_description"   => "Configure how selected products text color will look like",
