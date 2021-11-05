@@ -7,7 +7,7 @@
                         <figure class="woocommerce-product-gallery__wrapper mb-0 row row-cols-2">
                             @foreach ($product->product_images as $image)
                             <div class="col border-right border-bottom py-8 d-flex">
-                                <img src="{{trim($image->image)}}" alt="Image Description" class="mx-auto img-fluid">
+                                <img src="{{trim($image->image)}}" alt="Image Description" class="mx-auto img-fluid img-blowup">
                             </div>
                             @endforeach
                         </figure>

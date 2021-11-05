@@ -46,7 +46,7 @@ Product Details
                             data-pagi-classes="text-center u-slick__pagination my-4">
                             @foreach ($product->product_images as $image)
                                 <div class="js-slide">
-                                    <img src="{{trim($image->image)}}" alt="Image Description" class="mx-auto img-fluid" width="300">
+                                    <img src="{{trim($image->image)}}" alt="Image Description" class="mx-auto img-fluid img-blowup" width="300">
                                 </div>
                                 @endforeach
                             </div>

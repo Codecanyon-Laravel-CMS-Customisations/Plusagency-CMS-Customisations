@@ -11,7 +11,7 @@
                                     data-vertical="true">
                                     @foreach ($product->product_images as $image)
                                     <div class="js-slide">
-                                        <img src="{{asset($image->image)}}" alt="Image Description" class="mx-auto img-fluid">
+                                        <img src="{{asset($image->image)}}" alt="Image Description" class="mx-auto img-fluid img-blowup">
                                     </div>
                                     @endforeach
                                 </div>
