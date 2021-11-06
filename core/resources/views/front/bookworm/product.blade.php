@@ -395,10 +395,12 @@ if (isset($_GET['variation'])) {
     </script>
     <script>
         $(document).ready(function() {
-            $(".img-blowup").blowup({
-                "background": "#000",
-                "width": 250,
-                "height": 250
+            $(".img-blowup").on('mouseenter', function(evt) {
+                $(this).blowup({
+                    "background": "#000",
+                    "width": 250,
+                    "height": 250
+                });
             });
         });
     </script>
