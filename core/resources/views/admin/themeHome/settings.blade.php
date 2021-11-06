@@ -90,6 +90,7 @@
                                         <select class="form-control" name="bookworm_slider_version">
                                             <option value="" selected disabled>Select Home Slider Version</option>
                                             {{-- <option value="default" {{$abe->theme_version == 'default' ? 'selected' : ''}}>Default</option> --}}
+                                            <option value="cvs1" {{$abe->bookworm_slider_version == 'cvs1' ? 'selected' : ''}}>Custom Video Slider</option>
                                             <option value="v1" {{$abe->bookworm_slider_version == 'v1' ? 'selected' : ''}}>Home v1</option>
                                             <option value="v2" {{$abe->bookworm_slider_version == 'v2' ? 'selected' : ''}}>Home v2</option>
                                             <option value="v3" {{$abe->bookworm_slider_version == 'v3' ? 'selected' : ''}}>Home v3</option>
