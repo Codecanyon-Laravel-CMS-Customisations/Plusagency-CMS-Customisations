@@ -98,6 +98,9 @@ class ProductController extends Controller
             Product::has('category')->with('category')->when($category, function ($query, $category) {
                 return $query->where('category_id', $category);
             })
+            ->when($request->has('c-id'), function ($query) {
+                return trim(request('c-id')) == '' ? $query : $query->where('category_id', request('c-id'));
+            })
             ->when($request->has('sc-id'), function ($query) {
                 return trim(request('sc-id')) == '' ? $query : $query->where('sub_category_id', request('sc-id'));
             })
@@ -224,6 +227,30 @@ class ProductController extends Controller
         $data['version'] = $version;
 
         return view('front.product.cart', compact('cart', 'version'));
+    }
+
+    public function product_categories()
+    {
+        $pcategories    = Pcategory::all()
+        ->where('show_in_menu', '1')
+        ->sortBy('name', 0, false);
+
+
+        if (session()->has('lang')) {
+            $currentLang = Language::where('code', session()->get('lang'))->first();
+        } else {
+            $currentLang = Language::where('is_default', 1)->first();
+        }
+
+
+
+        $be                 = $currentLang->basic_extended;
+        $version            = $be->theme_version;
+        if ($version        == 'dark') {
+            $version        = 'default';
+        }
+
+        return view('front.product.product_categories', compact('pcategories', 'be', 'version'));
     }
 
     public function addToCart($id)
