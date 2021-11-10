@@ -1,4 +1,3 @@
-
 @php
 // $bex->base_currency_symbol          = "AI";
 // $bex->base_currency_symbol_position = strtolower("Left");
