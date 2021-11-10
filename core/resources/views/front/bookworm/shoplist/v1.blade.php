@@ -117,40 +117,40 @@
                             <!-- Mockup Block -->
                             <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-lg-3 row-cols-wd-4 border-top border-left mb-6">
                                 @foreach ($products as $product)
-                                <li class="product col">
-                                    <div class="product__inner overflow-hidden p-3 p-md-4d875">
-                                        <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
-                                            <div class="woocommerce-loop-product__thumbnail">
-                                                <a href="{{route('front.product.details',$product->slug)}}" class="d-block"><img src="{{trim($product->feature_image)}}" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description" width="150"></a>
-                                            </div>
-                                            <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
-                                                <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="/products?search=&category_id={{ $product->category->id }}&type=new">{{ $product->category->name }}</a></div>
-{{--                                                <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="{{route('front.product.details',$product->slug)}}">{{strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title}}</a></h2>--}}
-                                                <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-3 crop-text-3 h-dark"><a href="{{route('front.product.details',$product->slug)}}"> {{ $product->title }}</a></h2>
-                                                {{-- <div class="font-size-2  mb-1 text-truncate"><a href="../others/authors-single.html" class="text-gray-700">Jay Shetty</a></div> --}}
-                                                <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                    <li class="product col">
+                                        <div class="product__inner overflow-hidden p-3 p-md-4d875">
+                                            <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
+                                                <div class="woocommerce-loop-product__thumbnail">
+                                                    <a href="{{route('front.product.details',$product->slug)}}" class="d-block"><img src="{{trim($product->feature_image)}}" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description" width="150"></a>
+                                                </div>
+                                                <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
+                                                    <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="/products?search=&category_id={{ $product->category->id }}&type=new">{{ $product->category->name }}</a></div>
+                                                    {{--                                                <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="{{route('front.product.details',$product->slug)}}">{{strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title}}</a></h2>--}}
+                                                    <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-3 crop-text-3 h-dark"><a href="{{route('front.product.details',$product->slug)}}"> {{ $product->title }}</a></h2>
+                                                    {{-- <div class="font-size-2  mb-1 text-truncate"><a href="../others/authors-single.html" class="text-gray-700">Jay Shetty</a></div> --}}
+                                                    <div class="price d-flex align-items-center font-weight-medium font-size-3">
                                                     <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">
                                                         {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}
                                                     </span>{{ angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }}</span>
+                                                    </div>
                                                 </div>
+                                                @if ($bex->catalog_mode == 0)
+                                                    <div class="product__hover d-flex align-items-center">
+                                                        <a data-href="{{route('add.cart',$product->id)}}" class="text-uppercase text-dark h-dark font-weight-medium mr-auto" data-toggle="tooltip" data-placement="right" title="" data-original-title="ADD TO CART">
+                                                            <span class="product__add-to-cart">ADD TO CART</span>
+                                                            <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                                        </a>
+                                                        <a href="{{route('front.product.checkout',$product->slug)}}" class="mr-1 h-p-bg btn btn-outline-primary border-0">
+                                                            <i class="flaticon-switch"></i>
+                                                        </a>
+                                                        {{-- <a href="../shop/single-product-v1.html" class="h-p-bg btn btn-outline-primary border-0">
+                                                            <i class="flaticon-heart"></i>
+                                                        </a> --}}
+                                                    </div>
+                                                @endif
                                             </div>
-                                            @if ($bex->catalog_mode == 0)
-                                            <div class="product__hover d-flex align-items-center">
-                                                <a data-href="{{route('add.cart',$product->id)}}" class="text-uppercase text-dark h-dark font-weight-medium mr-auto" data-toggle="tooltip" data-placement="right" title="" data-original-title="ADD TO CART">
-                                                    <span class="product__add-to-cart">ADD TO CART</span>
-                                                    <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
-                                                </a>
-                                                <a href="{{route('front.product.checkout',$product->slug)}}" class="mr-1 h-p-bg btn btn-outline-primary border-0">
-                                                    <i class="flaticon-switch"></i>
-                                                </a>
-                                                {{-- <a href="../shop/single-product-v1.html" class="h-p-bg btn btn-outline-primary border-0">
-                                                    <i class="flaticon-heart"></i>
-                                                </a> --}}
-                                            </div>
-                                            @endif
                                         </div>
-                                    </div>
-                                </li>
+                                    </li>
                                 @endforeach
                             </ul>
                             <!-- End Mockup Block -->
@@ -158,44 +158,44 @@
                         <div class="tab-pane fade" id="pills-two-example1" role="tabpanel" aria-labelledby="pills-two-example1-tab">
                             <!-- Mockup Block -->
                             @if($products->count() > 0)
-                            <ul class="products list-unstyled mb-6">
-                                @foreach($products as $product)
-                                <li class="product product__list">
-                                    <div class="product__inner overflow-hidden p-3 p-md-4d875">
-                                        <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link row position-relative">
-                                            <div class="col-md-auto woocommerce-loop-product__thumbnail mb-3 mb-md-0">
-                                                <a href="{{route('front.product.details',$product->slug)}}" class="d-block"><img src="{{trim($product->feature_image)}}" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description" width="150"></a>
-                                            </div>
-                                            <div class="col-md woocommerce-loop-product__body product__body pt-3 bg-white mb-3 mb-md-0">
-                                                <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="/products?search=&category_id={{ $product->category->id }}&type=new">{{ $product->category->name }}</a></div>
-{{--                                                <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 crop-text-2 h-dark"><a href="{{route('front.product.details',$product->slug)}}" tabindex="0">{{strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title}}</a></h2>--}}
-                                                <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 crop-text-2 h-dark"><a href="{{route('front.product.details',$product->slug)}}" tabindex="0">{{ $product->title }}</a></h2>
-                                                {{-- <div class="font-size-2  mb-2 text-truncate"><a href="../others/authors-single.html" class="text-gray-700">Jay Shetty</a></div> --}}
-{{--                                                <p class="font-size-2 mb-2 crop-text-2">{!! nl2br($product->summary) !!}</p>--}}
-                                                <p class="font-size-2 mb-2 crop-text-2">{!! str_replace('\n', '', nl2br($product->summary, false)) !!}</p>
-                                                <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">{{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}</span>{{ $product->current_price }}</span>
+                                <ul class="products list-unstyled mb-6">
+                                    @foreach($products as $product)
+                                        <li class="product product__list">
+                                            <div class="product__inner overflow-hidden p-3 p-md-4d875">
+                                                <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link row position-relative">
+                                                    <div class="col-md-auto woocommerce-loop-product__thumbnail mb-3 mb-md-0">
+                                                        <a href="{{route('front.product.details',$product->slug)}}" class="d-block"><img src="{{trim($product->feature_image)}}" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description" width="150"></a>
+                                                    </div>
+                                                    <div class="col-md woocommerce-loop-product__body product__body pt-3 bg-white mb-3 mb-md-0">
+                                                        <div class="text-uppercase font-size-1 mb-1 text-truncate"><a href="/products?search=&category_id={{ $product->category->id }}&type=new">{{ $product->category->name }}</a></div>
+                                                        {{--                                                <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 crop-text-2 h-dark"><a href="{{route('front.product.details',$product->slug)}}" tabindex="0">{{strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title}}</a></h2>--}}
+                                                        <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 crop-text-2 h-dark"><a href="{{route('front.product.details',$product->slug)}}" tabindex="0">{{ $product->title }}</a></h2>
+                                                        {{-- <div class="font-size-2  mb-2 text-truncate"><a href="../others/authors-single.html" class="text-gray-700">Jay Shetty</a></div> --}}
+                                                        {{--                                                <p class="font-size-2 mb-2 crop-text-2">{!! nl2br($product->summary) !!}</p>--}}
+                                                        <p class="font-size-2 mb-2 crop-text-2">{!! str_replace('\n', '', nl2br($product->summary, false)) !!}</p>
+                                                        <div class="price d-flex align-items-center font-weight-medium font-size-3">
+                                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">{{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}</span>{{ $product->current_price }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-auto d-flex align-items-center">
+                                                        <a data-href="{{route('add.cart',$product->id)}}" class="text-uppercase text-dark h-dark font-weight-medium mr-4" data-toggle="tooltip" data-placement="right" title="" data-original-title="ADD TO CART">
+                                                            <span class="product__add-to-cart">ADD TO CART</span>
+                                                            <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
+                                                        </a>
+                                                        <a href="{{route('front.product.checkout',$product->slug)}}" class="mr-1 h-p-bg btn btn-outline-primary border-0">
+                                                            <i class="flaticon-switch"></i>
+                                                        </a>
+                                                        {{-- <a href="../shop/single-product-v1.html" class="h-p-bg btn btn-outline-primary border-0">
+                                                            <i class="flaticon-heart"></i>
+                                                        </a> --}}
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-auto d-flex align-items-center">
-                                                <a data-href="{{route('add.cart',$product->id)}}" class="text-uppercase text-dark h-dark font-weight-medium mr-4" data-toggle="tooltip" data-placement="right" title="" data-original-title="ADD TO CART">
-                                                    <span class="product__add-to-cart">ADD TO CART</span>
-                                                    <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
-                                                </a>
-                                                <a href="{{route('front.product.checkout',$product->slug)}}" class="mr-1 h-p-bg btn btn-outline-primary border-0">
-                                                    <i class="flaticon-switch"></i>
-                                                </a>
-                                                {{-- <a href="../shop/single-product-v1.html" class="h-p-bg btn btn-outline-primary border-0">
-                                                    <i class="flaticon-heart"></i>
-                                                </a> --}}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                @endforeach
-                            </ul>
-                            @endif
-                            <!-- End Mockup Block -->
+                                        </li>
+                                    @endforeach
+                                </ul>
+                        @endif
+                        <!-- End Mockup Block -->
                         </div>
                     </div>
                     <!-- End Tab Content -->
@@ -215,10 +215,10 @@
                     <div id="woocommerce_product_categories-2" class="widget p-4d875 border woocommerce widget_product_categories">
                         <div id="widgetHeadingOne" class="widget-head">
                             <a class="d-flex align-items-center justify-content-between text-dark" href="#"
-                                data-toggle="collapse"
-                                data-target="#widgetCollapseOne"
-                                aria-expanded="true"
-                                aria-controls="widgetCollapseOne">
+                               data-toggle="collapse"
+                               data-target="#widgetCollapseOne"
+                               aria-expanded="true"
+                               aria-controls="widgetCollapseOne">
 
                                 <h3 class="widget-title mb-0 font-weight-medium font-size-3">Categories</h3>
 
@@ -233,11 +233,11 @@
                         </div>
 
                         <div id="widgetCollapseOne" class="mt-3 widget-content collapse show"
-                            aria-labelledby="widgetHeadingOne"
-                            data-parent="#widgetAccordion">
+                             aria-labelledby="widgetHeadingOne"
+                             data-parent="#widgetAccordion">
                             <ul class="product-categories">
-                                @foreach ($categories as $category)
-                                <li class="cat-item cat-item-12 {{ request()->input('category_id') == $category->id ? 'active-search' : '' }}"><a href="/products?search=&category_id={{ $category->id }}&type=new">{{convertUtf8($category->name)}}</a></li>
+                                @foreach ($categories->where('menu_level', 2)->where('name', '!=', 'Default Category')->sortBy('name', 0, false) as $category)
+                                    <li class="cat-item cat-item-12 {{ request()->input('category_id') == $category->id ? 'active-search' : '' }}"><a href="/products?search=&category_id={{ $category->id }}&type=new">{{convertUtf8($category->name)}}</a></li>
                                 @endforeach
                             </ul>
                         </div>
@@ -246,10 +246,10 @@
                     <div id="woocommerce_price_filter-2" class="widget p-4d875 border woocommerce widget_price_filter">
                         <div id="widgetHeadingTwo" class="widget-head">
                             <a class="d-flex align-items-center justify-content-between text-dark" href="#"
-                                data-toggle="collapse"
-                                data-target="#widgetCollapseTwo"
-                                aria-expanded="true"
-                                aria-controls="widgetCollapseTwo">
+                               data-toggle="collapse"
+                               data-target="#widgetCollapseTwo"
+                               aria-expanded="true"
+                               aria-controls="widgetCollapseTwo">
 
                                 <h3 class="widget-title mb-0 font-weight-medium font-size-3">Filter by price</h3>
 
@@ -264,8 +264,8 @@
                         </div>
 
                         <div id="widgetCollapseTwo" class="mt-4 widget-content collapse show"
-                            aria-labelledby="widgetHeadingTwo"
-                            data-parent="#widgetAccordion">
+                             aria-labelledby="widgetHeadingTwo"
+                             data-parent="#widgetAccordion">
                             <form action="#">
                                 <div id="slider-range"></div>
                                 <span>{{__('Price')}}: </span>
@@ -278,10 +278,10 @@
                     <div id="Review" class="widget p-4d875 border">
                         <div id="widgetHeading24" class="widget-head">
                             <a class="d-flex align-items-center justify-content-between text-dark" href="#"
-                                data-toggle="collapse"
-                                data-target="#widgetCollapse24"
-                                aria-expanded="true"
-                                aria-controls="widgetCollapse24">
+                               data-toggle="collapse"
+                               data-target="#widgetCollapse24"
+                               aria-expanded="true"
+                               aria-controls="widgetCollapse24">
 
                                 <h3 class="widget-title mb-0 font-weight-medium font-size-3">By Review</h3>
 
@@ -296,13 +296,13 @@
                         </div>
 
                         <div id="widgetCollapse24" class="mt-4 widget-content collapse show"
-                            aria-labelledby="widgetHeading24"
-                            data-parent="#widgetAccordion">
+                             aria-labelledby="widgetHeading24"
+                             data-parent="#widgetAccordion">
                             <ul class="checkbox_common checkbox_style2">
                                 <li>
                                     <input type="radio" class="review_val" name="review_value"
-                                    {{request()->input('review') == '' ? 'checked' : ''}}
-                                    id="checkbox4" value="">
+                                           {{request()->input('review') == '' ? 'checked' : ''}}
+                                           id="checkbox4" value="">
                                     <label for="checkbox4"><span></span> {{__('Show All')}}</label>
                                 </li>
 
