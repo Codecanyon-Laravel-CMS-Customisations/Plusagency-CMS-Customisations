@@ -30,6 +30,11 @@
     // echo json_encode(session()->all());return;
 
 
+
+    function pesa($money)
+    {
+        return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_price, angel_get_base_currency_id(), angel_get_user_currency_id()) : angel_auto_convert_currency($money, angel_get_base_currency_id(), angel_get_user_currency_id());
+    }
 @endphp
 
 @section('pagename')
@@ -71,7 +76,7 @@
                         }
                         @endphp
                         <li><strong>{{__('Total Items')}}:</strong> <strong class="cart-item-view">{{$cart ? $countitem : 0}}</strong></li>
-                        <li><strong>{{__('Cart Total')}} :</strong>  <strong class="cart-total-view">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} {{$cartTotal}} {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</strong></li>
+                        <li><strong>{{__('Cart Total')}} :</strong>  <strong class="cart-total-view">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} {{ pesa($cartTotal) }} {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</strong></li>
                     </ul>
                 @endif
                 <div class="table-outer">
