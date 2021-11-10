@@ -180,25 +180,12 @@
                                 $counter++;
                             @endphp
                         @endforeach
-
-
                         <select class="changeCountry js-select selectpicker dropdown-select ml-lg-4 mb-3 mb-md-0" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true">
                             {!! $countries_options !!}
                         </select>
                         <select class="changeCurrency js-select selectpicker dropdown-select ml-md-3" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-width="fit" data-dropdown-align-right="true">
-                            {{-- @php
-                                $currency_conversions = \App\Models\CurrencyConversion::query()->with('convertedCurrency')->where('status', true)->get();
-                            @endphp
-                            @foreach($currency_conversions as $cc)
-                                <option data-link="{{ route('changeCurrency', encrypt($cc->converted_currency_id)) }}" value="{{ encrypt($cc->converted_currency_id) }}" @if($cc->converted_currency_id == session('geo_data_user_currency')) selected @endif>{{ trim($cc->convertedCurrency->symbol) != trim($cc->convertedCurrency->acronym) ? $cc->convertedCurrency->symbol : '' }} {{ $cc->convertedCurrency->acronym }}</option>
-                            @endforeach --}}
-                            {{-- <option value="one" selected>Select a country first</option>
-                            <option value="two">€ EUR</option>
-                            <option value="three">₺ TL</option>
-                            <option value="four">₽ RUB</option> --}}
                             {!! $cc_options_1 !!}
                         </select>
-
                         <script>
                             var tgtLang     = $('.changeLanguage');
                             var tgtCountry  = $('.changeCountry');
