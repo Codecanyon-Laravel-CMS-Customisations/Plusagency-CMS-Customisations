@@ -494,7 +494,7 @@
                                         </span>
                                         <span class="col">
                                             {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}<span
-                                            data-tax="{{ pesa(tax()) }}" id="tax">{{ pesa(tax()) }}</span>{{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}
+                                            data-tax="{{ str_replace(',', '', pesa(tax())) }}" id="tax">{{ pesa(tax()) }}</span>{{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}
                                         </span>
                                     </li>
 
