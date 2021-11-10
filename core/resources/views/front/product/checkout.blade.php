@@ -1,4 +1,41 @@
 @extends("front.$version.layout")
+@php
+    // $bex->base_currency_symbol          = "AI";
+    // $bex->base_currency_symbol_position = strtolower("Left");
+    // $bex->base_currency_text            = "United States Dollar";
+    // $bex->base_currency_text_position   = strtolower("Left");
+    // $bex->base_currency_rate            = "1.00";
+
+
+
+    // echo json_encode($bex);
+    // return;
+
+    $geo_data_base_currency             = angel_get_base_currency_id();//App\Models\Currency::find(81);
+    $geo_data_user_currency             = angel_get_user_currency_id();//App\Models\Currency::find(23);
+
+    // dd( $geo_data_base_currency);
+    // echo json_encode( $geo_data_base_currency);return;
+    // $bc_id      = App\Models\Currency::query()->where('name', App\BasicExtra::first()->base_currency_text)->orderBy('id', 'desc')->first();
+    // echo json_encode($bc_id);//        return $bc_id->id;
+
+
+    $bex_user_currency                  = App\Models\Currency::find($geo_data_user_currency);
+    $bex->base_currency_symbol          = $bex_user_currency->symbol;
+    $bex->base_currency_symbol_position = strtolower($bex_user_currency->symbol_position) == 'l'?  'left' : 'right';
+    $bex->base_currency_text            = $bex_user_currency->name;
+    $bex->base_currency_text_position   = strtolower($bex_user_currency->text_position) == 'l'?  'left' : 'right';
+
+    // echo json_encode($bex);return;
+    // echo json_encode(session()->all());return;
+
+
+
+    function pesa($money)
+    {
+        return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_price, angel_get_base_currency_id(), angel_get_user_currency_id()) : angel_auto_convert_currency($money, angel_get_base_currency_id(), angel_get_user_currency_id());
+    }
+@endphp
 
 @section('pagename')
  -
@@ -341,7 +378,7 @@
                                                 <p><small>{{convertUtf8($charge->text)}}</small></p>
                                             </td>
                                             <td>
-                                                {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} <span>{{$charge->charge}}</span> {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
+                                                {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} <span>{{ pesa($charge->charge) }}</span> {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -391,7 +428,7 @@
                                         <td class="qty">
                                             <input class="quantity-spinner" disabled type="text" value="{{$item['qty']}}" name="quantity">
                                         </td>
-                                        <td class="price">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}{{$item['qty'] * $item['price']}}{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</td>
+                                        <td class="price">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}{{ pesa($item['qty'] * $item['price']) }}{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</td>
                                     </tr>
                                     @endforeach
                                     @else
@@ -414,13 +451,13 @@
                                 <ul class="cart-total-table">
                                     <li class="clearfix">
                                         <span class="col col-title">{{__('Cart Total')}}</span>
-                                        <span class="col">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}<span data="{{cartTotal()}}" class="subtotal">{{cartTotal()}}</span>{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
+                                        <span class="col">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}<span data="{{ pesa(cartTotal()) }}" class="subtotal">{{ pesa(cartTotal()) }}</span>{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
                                     </li>
                                     <li class="clearfix">
                                         <span class="col col-title">{{ __('Discount') }}
                                              <span class="text-success">(<i class="fas fa-minus"></i>)</span></span>
                                         <span class="col">
-                                            {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}<span data="{{ $discount }}">{{ $discount }}</span>
+                                            {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}<span data="{{ pesa($discount) }}">{{ pesa($discount) }}</span>
                                             {{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}
                                         </span>
 
@@ -429,8 +466,8 @@
                                         <span class="col col-title">{{ __('Subtotal') }}</span>
                                         <span class="col">
                                         {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}<span
-                                            data="{{ cartSubTotal() }}" class="subtotal"
-                                            id="subtotal">{{ cartSubTotal() }}</span>{{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}
+                                            data="{{ pesa(cartSubTotal()) }}" class="subtotal"
+                                            id="subtotal">{{ pesa(cartSubTotal()) }}</span>{{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}
                                         </span>
                                     </li>
 
@@ -442,7 +479,7 @@
                                         <li class="clearfix">
                                             <span class="col col-title">{{__('Shipping Charge')}}
                                                 <span class="text-danger">(<i class="fas fa-plus"></i>)</span></span>
-                                            <span class="col">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}<span data="{{$scharge}}" class="shipping">{{$scharge}}</span>{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
+                                            <span class="col">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}<span data="{{ pesa($scharge) }}" class="shipping">{{ pesa($scharge) }}</span>{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
                                         </li>
                                     @else
                                         @php
@@ -457,14 +494,14 @@
                                         </span>
                                         <span class="col">
                                             {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}<span
-                                            data-tax="{{ tax() }}" id="tax">{{ tax() }}</span>{{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}
+                                            data-tax="{{ pesa(tax()) }}" id="tax">{{ pesa(tax()) }}</span>{{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}
                                         </span>
                                     </li>
 
                                     <li class="clearfix">
                                         <span class="col col-title">{{__('Order Total')}}</span>
                                         <span class="col">
-                                            {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}<span data="{{ cartSubTotal() + $scharge + tax() }}" class="grandTotal">{{ cartSubTotal() + $scharge + tax() }}</span>{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
+                                            {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}<span data="{{ pesa(cartSubTotal() + $scharge + tax()) }}" class="grandTotal">{{ pesa(cartSubTotal() + $scharge + tax()) }}</span>{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
                                     </li>
 
 
