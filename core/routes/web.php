@@ -504,6 +504,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin', 'checkstatus',
         Route::get('/mail-to-admin', 'Admin\EmailController@mailToAdmin')->name('admin.mailToAdmin');
         Route::post('/mail-to-admin/update', 'Admin\EmailController@updateMailToAdmin')->name('admin.mailtoadmin.update');
         Route::get('/email-templates', 'Admin\EmailController@templates')->name('admin.email.templates');
+        Route::get('/email-templates-create', 'Admin\EmailController@templates_create')->name('admin.email.templates.create');
+        Route::post('/email-templates-create', 'Admin\EmailController@templates_store')->name('admin.email.templates.store');
         Route::get('/email-template/{id}/edit', 'Admin\EmailController@editTemplate')->name('admin.email.editTemplate');
         Route::post('/emailtemplate/{id}/update', 'Admin\EmailController@templateUpdate')->name('admin.email.templateUpdate');
 

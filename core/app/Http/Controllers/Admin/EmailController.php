@@ -84,6 +84,20 @@ class EmailController extends Controller
         return view('admin.basic.email.templates.index', $data);
     }
 
+    public function templates_create() {
+        return view('admin.basic.email.templates.create');
+    }
+
+    public function templates_store(Request $request) {
+        $template = EmailTemplate::firstOrCreate(['email_type' => $request->email_type]);
+        $template->email_subject = $request->email_subject;
+        $template->email_body = $request->email_body;
+        $template->save();
+
+        Session::flash('success', 'Email Template created successfully!');
+        return "success";
+    }
+
     public function editTemplate($id) {
         $data['template'] = EmailTemplate::find($id);
         return view('admin.basic.email.templates.edit', $data);
