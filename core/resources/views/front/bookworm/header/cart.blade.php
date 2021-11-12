@@ -96,7 +96,7 @@
                                                 <input type="hidden" value="{{$id}}" class="product_id">
                                                 </div>
                                             </span>
-                                            <span class="woocommerce-Price-amount amount d-inline-block ml-3">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} <span>{{ isset($pvariation) ? angel_auto_convert_currency($pvariation->current_price, $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }}</span> {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
+                                            <span class="woocommerce-Price-amount amount d-inline-block ml-3">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} <span>{{ isset($pvariation) && is_object($pvariation) ? angel_auto_convert_currency($pvariation->current_price, $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }}</span> {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
                                         </div>
                                     </div>
                                     <div class="mt-3 ml-3">
