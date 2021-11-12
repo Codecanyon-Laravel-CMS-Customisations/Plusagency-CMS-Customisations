@@ -231,17 +231,17 @@ class ProductController extends Controller
 
     public function product_categories()
     {
-        $pcategories    = Pcategory::all()
-        ->where('show_in_menu', '1')
-        ->sortBy('name', 0, false);
-
-
         if (session()->has('lang')) {
             $currentLang = Language::where('code', session()->get('lang'))->first();
         } else {
             $currentLang = Language::where('is_default', 1)->first();
         }
 
+
+        $pcategories    = Pcategory::all()
+        ->where('show_in_menu', '1')
+        ->where('language_id', $currentLang->id)
+        ->sortBy('name', 0, false);
 
 
         $be                 = $currentLang->basic_extended;
