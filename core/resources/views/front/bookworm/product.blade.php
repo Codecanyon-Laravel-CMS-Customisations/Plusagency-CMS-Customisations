@@ -395,9 +395,26 @@ if (isset($_GET['variation'])) {
     </script>
     <script>
         $(document).ready(function() {
+            var scale = 1;
+            $('.mag1').on('click', function() {
+                scale = 1;
+            });
+            $('.mag2').on('click', function() {
+                scale = 2;
+            });
+            $('.mag3').on('click', function() {
+                scale = 3;
+            });
+            $('.mag4').on('click', function() {
+                scale = 4;
+            });
+            $('.mag5').on('click', function() {
+                scale = 5;
+            });
             $(".img-blowup").on('mouseenter', function(evt) {
                 $(this).blowup({
                     "background": "#000",
+                    "scale": scale,
                     "width": 250,
                     "height": 250
                 });

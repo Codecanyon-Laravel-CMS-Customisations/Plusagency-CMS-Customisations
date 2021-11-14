@@ -38,6 +38,14 @@
                     <div class="row">
                         <div class="col-md-4 col-wd-5 woocommerce-product-gallery woocommerce-product-gallery--with-images images">
                             <figure class="woocommerce-product-gallery__wrapper pt-8 mb-0">
+                                <div>
+                                    <strong>zoom</strong>
+                                    <button type="button" class="btn btn-sm btn-dark py-1 px-2 mag1"><small><strong>x1</strong></small></button>
+                                    <button type="button" class="btn btn-sm btn-dark py-1 px-2 mag2"><small><strong>x2</strong></small></button>
+                                    <button type="button" class="btn btn-sm btn-dark py-1 px-2 mag3"><small><strong>x3</strong></small></button>
+                                    <button type="button" class="btn btn-sm btn-dark py-1 px-2 mag4"><small><strong>x4</strong></small></button>
+                                    <button type="button" class="btn btn-sm btn-dark py-1 px-2 mag5"><small><strong>x5</strong></small></button>
+                                </div>
                                 <div class="js-slick-carousel u-slick"
                                 data-pagi-classes="text-center u-slick__pagination my-4">
                                         <div class="js-slide">
