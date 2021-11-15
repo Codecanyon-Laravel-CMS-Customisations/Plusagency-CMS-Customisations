@@ -13,8 +13,8 @@
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="productInquiryModalLabel">Books Inquiry & Info</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h5 class="modal-title ml-auto" id="productInquiryModalLabel">Books Inquiry & Info</h5>
+                        <button style="font-weight: bolder;font-size: 2rem;" type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
