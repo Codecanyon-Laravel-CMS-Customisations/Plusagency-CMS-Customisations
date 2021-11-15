@@ -431,7 +431,7 @@ if (isset($_GET['variation'])) {
                 $(this).siblings('button').removeClass('btn-primary')
                 .addClass('btn-dark');
             });
-            $(".img-blowup").on('mouseenter', function(evt) {
+            $(".img-blowup").on('mouseover', function(evt) {
                 $(this).blowup({
                     "background": "#000",
                     "scale": scale,
