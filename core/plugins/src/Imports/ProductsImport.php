@@ -44,6 +44,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             $product->language_id       = trim(169);
             $product->offline           = intval($row['offline']);
             $product->digital           = intval($row['digital']);
+            $product->show_inquiry_form = intval(isset($row['show_inquiry_form']) ? $row['show_inquiry_form'] : 0);
             $product->stock             = trim($row['stock']);
             $product->category_id       = trim($parent_category->id);
             $product->sub_category_id   = $sub_category ? trim($sub_category->id) : NULL;
