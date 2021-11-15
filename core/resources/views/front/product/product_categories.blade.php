@@ -17,7 +17,7 @@
 
     {{-- <!--====== SHOPPING CART PART START ======--> --}}
 
-    <section class="cart-area">
+    <section class="cart-area product-categories">
         <div class="container d-none d-md-block">
             <div class="row">
                 @foreach ($pcategories->where('menu_level', '1') as $pc1)
@@ -27,7 +27,7 @@
                         }
                     @endphp
                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4">
-                        <div class="card">
+                        <div class="card pc-card">
                             <div class="card-body">
                                 <h5 class="card-title">
                                     <a class="" href="/products?search=&c-id={{ $pc1->id }}&type=new">
@@ -59,7 +59,7 @@
                                 }
                             @endphp
 
-                            <div class="card">
+                            <div class="card pc-card">
                                 <div class="card-header" id="heading{{ $pc1->id }}">
                                     <h5 class="card-title">
                                         <a class="" data-toggle="collapse"

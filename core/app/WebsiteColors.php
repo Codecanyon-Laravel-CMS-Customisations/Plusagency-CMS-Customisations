@@ -117,6 +117,26 @@ class WebsiteColors extends Model
                 ],
             ],
         ],
+        'categories_section'             => [
+            "active"                => false,
+            "tab_title"             => "Product Categories Section",
+            "elements"              => [
+                [
+                    "section_title"         => "Mobile Card Title",
+                    "section_description"   => "This color settings will affect product categories card titles",
+                    "attr_default"          => ".product-categories .pc-card .card-title, .product-categories .pc-card .card-title *",
+                    "attr_hover"            => ".product-categories .pc-card .card-title:hover, .product-categories .pc-card .card-title *:hover",
+                    // "important_default"     => " !important",
+                    // "important_hover"       => " !important",
+                ],
+                [
+                    "section_title"         => "Mobile Card Links",
+                    "section_description"   => "This color settings will affect product categories card links (product sub category links)",
+                    "attr_default"          => ".product-categories .pc-card .card-text a",
+                    "attr_hover"            => ".product-categories .pc-card .card-text a:hover",
+                ],
+            ],
+        ],
         'texts_section'             => [
             "active"                => false,
             "tab_title"             => "Texts & Headings Section",
