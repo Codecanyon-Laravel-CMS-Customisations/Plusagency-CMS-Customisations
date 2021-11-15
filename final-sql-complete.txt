@@ -41,6 +41,9 @@ ALTER TABLE `products`
 ADD `offline` INT NULL DEFAULT 0;
 
 ALTER TABLE `products`
+ADD `show_inquiry_form` INT NULL DEFAULT 0;
+
+ALTER TABLE `products`
 ADD `attributes` json NULL;
 
 ALTER TABLE `products`

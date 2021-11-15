@@ -39,11 +39,16 @@ $bex->base_currency_text_position = strtolower($bex_user_currency->text_position
                                     <figure class="woocommerce-product-gallery__wrapper mb-0">
                                         <div>
                                             <strong>zoom</strong>
-                                            <button type="button" class="btn btn-sm btn-dark py-1 px-2 mag1"><small><strong>x1</strong></small></button>
-                                            <button type="button" class="btn btn-sm btn-dark py-1 px-2 mag2"><small><strong>x2</strong></small></button>
-                                            <button type="button" class="btn btn-sm btn-dark py-1 px-2 mag3"><small><strong>x3</strong></small></button>
-                                            <button type="button" class="btn btn-sm btn-dark py-1 px-2 mag4"><small><strong>x4</strong></small></button>
-                                            <button type="button" class="btn btn-sm btn-dark py-1 px-2 mag5"><small><strong>x5</strong></small></button>
+                                            <button type="button"
+                                                class="btn btn-sm btn-dark py-1 px-2 mag1"><small><strong>x1</strong></small></button>
+                                            <button type="button"
+                                                class="btn btn-sm btn-dark py-1 px-2 mag2"><small><strong>x2</strong></small></button>
+                                            <button type="button"
+                                                class="btn btn-sm btn-dark py-1 px-2 mag3"><small><strong>x3</strong></small></button>
+                                            <button type="button"
+                                                class="btn btn-sm btn-dark py-1 px-2 mag4"><small><strong>x4</strong></small></button>
+                                            <button type="button"
+                                                class="btn btn-sm btn-dark py-1 px-2 mag5"><small><strong>x5</strong></small></button>
                                         </div>
                                         <div class="js-slick-carousel u-slick"
                                             data-pagi-classes="text-center u-slick__pagination my-4">
@@ -62,7 +67,8 @@ $bex->base_currency_text_position = strtolower($bex_user_currency->text_position
                                             {{ convertUtf8($product->title) }}</h1>
                                         @if ($bex->product_rating_system == 1)
                                             <div class="rate">
-                                                <div class="rating" style="width:{{ $product->rating * 20 }}%">
+                                                <div class="rating"
+                                                    style="width:{{ $product->rating * 20 }}%">
                                                 </div>
                                             </div>
                                         @endif
@@ -95,6 +101,22 @@ $bex->base_currency_text_position = strtolower($bex_user_currency->text_position
                                                 <a data-href="{{ $pvariation ? route('add.cart', $pvariation->id) : route('add.cart', $product->id) }}"
                                                     class="btn btn-dark border-0 rounded-0 p-3 btn-block ml-md-4 single_add_to_cart_button button alt cart-btn cart-link"
                                                     style="color: #fff;">Add to cart</a>
+                                                @if ($product->show_inquiry_form)
+                                                    @php
+                                                        $header_v2_button_text = 'GIVE US FEEDBACK';
+                                                        try {
+                                                            $lang = App\Language::where('code', request()->has('language', 'en'))->first();
+                                                            $settings = $lang->basic_extended;
+
+                                                            $header_v2_button_text = $settings->header_v2_button_text;
+                                                        } catch (\Exception $e) {
+                                                        }
+                                                    @endphp
+                                                    <a href="javascript:;" data-href="javascript:;"
+                                                        class="btn btn-dark border-0 rounded-0 p-3 min-width-250min-width-250-----naaah ml-md-4 single_add_to_cart_button button alt cart-btn cart-link"
+                                                        style="color: #fff" data-toggle="modal"
+                                                        data-target="#headerProductInquiryModal">{{ $header_v2_button_text }}</a>
+                                                @endif
                                             </div>
                                         @endif
 
