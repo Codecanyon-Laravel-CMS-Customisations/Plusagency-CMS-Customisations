@@ -411,13 +411,19 @@ if (isset($_GET['variation'])) {
             $('.mag5').on('click', function() {
                 scale = 5;
             });
-            $(".img-blowup").on('mouseenter', function(evt) {
-                $(this).blowup({
-                    "background": "#000",
-                    "scale": scale,
-                    "width": 250,
-                    "height": 250
-                });
+            // $(".img-blowup").on('mouseenter', function(evt) {
+            //     $(this).blowup({
+            //         "background": "#000",
+            //         "scale": scale,
+            //         "width": 250,
+            //         "height": 250
+            //     });
+            // });
+            $(".img-blowup").blowup({
+                "background": "#000",
+                "scale": scale,
+                "width": 250,
+                "height": 250
             });
         });
     </script>
