@@ -2,14 +2,14 @@
 
 @section('pagename')
     -
-    {{ __('Product Categories') }}
+    {{ __('Categories') }}
 @endsection
 
 @section('meta-keywords', "$be->products_meta_keywords")
 @section('meta-description', "$be->products_meta_description")
 
 
-@section('breadcrumb-title', convertUtf8('Product Categories'))
+@section('breadcrumb-title', convertUtf8('Categories'))
 @section('breadcrumb-subtitle', convertUtf8('explore a wide range of products'))
 @section('breadcrumb-link', __('Categories'))
 
