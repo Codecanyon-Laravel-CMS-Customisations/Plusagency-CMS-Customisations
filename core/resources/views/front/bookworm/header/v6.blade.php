@@ -69,11 +69,13 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                     </a> --}}
                     @if (trim($header_v2_button_text) != '')
                         <li class="nav-item">
-                            <a href="javascript:;" data-href="{{ route('feedback') }}" data-toggle="modal" data-target="#headerProductInquiryModal" href="#" class="nav-link text-white">
-                                <i class="font-size-3 glph-icon flaticon-question mr-2"></i>{{ $header_v2_button_text }}</a>
+                            <a href="javascript:;" data-href="{{ route('feedback') }}" data-toggle="modal"
+                                data-target="#headerProductInquiryModal" href="#" class="nav-link text-white">
+                                <i
+                                    class="font-size-3 glph-icon flaticon-question mr-2"></i>{{ $header_v2_button_text }}</a>
                         </li>
                     @endif
-                    <li class="nav-item"><a href="#" class="nav-link text-white"><i
+                    <li class="nav-item"><a href="tel:{{ $bs->support_phone }}" class="nav-link text-white"><i
                                 class="font-size-3 glph-icon flaticon-phone mr-2"></i>{{ $bs->support_phone }}</a>
                     </li>
                 </ul>
