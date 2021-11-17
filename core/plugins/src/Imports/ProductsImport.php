@@ -52,8 +52,8 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             $product->tags              = trim($row['tags']);
     //        $product->feature_image     = trim(explode(',', $row['images'])[0]);
             //$product->pending_images_download   = trim(trim($row['images']));
-            $product->summary           = trim(e($row['short_description']));
-            $product->description       = trim(e($row['description']));
+            $product->summary           = trim(e($this->parse_digital_links($product, (string)$row['short_description'])));
+            $product->description       = trim(e($this->parse_digital_links($product, (string)$row['description'])));
             $product->current_price     = trim(trim(preg_replace("/[^\d\.]/", "", $row['regular_price'])) != "" ? preg_replace("/[^\d\.]/", "", $row['regular_price']) : '0.00');
             $product->is_feature        = trim($row['is_featured']);
             $product->status            = trim(1);
@@ -501,7 +501,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
 
     public function parse_digital_links(Product $product, string $string)
     {
-        if (!Str::contains("$string", "**DL**")) $product->digital   = '0'; $product->save(); return trim($string);
+        if (!Str::contains("$string", "**DL**")) /* $product->digital   = '0'; $product->save();*/ return trim($string);
 
 
         $lang               = Language::where('code', request()->has('language') ? request()->has('language') : 'en')->first();
@@ -513,12 +513,12 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         $bse->orderBy('id', 'DESC');
 
         $data               = $bse->get()->first();
-        $product->digital   = '1';
-        $product->save();
+        // $product->digital   = '1';
+        // $product->save();
 
         $digital_link       = $data->digital_resource_link;
         $digital_text       = $data->digital_resource_text;
-        $digital_html       = "<a href='$digital_link' class='btn btn-link px-2'>$digital_text</a>";
+        $digital_html       = "<a target='_blank' href='$digital_link' class='btn btn-link px-2'>$digital_text</a>";
 
         return  str_replace("**DL**", " $digital_html ", trim($string));
     }
