@@ -417,20 +417,20 @@ if (isset($_GET['variation'])) {
                 $(this).siblings('button').removeClass('btn-primary')
                 .addClass('btn-dark');
             });
-            $('.mag4').on('click', function() {
-                scale = 4;
-                $(this).removeClass('btn-dark')
-                .addClass('btn-primary');
-                $(this).siblings('button').removeClass('btn-primary')
-                .addClass('btn-dark');
-            });
-            $('.mag5').on('click', function() {
-                scale = 5;
-                $(this).removeClass('btn-dark')
-                .addClass('btn-primary');
-                $(this).siblings('button').removeClass('btn-primary')
-                .addClass('btn-dark');
-            });
+            // $('.mag4').on('click', function() {
+            //     scale = 4;
+            //     $(this).removeClass('btn-dark')
+            //     .addClass('btn-primary');
+            //     $(this).siblings('button').removeClass('btn-primary')
+            //     .addClass('btn-dark');
+            // });
+            // $('.mag5').on('click', function() {
+            //     scale = 5;
+            //     $(this).removeClass('btn-dark')
+            //     .addClass('btn-primary');
+            //     $(this).siblings('button').removeClass('btn-primary')
+            //     .addClass('btn-dark');
+            // });
             $(".img-blowup").on('mouseover', function(evt) {
                 $(this).blowup({
                     "background": "#000",
