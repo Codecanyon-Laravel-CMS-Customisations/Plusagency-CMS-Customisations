@@ -64,9 +64,6 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                         } catch (\Exception $e) {
                         }
                     @endphp
-                    {{-- <a href="{{ route('feedback') }}" class="btn btn-dark rounded-0 btn-wide py-1 px-3 font-weight-medium ml-auto">
-                        {{ $header_v2_button_text }}
-                    </a> --}}
                     @if (trim($header_v2_button_text) != '')
                         <li class="nav-item">
                             <a href="javascript:;" data-href="{{ route('feedback') }}" data-toggle="modal"
