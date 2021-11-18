@@ -397,26 +397,26 @@ if (isset($_GET['variation'])) {
         $(document).ready(function() {
             var scale = 1;
             $('.mag1').on('click', function() {
-                scale = 1;
+                scale = 0.75;
                 $(this).removeClass('btn-dark')
                     .addClass('btn-primary');
                 $(this).siblings('button').removeClass('btn-primary')
                     .addClass('btn-dark');
             });
             $('.mag2').on('click', function() {
-                scale = 2;
+                scale = 1;
                 $(this).removeClass('btn-dark')
                     .addClass('btn-primary');
                 $(this).siblings('button').removeClass('btn-primary')
                     .addClass('btn-dark');
             });
-            $('.mag3').on('click', function() {
-                scale = 3;
-                $(this).removeClass('btn-dark')
-                    .addClass('btn-primary');
-                $(this).siblings('button').removeClass('btn-primary')
-                    .addClass('btn-dark');
-            });
+            // $('.mag3').on('click', function() {
+            //     scale = 3;
+            //     $(this).removeClass('btn-dark')
+            //         .addClass('btn-primary');
+            //     $(this).siblings('button').removeClass('btn-primary')
+            //         .addClass('btn-dark');
+            // });
             // $('.mag4').on('click', function() {
             //     scale = 4;
             //     $(this).removeClass('btn-dark')

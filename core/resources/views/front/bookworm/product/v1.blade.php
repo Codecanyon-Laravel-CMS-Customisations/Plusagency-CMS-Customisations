@@ -79,9 +79,9 @@ Product Details
                                     class="btn btn-sm btn-dark py-1 px-2 mag1"><small><strong>x1</strong></small></button>
                                 <button type="button"
                                     class="btn btn-sm btn-dark py-1 px-2 mag2"><small><strong>x2</strong></small></button>
-                                <button type="button"
-                                    class="btn btn-sm btn-dark py-1 px-2 mag3"><small><strong>x3</strong></small></button>
                                 {{-- <button type="button"
+                                    class="btn btn-sm btn-dark py-1 px-2 mag3"><small><strong>x3</strong></small></button>
+                                <button type="button"
                                     class="btn btn-sm btn-dark py-1 px-2 mag4"><small><strong>x4</strong></small></button>
                                 <button type="button"
                                     class="btn btn-sm btn-dark py-1 px-2 mag5"><small><strong>x5</strong></small></button> --}}
