@@ -397,7 +397,7 @@ if (isset($_GET['variation'])) {
         $(document).ready(function() {
             var scale = 1;
             $('.mag1').on('click', function() {
-                scale = 0.75;
+                scale = 0.5;
                 $(this).removeClass('btn-dark')
                     .addClass('btn-primary');
                 $(this).siblings('button').removeClass('btn-primary')
@@ -435,8 +435,8 @@ if (isset($_GET['variation'])) {
                 $(this).blowup({
                     "background": "#000",
                     "scale": scale,
-                    "width": 250,
-                    "height": 250
+                    "width": 200,
+                    "height": 200
                 });
             });
             $(".img-blowup").blowup({
