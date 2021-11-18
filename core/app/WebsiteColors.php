@@ -54,8 +54,8 @@ class WebsiteColors extends Model
                 [
                     "section_title"         => "jQuery Side Nav Links",
                     "section_description"   => "This is the section on the side navigation menu",
-                    "attr_default"          => ".hc-offcanvas-nav .nav-item-link, .hc-offcanvas-nav li.nav-close a, .hc-offcanvas-nav .nav-back a",
-                    "attr_hover"            => ".hc-offcanvas-nav .nav-item-link:hover, .hc-offcanvas-nav li.nav-close a:hover, .hc-offcanvas-nav .nav-back a:hover",
+                    "attr_default"          => ".hc-offcanvas-nav .nav-item-link, .hc-offcanvas-nav li.nav-close a, .hc-offcanvas-nav .nav-back a, .hc-offcanvas-nav:not(.touch-device) li:not(.nav-item-custom) a:not([disabled]):hover",
+                    "attr_hover"            => ".hc-offcanvas-nav .nav-item-link:hover, .hc-offcanvas-nav li.nav-close a:hover, .hc-offcanvas-nav .nav-back a:hover, .hc-offcanvas-nav:not(.touch-device) li:not(.nav-item-custom) a:not([disabled]):hover",
                 ],
                 [
                     "section_title"         => "jQuery Side Nav Links Arrows",
