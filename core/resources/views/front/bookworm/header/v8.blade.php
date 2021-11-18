@@ -166,8 +166,9 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                     @if (trim($header_v2_button_text) != '')
                         <li class="d-none d-md-block nav-item">
                             <a href="javascript:;" data-href="{{ route('feedback') }}" data-toggle="modal"
-                            data-target="#headerProductInquiryModal" href="#" class="nav-link link-black-100">
-                                <i class="glph-icon font-size-4 flaticon-question mr-2"></i>{{ $header_v2_button_text }}
+                                data-target="#headerProductInquiryModal" class="nav-link link-black-100">
+                                <i
+                                    class="glph-icon font-size-4 flaticon-question mr-2"></i>{{ $header_v2_button_text }}
                             </a>
                         </li>
                     @endif
