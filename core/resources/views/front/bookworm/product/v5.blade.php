@@ -97,25 +97,27 @@ $bex->base_currency_text_position = strtolower($bex_user_currency->text_position
                                                 <button type="button" id="add" class="add addclick">+</button>
                                             </div>
 
-                                            <a data-href="{{ $pvariation ? route('add.cart', $pvariation->id) : route('add.cart', $product->id) }}"
-                                                class="btn btn-block ml-md-3 btn-dark border-0 rounded-0 p-3 single_add_to_cart_button button alt cart-btn cart-link"
-                                                style="color: #fff;">Add to cart</a>
-                                            @if ($product->show_inquiry_form)
-                                                @php
-                                                    $header_v2_button_text = 'GIVE US FEEDBACK';
-                                                    try {
-                                                        $lang = App\Language::where('code', request()->has('language', 'en'))->first();
-                                                        $settings = $lang->basic_extended;
+                                            <div class="d-block">
+                                                <a data-href="{{ $pvariation ? route('add.cart', $pvariation->id) : route('add.cart', $product->id) }}"
+                                                    class="btn btn-block ml-md-3 btn-dark border-0 rounded-0 p-3 single_add_to_cart_button button alt cart-btn cart-link"
+                                                    style="color: #fff;">Add to cart</a>
+                                                @if ($product->show_inquiry_form)
+                                                    @php
+                                                        $header_v2_button_text = 'GIVE US FEEDBACK';
+                                                        try {
+                                                            $lang = App\Language::where('code', request()->has('language', 'en'))->first();
+                                                            $settings = $lang->basic_extended;
 
-                                                        $header_v2_button_text = $settings->header_v2_button_text;
-                                                    } catch (\Exception $e) {
-                                                    }
-                                                @endphp
-                                                <a href="javascript:;" data-href="javascript:;"
-                                                    class="btn btn-dark border-0 rounded-0 p-3 min-width-250min-width-250-----naaah ml-md-4 single_add_to_cart_button button alt cart-btn cart-link"
-                                                    style="color: #fff" data-toggle="modal"
-                                                    data-target="#headerProductInquiryModal">{{ $header_v2_button_text }}</a>
-                                            @endif
+                                                            $header_v2_button_text = $settings->header_v2_button_text;
+                                                        } catch (\Exception $e) {
+                                                        }
+                                                    @endphp
+                                                    <a href="javascript:;" data-href="javascript:;"
+                                                    class="btn btn-block ml-md-3 btn-dark border-0 rounded-0 p-3 single_add_to_cart_button button alt cart-btn cart-link"
+                                                        style="color: #fff" data-toggle="modal"
+                                                        data-target="#headerProductInquiryModal">{{ $header_v2_button_text }}</a>
+                                                @endif
+                                            </div>
                                         @endif
                                     </div>
 
