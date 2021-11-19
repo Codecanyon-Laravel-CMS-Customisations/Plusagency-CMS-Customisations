@@ -114,6 +114,8 @@ class WebsiteColors extends Model
                     "section_description"   => "This area controls the look of the site dropdown menu colors",
                     "attr_default"          => ".site-navigation > ul > li ul > li, .site-navigation > ul > li ul > li > a",
                     "attr_hover"            => ".site-navigation > ul > li  ul > li:hover, .site-navigation > ul > li  ul > li > a:hover",
+                    "important_default"     => " !important",
+                    "important_hover"       => " !important",
                 ],
             ],
         ],
