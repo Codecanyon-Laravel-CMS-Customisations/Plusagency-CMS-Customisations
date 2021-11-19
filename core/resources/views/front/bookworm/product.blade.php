@@ -395,6 +395,7 @@ if (isset($_GET['variation'])) {
     </script>
     <script>
         $(document).ready(function() {
+            var scaleSet = false;
             var scale = 1;
             $('.mag1').on('click', function() {
                 scale = 0.5;
@@ -402,6 +403,7 @@ if (isset($_GET['variation'])) {
                     .addClass('btn-primary');
                 $(this).siblings('button').removeClass('btn-primary')
                     .addClass('btn-dark');
+                scaleSet = true;
             });
             $('.mag2').on('click', function() {
                 scale = 1;
@@ -409,6 +411,7 @@ if (isset($_GET['variation'])) {
                     .addClass('btn-primary');
                 $(this).siblings('button').removeClass('btn-primary')
                     .addClass('btn-dark');
+                scaleSet = true;
             });
             // $('.mag3').on('click', function() {
             //     scale = 3;
@@ -431,20 +434,24 @@ if (isset($_GET['variation'])) {
             //     $(this).siblings('button').removeClass('btn-primary')
             //     .addClass('btn-dark');
             // });
-            $(".img-blowup").on('mouseover', function(evt) {
+            $(".img-blowup").on('mouseover, mouseenter', function(evt) {
+                if (scaleSet == false) return;
                 $(this).blowup({
                     "background": "#000",
                     "scale": scale,
-                    "width": 200,
-                    "height": 200
+                    "width": 400,
+                    "height": 400
                 });
             });
-            $(".img-blowup").blowup({
-                "background": "#000",
-                "scale": scale,
-                "width": 250,
-                "height": 250
-            });
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+
+                $(".img-blowup").blowup({
+                    "background": "#000",
+                    "scale": scale,
+                    "width": 250,
+                    "height": 250
+                });
+            }
         });
     </script>
     @if ($product->offline)
