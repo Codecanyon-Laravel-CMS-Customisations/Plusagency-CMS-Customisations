@@ -194,7 +194,10 @@
         .hc-offcanvas-nav .nav-close-button span::before {
             margin-left: -6px;
         }
-
+        #site-header :is(a, button)[data-target='#headerProductInquiryModal']{
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+        }
     </style>
 </head>
 
