@@ -453,7 +453,8 @@ if (isset($_GET['variation'])) {
             @else
             $(".img-blowup").on('mouseover, mouseenter', function(evt) {
                 if (scaleSet == false) return;
-                $(this).blowup({
+                var tgt = $(this);
+                tgt.blowup({
                     "background": "#000",
                     "scale": scale,
                     "width": 150,

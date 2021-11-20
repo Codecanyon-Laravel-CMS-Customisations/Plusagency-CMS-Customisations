@@ -96,8 +96,8 @@ class WebsiteColors extends Model
                 [
                     "section_title"         => "Header Inquiry form button",
                     "section_description"   => "This color settings will affect the product inquiry form trigger button located on website headers",
-                    "attr_default"          => ":is(a, button)[data-target='#headerProductInquiryModal']",
-                    "attr_hover"            => ":is(a, button)[data-target='#headerProductInquiryModal']:hover",
+                    "attr_default"          => "#site-header :is(a, button)[data-target='#headerProductInquiryModal']",
+                    "attr_hover"            => "#site-header :is(a, button)[data-target='#headerProductInquiryModal']:hover",
                     "important_default"     => " !important",
                     "important_hover"       => " !important",
                 ],
