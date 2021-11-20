@@ -93,6 +93,14 @@ class WebsiteColors extends Model
                     "attr_default"          => "#site-header .btn-search",
                     "attr_hover"            => "#site-header .btn-search:active, #site-header .btn-search:focus, #site-header .btn-search:hover",
                 ],
+                [
+                    "section_title"         => "Header Inquiry form button",
+                    "section_description"   => "This color settings will affect the product inquiry form trigger button located on website headers",
+                    "attr_default"          => ":is(a, button)[data-target='#headerProductInquiryModal']",
+                    "attr_hover"            => ":is(a, button)[data-target='#headerProductInquiryModal']:hover",
+                    "important_default"     => " !important",
+                    "important_hover"       => " !important",
+                ]
                 // [
                 //     "section_title"         => "Search bar button border",
                 //     "section_description"   => "Configure the border color for the top nav search button",

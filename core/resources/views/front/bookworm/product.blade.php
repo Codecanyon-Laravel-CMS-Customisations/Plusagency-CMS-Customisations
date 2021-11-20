@@ -456,8 +456,8 @@ if (isset($_GET['variation'])) {
                 $(this).blowup({
                     "background": "#000",
                     "scale": scale,
-                    "width": 400,
-                    "height": 400
+                    "width": 150,
+                    "height": 150
                 });
             });
             @endif
