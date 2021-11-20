@@ -100,7 +100,7 @@ class WebsiteColors extends Model
                     "attr_hover"            => ":is(a, button)[data-target='#headerProductInquiryModal']:hover",
                     "important_default"     => " !important",
                     "important_hover"       => " !important",
-                ]
+                ],
                 // [
                 //     "section_title"         => "Search bar button border",
                 //     "section_description"   => "Configure the border color for the top nav search button",
