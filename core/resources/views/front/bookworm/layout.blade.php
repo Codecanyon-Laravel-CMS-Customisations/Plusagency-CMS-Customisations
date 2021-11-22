@@ -199,8 +199,8 @@
             padding-right: 10px !important;
         }
         #site-header .dropdown-unfold {
-            padding-bottom; 0px !important;
-            padding-top; 0px !important;
+            padding-bottom: 0px !important;
+            padding-top: 0px !important;
         }
     </style>
 </head>
