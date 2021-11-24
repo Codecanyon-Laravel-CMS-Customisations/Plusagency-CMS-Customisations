@@ -129,9 +129,15 @@
                                                     <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-3 crop-text-3 h-dark"><a href="{{route('front.product.details',$product->slug)}}"> {{ $product->title }}</a></h2>
                                                     {{-- <div class="font-size-2  mb-1 text-truncate"><a href="../others/authors-single.html" class="text-gray-700">Jay Shetty</a></div> --}}
                                                     <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">
-                                                        {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}
-                                                    </span>{{ angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }}</span>
+                                                        <span class="woocommerce-Price-amount amount">
+                                                            <span class="woocommerce-Price-currencySymbol">
+                                                                {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}
+                                                            </span>
+                                                            {{ angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }}
+                                                            <span class="woocommerce-Price-currencySymbol">
+                                                                {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
+                                                            </span>
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 @if ($bex->catalog_mode == 0)
