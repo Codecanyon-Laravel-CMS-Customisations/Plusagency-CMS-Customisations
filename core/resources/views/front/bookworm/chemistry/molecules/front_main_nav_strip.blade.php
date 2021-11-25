@@ -96,7 +96,6 @@
                                 @if ($subsubcats->count() >= 1)
 
 
-
                                     <li  class="submenus" >
                                         <li class="position-relative">
                                             <a id="child-cat-{{ \Str::slug($subcat->id) }}DropdownsubmenuoneInvoker" href="#" class="dropdown-toggle dropdown-item dropdown-item__sub-menu link-black-100 d-flex align-items-center justify-content-between" aria-haspopup="true" aria-expanded="false" data-unfold-event="hover" data-unfold-target="#child-cat-{{ \Str::slug($subcat->id) }}DropdownsubMenuone" data-unfold-type="css-animation" data-unfold-duration="200" data-unfold-delay="100" data-unfold-hide-on-scroll="true" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">{{ $subcat->name }}
@@ -126,12 +125,11 @@
                                         </li>
                                     </li>
 
+                                @else
 
-
-
-
-
-
+                                    <li>
+                                        <a class="dropdown-item link-black-100" href="/products?search=&sc-id={{$subcat->id}}&type=new">{{ $subcat->name }} <a>
+                                    </li>
 
                                 @endif
                             @endif
