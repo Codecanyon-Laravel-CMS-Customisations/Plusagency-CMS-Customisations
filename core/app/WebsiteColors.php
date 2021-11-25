@@ -82,8 +82,8 @@ class WebsiteColors extends Model
                 [
                     "section_title"         => "Website header section",
                     "section_description"   => "This color settings will affect all website header colors",
-                    "attr_default"          => "#site-header, #site-header .masthead div",
-                    "attr_hover"            => "#site-header:hover, #site-header .masthead div:hover",
+                    "attr_default"          => "#site-header, #site-header .masthead div:not(#sidebarAuthToggler, .font-size-2, #sidebarNavToggler1)",
+                    "attr_hover"            => "#site-header:hover, #site-header .masthead div:not(#sidebarAuthToggler, .font-size-2, #sidebarNavToggler1):hover",
                     "important_default"     => " !important",
                     "important_hover"       => " !important",
                 ],
@@ -444,10 +444,18 @@ class WebsiteColors extends Model
             "tab_title"             => "Footer Section",
             "elements"              => [
                 [
+                    "section_title"         => "Website footer section headers/titles",
+                    "section_description"   => "This color settings will affect all website footer section title text colors",
+                    "attr_default"          => "footer :is(h1, h2, h3, h4), footer :is(h4, h5).text-white",
+                    "attr_hover"            => "footer :is(h1, h2, h3, h4):hover, footer :is(h4, h5).text-white:hover",
+                    "important_default"     => " !important",
+                    "important_hover"       => " !important",
+                ],
+                [
                     "section_title"         => "Website footer section",
                     "section_description"   => "This color settings will affect all website footer colors",
-                    "attr_default"          => "footer, footer div",
-                    "attr_hover"            => "footer:hover, footer div:hover",
+                    "attr_default"          => "footer, footer div:not(.changeLanguage *, .changeCountry *, .changeCurrency *), footer div p, footer div address *, footer .text-gray-450",
+                    "attr_hover"            => "footer:hover, footer div:not(.changeLanguage *, .changeCountry *, .changeCurrency *):hover, footer div p:hover, footer div address *:hover, footer .text-gray-450",
                     "important_default"     => " !important",
                     "important_hover"       => " !important",
                 ],
