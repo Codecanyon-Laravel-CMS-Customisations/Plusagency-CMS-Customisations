@@ -134,22 +134,6 @@
                                 @endif
                             @endif
                         @endif
-                        @if ($subsubcats->count() == 0 && $subcat->child_cats->count() === 0)
-                            @if ($subsubcats->count() == 0)
-                                <li class="submenu"></li>
-                                <li class="position-relative">
-                                    <a id="{{ \Str::slug($subcat->id) }}MDropdownsubmenuoneInvoker" href="#" class="dropdown-toggle dropdown-item dropdown-item__sub-menu link-black-100 d-flex align-items-center justify-content-between" aria-haspopup="true" aria-expanded="true" data-unfold-event="hover" data-unfold-target="#{{ \Str::slug($subcat->id) }}MDropdownsubMenuone" data-unfold-type="css-animation" data-unfold-duration="200" data-unfold-delay="100" data-unfold-hide-on-scroll="true" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">{{ $subcat->name }}
-                                    </a>
-                                    <ul id="{{ \Str::slug($subcat->id) }}MDropdownsubMenuone" class="dropdown-unfold dropdown-menu dropdown-sub-menu font-size-2 rounded-0 border-gray-900 u-unfold--css-animation u-unfold--reverse-y fadeOut" aria-labelledby="{{ \Str::slug($subcat->id) }}MDropdownsubmenuoneInvoker" style="animation-duration: 200ms;">
-                                        @foreach ($products_m2->get() as $product3)
-                                            <li>
-                                                <a class="dropdown-item link-black-100" href="{{route('front.product.details',$product3->slug)}}">{{ $product3->title }}</a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </li>
-                            @endif
-                        @endif
                     @endforeach
 
                 </ul>
