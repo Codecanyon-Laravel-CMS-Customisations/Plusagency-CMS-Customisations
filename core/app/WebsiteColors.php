@@ -462,8 +462,8 @@ class WebsiteColors extends Model
                 [
                     "section_title"         => "Footer links",
                     "section_description"   => "This color settings will affect all footer links colors",
-                    "attr_default"          => "footer a, footer a *",
-                    "attr_hover"            => "footer a:hover, footer a *:hover",
+                    "attr_default"          => "footer a:not(.dropdown-item), footer a:not(.dropdown-item) *",
+                    "attr_hover"            => "footer a:not(.dropdown-item):hover, footer a:not(.dropdown-item) *:hover",
                 ],
             ],
         ],
