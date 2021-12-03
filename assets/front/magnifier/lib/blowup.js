@@ -74,11 +74,13 @@ $(function ($) {
     $blowupLens.addClass($options.customClasses);
 
     // Show magnification lens
-    $element.on('mouseenter', function () {
+    $element.on('mouseenter', function (e) {
+      e.preventDefault();
       $blowupLens.css("display", "block");
       if(!$options.triggerPulled) $blowupLens.css("display", "none");$element.css({"cursor" : "default"});
     });
-    $element.on('touchstart', function () {
+    $element.on('touchstart', function (e) {
+      e.preventDefault();
       if(!$options.triggerPulled) return;
       $blowupLens.css("display", "block");
     });

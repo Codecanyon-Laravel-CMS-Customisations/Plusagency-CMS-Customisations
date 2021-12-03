@@ -395,8 +395,9 @@ if (isset($_GET['variation'])) {
     </script>
     <script>
         $(document).ready(function() {
-            var scaleSet = false;
-            var scale = 1;
+            var scaleSet    = false;
+            var scale       = 1;
+            var slideIndex  = 0;
             $('.mag1').on('click', function() {
                 scale = 0.5;
                 $(this).removeClass('btn-dark')
@@ -405,7 +406,7 @@ if (isset($_GET['variation'])) {
                     .addClass('btn-dark');
                 scaleSet = true;
 
-                $(".img-blowup").blowup({
+                $(".img-blowup").eq(slideIndex).blowup({
                     'triggerPulled': scaleSet,
                     "background": "#000",
                     "scale": scale,
@@ -421,7 +422,7 @@ if (isset($_GET['variation'])) {
                     .addClass('btn-dark');
                 scaleSet = true;
 
-                $(".img-blowup").blowup({
+                $(".img-blowup").eq(slideIndex).blowup({
                     'triggerPulled': scaleSet,
                     "background": "#000",
                     "scale": scale,
@@ -460,20 +461,42 @@ if (isset($_GET['variation'])) {
                     substr($useragent, 0, 4),
                 )
             )
-                $(".img-blowup").blowup({
-                    "background": "#000",
-                    "scale": scale,
-                    "width": 250,
-                    "height": 250
-                });
-            @else
-                $(".img-blowup").blowup({
+                $(".img-blowup").eq(slideIndex).blowup({
                     'triggerPulled': scaleSet,
                     "background": "#000",
                     "scale": scale,
                     "width": 250,
                     "height": 250
                 });
+                $('.js-slick-carousel').on('afterChange', function(event, slick, currentSlide){
+                    slideIndex = $('.js-slick-carousel .slick-active').attr('data-slick-index');
+                    $(".img-blowup").eq(slideIndex).blowup({
+                        'triggerPulled': scaleSet,
+                        "background": "#000",
+                        "scale": scale,
+                        "width": 250,
+                        "height": 250
+                    });
+                });
+            @else
+                $(".img-blowup").eq(slideIndex).blowup({
+                    'triggerPulled': scaleSet,
+                    "background": "#000",
+                    "scale": scale,
+                    "width": 250,
+                    "height": 250
+                });
+                $('.js-slick-carousel').on('afterChange', function(event, slick, currentSlide){
+                    slideIndex = $('.js-slick-carousel .slick-active').attr('data-slick-index');
+                    $(".img-blowup").eq(slideIndex).blowup({
+                        'triggerPulled': scaleSet,
+                        "background": "#000",
+                        "scale": scale,
+                        "width": 250,
+                        "height": 250
+                    });
+                });
+
             // $(".img-blowup").on('mousemove, mouseover, mouseenter', function(evt) {
             //     if (scaleSet == false) return;
             //     var tgt = $(this);
