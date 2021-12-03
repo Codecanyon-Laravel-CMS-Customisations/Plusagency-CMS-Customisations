@@ -75,8 +75,8 @@ $(function ($) {
 
     // Show magnification lens
     $element.on('mouseenter', function () {
-      if(!$options.triggerPulled) return;
       $blowupLens.css("display", "block");
+      if(!$options.triggerPulled) $blowupLens.css("display", "none");$element.css({"cursor" : "default"});
     });
     $element.on('touchstart', function () {
       if(!$options.triggerPulled) return;

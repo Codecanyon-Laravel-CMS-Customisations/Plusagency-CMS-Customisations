@@ -404,6 +404,14 @@ if (isset($_GET['variation'])) {
                 $(this).siblings('button').removeClass('btn-primary')
                     .addClass('btn-dark');
                 scaleSet = true;
+
+                $(".img-blowup").blowup({
+                    'triggerPulled': scaleSet,
+                    "background": "#000",
+                    "scale": scale,
+                    "width": 250,
+                    "height": 250
+                });
             });
             $('.mag2').on('click', function() {
                 scale = 1;
@@ -412,6 +420,14 @@ if (isset($_GET['variation'])) {
                 $(this).siblings('button').removeClass('btn-primary')
                     .addClass('btn-dark');
                 scaleSet = true;
+
+                $(".img-blowup").blowup({
+                    'triggerPulled': scaleSet,
+                    "background": "#000",
+                    "scale": scale,
+                    "width": 250,
+                    "height": 250
+                });
             });
             // $('.mag3').on('click', function() {
             //     scale = 3;
@@ -451,16 +467,24 @@ if (isset($_GET['variation'])) {
                     "height": 250
                 });
             @else
-            $(".img-blowup").on('mouseover, mouseenter', function(evt) {
-                if (scaleSet == false) return;
-                var tgt = $(this);
-                tgt.blowup({
+                $(".img-blowup").blowup({
+                    'triggerPulled': scaleSet,
                     "background": "#000",
                     "scale": scale,
-                    "width": 150,
-                    "height": 150
+                    "width": 250,
+                    "height": 250
                 });
-            });
+            // $(".img-blowup").on('mousemove, mouseover, mouseenter', function(evt) {
+            //     if (scaleSet == false) return;
+            //     var tgt = $(this);
+            //     tgt.blowup({
+            //         'triggerPulled': scaleSet,
+            //         "background": "#000",
+            //         "scale": scale,
+            //         "width": 150,
+            //         "height": 150
+            //     });
+            // });
             @endif
         });
     </script>
