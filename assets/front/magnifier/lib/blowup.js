@@ -35,7 +35,8 @@ $(function ($) {
       cursor        : true,
       zIndex        : 999999,
       scale         : 1,
-      customClasses : ""
+      customClasses : "",
+      triggerPulled : true
     }
 
     // Update defaults with custom attributes
@@ -73,12 +74,47 @@ $(function ($) {
     $blowupLens.addClass($options.customClasses);
 
     // Show magnification lens
-    $element.mouseenter(function () {
+    $element.on('mouseenter', function () {
+      if(!$options.triggerPulled) return;
       $blowupLens.css("display", "block");
+    });
+    $element.on('touchstart', function () {
+      if(!$options.triggerPulled) return;
+      $blowupLens.css("display", "block");
+    });
+
+    // Mouse motion on image
+    $element.on('mousemove', function (e) {
+
+      // Lens position coordinates
+      var lensX = e.pageX - $options.width / 2;
+      var lensY = e.pageY - $options.height / 2;
+
+      // Relative coordinates of image
+      var relX = e.pageX - $(this).offset().left;
+      var relY = e.pageY - $(this).offset().top;
+     
+      // Zoomed image coordinates 
+      var zoomX = -Math.floor(relX / $element.width() * (NATIVE_IMG.width * $options.scale) - $options.width / 2);
+      var zoomY = -Math.floor(relY / $element.height() * (NATIVE_IMG.height * $options.scale) - $options.height / 2);
+
+      var backPos = zoomX + "px " + zoomY + "px";
+      var backgroundSize = NATIVE_IMG.width * $options.scale + "px " + NATIVE_IMG.height * $options.scale + "px";
+
+      // Apply styles to lens
+      $blowupLens.css({
+        left                  : lensX,
+        top                   : lensY,
+        "background-image"    : "url(" + encodeURI($IMAGE_URL) + ")",
+        "background-size"     : backgroundSize,
+        "background-position" : backPos
+      });
     })
 
     // Mouse motion on image
-    $element.mousemove(function (e) {
+    $element.on('touchmove', function (e) {
+      
+      e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
 
       // Lens position coordinates
       var lensX = e.pageX - $options.width / 2;
@@ -106,7 +142,10 @@ $(function ($) {
     })
 
     // Hide magnification lens
-    $element.mouseleave(function () {
+    $element.on('mouseleave', function () {
+      $blowupLens.css("display", "none");
+    });
+    $element.on('touchend', function () {
       $blowupLens.css("display", "none");
     });
   }
