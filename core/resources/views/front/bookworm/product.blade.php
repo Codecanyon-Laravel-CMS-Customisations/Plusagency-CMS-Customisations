@@ -412,7 +412,8 @@ if (isset($_GET['variation'])) {
                     .addClass('d-none');
 
                     $(".img-blowup").eq(slideIndex).blowup({
-                        'triggerPulled': scaleSet,
+                        "border": "0px solid transparent",
+                        "triggerPulled": scaleSet,
                         "background": "#000",
                         "cursor": "default",
                         "scale": scale,
@@ -431,7 +432,8 @@ if (isset($_GET['variation'])) {
                     .addClass('d-inline-block');
 
                     $(".img-blowup").eq(slideIndex).blowup({
-                        'triggerPulled': scaleSet,
+                        "border": "0px solid transparent",
+                        "triggerPulled": scaleSet,
                         "background": "#000",
                         "scale": scale,
                         "width": 250,
@@ -453,7 +455,8 @@ if (isset($_GET['variation'])) {
                 scaleSet = true;
 
                 $(".img-blowup").eq(slideIndex).blowup({
-                    'triggerPulled': scaleSet,
+                    "border": "0px solid transparent",
+                    "triggerPulled": scaleSet,
                     "background": "#000",
                     "scale": scale,
                     "width": 250,
@@ -471,7 +474,8 @@ if (isset($_GET['variation'])) {
                 scaleSet = true;
 
                 $(".img-blowup").eq(slideIndex).blowup({
-                    'triggerPulled': scaleSet,
+                    "border": "0px solid transparent",
+                    "triggerPulled": scaleSet,
                     "background": "#000",
                     "scale": scale,
                     "width": 250,
@@ -510,7 +514,8 @@ if (isset($_GET['variation'])) {
                 )
             )
                 $(".img-blowup").eq(slideIndex).blowup({
-                    'triggerPulled': scaleSet,
+                    "border": "0px solid transparent",
+                    "triggerPulled": scaleSet,
                     "background": "#000",
                     "scale": scale,
                     "width": 250,
@@ -520,7 +525,8 @@ if (isset($_GET['variation'])) {
                     slideIndex = $('.js-slick-carousel .slick-active').attr('data-slick-index');
                     if(scaleSet == false) return;
                     $(".img-blowup").eq(slideIndex).blowup({
-                        'triggerPulled': scaleSet,
+                        "border": "0px solid transparent",
+                        "triggerPulled": scaleSet,
                         "background": "#000",
                         "scale": scale,
                         "width": 250,
@@ -532,7 +538,8 @@ if (isset($_GET['variation'])) {
                 if(scaleSet == false) $(".img-blowup").unbind('blowup');
             @else
                 $(".img-blowup").eq(slideIndex).blowup({
-                    'triggerPulled': scaleSet,
+                    "border": "0px solid transparent",
+                    "triggerPulled": scaleSet,
                     "background": "#000",
                     "scale": scale,
                     "width": 250,
@@ -541,7 +548,8 @@ if (isset($_GET['variation'])) {
                 $('.js-slick-carousel').on('afterChange', function(event, slick, currentSlide){
                     slideIndex = $('.js-slick-carousel .slick-active').attr('data-slick-index');
                     $(".img-blowup").eq(slideIndex).blowup({
-                        'triggerPulled': scaleSet,
+                        "border": "0px solid transparent",
+                        "triggerPulled": scaleSet,
                         "background": "#000",
                         "scale": scale,
                         "width": 250,
