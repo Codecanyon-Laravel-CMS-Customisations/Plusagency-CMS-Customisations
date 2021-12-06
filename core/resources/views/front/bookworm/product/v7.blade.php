@@ -34,18 +34,24 @@ $bex->base_currency_text_position = strtolower($bex_user_currency->text_position
                     <div
                         class="col-lg-6 col-xl-7 woocommerce-product-gallery woocommerce-product-gallery--with-images images">
                         <figure class="woocommerce-product-gallery__wrapper mb-0 row row-cols-2">
-                            <div>
-                                <strong>zoom</strong>
+                            <div class="zoom-lens-control-wrapper pb-2">
                                 <button type="button"
-                                    class="btn btn-sm btn-dark py-1 px-2 mag1"><small><strong>x1</strong></small></button>
+                                    class="btn btn-sm btn-dark disabled py-1 px-2 mag0">
+                                    <strong>zoom </strong>
+                                    <small>
+                                        <strong><i class="fa fa-plus-circle" aria-hidden="true"></i></strong>
+                                    </small>
+                                </button>
+                                    <button type="button"
+                                        class="d-none animated animated fadeInLeft btn btn-sm btn-dark py-1 px-2 mag1"><small><strong>x1</strong></small></button>
                                 <button type="button"
-                                    class="btn btn-sm btn-dark py-1 px-2 mag2"><small><strong>x2</strong></small></button>
+                                    class="d-none animated animated fadeInLeft delay-1s btn btn-sm btn-dark py-1 px-2 mag2"><small><strong>x2</strong></small></button>
                                 {{-- <button type="button"
-                                    class="btn btn-sm btn-dark py-1 px-2 mag3"><small><strong>x3</strong></small></button>
+                                    class="d-none animated animated fadeInLeft delay-2s btn btn-sm btn-dark py-1 px-2 mag3"><small><strong>x3</strong></small></button>
                                 <button type="button"
-                                    class="btn btn-sm btn-dark py-1 px-2 mag4"><small><strong>x4</strong></small></button>
+                                    class="d-none animated animated fadeInLeft delay-3s btn btn-sm btn-dark py-1 px-2 mag4"><small><strong>x4</strong></small></button>
                                 <button type="button"
-                                    class="btn btn-sm btn-dark py-1 px-2 mag5"><small><strong>x5</strong></small></button> --}}
+                                    class="d-none animated animated fadeInLeft delay-4s btn btn-sm btn-dark py-1 px-2 mag5"><small><strong>x5</strong></small></button> --}}
                             </div>
                             @foreach ($product->product_images as $image)
                                 <div class="col border-right border-bottom py-8 d-flex">

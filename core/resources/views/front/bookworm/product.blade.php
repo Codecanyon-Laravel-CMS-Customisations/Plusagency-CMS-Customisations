@@ -11,6 +11,11 @@
     @if ($product->offline)
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @endif
+    <style>
+        .zoom-lens-control-wrapper button:is(:active, :focus, :hover){
+            box-shadow: none !important;
+        }
+    </style>
 @endsection
 
 @section('meta-keywords', "$product->meta_keywords")
@@ -398,12 +403,53 @@ if (isset($_GET['variation'])) {
             var scaleSet    = false;
             var scale       = 1;
             var slideIndex  = 0;
+            $('.mag0').on('click', function() {
+                if(scaleSet === true){
+                    scaleSet   = false;
+                    $(this).addClass('disabled');
+                    $(this).find('i').attr('class', 'fa fa-plus-circle');
+                    $(this).siblings('button').removeClass('d-inline-block')
+                    .addClass('d-none');
+
+                    $(".img-blowup").eq(slideIndex).blowup({
+                        'triggerPulled': scaleSet,
+                        "background": "#000",
+                        "cursor": "default",
+                        "scale": scale,
+                        "width": 0,
+                        "height": 0
+                    });
+
+                    //enable swiping when lens is inactive
+                    $('.js-slick-carousel').slick('slickSetOption', 'swipe', true, true);
+                }
+                else{
+                    scaleSet  = true;
+                    $(this).removeClass('disabled');
+                    $(this).find('i').attr('class', 'fa fa-minus-circle');
+                    $(this).siblings('button').removeClass('d-none')
+                    .addClass('d-inline-block');
+
+                    $(".img-blowup").eq(slideIndex).blowup({
+                        'triggerPulled': scaleSet,
+                        "background": "#000",
+                        "scale": scale,
+                        "width": 250,
+                        "height": 250
+                    });
+
+                    //prevent swiping when lens is active
+                    $('.js-slick-carousel').slick('slickSetOption', 'swipe', false, true);
+                }
+            });
             $('.mag1').on('click', function() {
-                scale = 0.5;
+                scale   = 0.5;
+                var b1  = $(this).siblings('.mag0').attr('class');
                 $(this).removeClass('btn-dark')
                     .addClass('btn-primary');
                 $(this).siblings('button').removeClass('btn-primary')
                     .addClass('btn-dark');
+                $(this).siblings('button').eq(0).attr('class', b1);
                 scaleSet = true;
 
                 $(".img-blowup").eq(slideIndex).blowup({
@@ -415,11 +461,13 @@ if (isset($_GET['variation'])) {
                 });
             });
             $('.mag2').on('click', function() {
-                scale = 1;
+                scale   = 1;
+                var b1  = $(this).siblings('.mag0').attr('class');
                 $(this).removeClass('btn-dark')
                     .addClass('btn-primary');
                 $(this).siblings('button').removeClass('btn-primary')
                     .addClass('btn-dark');
+                $(this).siblings('button').eq(0).attr('class', b1);
                 scaleSet = true;
 
                 $(".img-blowup").eq(slideIndex).blowup({
