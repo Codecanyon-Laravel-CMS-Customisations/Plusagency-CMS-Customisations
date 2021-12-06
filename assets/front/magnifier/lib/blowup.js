@@ -113,7 +113,7 @@ $(function ($) {
       });
     })
 
-    // Mouse motion on image
+    // Touch motion on image
     $element.on('touchmove', function (e) {
       
       e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
@@ -121,6 +121,9 @@ $(function ($) {
       // Lens position coordinates
       var lensX = e.pageX - $options.width / 2;
       var lensY = e.pageY - $options.height / 2;
+
+      //offet Y value to make lens render higher than the touch point for easy readability
+      lensY     = lensY - parseInt($options.height)/2;
 
       // Relative coordinates of image
       var relX = e.pageX - $(this).offset().left;

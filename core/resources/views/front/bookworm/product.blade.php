@@ -518,6 +518,7 @@ if (isset($_GET['variation'])) {
                 });
                 $('.js-slick-carousel').on('afterChange', function(event, slick, currentSlide){
                     slideIndex = $('.js-slick-carousel .slick-active').attr('data-slick-index');
+                    if(scaleSet == false) return;
                     $(".img-blowup").eq(slideIndex).blowup({
                         'triggerPulled': scaleSet,
                         "background": "#000",
@@ -526,6 +527,9 @@ if (isset($_GET['variation'])) {
                         "height": 250
                     });
                 });
+
+                //unbind blowup function
+                if(scaleSet == false) $(".img-blowup").unbind('blowup');
             @else
                 $(".img-blowup").eq(slideIndex).blowup({
                     'triggerPulled': scaleSet,
@@ -545,17 +549,8 @@ if (isset($_GET['variation'])) {
                     });
                 });
 
-            // $(".img-blowup").on('mousemove, mouseover, mouseenter', function(evt) {
-            //     if (scaleSet == false) return;
-            //     var tgt = $(this);
-            //     tgt.blowup({
-            //         'triggerPulled': scaleSet,
-            //         "background": "#000",
-            //         "scale": scale,
-            //         "width": 150,
-            //         "height": 150
-            //     });
-            // });
+                //unbind blowup function
+                if(scaleSet == false) $(".img-blowup").unbind('blowup');
             @endif
         });
     </script>
