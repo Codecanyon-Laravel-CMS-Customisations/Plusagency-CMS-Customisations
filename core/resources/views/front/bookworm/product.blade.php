@@ -29,7 +29,7 @@
             z-index: 999999;
         }
         .js-slick-carousel img {
-            cursor: pointer;
+            cursor: pointer !important;
         }
     </style>
 @endsection
