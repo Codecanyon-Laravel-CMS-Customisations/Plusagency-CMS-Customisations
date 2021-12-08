@@ -36,15 +36,14 @@ $bex->base_currency_text_position = strtolower($bex_user_currency->text_position
                             class="col-md-6 col-lg-5 offset-lg-1 woocommerce-product-gallery woocommerce-product-gallery--with-images images">
                             <figure class="woocommerce-product-gallery__wrapper mb-6 b-md-0">
                                 <div class="zoom-lens-control-wrapper pb-2">
-                                    <button type="button"
-                                        class="btn btn-sm btn-dark disabled py-1 px-2 mag0">
+                                    <button type="button" class="btn btn-sm btn-dark disabled py-1 px-2 mag0">
                                         <strong>zoom </strong>
                                         <small>
                                             <strong><i class="fa fa-plus-circle" aria-hidden="true"></i></strong>
                                         </small>
                                     </button>
-                                        <button type="button"
-                                            class="d-none animated animated fadeInLeft btn btn-sm btn-dark py-1 px-2 mag1"><small><strong>x1</strong></small></button>
+                                    <button type="button"
+                                        class="d-none animated animated fadeInLeft btn btn-sm btn-dark py-1 px-2 mag1"><small><strong>x1</strong></small></button>
                                     <button type="button"
                                         class="d-none animated animated fadeInLeft delay-1s btn btn-sm btn-dark py-1 px-2 mag2"><small><strong>x2</strong></small></button>
                                     {{-- <button type="button"
@@ -55,12 +54,27 @@ $bex->base_currency_text_position = strtolower($bex_user_currency->text_position
                                         class="d-none animated animated fadeInLeft delay-4s btn btn-sm btn-dark py-1 px-2 mag5"><small><strong>x5</strong></small></button> --}}
                                 </div>
                                 <div class="js-slick-carousel u-slick"
-                                    data-pagi-classes="position-absolute text-center left-0 u-slick__pagination flex-column u-slick__pagination-centered--y ml-md-n4 ml-lg-0 mr-lg-5 mb-0"
-                                    data-vertical="true">
+                                    data-pagi-classes="text-center u-slick__pagination my-4">
+                                    <div class="js-slide">
+                                        <img data-lazy="{{ trim($product->feature_image) }}" alt=""
+                                            class="mx-auto img-fluid img-blowup">
+                                    </div>
                                     @foreach ($product->product_images as $image)
                                         <div class="js-slide">
-                                            <img src="{{ asset($image->image) }}" alt="Image Description"
+                                            <img data-lazy="{{ trim($image->image) }}" alt=""
                                                 class="mx-auto img-fluid img-blowup">
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <div class="slider slider-nav">
+                                    <div class="js-slide-----not">
+                                        <img data-lazy="{{ trim($product->feature_image) }}" alt=""
+                                            class="mx-auto img-fluid">
+                                    </div>
+                                    @foreach ($product->product_images as $image)
+                                        <div class="js-slide-----not">
+                                            <img data-lazy="{{ trim($image->image) }}" alt=""
+                                                class="mx-auto img-fluid">
                                         </div>
                                     @endforeach
                                 </div>
@@ -87,9 +101,11 @@ $bex->base_currency_text_position = strtolower($bex_user_currency->text_position
                                     @if (!$product->digital && !$product->offline)
                                         <p class="price font-size-22 font-weight-medium mb-4">
                                             <span class="woocommerce-Price-amount amount">
-                                                <span class="woocommerce-Price-currencySymbol">{{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}</span>
+                                                <span
+                                                    class="woocommerce-Price-currencySymbol">{{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}</span>
                                                 {{ $pvariation ? angel_auto_convert_currency($pvariation->current_price, $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }}
-                                                <span class="woocommerce-Price-currencySymbol">{{ strtolower($bex->base_currency_symbol_position) == 'right' ? $bex->base_currency_symbol : '' }}</span>
+                                                <span
+                                                    class="woocommerce-Price-currencySymbol">{{ strtolower($bex->base_currency_symbol_position) == 'right' ? $bex->base_currency_symbol : '' }}</span>
                                             </span>
                                         </p>
                                     @endif
@@ -120,7 +136,7 @@ $bex->base_currency_text_position = strtolower($bex_user_currency->text_position
                                                         }
                                                     @endphp
                                                     <a href="javascript:;" data-href="javascript:;"
-                                                    class="btn btn-block ml-md-3 btn-dark border-0 rounded-0 p-3 single_add_to_cart_button button alt cart-btn cart-link"
+                                                        class="btn btn-block ml-md-3 btn-dark border-0 rounded-0 p-3 single_add_to_cart_button button alt cart-btn cart-link"
                                                         style="color: #fff" data-toggle="modal"
                                                         data-target="#headerProductInquiryModal">{{ $header_v2_button_text }}</a>
                                                 @endif
@@ -149,7 +165,8 @@ $bex->base_currency_text_position = strtolower($bex_user_currency->text_position
                                                 <div class="col-sm-12 col-md-3">
                                                     <div class="d-flex flex-column">
                                                         <p class="lead mt-3">{{ $variation->title }}</p>
-                                                        <a href="{{ $url }}?variation={{ $variation->id }}">
+                                                        <a
+                                                            href="{{ $url }}?variation={{ $variation->id }}">
                                                             {{-- <img src="{{ asset('assets/' . json_decode($variation->variation_data)->thumbnail) }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif"> --}}
                                                             <img src="{{ asset(json_decode($variation->variation_data)->thumbnail) }}"
                                                                 alt="" width="75"

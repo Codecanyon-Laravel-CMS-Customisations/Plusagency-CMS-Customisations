@@ -7,6 +7,13 @@
 @endsection
 
 @section('styles')
+
+
+<!-- Add the slick-theme.css if you want default styling -->
+<link rel="stylesheet" type="text/css" href="https://upwork-angel.test/assets/front/slick-lightbox-master/dist/slick-lightbox.css"/>
+<link rel="stylesheet" href="https://upwork-angel.test/assets/front/slick-lightbox-master/gh-pages/bower_components/slick-carousel/slick/slick-theme.css">
+
+
     <link rel="stylesheet" href="{{ asset('assets/front/css/slick.css') }}">
     @if ($product->offline)
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
@@ -14,6 +21,15 @@
     <style>
         .zoom-lens-control-wrapper button:is(:active, :focus, :hover){
             box-shadow: none !important;
+        }
+        .slick-lightbox :is(.slick-prev, .slick-next) {
+            z-index: 1111111;
+        }
+        .slick-lightbox {
+            z-index: 999999;
+        }
+        .js-slick-carousel img {
+            cursor: pointer;
         }
     </style>
 @endsection
@@ -378,6 +394,7 @@ if (isset($_GET['variation'])) {
 @endsection
 
 @section('scripts')
+    <script type="text/javascript" src="https://upwork-angel.test/assets/front/slick-lightbox-master/dist/slick-lightbox.js"></script>
     <script src="{{ asset('assets/front/magnifier/lib/blowup.js') }}"></script>
     <script src="{{ asset('assets/front/js/slick.min.js') }}"></script>
     <script src="{{ asset('assets/front/js/product.js') }}"></script>
@@ -403,6 +420,31 @@ if (isset($_GET['variation'])) {
             var scaleSet    = false;
             var scale       = 1;
             var slideIndex  = 0;
+
+            $('.js-slick-carousel').slick('unslick');
+            $('.js-slick-carousel').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: false,
+                fade: true,
+                asNavFor: '.slider-nav',
+                lazyLoad: 'ondemand'
+            });
+            $('.slider-nav').slick({
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                asNavFor: '.js-slick-carousel',
+                dots: false,
+                centerMode: true,
+                focusOnSelect: true
+            });
+            $('.js-slick-carousel').slickLightbox({
+                src: 'src',
+                lazy: true,
+                itemSelector: '.js-slide img'
+            });
+
+
             $('.mag0').on('click', function() {
                 if(scaleSet === true){
                     scaleSet   = false;
@@ -482,27 +524,7 @@ if (isset($_GET['variation'])) {
                     "height": 250
                 });
             });
-            // $('.mag3').on('click', function() {
-            //     scale = 3;
-            //     $(this).removeClass('btn-dark')
-            //         .addClass('btn-primary');
-            //     $(this).siblings('button').removeClass('btn-primary')
-            //         .addClass('btn-dark');
-            // });
-            // $('.mag4').on('click', function() {
-            //     scale = 4;
-            //     $(this).removeClass('btn-dark')
-            //     .addClass('btn-primary');
-            //     $(this).siblings('button').removeClass('btn-primary')
-            //     .addClass('btn-dark');
-            // });
-            // $('.mag5').on('click', function() {
-            //     scale = 5;
-            //     $(this).removeClass('btn-dark')
-            //     .addClass('btn-primary');
-            //     $(this).siblings('button').removeClass('btn-primary')
-            //     .addClass('btn-dark');
-            // });
+
             <?php
             $useragent = $_SERVER['HTTP_USER_AGENT'];
             ?>

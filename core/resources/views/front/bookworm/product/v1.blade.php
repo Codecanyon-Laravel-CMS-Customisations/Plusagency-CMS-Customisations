@@ -35,21 +35,21 @@ Product Details
             $links = "<a href='" . url('') . "' class='h-primary'>Home</a>";
             $links .=
                 "<span class='breadcrumb-separator mx-1'><i class='fas fa-angle-right'></i></span>
-                                                                                                    <a href='" .
+                                                                                                                <a href='" .
                 url('products') .
                 "' class='h-primary'>Products</a>";
 
             try {
                 $product_category = $product->category;
                 $links .= "<span class='breadcrumb-separator mx-1'><i class='fas fa-angle-right'></i></span>
-                                                                                                            <a href='/products?search=&category_id=$product_category->id&type=new' class='h-primary'>$product_category->name</a>";
+                                                                                                                        <a href='/products?search=&category_id=$product_category->id&type=new' class='h-primary'>$product_category->name</a>";
             } catch (\Exception $th) {
                 /*throw $th;*/
             }
             try {
                 $product_category = $product->child_category;
                 $links .= "<span class='breadcrumb-separator mx-1'><i class='fas fa-angle-right'></i></span>
-                                                                                                            <a href='/products?search=&sub-category-id=$product_category->id&type=new' class='h-primary'>$product_category->name</a>";
+                                                                                                                        <a href='/products?search=&sub-category-id=$product_category->id&type=new' class='h-primary'>$product_category->name</a>";
             } catch (\Exception $th) {
                 /*throw $th;*/
             }
@@ -74,15 +74,14 @@ Product Details
                     <div class="col-md-5 woocommerce-product-gallery woocommerce-product-gallery--with-images images">
                         <figure class="woocommerce-product-gallery__wrapper pt-8 mb-0">
                             <div class="zoom-lens-control-wrapper pb-2">
-                                <button type="button"
-                                    class="btn btn-sm btn-dark disabled py-1 px-2 mag0">
+                                <button type="button" class="btn btn-sm btn-dark disabled py-1 px-2 mag0">
                                     <strong>zoom </strong>
                                     <small>
                                         <strong><i class="fa fa-plus-circle" aria-hidden="true"></i></strong>
                                     </small>
                                 </button>
-                                    <button type="button"
-                                        class="d-none animated animated fadeInLeft btn btn-sm btn-dark py-1 px-2 mag1"><small><strong>x1</strong></small></button>
+                                <button type="button"
+                                    class="d-none animated animated fadeInLeft btn btn-sm btn-dark py-1 px-2 mag1"><small><strong>x1</strong></small></button>
                                 <button type="button"
                                     class="d-none animated animated fadeInLeft delay-1s btn btn-sm btn-dark py-1 px-2 mag2"><small><strong>x2</strong></small></button>
                                 {{-- <button type="button"
@@ -94,10 +93,25 @@ Product Details
                             </div>
                             <div class="js-slick-carousel u-slick"
                                 data-pagi-classes="text-center u-slick__pagination my-4">
+                                <div class="js-slide">
+                                    <img data-lazy="{{ trim($product->feature_image) }}" alt=""
+                                        class="mx-auto img-fluid img-blowup">
+                                </div>
                                 @foreach ($product->product_images as $image)
                                     <div class="js-slide">
-                                        <img src="{{ trim($image->image) }}" alt="Image Description"
-                                            class="mx-auto img-fluid img-blowup" width="300">
+                                        <img data-lazy="{{ trim($image->image) }}" alt=""
+                                            class="mx-auto img-fluid img-blowup">
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="slider slider-nav">
+                                <div class="js-slide-----not">
+                                    <img data-lazy="{{ trim($product->feature_image) }}" alt=""
+                                        class="mx-auto img-fluid">
+                                </div>
+                                @foreach ($product->product_images as $image)
+                                    <div class="js-slide-----not">
+                                        <img data-lazy="{{ trim($image->image) }}" alt="" class="mx-auto img-fluid">
                                     </div>
                                 @endforeach
                             </div>
@@ -120,9 +134,11 @@ Product Details
                             @if (!$product->digital && !$product->offline)
                                 <p class="price font-size-22 font-weight-medium mb-3">
                                     <span class="woocommerce-Price-amount amount">
-                                        <span class="woocommerce-Price-currencySymbol">{{ strtolower($bex->base_currency_symbol_position) == 'left' ? $bex->base_currency_symbol : '' }}</span>
+                                        <span
+                                            class="woocommerce-Price-currencySymbol">{{ strtolower($bex->base_currency_symbol_position) == 'left' ? $bex->base_currency_symbol : '' }}</span>
                                         {{ $pvariation ? angel_auto_convert_currency($pvariation->current_price, $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }}
-                                        <span class="woocommerce-Price-currencySymbol">{{ strtolower($bex->base_currency_symbol_position) == 'right' ? $bex->base_currency_symbol : '' }}</span>
+                                        <span
+                                            class="woocommerce-Price-currencySymbol">{{ strtolower($bex->base_currency_symbol_position) == 'right' ? $bex->base_currency_symbol : '' }}</span>
                                     </span>
                                 </p>
                             @endif
@@ -197,8 +213,8 @@ Product Details
                                             }
                                         @endphp
                                         <a href="javascript:;" data-href="javascript:;"
-                                        class="btn btn-dark border-0 rounded-0 p-3 min-width-250min-width-250-----naaah ml-md-4 single_add_to_cart_button button alt cart-btn cart-link" style="color: #fff"
-                                            data-toggle="modal"
+                                            class="btn btn-dark border-0 rounded-0 p-3 min-width-250min-width-250-----naaah ml-md-4 single_add_to_cart_button button alt cart-btn cart-link"
+                                            style="color: #fff" data-toggle="modal"
                                             data-target="#headerProductInquiryModal">{{ $header_v2_button_text }}</a>
                                     @endif
                                 </form>

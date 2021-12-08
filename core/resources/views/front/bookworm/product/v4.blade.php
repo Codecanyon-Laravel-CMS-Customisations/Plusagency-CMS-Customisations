@@ -38,15 +38,15 @@ $bex->base_currency_text_position = strtolower($bex_user_currency->text_position
                                     class="col-lg-5 woocommerce-product-gallery woocommerce-product-gallery--with-images images">
                                     <figure class="woocommerce-product-gallery__wrapper mb-0">
                                         <div class="zoom-lens-control-wrapper pb-2">
-                                            <button type="button"
-                                                class="btn btn-sm btn-dark disabled py-1 px-2 mag0">
+                                            <button type="button" class="btn btn-sm btn-dark disabled py-1 px-2 mag0">
                                                 <strong>zoom </strong>
                                                 <small>
-                                                    <strong><i class="fa fa-plus-circle" aria-hidden="true"></i></strong>
+                                                    <strong><i class="fa fa-plus-circle"
+                                                            aria-hidden="true"></i></strong>
                                                 </small>
                                             </button>
-                                                <button type="button"
-                                                    class="d-none animated animated fadeInLeft btn btn-sm btn-dark py-1 px-2 mag1"><small><strong>x1</strong></small></button>
+                                            <button type="button"
+                                                class="d-none animated animated fadeInLeft btn btn-sm btn-dark py-1 px-2 mag1"><small><strong>x1</strong></small></button>
                                             <button type="button"
                                                 class="d-none animated animated fadeInLeft delay-1s btn btn-sm btn-dark py-1 px-2 mag2"><small><strong>x2</strong></small></button>
                                             {{-- <button type="button"
@@ -58,10 +58,26 @@ $bex->base_currency_text_position = strtolower($bex_user_currency->text_position
                                         </div>
                                         <div class="js-slick-carousel u-slick"
                                             data-pagi-classes="text-center u-slick__pagination my-4">
+                                            <div class="js-slide">
+                                                <img data-lazy="{{ trim($product->feature_image) }}" alt=""
+                                                    class="mx-auto img-fluid img-blowup">
+                                            </div>
                                             @foreach ($product->product_images as $image)
                                                 <div class="js-slide">
-                                                    <img src="{{ trim($image->image) }}" alt="Image Description"
+                                                    <img data-lazy="{{ trim($image->image) }}" alt=""
                                                         class="mx-auto img-fluid img-blowup">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                        <div class="slider slider-nav">
+                                            <div class="js-slide-----not">
+                                                <img data-lazy="{{ trim($product->feature_image) }}" alt=""
+                                                    class="mx-auto img-fluid">
+                                            </div>
+                                            @foreach ($product->product_images as $image)
+                                                <div class="js-slide-----not">
+                                                    <img data-lazy="{{ trim($image->image) }}" alt=""
+                                                        class="mx-auto img-fluid">
                                                 </div>
                                             @endforeach
                                         </div>
@@ -87,9 +103,11 @@ $bex->base_currency_text_position = strtolower($bex_user_currency->text_position
                                         @if (!$product->digital && !$product->offline)
                                             <p class="price font-size-22 font-weight-medium mb-4">
                                                 <span class="woocommerce-Price-amount amount">
-                                                    <span class="woocommerce-Price-currencySymbol">{{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}</span>
+                                                    <span
+                                                        class="woocommerce-Price-currencySymbol">{{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}</span>
                                                     {{ $pvariation ? angel_auto_convert_currency($pvariation->current_price, $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }}
-                                                    <span class="woocommerce-Price-currencySymbol">{{ strtolower($bex->base_currency_symbol_position) == 'right' ? $bex->base_currency_symbol : '' }}</span>
+                                                    <span
+                                                        class="woocommerce-Price-currencySymbol">{{ strtolower($bex->base_currency_symbol_position) == 'right' ? $bex->base_currency_symbol : '' }}</span>
                                                 </span>
                                             </p>
                                         @endif

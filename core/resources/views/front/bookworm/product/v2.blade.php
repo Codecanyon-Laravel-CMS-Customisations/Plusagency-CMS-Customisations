@@ -55,10 +55,26 @@ $bex->base_currency_text_position = strtolower($bex_user_currency->text_position
                             </div>
                             <div class="js-slick-carousel u-slick"
                                 data-pagi-classes="text-center u-slick__pagination my-4">
+                                <div class="js-slide">
+                                    <img data-lazy="{{ trim($product->feature_image) }}" alt=""
+                                        class="mx-auto img-fluid img-blowup">
+                                </div>
                                 @foreach ($product->product_images as $image)
                                     <div class="js-slide">
-                                        <img src="{{ trim($image->image) }}" alt="Image Description"
+                                        <img data-lazy="{{ trim($image->image) }}" alt=""
                                             class="mx-auto img-fluid img-blowup">
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="slider slider-nav">
+                                <div class="js-slide-----not">
+                                    <img data-lazy="{{ trim($product->feature_image) }}" alt=""
+                                        class="mx-auto img-fluid">
+                                </div>
+                                @foreach ($product->product_images as $image)
+                                    <div class="js-slide-----not">
+                                        <img data-lazy="{{ trim($image->image) }}" alt=""
+                                            class="mx-auto img-fluid">
                                     </div>
                                 @endforeach
                             </div>

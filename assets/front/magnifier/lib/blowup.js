@@ -79,7 +79,7 @@ $(function ($) {
       $blowupLens.css("display", "block");
       if(!$options.triggerPulled) $blowupLens.css("display", "none");$element.css({"cursor" : "default"});
     });
-    $element.on('touchstart', function (e) {
+    $element.on('touchmove', function (e) {
       e.preventDefault();
       if(!$options.triggerPulled) return;
       $blowupLens.css("display", "block");
