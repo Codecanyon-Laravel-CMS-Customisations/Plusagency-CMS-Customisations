@@ -29,7 +29,10 @@
             z-index: 999999;
         }
         .js-slick-carousel img {
-            cursor: pointer !important;
+            cursor: zoom-in !important;
+        }
+        .slider-nav img {
+            cursor: col-resize !important;
         }
     </style>
 @endsection
