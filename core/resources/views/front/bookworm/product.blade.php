@@ -35,7 +35,10 @@
             cursor: col-resize !important;
         }
         .slick-prev:before, .slick-next:before {
-            font-size: 35px;
+            font-size: 35px !important;
+        }
+        .slick-lightbox .slick-prev {
+            left: 0px;
         }
     </style>
 @endsection
