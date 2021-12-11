@@ -10,8 +10,8 @@
 
 
 <!-- Add the slick-theme.css if you want default styling -->
-<link rel="stylesheet" type="text/css" href="https://upwork-angel.test/assets/front/slick-lightbox-master/dist/slick-lightbox.css"/>
-<link rel="stylesheet" href="https://upwork-angel.test/assets/front/slick-lightbox-master/gh-pages/bower_components/slick-carousel/slick/slick-theme.css">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/front/slick-lightbox-master/dist/slick-lightbox.css') }}"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/front/slick-lightbox-master/gh-pages/bower_components/slick-carousel/slick/slick-theme.css') }}">
 
 
     <link rel="stylesheet" href="{{ asset('assets/front/css/slick.css') }}">
@@ -397,10 +397,10 @@ if (isset($_GET['variation'])) {
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="https://upwork-angel.test/assets/front/slick-lightbox-master/dist/slick-lightbox.js"></script>
-    <script src="{{ asset('assets/front/magnifier/lib/blowup.js') }}"></script>
-    <script src="{{ asset('assets/front/js/slick.min.js') }}"></script>
-    <script src="{{ asset('assets/front/js/product.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/front/slick-lightbox-master/dist/slick-lightbox.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/front/magnifier/lib/blowup.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/front/js/slick.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/front/js/product.js') }}"></script>
     <script>
         $('.image-popup').magnificPopup({
             type: 'image',
