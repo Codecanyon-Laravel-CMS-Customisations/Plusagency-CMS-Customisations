@@ -34,6 +34,9 @@
         .slider-nav img {
             cursor: col-resize !important;
         }
+        .slick-prev:before, .slick-next:before {
+            font-size: 35px;
+        }
     </style>
 @endsection
 
