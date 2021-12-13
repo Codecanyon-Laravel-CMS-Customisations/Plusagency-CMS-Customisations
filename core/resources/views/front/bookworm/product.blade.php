@@ -326,6 +326,11 @@
         @media screen and (min-width: 1600px) {
             .preview { padding: 10px 160px; }
         }
+
+        a[href="http://www.magictoolbox.com/magiczoomplus/"],
+        a[href="https://www.magictoolbox.com/magiczoomplus/"]{
+            display: none !important;
+        }
     </style>
 @endsection
 
