@@ -738,7 +738,9 @@ if (isset($_GET['variation'])) {
             console.log('onExpandClosed', arguments[0]);
         }
     };
-    var mzMobileOptions = {};
+    var mzMobileOptions = {
+        zoomMode: "magnifier"
+    };
 
     function isDefaultOption(o) {
         return magicJS.$A(magicJS.$(o).byTag('option')).filter(function(opt){
