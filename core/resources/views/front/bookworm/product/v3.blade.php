@@ -35,50 +35,19 @@ $bex->base_currency_text_position = strtolower($bex_user_currency->text_position
                         <div
                             class="col-md-4 col-wd-5 woocommerce-product-gallery woocommerce-product-gallery--with-images images">
                             <figure class="woocommerce-product-gallery__wrapper pt-8 mb-0">
-                                <div class="zoom-lens-control-wrapper pb-2">
-                                    <button type="button"
-                                        class="btn btn-sm btn-dark disabled py-1 px-2 mag0">
-                                        <strong>zoom </strong>
-                                        <small>
-                                            <strong><i class="fa fa-plus-circle" aria-hidden="true"></i></strong>
-                                        </small>
-                                    </button>
-                                        <button type="button"
-                                            class="d-none animated animated fadeInLeft btn btn-sm btn-dark py-1 px-2 mag1"><small><strong>x1</strong></small></button>
-                                    <button type="button"
-                                        class="d-none animated animated fadeInLeft delay-1s btn btn-sm btn-dark py-1 px-2 mag2"><small><strong>x2</strong></small></button>
-                                    {{-- <button type="button"
-                                        class="d-none animated animated fadeInLeft delay-2s btn btn-sm btn-dark py-1 px-2 mag3"><small><strong>x3</strong></small></button>
-                                    <button type="button"
-                                        class="d-none animated animated fadeInLeft delay-3s btn btn-sm btn-dark py-1 px-2 mag4"><small><strong>x4</strong></small></button>
-                                    <button type="button"
-                                        class="d-none animated animated fadeInLeft delay-4s btn btn-sm btn-dark py-1 px-2 mag5"><small><strong>x5</strong></small></button> --}}
-                                </div>
-                                <div class="js-slick-carousel u-slick"
+                                <div class="js-slick-carousel---naaah u-slick---naaah"
                                 data-pagi-classes="text-center u-slick__pagination my-4">
-                                <div class="js-slide">
-                                    <img data-lazy="{{ trim($product->feature_image) }}" alt=""
-                                        class="mx-auto img-fluid img-blowup">
-                                </div>
-                                @foreach ($product->product_images as $image)
-                                    <div class="js-slide">
-                                        <img data-lazy="{{ trim($image->image) }}" alt=""
-                                            class="mx-auto img-fluid img-blowup">
+                                    <a id="Zoom-1" class="MagicZoom" title="{{ config('app.name') }} | {{ $product->title }}" href="{{ trim($product->feature_image) }}" data-zoom-image-2x="{{ trim($product->feature_image) }}" data-image-2x="{{ trim($product->feature_image) }}">
+                                        <img src="{{ trim($product->feature_image) }}" srcset="{{ trim($product->feature_image) }}" alt=""/>
+                                    </a>
+                                    <div class="selectors">
+                                        @foreach ($product->product_images as $image)
+                                            <a data-zoom-id="Zoom-1" href="{{ trim($image->image) }}" data-image="{{ trim($image->image) }}" data-zoom-image-2x="{{ trim($image->image) }}" data-image-2x="{{ trim($image->image) }}">
+                                                <img srcset="{{ trim($image->image) }}" src="{{ trim($image->image) }}"/>
+                                            </a>
+                                        @endforeach
                                     </div>
-                                @endforeach
-                            </div>
-                            <div class="slider slider-nav">
-                                <div class="js-slide-----not">
-                                    <img data-lazy="{{ trim($product->feature_image) }}" alt=""
-                                        class="mx-auto img-fluid">
                                 </div>
-                                @foreach ($product->product_images as $image)
-                                    <div class="js-slide-----not">
-                                        <img data-lazy="{{ trim($image->image) }}" alt=""
-                                            class="mx-auto img-fluid">
-                                    </div>
-                                @endforeach
-                            </div>
                             </figure>
                         </div>
                         <div class="col-md-8 col-wd-7 pl-0 summary entry-summary">

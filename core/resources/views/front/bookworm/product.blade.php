@@ -10,8 +10,7 @@
 
 
 <!-- Add the slick-theme.css if you want default styling -->
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/front/slick-lightbox-master/dist/slick-lightbox.css') }}"/>
-<link rel="stylesheet" type="text/css" href="{{ asset('assets/front/slick-lightbox-master/gh-pages/bower_components/slick-carousel/slick/slick-theme.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/front/magiczoomplus-trial/magiczoomplus/magiczoomplus.css') }}">
 
 
     <link rel="stylesheet" href="{{ asset('assets/front/css/slick.css') }}">
@@ -39,6 +38,293 @@
         }
         .slick-lightbox .slick-prev {
             left: 0px;
+        }
+    </style>
+    <style type="text/css">
+        html { position: relative; min-height: 100%; }
+        body { position: absolute; left:0; right: 0; min-height: 100%; background:#fff; margin:0; padding:0; font-size: 100%; }
+        body, td {
+            font-family: 'Helvetica Neue', Helvetica, 'Lucida Grande', Tahoma, Arial, Verdana, sans-serif;
+            line-height: 1.5em;
+            -webkit-text-rendering: geometricPrecision;
+            text-rendering: geometricPrecision;
+        }
+        h1 { font-size:1.5em; font-weight:normal; color:#555; }
+        h2 { font-size:1.3em; font-weight:normal; color:#555; }
+        h2.caption { margin: 2.5em 0 0;}
+        h3 { font-size:1.1em; font-weight: normal; color:#555; }
+        h3.pad { margin: 2em 0 1em; }
+        h4 { font-size: 1em; font-weight:normal; color:#555; }
+        p.pad { margin-top: 1.5em; }
+        a { outline: none; }
+
+
+        .cfg-btn {
+            background-color: rgb(55, 181, 114);
+            color: #fff;
+            border: 0;
+            box-shadow: 0 0 1px 0px rgba(0,0,0,0.3);
+            outline:0;
+            cursor: pointer;
+            width: 200px;
+            padding: 10px;
+            font-size: 1em;
+            position: relative;
+            display: inline-block;
+            margin: 10px auto;
+        }
+        .cfg-btn:hover:not([disabled]) {
+            background-color: rgb(37, 215, 120);
+        }
+        .mobile-magic .cfg-btn:hover:not([disabled]) { background: rgb(55, 181, 114); }
+        .cfg-btn[disabled] { opacity: .5; color: #808080; background: #ddd; }
+
+        .cfg-btn.btn-preview,
+        .cfg-btn.btn-preview:active,
+        .cfg-btn.btn-preview:focus {
+            font-size: 1em;
+            position: relative;
+            display: block;
+            margin: 10px auto;
+        }
+
+        .cfg-btn,
+        .preview,
+        .app-figure,
+        .api-controls,
+        .wizard-settings,
+        .wizard-settings .inner,
+        .wizard-settings .footer,
+        .wizard-settings input,
+        .wizard-settings select {
+            -webkit-box-sizing: border-box;
+               -moz-box-sizing: border-box;
+                    box-sizing: border-box;
+        }
+        .preview,
+        .wizard-settings {
+            padding: 10px;
+            border: 0;
+            min-height: 1px;
+        }
+        .preview {
+            position: relative;
+        }
+
+        .api-controls {
+            text-align: center;
+        }
+        .api-controls button,
+        .api-controls button:active,
+        .api-controls button:focus {
+             width: 80px; font-size: .7em;
+             white-space: nowrap;
+        }
+
+        .app-figure {
+            width: 80% !important;
+            margin: 0px auto;
+            border: 0px solid red;
+            padding: 20px;
+            position: relative;
+            text-align: center;
+        }
+        .selectors { margin-top: 10px; }
+        .selectors .mz-thumb img { max-width: 56px; }
+
+        .app-code-sample {
+            max-width: 80%;
+            margin: 30px auto 0;
+            text-align: center;
+            position: relative;
+        }
+        .app-code-sample input[type="radio"] {
+            display: none;
+        }
+        .app-code-sample label {
+            display: inline-block;
+            padding: 2px 12px;
+            margin: 0;
+            font-size: .8em;
+            text-decoration: none;
+            cursor: pointer;
+            color: #666;
+            border: 1px solid rgba(136, 136, 136, 0.5);
+            background-color: transparent;
+        }
+        .app-code-sample label:hover {
+            color: #fff;
+            background-color: rgb(253, 154, 30);
+            border-color: rgb(253, 154, 30);
+        }
+        .app-code-sample input[type="radio"]:checked+label {
+            color: #fff;
+            background-color: rgb(110, 110, 110) !important;
+            border-color: rgba(110, 110, 110, 0.7) !important;
+        }
+        .app-code-sample label:first-of-type {
+            border-radius: 4px 0 0 4px;
+            border-right-color: transparent;
+        }
+        .app-code-sample label:last-of-type {
+            border-radius: 0 4px 4px 0;
+            border-left-color: transparent;
+        }
+
+        .app-code-sample .app-code-holder {
+            padding: 0;
+            position: relative;
+            border: 1px solid #eee;
+            border-radius: 0px;
+            background-color: #fafafa;
+            margin: 15px 0;
+        }
+        .app-code-sample .app-code-holder > div {
+            display: none;
+        }
+        .app-code-sample .app-code-holder pre {
+            text-align: left;
+            white-space: pre-line;
+            border: 0px solid #eee;
+            border-radius: 0px;
+            background-color: transparent;
+            padding: 25px 50px 25px 25px;
+            margin: 0;
+            min-height: 25px;
+        }
+        .app-code-sample input[type="radio"]:nth-of-type(1):checked ~ .app-code-holder > div:nth-of-type(1) {
+            display: block;
+        }
+        .app-code-sample input[type="radio"]:nth-of-type(2):checked ~ .app-code-holder > div:nth-of-type(2) {
+            display: block;
+        }
+
+        .app-code-sample .app-code-holder .cfg-btn-copy {
+            display: none;
+            z-index: -1;
+            position: absolute;
+            top:10px; right: 10px;
+            width: 44px;
+            font-size: .65em;
+            white-space: nowrap;
+            margin: 0;
+            padding: 4px;
+        }
+        .copy-msg {
+            font: normal 11px/1.2em 'Helvetica Neue', Helvetica, 'Lucida Grande', 'Lucida Sans Unicode', Verdana, Arial, sans-serif;
+            color: #2a4d14;
+            border: 1px solid #2a4d14;
+            border-radius: 4px;
+            position: absolute;
+            top: 8px;
+            left: 0;
+            right: 0;
+            width: 200px;
+            max-width: 70%;
+            padding: 4px;
+            margin: 0px auto;
+            text-align: center;
+        }
+        .copy-msg-failed {
+            color: #b80c09;
+            border-color: #b80c09;
+            width: 430px;
+        }
+        .mobile-magic .app-code-sample .cfg-btn-copy { display: none; }
+        #code-to-copy { position: absolute; width: 0; height: 0; top: -10000px; }
+        .lt-ie9-magic .app-code-sample { display: none; }
+
+        .wizard-settings {
+            background-color: #4f4f4f;
+            color: #a5a5a5;
+            position: absolute;
+            right: 0;
+            width: 340px;
+        }
+        .wizard-settings .inner {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        .wizard-settings .footer {
+            color: #c7d59f;
+            font-size: .75em;
+            width: 100%;
+            position: relative;
+            vertical-align: bottom;
+            text-align: center;
+            padding: 6px;
+            margin-top: 10px;
+        }
+        .wizard-settings .footer a { color: inherit; text-decoration: none; }
+        .wizard-settings .footer a:hover { text-decoration: underline; }
+
+        .wizard-settings a { color: #cc9933; }
+        .wizard-settings a:hover { color: #dfb363; }
+        .wizard-settings table > tbody > tr > td { vertical-align: top; }
+        .wizard-settings table { min-width: 300px; max-width: 100%; font-size: .8em; margin: 0 auto; }
+        .wizard-settings table caption { font-size: 1.5em; padding: 16px 8px; }
+        .wizard-settings table td { padding: 4px 8px; }
+        .wizard-settings table td:first-child { white-space: nowrap; }
+        .wizard-settings table td:nth-child(2) { text-align: left; }
+        .wizard-settings table td .values {
+            color: #a08794;
+            font-size: 0.8em;
+            line-height: 1.3em;
+            display: block;
+            max-width: 126px;
+        }
+        .wizard-settings table td .values:before { content: ''; display: block; }
+
+        .wizard-settings input,
+        .wizard-settings select {
+            width: 126px;
+        }
+        .wizard-settings input {
+            padding: 0px 4px;
+        }
+        .wizard-settings input[disabled] {
+            color: #808080;
+            background: #a7a7a7;
+            border: 1px solid #a7a7a7;
+        }
+
+        .preview { width: 70%; float: left; }
+        @media (min-width: 0px) {
+            .preview { width: 100%; float: none; }
+        }
+
+        @media (min-width: 1024px) {
+            .preview { width: calc(100% - 340px); }
+            .wizard-settings { top: 0; min-height: 100%; }
+            .wizard-settings .inner { margin-top: 60px; }
+            .wizard-settings .footer { position: absolute; bottom: 0; left: 0; }
+            .wizard-settings .settings-controls {
+                position: fixed;
+                top: 0; right: 0;
+                width: 340px;
+                padding: 10px 0 0;
+                text-align: center;
+                background-color: inherit;
+            }
+        }
+        @media screen and (max-width: 1024px) {
+            .api-controls button, .api-controls button:active, .api-controls button:focus {
+                width: 70px;
+            }
+        }
+        @media screen and (max-width: 1023px) {
+            .app-figure { width: 98% !important; margin: 50px auto; padding: 0; }
+            .app-code-sample { display: none; }
+            .wizard-settings { width: 100%; }
+        }
+        @media screen and (max-width: 600px) {
+            .mz-thumb img { max-width: 39px; }
+        }
+        @media screen and (max-width: 560px) {
+            .api-controls .sep { content: ''; display: table; }
+        }
+        @media screen and (min-width: 1600px) {
+            .preview { padding: 10px 160px; }
         }
     </style>
 @endsection
@@ -403,9 +689,9 @@ if (isset($_GET['variation'])) {
 @endsection
 
 @section('scripts')
-    <script type="text/javascript" src="{{ asset('assets/front/slick-lightbox-master/dist/slick-lightbox.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/front/magnifier/lib/blowup.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/front/js/slick.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('assets/front/magiczoomplus-trial/magiczoomplus/magiczoomplus.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('assets/front/magnifier/lib/blowup.js') }}"></script> --}}
+    {{-- <script type="text/javascript" src="{{ asset('assets/front/js/slick.min.js') }}"></script> --}}
     <script type="text/javascript" src="{{ asset('assets/front/js/product.js') }}"></script>
     <script>
         $('.image-popup').magnificPopup({
@@ -424,175 +710,135 @@ if (isset($_GET['variation'])) {
             $('#reviewValue').val(reviewValue);
         })
     </script>
-    <script>
-        $(document).ready(function() {
-            var scaleSet    = false;
-            var scale       = 1;
-            var slideIndex  = 0;
+    <script type="text/javascript">
+    var mzOptions = {};
+    mzOptions = {
+        zoomMode: "magnifier",
+        onZoomReady: function() {
+            console.log('onReady', arguments[0]);
+        },
+        onUpdate: function() {
+            console.log('onUpdated', arguments[0], arguments[1], arguments[2]);
+        },
+        onZoomIn: function() {
+            console.log('onZoomIn', arguments[0]);
+        },
+        onZoomOut: function() {
+            console.log('onZoomOut', arguments[0]);
+        },
+        onExpandOpen: function() {
+            console.log('onExpandOpen', arguments[0]);
+        },
+        onExpandClose: function() {
+            console.log('onExpandClosed', arguments[0]);
+        }
+    };
+    var mzMobileOptions = {};
 
-            $('.js-slick-carousel').slick('unslick');
-            $('.js-slick-carousel').slick({
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                arrows: false,
-                fade: true,
-                asNavFor: '.slider-nav',
-                lazyLoad: 'ondemand'
-            });
-            $('.slider-nav').slick({
-                slidesToShow: 3,
-                slidesToScroll: 1,
-                asNavFor: '.js-slick-carousel',
-                dots: false,
-                centerMode: true,
-                focusOnSelect: true
-            });
-            $('.js-slick-carousel').slickLightbox({
-                src: 'src',
-                lazy: true,
-                itemSelector: '.js-slide img'
-            });
+    function isDefaultOption(o) {
+        return magicJS.$A(magicJS.$(o).byTag('option')).filter(function(opt){
+            return opt.selected && opt.defaultSelected;
+        }).length > 0;
+    }
 
+    function toOptionValue(v) {
+        if ( /^(true|false)$/.test(v) ) {
+            return 'true' === v;
+        }
+        if ( /^[0-9]{1,}$/i.test(v) ) {
+            return parseInt(v,10);
+        }
+        return v;
+    }
 
-            $('.mag0').on('click', function() {
-                if(scaleSet === true){
-                    scaleSet   = false;
-                    $(this).addClass('disabled');
-                    $(this).find('i').attr('class', 'fa fa-plus-circle');
-                    $(this).siblings('button').removeClass('d-inline-block')
-                    .addClass('d-none');
+    function makeOptions(optType) {
+        var  value = null, isDefault = true, newParams = Array(), newParamsS = '', options = {};
+        magicJS.$(magicJS.$A(magicJS.$(optType).getElementsByTagName("INPUT"))
+            .concat(magicJS.$A(magicJS.$(optType).getElementsByTagName('SELECT'))))
+            .forEach(function(param){
+                value = ('checkbox'==param.type) ? param.checked.toString() : param.value;
 
-                    $(".img-blowup").eq(slideIndex).blowup({
-                        "border": "0px solid transparent",
-                        "triggerPulled": scaleSet,
-                        "background": "#000",
-                        "cursor": "default",
-                        "scale": scale,
-                        "width": 0,
-                        "height": 0
-                    });
+                isDefault = ('checkbox'==param.type) ? value == param.defaultChecked.toString() :
+                    ('SELECT'==param.tagName) ? isDefaultOption(param) : value == param.defaultValue;
 
-                    //enable swiping when lens is inactive
-                    $('.js-slick-carousel').slick('slickSetOption', 'swipe', true, true);
+                if ( null !== value && !isDefault) {
+                    options[param.name] = toOptionValue(value);
                 }
-                else{
-                    scaleSet  = true;
-                    $(this).removeClass('disabled');
-                    $(this).find('i').attr('class', 'fa fa-minus-circle');
-                    $(this).siblings('button').removeClass('d-none')
-                    .addClass('d-inline-block');
-
-                    $(".img-blowup").eq(slideIndex).blowup({
-                        "border": "0px solid transparent",
-                        "triggerPulled": scaleSet,
-                        "background": "#000",
-                        "scale": scale,
-                        "width": 250,
-                        "height": 250
-                    });
-
-                    //prevent swiping when lens is active
-                    $('.js-slick-carousel').slick('slickSetOption', 'swipe', false, true);
-                }
-            });
-            $('.mag1').on('click', function() {
-                scale   = 0.5;
-                var b1  = $(this).siblings('.mag0').attr('class');
-                $(this).removeClass('btn-dark')
-                    .addClass('btn-primary');
-                $(this).siblings('button').removeClass('btn-primary')
-                    .addClass('btn-dark');
-                $(this).siblings('button').eq(0).attr('class', b1);
-                scaleSet = true;
-
-                $(".img-blowup").eq(slideIndex).blowup({
-                    "border": "0px solid transparent",
-                    "triggerPulled": scaleSet,
-                    "background": "#000",
-                    "scale": scale,
-                    "width": 250,
-                    "height": 250
-                });
-            });
-            $('.mag2').on('click', function() {
-                scale   = 1;
-                var b1  = $(this).siblings('.mag0').attr('class');
-                $(this).removeClass('btn-dark')
-                    .addClass('btn-primary');
-                $(this).siblings('button').removeClass('btn-primary')
-                    .addClass('btn-dark');
-                $(this).siblings('button').eq(0).attr('class', b1);
-                scaleSet = true;
-
-                $(".img-blowup").eq(slideIndex).blowup({
-                    "border": "0px solid transparent",
-                    "triggerPulled": scaleSet,
-                    "background": "#000",
-                    "scale": scale,
-                    "width": 250,
-                    "height": 250
-                });
-            });
-
-            <?php
-            $useragent = $_SERVER['HTTP_USER_AGENT'];
-            ?>
-            @if (
-                preg_match('/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i', $useragent) ||
-                preg_match(
-                    '/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i',
-                    substr($useragent, 0, 4),
-                )
-            )
-                $(".img-blowup").eq(slideIndex).blowup({
-                    "border": "0px solid transparent",
-                    "triggerPulled": scaleSet,
-                    "background": "#000",
-                    "scale": scale,
-                    "width": 250,
-                    "height": 250
-                });
-                $('.js-slick-carousel').on('afterChange', function(event, slick, currentSlide){
-                    slideIndex = $('.js-slick-carousel .slick-active').attr('data-slick-index');
-                    if(scaleSet == false) return;
-                    $(".img-blowup").eq(slideIndex).blowup({
-                        "border": "0px solid transparent",
-                        "triggerPulled": scaleSet,
-                        "background": "#000",
-                        "scale": scale,
-                        "width": 250,
-                        "height": 250
-                    });
-                });
-
-                //unbind blowup function
-                if(scaleSet == false) $(".img-blowup").unbind('blowup');
-            @else
-                $(".img-blowup").eq(slideIndex).blowup({
-                    "border": "0px solid transparent",
-                    "triggerPulled": scaleSet,
-                    "background": "#000",
-                    "scale": scale,
-                    "width": 250,
-                    "height": 250
-                });
-                $('.js-slick-carousel').on('afterChange', function(event, slick, currentSlide){
-                    slideIndex = $('.js-slick-carousel .slick-active').attr('data-slick-index');
-                    $(".img-blowup").eq(slideIndex).blowup({
-                        "border": "0px solid transparent",
-                        "triggerPulled": scaleSet,
-                        "background": "#000",
-                        "scale": scale,
-                        "width": 250,
-                        "height": 250
-                    });
-                });
-
-                //unbind blowup function
-                if(scaleSet == false) $(".img-blowup").unbind('blowup');
-            @endif
         });
-    </script>
+        return options;
+    }
+
+    function updateScriptCode() {
+        var code = '&lt;script&gt;\nvar mzOptions = ';
+        code += JSON.stringify(mzOptions, null, 2).replace(/\"(\w+)\":/g,"$1:")+';';
+        code += '\n&lt;/script&gt;';
+
+        magicJS.$('app-code-sample-script').changeContent(code);
+    }
+
+    function updateInlineCode() {
+        var code = '&lt;a class="MagicZoom" data-options="';
+        code += JSON.stringify(mzOptions).replace(/\"(\w+)\":(?:\"([^"]+)\"|([^,}]+))(,)?/g, "$1: $2$3; ").replace(/\{([^{}]*)\}/,"$1").replace(/\s*$/,'');
+        code += '"&gt;';
+
+        magicJS.$('app-code-sample-inline').changeContent(code);
+    }
+
+    function applySettings() {
+        MagicZoom.stop('Zoom-1');
+        mzOptions = makeOptions('params');
+        mzMobileOptions = makeOptions('mobile-params');
+        MagicZoom.start('Zoom-1');
+        updateScriptCode();
+        updateInlineCode();
+        try {
+            prettyPrint();
+        } catch(e) {}
+    }
+
+    function copyToClipboard(src) {
+        var
+            copyNode,
+            range, success;
+
+        if (!isCopySupported()) {
+            disableCopy();
+            return;
+        }
+        copyNode = document.getElementById('code-to-copy');
+        copyNode.innerHTML = document.getElementById(src).innerHTML;
+
+        range = document.createRange();
+        range.selectNode(copyNode);
+        window.getSelection().addRange(range);
+
+        try {
+            success = document.execCommand('copy');
+        } catch(err) {
+            success = false;
+        }
+        window.getSelection().removeAllRanges();
+        if (!success) {
+            disableCopy();
+        } else {
+            new magicJS.Message('Settings code copied to clipboard.', 3000,
+                document.querySelector('.app-code-holder'), 'copy-msg');
+        }
+    }
+
+    function disableCopy() {
+        magicJS.$A(document.querySelectorAll('.cfg-btn-copy')).forEach(function(node) {
+            node.disabled = true;
+        });
+        new magicJS.Message('Sorry, cannot copy settings code to clipboard. Please select and copy code manually.', 3000,
+            document.querySelector('.app-code-holder'), 'copy-msg copy-msg-failed');
+    }
+
+    function isCopySupported() {
+        if ( !window.getSelection || !document.createRange || !document.queryCommandSupported ) { return false; }
+        return document.queryCommandSupported('copy');
+    }
+</script>
     @if ($product->offline)
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <script>
