@@ -105,7 +105,9 @@ class DigitalSystemController extends Controller
 
 
         }
-        catch(\Exception $exception){}
+        catch(\Exception $exception){
+            return $exception->getMessage();
+        }
         return false;
     }
 }
