@@ -716,32 +716,77 @@ if (isset($_GET['variation'])) {
         })
     </script>
     <script type="text/javascript">
-    var mzOptions = {};
-    mzOptions = {
-        zoomMode: "magnifier",
-        onZoomReady: function() {
-            console.log('onReady', arguments[0]);
-        },
-        onUpdate: function() {
-            console.log('onUpdated', arguments[0], arguments[1], arguments[2]);
-        },
-        onZoomIn: function() {
-            console.log('onZoomIn', arguments[0]);
-        },
-        onZoomOut: function() {
-            console.log('onZoomOut', arguments[0]);
-        },
-        onExpandOpen: function() {
-            console.log('onExpandOpen', arguments[0]);
-        },
-        onExpandClose: function() {
-            console.log('onExpandClosed', arguments[0]);
-        }
-    };
-    var mzMobileOptions = {
-        zoomMode: "magnifier"
-    };
-
+        var mzMobileOptions = {};
+        var mzOptions       = {};
+        @php
+            $model          = App\Models\SettingMagicZoom::query()->where('id', '>=', 1)->orderBy('id', 'desc')->first();
+        @endphp
+        @if(!$model)
+            mzOptions = {
+                zoomMode: "magnifier",
+                onZoomReady: function() {
+                    console.log('onReady', arguments[0]);
+                },
+                onUpdate: function() {
+                    console.log('onUpdated', arguments[0], arguments[1], arguments[2]);
+                },
+                onZoomIn: function() {
+                    console.log('onZoomIn', arguments[0]);
+                },
+                onZoomOut: function() {
+                    console.log('onZoomOut', arguments[0]);
+                },
+                onExpandOpen: function() {
+                    console.log('onExpandOpen', arguments[0]);
+                },
+                onExpandClose: function() {
+                    console.log('onExpandClosed', arguments[0]);
+                }
+            };
+            var mzMobileOptions = {
+                zoomMode: "magnifier"
+            };
+        @else
+            mzOptions = {
+                @php
+                    $arr_d  = json_decode($model->desktop_options, true);
+                    foreach($arr_d as $key => $value)
+                    {
+                        echo "$key: \"$value\",\n";
+                    }
+                @endphp
+                onZoomReady: function() {
+                    console.log('onReady', arguments[0]);
+                },
+                onUpdate: function() {
+                    console.log('onUpdated', arguments[0], arguments[1], arguments[2]);
+                },
+                onZoomIn: function() {
+                    console.log('onZoomIn', arguments[0]);
+                },
+                onZoomOut: function() {
+                    console.log('onZoomOut', arguments[0]);
+                },
+                onExpandOpen: function() {
+                    console.log('onExpandOpen', arguments[0]);
+                },
+                onExpandClose: function() {
+                    console.log('onExpandClosed', arguments[0]);
+                }
+            };
+            var mzMobileOptions = {
+                @php
+                    $arr_m  = json_decode($model->mobile_options, true);
+                    $c      = count($arr_m);
+                    $i      = 0;
+                    foreach($arr_m as $key => $value)
+                    {
+                        $i++;
+                        echo $i == $c ? "$key: \"$value\"\n" : "$key: \"$value\",\n";
+                    }
+                @endphp
+            };
+    @endif
     function isDefaultOption(o) {
         return magicJS.$A(magicJS.$(o).byTag('option')).filter(function(opt){
             return opt.selected && opt.defaultSelected;
