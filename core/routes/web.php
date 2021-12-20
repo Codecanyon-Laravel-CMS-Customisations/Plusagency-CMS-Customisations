@@ -498,6 +498,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin', 'checkstatus',
         Route::get('/easy-forms', 'Admin\EasyFormsController@easyForms')->name('admin.easy-forms');
         Route::post('/easy-forms', 'Admin\EasyFormsController@updateEasyForms')->name('admin.easy-forms.update');
 
+        // Admin Magic-Zoom Routes
+        Route::get('/magic-zoom', 'Admin\MagicZoomController@MagicZoom')->name('admin.magic-zoom');
+        Route::post('/magic-zoom', 'Admin\MagicZoomController@updateMagicZoom')->name('admin.magic-zoom.update');
+
         // Admin Email Settings Routes
         Route::get('/mail-from-admin', 'Admin\EmailController@mailFromAdmin')->name('admin.mailFromAdmin');
         Route::post('/mail-from-admin/update', 'Admin\EmailController@updateMailFromAdmin')->name('admin.mailfromadmin.update');

@@ -967,6 +967,40 @@ ALTER TABLE `client_geo_data`
   ADD CONSTRAINT `client_geo_data_country_id_foreign` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `client_geo_data_currency_id_foreign` FOREIGN KEY (`currency_id`) REFERENCES `currencies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
   
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `setting_magic_zooms`
+--
+
+CREATE TABLE `setting_magic_zooms` (
+  `id` bigint UNSIGNED NOT NULL,
+  `desktop_options` json DEFAULT NULL,
+  `mobile_options` json DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `setting_magic_zooms`
+--
+ALTER TABLE `setting_magic_zooms`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `setting_magic_zooms`
+--
+ALTER TABLE `setting_magic_zooms`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
   
   
   
