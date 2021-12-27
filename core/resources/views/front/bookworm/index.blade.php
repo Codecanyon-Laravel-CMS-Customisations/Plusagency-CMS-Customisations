@@ -15,8 +15,11 @@
 @endsection
 @section('content')
 <!-- ====== MAIN CONTENT ====== -->
+@if(empty($be->bookworm_slider_version))
 @include('front.bookworm.sliders.'. $be->bookworm_slider_version )
-
+@else
+@include('front.bookworm.sliders.'. $be->bookworm_slider_version )
+@endif
 @if (!empty($home->html))
 {!! convertHtml(convertUtf8($home->html)) !!}
 @else
