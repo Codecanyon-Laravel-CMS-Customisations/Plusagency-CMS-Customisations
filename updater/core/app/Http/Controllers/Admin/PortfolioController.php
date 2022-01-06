@@ -56,7 +56,7 @@ class PortfolioController extends Controller
 
     $sliders = !empty($request->slider) ? explode(',', $request->slider) : [];
     $image = $request->image;
-    $allowedExts = array('jpg', 'png', 'jpeg', 'svg');
+    $allowedExts = array('jpg', 'png', 'jpeg', 'svg','gif');
     $extImage = pathinfo($image, PATHINFO_EXTENSION);
 
     $rules = [

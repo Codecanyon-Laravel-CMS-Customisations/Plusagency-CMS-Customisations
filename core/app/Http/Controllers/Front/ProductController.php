@@ -124,6 +124,9 @@ class ProductController extends Controller
 
     public function productDetails($slug)
     {
+
+        if(empty(Product::where('slug', $slug)->first()))
+        return back();
         $bex = BasicExtra::first();
         if ($bex->is_shop == 0) {
             return back();
