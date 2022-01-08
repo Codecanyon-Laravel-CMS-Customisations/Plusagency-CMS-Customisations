@@ -84,7 +84,7 @@ $bex->base_currency_text_position = strtolower($bex_user_currency->text_position
                                     </div>
                                 </div>
                                 <a data-href="{{ $pvariation ? route('add.cart', $pvariation->id) : route('add.cart', $product->id) }}"
-                                    class="btn btn-dark border-0 rounded-0 mb-4 p-3 btn-block single_add_to_cart_button button alt cart-btn cart-link"
+                                    class="btn btn-dark border-0 rounded-0 mb-4 p-3 btn-block single_add_to_cart_button button alt cart-btn cart-link my-1"
                                     style="color: #fff;">Add to cart</a>
                                 @if ($product->show_inquiry_form)
                                     @php
@@ -98,7 +98,7 @@ $bex->base_currency_text_position = strtolower($bex_user_currency->text_position
                                         }
                                     @endphp
                                     <a href="javascript:;" data-href="javascript:;"
-                                        class="btn btn-block btn-dark border-0 rounded-0 p-3 min-width-250min-width-250-----naaah  single_add_to_cart_button button alt cart-btn cart-link"
+                                        class="btn btn-block btn-dark border-0 rounded-0 p-3 min-width-250min-width-250-----naaah  single_add_to_cart_button button alt cart-btn cart-link my-1"
                                         style="color: #fff" data-toggle="modal"
                                         data-target="#headerProductInquiryModal">{{ $header_v2_button_text }}</a>
                                 @endif
