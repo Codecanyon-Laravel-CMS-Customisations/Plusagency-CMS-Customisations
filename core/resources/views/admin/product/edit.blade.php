@@ -144,6 +144,11 @@
                                     <input type="text" class="form-control" name="title"  placeholder="Enter title" value="{{$data->title}}">
                                     <p id="errtitle" class="mb-0 text-danger em"></p>
                                 </div>
+                                <div class="form-group">
+                                    <label for="">Slug **</label>
+                                    <input type="text" class="form-control" name="title"  placeholder="Enter Slug" value="{{$data->slug}}">
+                                    <p id="errtitle" class="mb-0 text-danger em"></p>
+                                </div>
                             </div>
 
                         </div>

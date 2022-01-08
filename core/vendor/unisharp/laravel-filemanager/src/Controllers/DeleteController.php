@@ -42,8 +42,8 @@ class DeleteController extends LfmController
 
             if ($this->lfm->setName($name_to_delete)->isDirectory()) {
                 if (! $this->lfm->setName($name_to_delete)->directoryIsEmpty()) {
-                    // array_push($errors, parent::error('delete-folder'));
-                    // continue;
+                    array_push($errors, parent::error('delete-folder'));
+                    continue;
                 }
             } else {
                 if ($file_to_delete->isImage()) {

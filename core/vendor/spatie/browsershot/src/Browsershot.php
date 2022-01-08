@@ -4,6 +4,7 @@ namespace Spatie\Browsershot;
 
 use Spatie\Browsershot\Exceptions\CouldNotTakeBrowsershot;
 use Spatie\Browsershot\Exceptions\ElementNotFound;
+use Spatie\Browsershot\Exceptions\UnsuccessfulResponse;
 use Spatie\Image\Image;
 use Spatie\Image\Manipulations;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
@@ -16,7 +17,7 @@ class Browsershot
     protected $nodeBinary = null;
     protected $npmBinary = null;
     protected $nodeModulePath = null;
-    protected $includePath = '$PATH:/usr/local/bin';
+    protected $includePath = '$PATH:/usr/local/bin:/opt/homebrew/bin';
     protected $binPath = null;
     protected $html = '';
     protected $noSandbox = false;
@@ -151,6 +152,13 @@ class Browsershot
         return $this;
     }
 
+    public function setExtraNavigationHttpHeaders(array $extraNavigationHTTPHeaders)
+    {
+        $this->setOption('extraNavigationHTTPHeaders', $extraNavigationHTTPHeaders);
+
+        return $this;
+    }
+
     public function authenticate(string $username, string $password)
     {
         $this->setOption('authentication', compact('username', 'password'));
@@ -244,6 +252,11 @@ class Browsershot
     public function clip(int $x, int $y, int $width, int $height)
     {
         return $this->setOption('clip', compact('x', 'y', 'width', 'height'));
+    }
+
+    public function preventUnsuccessfulResponse(bool $preventUnsuccessfulResponse = true)
+    {
+        return $this->setOption('preventUnsuccessfulResponse', $preventUnsuccessfulResponse);
     }
 
     public function select($selector, $index = 0)
@@ -380,12 +393,12 @@ class Browsershot
 
     public function blockUrls($array)
     {
-        return $this->setOption('blockUrls', json_encode($array));
+        return $this->setOption('blockUrls', $array);
     }
 
     public function blockDomains($array)
     {
-        return $this->setOption('blockDomains', json_encode($array));
+        return $this->setOption('blockDomains', $array);
     }
 
     public function pages(string $pages)
@@ -522,7 +535,7 @@ class Browsershot
         $this->cleanupTemporaryHtmlFile();
 
         if (! file_exists($targetPath)) {
-            throw CouldNotTakeBrowsershot::chromeOutputEmpty($targetPath);
+            throw CouldNotTakeBrowsershot::chromeOutputEmpty($targetPath, $command);
         }
 
         if (! $this->imageManipulations->isEmpty()) {
@@ -798,8 +811,13 @@ class Browsershot
 
         $this->cleanupTemporaryOptionsFile();
         $process->clearOutput();
+        $exitCode = $process->getExitCode();
 
-        if ($process->getExitCode() === 2) {
+        if ($exitCode === 3) {
+            throw new UnsuccessfulResponse($this->url, $process->getErrorOutput());
+        }
+
+        if ($exitCode === 2) {
             throw new ElementNotFound($this->additionalOptions['selector']);
         }
 

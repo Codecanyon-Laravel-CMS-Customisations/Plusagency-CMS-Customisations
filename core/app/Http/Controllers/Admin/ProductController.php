@@ -68,7 +68,7 @@ class ProductController extends Controller
     public function uploadUpdate(Request $request, $id)
     {
         $img = $request->file('file');
-        $allowedExts = array('jpg', 'png', 'jpeg');
+        $allowedExts = array('jpg', 'png', 'jpeg','gif');
 
         $rules = [
             'file' => [
