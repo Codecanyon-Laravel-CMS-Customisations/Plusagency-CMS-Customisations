@@ -1,5 +1,8 @@
+/.idea
 /.vscode
 /assets/.idea
+/assets/front/img/
+/assets/lfm/files/
 /public/hot
 /public/storage
 /storage
