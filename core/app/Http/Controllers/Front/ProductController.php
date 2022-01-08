@@ -164,7 +164,10 @@ class ProductController extends Controller
     {
 
         if(empty(Product::where('slug', $slug)->first()))
-        return back();
+        {
+            session()->flash('error', 'Product not found!');
+            return redirect()->to('products');
+        }
         $bex = BasicExtra::first();
         if ($bex->is_shop == 0) {
             return back();
