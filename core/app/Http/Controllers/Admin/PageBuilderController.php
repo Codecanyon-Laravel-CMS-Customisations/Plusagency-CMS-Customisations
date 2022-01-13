@@ -382,12 +382,16 @@ class PageBuilderController extends Controller
                            <a href="#" class="d-flex h-primary">All Categories<span class="ml-2 flaticon-next font-size-3"></span></a>
                         </header>
                         <ul class="px-5 pb-2 mb-5 overflow-auto bg-gray-200 rounded-md nav justify-content-between py-md-3 flex-nowrap flex-xl-wrap overflow-xl-visible" role="tablist">';
-                            $counter = 1;
+                            $counter        = 1;
+                            $uuid_arr       = [];
                             foreach ($categories->where('is_child', '0') as $category) {
-                                $active = $counter == 1 ? 'active' : '';
+                                $active     = $counter == 1 ? 'active' : '';
+                                $selected   = $counter == 1 ? 'true'   : 'false';
+                                $uuid       = uniqid();
+                                array_push($uuid_arr, $uuid);
                                 $counter++;
                                 $category_2 .= ' <li class="flex-shrink-0 nav-item flex-xl-shrink-1">
-                                <a class="nav-link font-weight-medium '.$active.' nav-link-caret" id="category-'.$category->id.'" data-toggle="pill" href="#category-'.$category->id.'-content" role="tab" aria-controls="category-'.$category->id.'-content" aria-selected="true">
+                                <a class="nav-link font-weight-medium '.$active.' nav-link-caret " id="category-'.$category->id.'-'.$uuid_arr[$counter-2].'" data-toggle="pill" href="#category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" role="tab" aria-controls="#category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" aria-selected=".'.$selected.'">
                                     <div class="text-center">
                                         <figure class="mb-0 d-md-block text-primary-indigo">
                                            <i class="glyph-icon flaticon-gallery font-size-12"></i>
@@ -403,25 +407,26 @@ class PageBuilderController extends Controller
                         <div class="tab-content">';
                             $counter = 1;
                             foreach($categories->where('is_child', '0') as $category) {
-                                $active = $counter == 1 ? 'active' : '';
+                                $active     = $counter == 1 ? 'active' : '';
+                                $show       = $counter == 1 ? 'show'   : '';
                                 $counter++;
-                                $category_2 .= '<div class="tab-pane fade '. $active .' show" id="category-'.$category->id.'-content" role="tabpanel" aria-labelledby="pills-one-example2-tab">
+                                $category_2 .= '<div class="tab-pane fade '. $active .' '.$show.' " id="category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" role="tabpanel" aria-labelledby="category-'.$category->id.'-'.$uuid_arr[$counter-2].'-tab">
                                 <div class="pt-2">
                                     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 ">';
                                         foreach ( $category->products->where('show_in_page_builder', '1') as $product ) {
-                                            $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                            $title = strlen($product->title) > 77 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
                                             $category_2 .= '<div class="col">
                                             <div class="mb-5 products">
                                                 <div class="product product__space border rounded-md bg-white">
                                                     <div class="product__inner overflow-hidden p-3 p-md-4d875">
                                                         <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                             <div class="woocommerce-loop-product__thumbnail">
-                                                                <a href="'. route('front.product.details',$product->slug) .'" class="d-block"><img src="'. trim($product->feature_image) .'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
+                                                                <a href="'. route('front.product.details',$product->slug) .'" class="d-block"><img loading="lazy"  src="'. trim($product->feature_image) .'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
                                                             </div>
                                                             <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                                 <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="' . route('front.product.details',$product->slug) . '">'. $title .'</a></h2>
                                                                 <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>' . $product->current_price . '</span>
+                                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>' . $product->current_price . '</span>
                                                                 </div>
                                                             </div>
                                                             <div class="product__hover d-flex align-items-center">
@@ -541,12 +546,17 @@ class PageBuilderController extends Controller
                         </header>
                         <ul class="px-5 pb-2 mb-5 overflow-auto bg-gray-200 rounded-md nav justify-content-between py-md-3 flex-nowrap flex-xl-wrap overflow-xl-visible" role="tablist">';
                             $counter = 1;
+                            $uuid_arr       = [];
                             foreach ($categories2 as $category) {
                                 $products_m2 = \App\Product::query()->where('sub_category_id', '=', $category->id)->where('show_in_page_builder', '1');
                                 if($products_m2->count() < 1) continue;
-                                if($products_m2->count() >= 1) $active = $counter == 1 ? 'active' : '';$counter++;
+                                $active     = $counter == 1 ? 'active' : '';
+                                $selected   = $counter == 1 ? 'true'   : 'false';
+                                $uuid       = uniqid();
+                                $counter++;
+                                array_push($uuid_arr, $uuid);
                                 $child_category_2 .= ' <li class="flex-shrink-0 nav-item flex-xl-shrink-1">
-                                <a class="nav-link font-weight-medium '.$active.' nav-link-caret" id="child-category-'.$category->id.'" data-toggle="pill" href="#child-category-'.$category->id.'-content" role="tab" aria-controls="child-category-'.$category->id.'-content" aria-selected="true">
+                                <a class="nav-link font-weight-medium '.$active.' nav-link-caret " id="child-category-'.$category->id.'" data-toggle="pill" href="#child-category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" role="tab" aria-controls="#child-category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" aria-selected="'.$selected.'">
                                     <div class="text-center">
                                         <figure class="mb-0 d-md-block text-primary-indigo">
                                            <i class="glyph-icon flaticon-gallery font-size-12"></i>
@@ -564,24 +574,26 @@ class PageBuilderController extends Controller
                             foreach($categories2 as $category) {
                                 $products_m2 = \App\Product::query()->where('sub_category_id', '=', $category->id)->where('show_in_page_builder', '1');
                                 if($products_m2->count() < 1) continue;
-                                if($products_m2->count() >= 1) $active = $counter == 1 ? 'active' : '';$counter++;
-                                $child_category_2 .= '<div class="tab-pane fade '. $active .' show" id="child-category-'.$category->id.'-content" role="tabpanel" aria-labelledby="pills-one-example2-tab">
+                                $active     = $counter == 1 ? 'active' : '';
+                                $show       = $counter == 1 ? 'show'   : '';
+                                $counter++;
+                                $child_category_2 .= '<div class="tab-pane fade '. $active .' '.$show.' " id="child-category-'.$category->id.'-'.$uuid_arr[$counter-2].'-content" role="tabpanel" aria-labelledby="child-category-'.$category->id.'-'.$uuid_arr[$counter-2].'-tab">
                                 <div class="pt-2">
                                     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 ">';
                                         foreach ( $products_m2->get() as $product ) {
-                                            $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                            $title = strlen($product->title) > 77 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
                                             $child_category_2 .= '<div class="col">
                                             <div class="mb-5 products">
                                                 <div class="product product__space border rounded-md bg-white">
                                                     <div class="product__inner overflow-hidden p-3 p-md-4d875">
                                                         <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                             <div class="woocommerce-loop-product__thumbnail">
-                                                                <a href="'. route('front.product.details',$product->slug) .'" class="d-block"><img src="'. trim($product->feature_image) .'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
+                                                                <a href="'. route('front.product.details',$product->slug) .'" class="d-block"><img loading="lazy"  src="'. trim($product->feature_image) .'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
                                                             </div>
                                                             <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                                 <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="' . route('front.product.details',$product->slug) . '">'. $title .'</a></h2>
                                                                 <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>' . $product->current_price . '</span>
+                                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>' . $product->current_price . '</span>
                                                                 </div>
                                                             </div>
                                                             <div class="product__hover d-flex align-items-center">
@@ -738,36 +750,39 @@ class PageBuilderController extends Controller
                             <h2 class="font-size-7 text-center">Featured Books</h2>
                         </header>
                         <div class="container">
-                            <ul class="nav justify-content-md-center nav-gray-700 mb-5 flex-nowrap flex-md-wrap overflow-auto overflow-md-visible" id="featuredBooks" role="tablist">';
+                            <ul class="nav justify-content-md-center nav-gray-700 mb-5 flex-nowrap flex-md-wrap overflow-auto overflow-md-visible featuredBooks" role="tablist">';
+                            $uuid_arr       = [];
                                 foreach( $categories  as $category ) {
                                     $active = $category->id == 1 ? 'active' : '';
+                                    $uuid   = uniqid();
+                                    $uuid_arr[$category->id]    = $uuid;
                                     $tab_1 .= '
                                     <li class="nav-item mx-5 mb-1 flex-shrink-0 flex-md-shrink-1">
-                                        <a class="nav-link px-0 '. $active .'" id="featured-'. $category->id .'-tab" data-toggle="tab" href="#featured-'. $category->id .'" role="tab" aria-controls="featured" aria-selected="true">'. $category->name .'</a>
+                                        <a class="nav-link px-0 '. $active .' featured-'. $category->id .'-tab" data-toggle="tab" href=".featured-'. $category->id .'-'.$uuid_arr[$category->id].'" role="tab" aria-controls="featured" aria-selected="true">'. $category->name .'</a>
                                     </li>
                                     ';
                                 }
 
                             $tab_1 .= '</ul>
-                            <div class="tab-content" id="featuredBooksContent">';
+                            <div class="tab-content featuredBooksContent">';
                                 foreach( $categories as $category ) {
                                     $active = $category->id == 1 ? 'active' : '';
                                     $tab_1 .= '
-                                    <div class="tab-pane fade show '. $active .'" id="featured-'. $category->id .'" role="tabpanel" aria-labelledby="featured-tab">
+                                    <div class="tab-pane fade show '. $active .' featured-'. $category->id .'-'.$uuid_arr[$category->id].'" role="tabpanel" aria-labelledby="featured-tab">
                                         <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 border-top border-left my-0">';
                                             foreach ( $category->products->where('show_in_page_builder', '1') as $product ) {
-                                                $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                                $title = strlen($product->title) > 77 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
                                                 $tab_1 .= '
                                                 <li class="product col">
                                                     <div class="product__inner overflow-hidden p-3 p-md-4d875">
                                                         <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                             <div class="woocommerce-loop-product__thumbnail">
-                                                                <a href="'. route('front.product.details',$product->slug) .'" class="d-block"><img src="'. trim($product->feature_image) .'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                                                <a href="'. route('front.product.details',$product->slug) .'" class="d-block"><img loading="lazy"  src="'. trim($product->feature_image) .'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                                             </div>
                                                             <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                                 <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'. route('front.product.details',$product->slug) .'">'. $title .'</a></h2>
                                                                 <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'. $product->current_price .'</span>
+                                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>'. $product->current_price .'</span>
                                                                 </div>
                                                             </div>
                                                             <div class="product__hover d-flex align-items-center">
@@ -799,37 +814,40 @@ class PageBuilderController extends Controller
                         <header class="d-md-flex justify-content-between mb-5">
                             <h2 class="font-size-7">Featured Books</h2>
                             <ul class="nav nav-gray-700 flex-nowrap flex-md-wrap overflow-auto overflow-md-visible" role="tablist">';
+                            $uuid_arr       = [];
                                 foreach($categories as $category) {
                                     $active = $category->id == 1 ? 'active' : '';
+                                    $uuid   = uniqid();
+                                    $uuid_arr[$category->id]    = $uuid;
                                     $tab_3 .= '<li class="nav-item mx-4 flex-shrink-0 flex-md-shrink-1">
-                                    <a class="nav-link pb-1 px-0 '.$active.'" id="'.$category->slug.'-pill-tab" data-toggle="tab" href="#'.$category->slug.'-pill" role="pill" aria-controls="'.$category->slug.'-pill" aria-selected="true">'.$category->name.'</a>
+                                    <a class="nav-link pb-1 px-0 '.$active.' '.$category->slug.'-pill-tab" data-toggle="tab" href=".'.$category->slug.'-'.$uuid_arr[$category->id].'-pill" role="pill" aria-controls="'.$category->slug.'-pill" aria-selected="true">'.$category->name.'</a>
                                 </li>';
                                 }
 
                             $tab_3 .= '</ul>
                         </header>
-                        <div class="tab-content" id="pills-tabcontent">';
+                        <div class="tab-content pills-tabcontent">';
                                 foreach ($categories as $category ) {
                                     $active = $category->id == 1 ? 'active' : '';
                                     $show = $category->id == 1 ? 'show' : '';
-                                    $tab_3 .= '<div class="tab-pane fade '.$show.' '.$active.'" id="'.$category->slug.'-pill" role="tabpanel" aria-labelledby="history-pill-tab">
+                                    $tab_3 .= '<div class="tab-pane fade '.$show.' '.$active.' '.$category->slug.'-'.$uuid_arr[$category->id].'-pill" role="tabpanel" aria-labelledby="history-pill-tab">
                                         <div class="row">
                                             <div class="col-lg-8 mb-5 mb-md-0">
                                                 <ul class="products row row-cols-2 row-cols-lg-2 row-cols-xl-3 row-cols-wd-4 list-unstyled mb-0">';
                                                     foreach( $category->products->where('show_in_page_builder', '1') as $product ) {
-                                                        $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                                        $title = strlen($product->title) > 77 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
                                                         $tab_3 .= '<li class="col">
                                                         <div class="mb-5">
                                                             <div class="product product__space border rounded-md bg-white">
                                                                 <div class="product__inner overflow-hidden p-3 p-md-4d875">
                                                                     <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                                         <div class="woocommerce-loop-product__thumbnail">
-                                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.trim($product->feature_image).'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
+                                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img loading="lazy"  src="'.trim($product->feature_image).'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
                                                                         </div>
                                                                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                                             <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
                                                                             <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'.$product->current_price.'</span>
+                                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>'.$product->current_price.'</span>
                                                                             </div>
                                                                             <div class="product__rating d-none align-items-center font-size-2">
                                                                                 <div class="text-yellow-darker mr-2">
@@ -864,7 +882,7 @@ class PageBuilderController extends Controller
                                                 <div class="banner py-6 py-lg-0 px-3 px-md-4 px-xl-8 d-flex h-100 align-items-center rounded-md bg-primary-home-v3">
                                                     <div class="banner__body">
                                                         <div class="banner__image pb-1 mb-5">
-                                                            <img src="https://placehold.it/350x282" class="img-fluid">
+                                                            <img loading="lazy"  src="https://placehold.it/350x282" class="img-fluid">
                                                         </div>
                                                         <h3 class="banner_text m-0">
                                                             <span class="d-block mb-1 font-size-10 font-weight-regular text-white">Get Extra</span>
@@ -888,26 +906,29 @@ class PageBuilderController extends Controller
                         <header class="mb-5 d-md-flex justify-content-between align-items-center">
                             <h2 class="font-size-7 mb-3 mb-md-0">New Releases</h2>
                             <ul class="nav nav-gray-700 flex-nowrap flex-md-wrap overflow-auto overflow-md-visible">';
+                                $uuid_arr   = [];
                                 foreach( $categories as $category ) {
                                     $active = $category->id == 1 ? 'active' : '';
+                                    $uuid   = uniqid();
+                                    $uuid_arr[$category->id]    = $uuid;
                                     $tab_4 .= '<li class="nav-item mx-4 flex-shrink-0 flex-md-shrink-1">
-                                    <a class="nav-link pb-1 px-0 '.$active.'" id="tab4-'.$category->id.'-tab" data-toggle="tab" href="#tab4-'.$category->id.'" role="tab" aria-controls="tab4-'.$category->id.'" aria-selected="true">'.$category->name.'</a>
+                                    <a class="nav-link pb-1 px-0 '.$active.' tab4-'.$category->id.'-tab" data-toggle="tab" href=".tab4-'.$category->id.'-'.$uuid_arr[$category->id].'" role="tab" aria-controls="tab4-'.$category->id.'" aria-selected="true">'.$category->name.'</a>
                                 </li>';
                                 }
 
                             $tab_4 .= '</ul>
                         </header>
-                        <div class="tab-content" id="NewReleases">';
+                        <div class="tab-content NewReleases">';
                             foreach ( $categories as $category ) {
                                 $active = $category->id == 1 ? 'active' : '';
                                 $show = $category->id == 1 ? 'show' : '';
-                                $tab_4 .= '<div class="tab-pane fade '.$show.' '.$active.'" id="tab4-'.$category->id.'" role="tabpanel" aria-labelledby="tab4-'.$category->id.'-tab">
+                                $tab_4 .= '<div class="tab-pane fade '.$show.' '.$active.' tab4-'.$category->id.'-'.$uuid_arr[$category->id].'" role="tabpanel" aria-labelledby="tab4-'.$category->id.'-tab">
                                 <div class="row no-gutters">
                                     <div class="col-xl-4 border-right-0 border bg-gray-200 px-1">
                                         <div class="banner px-lg-8 px-3 py-4 py-xl-0 d-flex h-100 align-items-center justify-content-center">
                                             <div class="banner__body">
                                                 <div class="banner__image pb-1 mb-5">
-                                                    <img class="img-fluid" src="https://placehold.it/350x282">
+                                                    <img loading="lazy"  class="img-fluid" src="https://placehold.it/350x282">
                                                 </div>
                                                 <h3 class="banner_text m-0">
                                                     <span class="d-block mb-1 font-size-10 font-weight-regular">Get Extra</span>
@@ -921,17 +942,17 @@ class PageBuilderController extends Controller
                                     <div class="col-xl-8">
                                         <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-lg-3 row-cols-wd-4 border-top border-left my-0">';
                                             foreach($category->products->where('show_in_page_builder', '1') as $product) {
-                                                $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                                $title = strlen($product->title) > 77 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
                                                 $tab_4 .= '<li class="product col">
                                                 <div class="product__inner overflow-hidden p-3 p-md-4d875">
                                                     <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                         <div class="woocommerce-loop-product__thumbnail">
-                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.trim($product->feature_image).'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
+                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img loading="lazy"  src="'.trim($product->feature_image).'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
                                                         </div>
                                                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                             <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
                                                             <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'.$product->current_price.'</span>
+                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>'.$product->current_price.'</span>
                                                             </div>
                                                         </div>
                                                         <div class="product__hover d-flex align-items-center">
@@ -962,36 +983,39 @@ class PageBuilderController extends Controller
                         <header class="d-md-flex justify-content-between mb-5 pt-5">
                             <h2 class="font-size-26">New Releases</h2>
                             <ul class="nav nav-gray-700 flex-nowrap flex-md-wrap overflow-auto overflow-md-visible" role="tablist">';
+                                $uuid_arr   = [];
                                 foreach($categories as $category) {
                                     $active = $category->id == 1 ? 'active' : '';
+                                    $uuid   = uniqid();
+                                    $uuid_arr[$category->id]    = $uuid;
                                     $tab_5 .= '
                                     <li class="nav-item mx-4 flex-shrink-0 flex-md-shrink-1">
-                                        <a class="nav-link pb-1 px-0 '.$active.'" id="Sale-pill-tab-'.$category->id.'" data-toggle="tab" href="#Sale-pill-'.$category->id.'" role="pill" aria-controls="Sale-pill-'.$category->id.'" aria-selected="true">'.$category->name.'</a>
+                                        <a class="nav-link pb-1 px-0 '.$active.' Sale-pill-tab-'.$category->id.'" data-toggle="tab" href=".Sale-pill-'.$category->id.'-'.$uuid_arr[$category->id].'" role="pill" aria-controls="Sale-pill-'.$category->id.'" aria-selected="true">'.$category->name.'</a>
                                     </li>
                                     ';
                                 }
 
                             $tab_5 .= '</ul>
                         </header>
-                        <div class="tab-content" id="pills-tabcontent">';
+                        <div class="tab-content pills-tabcontent">';
                             foreach( $categories as $category ) {
                                 $active = $category->id == 1 ? 'active' : '';
                                 $show = $category->id == 1 ? 'show' : '';
-                                $tab_5 .= '<div class="tab-pane fade '.$show.' '.$active.'" id="Sale-pill-'.$category->id.'" role="tabpanel" aria-labelledby="Sale-pill-tab">
+                                $tab_5 .= '<div class="tab-pane fade '.$show.' '.$active.' Sale-pill-'.$category->id.'-'.$uuid_arr[$category->id].'" role="tabpanel" aria-labelledby="Sale-pill-tab">
                                 <ul class="products row row-cols-2 row-cols-md-3 list-unstyled mb-0">';
                                     foreach( $category->products->where('show_in_page_builder', '1') as $product ) {
-                                        $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                        $title = strlen($product->title) > 77 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
                                         $tab_5 .= '<li class="col">
                                         <div class="product product__space border bg-white mb-5">
                                             <div class="product__inner overflow-hidden p-3 p-md-4d875">
                                                 <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                     <div class="woocommerce-loop-product__thumbnail">
-                                                        <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.trim($product->feature_image).'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
+                                                        <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img loading="lazy"  src="'.trim($product->feature_image).'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"></a>
                                                     </div>
                                                     <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                         <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
                                                         <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'.$product->current_price.'</span>
+                                                            <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>'.$product->current_price.'</span>
                                                         </div>
                                                         <div class="product__rating d-none align-items-center font-size-2">
                                                             <div class="text-yellow-darker mr-2">
@@ -1031,10 +1055,13 @@ class PageBuilderController extends Controller
                         <header class="d-md-flex justify-content-between align-items-center mb-5 pt-5">
                             <h2 class="font-size-7 mb-4 mb-md-0">Books</h2>
                             <ul class="nav justify-content-md-center nav-gray-700 flex-nowrap flex-md-wrap overflow-auto overflow-md-visible"  role="tablist">';
+                                $uuid_arr   = [];
                                 foreach ( $categories as $category ) {
                                     $active = $category->id == 1 ? 'active' : '';
+                                    $uuid   = uniqid();
+                                    $uuid_arr[$category->id]    = $uuid;
                                     $tab_6 .= '<li class="nav-item mx-5 mb-1 flex-shrink-0 flex-md-shrink-1">
-                                    <a class="nav-link px-0 '.$active.'" id="One-tab-'.$category->id.'" data-toggle="tab" href="#One-'.$category->id.'" role="tab" aria-controls="One" aria-selected="true">'.$category->name.'</a>
+                                    <a class="nav-link px-0 '.$active.' One-tab-'.$category->id.'" data-toggle="tab" href=".One-'.$category->id.'-'.$uuid_arr[$category->id].'" role="tab" aria-controls="One" aria-selected="true">'.$category->name.'</a>
                                 </li>';
                                 }
 
@@ -1044,21 +1071,21 @@ class PageBuilderController extends Controller
                                 foreach($categories as $category) {
                                     $active = $category->id == 1 ? 'active' : '';
                                     $show = $category->id == 1 ? 'show' : '';
-                                    $tab_6 .= '<div class="tab-pane fade '.$show.' '.$active.'" id="One-'.$category->id.'" aria-labelledby="One-tab">
+                                    $tab_6 .= '<div class="tab-pane fade '.$show.' '.$active.' One-'.$category->id.'-'.$uuid_arr[$category->id].'" aria-labelledby="One-tab">
                                     <ul class="list-unstyled products row row-cols-2 row-cols-lg-4 row-cols-wd-5 mb-0">';
                                         foreach ($category->products->where('show_in_page_builder', '1') as $product) {
-                                            $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                            $title = strlen($product->title) > 77 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
                                             $tab_6 .= '<li class="col">
                                             <div class="product border product__space bg-white mb-5 mb-lg-0">
                                                 <div class="product__inner overflow-hidden p-3 p-md-4d875">
                                                     <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                         <div class="woocommerce-loop-product__thumbnail">
-                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.trim($product->feature_image).'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img loading="lazy"  src="'.trim($product->feature_image).'" class="d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                                         </div>
                                                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                             <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
                                                             <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'.$product->current_price.'</span>
+                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>'.$product->current_price.'</span>
                                                             </div>
 
                                                         </div>
@@ -1094,33 +1121,36 @@ class PageBuilderController extends Controller
                                     <h2 class="font-size-7">Featured Books</h2>
                                 </header>
                                 <ul class="nav justify-content-md-center nav-gray-700 mb-5 flex-nowrap flex-lg-wrap overflow-auto overflow-lg-visible" role="tablist">';
+                                    $uuid_arr   = [];
                                     foreach ($categories as $category) {
                                         $active = $category->id == 1 ? 'active' : '';
+                                        $uuid   = uniqid();
+                                        $uuid_arr[$category->id]    = $uuid;
                                         $tab_7 .= '<li class="nav-item mx-5 mb-1 flex-shrink-0 flex-lg-shrink-1">
-                                        <a class="nav-link px-0 '.$active.'" id="example7-'.$category->id.'-tab" data-toggle="tab" href="#example7-'.$category->id.'" role="tab" aria-controls="example1" aria-selected="true">'.$category->name.'</a>
+                                        <a class="nav-link px-0 '.$active.' example7-'.$category->id.'-tab" data-toggle="tab" href=".example7-'.$category->id.'-'.$uuid_arr[$category->id].'" role="tab" aria-controls="example1" aria-selected="true">'.$category->name.'</a>
                                     </li>';
                                     }
 
                                 $tab_7 .= '</ul>
                             </div>
-                            <div class="tab-content" id="featuredBooksContent">';
+                            <div class="tab-content featuredBooksContent">';
                                     foreach ( $categories as $category ) {
                                         $active = $category->id == 1 ? 'active' : '';
                                         $show = $category->id == 1 ? 'show' : '';
-                                        $tab_7 .= '<div class="tab-pane fade '.$show.' '.$active.'" id="example7-'.$category->id.'" role="tabpanel" aria-labelledby="example7-'.$category->id.'-tab">
+                                        $tab_7 .= '<div class="tab-pane fade '.$show.' '.$active.' example7-'.$category->id.'-'.$uuid_arr[$category->id].'" role="tabpanel" aria-labelledby="example7-'.$category->id.'-tab">
                                         <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 border-top border-left my-0">';
                                             foreach($category->products->where('show_in_page_builder', '1') as $product) {
-                                                $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                                $title = strlen($product->title) > 77 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
                                                 $tab_7 .= '<li class="product col">
                                                 <div class="product__inner overflow-hidden bg-white p-3 p-md-4d875">
                                                     <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                         <div class="woocommerce-loop-product__thumbnail">
-                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.trim($product->feature_image).'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                                            <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img loading="lazy"  src="'.trim($product->feature_image).'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                                         </div>
                                                         <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                             <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
                                                             <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'.$product->current_price.'</span>
+                                                                <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>'.$product->current_price.'</span>
                                                             </div>
                                                         </div>
                                                         <div class="product__hover d-flex align-items-center">
@@ -1153,33 +1183,36 @@ class PageBuilderController extends Controller
                                     <h2 class="font-size-7">Featured Books</h2>
                                 </header>
                                 <ul class="nav justify-content-md-center nav-gray-700 mb-5 flex-nowrap flex-lg-wrap overflow-auto overflow-lg-visible" role="tablist">';
+                                        $uuid_arr   = [];
                                         foreach ($categories as $category) {
                                             $active = $category->id == 1 ? 'active' : '';
+                                            $uuid   = uniqid();
+                                            $uuid_arr[$category->id]    = $uuid;
                                             $tab_8 .= '<li class="nav-item mx-5 mb-1 flex-shrink-0 flex-lg-shrink-1">
-                                            <a class="nav-link px-0 '.$active.'" id="example8-'.$category->id.'-tab" data-toggle="tab" href="#example8-'.$category->id.'" role="tab" aria-controls="example8-'.$category->id.'" aria-selected="true">'.$category->name.'</a>
+                                            <a class="nav-link px-0 '.$active.' example8-'.$category->id.'-tab" data-toggle="tab" href=".example8-'.$category->id.'-'.$uuid_arr[$category->id].'" role="tab" aria-controls="example8-'.$category->id.'" aria-selected="true">'.$category->name.'</a>
                                         </li>';
                                         }
 
                                 $tab_8 .= '</ul>
                             </div>
-                            <div class="tab-content" id="featuredBooksContent">';
+                            <div class="tab-content featuredBooksContent">';
                             foreach ($categories as $category ) {
                                 $active = $category->id == 1 ? 'active' : '';
                                 $show = $category->id == 1 ? 'show' : '';
-                                $tab_8 .= '<div class="tab-pane fade '.$show.' '.$active.'" id="example8-'.$category->id.'" role="tabpanel" aria-labelledby="example8-'.$category->id.'-tab">
+                                $tab_8 .= '<div class="tab-pane fade '.$show.' '.$active.' example8-'.$category->id.'-'.$uuid_arr[$category->id].'" role="tabpanel" aria-labelledby="example8-'.$category->id.'-tab">
                                 <ul class="products list-unstyled row no-gutters row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-wd-6 border-top border-left my-0">';
                                     foreach( $category->products->where('show_in_page_builder', '1') as $product ) {
-                                        $title = strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
+                                        $title = strlen($product->title) > 77 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title;
                                         $tab_8 .= '<li class="product col">
                                         <div class="product__inner overflow-hidden bg-white p-3 p-md-4d875">
                                             <div class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                 <div class="woocommerce-loop-product__thumbnail">
-                                                    <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img src="'.trim($product->feature_image).'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
+                                                    <a href="'.route('front.product.details',$product->slug).'" class="d-block"><img loading="lazy"  src="'.trim($product->feature_image).'" class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description"></a>
                                                 </div>
                                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                     <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="'.route('front.product.details',$product->slug).'">'.$title.'</a></h2>
                                                     <div class="price d-flex align-items-center font-weight-medium font-size-3">
-                                                        <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>'.$product->current_price.'</span>
+                                                        <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>'.$product->current_price.'</span>
                                                     </div>
                                                 </div>
                                                 <div class="product__hover d-flex align-items-center">
@@ -1562,7 +1595,7 @@ class PageBuilderController extends Controller
                                         </h2>
                                         <a href="#" class="slider-banner__btn text-primary-green text-uppercase font-weight-medium">Purchase</a>
                                     </div>
-                                    <img src="https://placehold.it/285x240" class="img-fluid position-absolute bottom-n60 right-n60">
+                                    <img loading="lazy"  src="https://placehold.it/285x240" class="img-fluid position-absolute bottom-n60 right-n60">
                                 </div>
                                 <div class="slider-banner flex-grow-1 ml-md-3 ml-xl-0 bg-gray-200 p-6 position-relative overflow-hidden" style="height:250px;">
                                     <div class="z-index-2 position-relative">
@@ -1572,7 +1605,7 @@ class PageBuilderController extends Controller
                                         </h2>
                                         <a href="#" class="slider-banner__btn text-primary-green text-uppercase font-weight-medium">Purchase</a>
                                     </div>
-                                    <img src="https://placehold.it/250x225" class="img-fluid position-absolute bottom-0 right-n60">
+                                    <img loading="lazy"  src="https://placehold.it/250x225" class="img-fluid position-absolute bottom-0 right-n60">
                                 </div>
                             </div>
                         </div>
@@ -1592,7 +1625,7 @@ class PageBuilderController extends Controller
                                     <h2 class="banner__title font-size-10 font-weight-bold text-white mb-4">Get 50% off on orders over $139</h2>
                                     <a href="#" class="banner_btn btn btn-wide btn-primary-green text-white">Explore Books</a>
                                 </div>
-                                <img src="https://placehold.it/450x235" class="img-fluid">
+                                <img loading="lazy"  src="https://placehold.it/450x235" class="img-fluid">
                             </div>
                         </div>
                     </div>
@@ -1617,7 +1650,7 @@ class PageBuilderController extends Controller
                                                 <a class="h6 font-weight-medium text-white" href="#">Shop Now</a>
                                             </div>
                                             <div class="d-flex d-md-block justify-content-end position-md-absolute bottom-md-30 right-md-30">
-                                                <img src="https://placehold.it/150x160" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image">
+                                                <img loading="lazy"  src="https://placehold.it/150x160" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image">
                                             </div>
                                         </div>
                                     </div>
@@ -1635,7 +1668,7 @@ class PageBuilderController extends Controller
                                                 <a class="h6 font-weight-medium text-white" href="#">Shop Now<s/a>
                                             </div>
                                             <div class="d-flex d-md-block justify-content-end position-md-absolute right-md-30 bottom-md-30">
-                                                <img src="https://placehold.it/150x160" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image">
+                                                <img loading="lazy"  src="https://placehold.it/150x160" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image">
                                             </div>
                                         </div>
                                     </div>
@@ -1653,7 +1686,7 @@ class PageBuilderController extends Controller
                                                 <a class="h6 font-weight-medium text-white" href="#">Shop Now<s/a>
                                             </div>
                                             <div class="d-flex d-md-block justify-content-end position-md-absolute bottom-md-30 right-md-30">
-                                                <img src="https://placehold.it/150x160" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image">
+                                                <img loading="lazy"  src="https://placehold.it/150x160" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image">
                                             </div>
                                         </div>
                                     </div>
@@ -1680,7 +1713,7 @@ class PageBuilderController extends Controller
                                         <span class="product__add-to-cart d-inline-block">Shop Now</span>
                                     </a>
                                     <div class="d-flex justify-content-end mt-4">
-                                        <img src="https://placehold.it/230x250" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                        <img loading="lazy"  src="https://placehold.it/230x250" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
                                     </div>
                                 </div>
                             </div>
@@ -1694,7 +1727,7 @@ class PageBuilderController extends Controller
                                         <span class="product__add-to-cart d-inline-block">Shop Book</span>
                                     </a>
                                     <div class="d-flex justify-content-end my-3">
-                                        <img src="https://placehold.it/230x200" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                        <img loading="lazy"  src="https://placehold.it/230x200" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
                                     </div>
                                     <div class="d-flex align-items-stretch justify-content-between">
                                         <div class="py-2d75 text-primary-home-v3">
@@ -1831,14 +1864,14 @@ class PageBuilderController extends Controller
                                         <span class="font-size-3 text-secondary-gray-700">Rachel Hollis</span>
                                     </div>
                                     <div class="price d-flex align-items-center font-weight-medium font-size-3 mb-2">
-                                        <ins class="text-decoration-none mr-2"><span class="woocommerce-Price-amount amount font-size-3 font-weight-medium text-dark"><span class="woocommerce-Price-currencySymbol">$</span>15</span></ins>
-                                        <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount font-size-1 text-primary-home-v3 opacity-md"><span class="woocommerce-Price-currencySymbol">$</span>78,96</span></del>
+                                        <ins class="text-decoration-none mr-2"><span class="woocommerce-Price-amount amount font-size-3 font-weight-medium text-dark"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>15</span></ins>
+                                        <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount font-size-1 text-primary-home-v3 opacity-md"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>78,96</span></del>
                                     </div>
                                     <div class="mb-3 pb-1">
                                         <span class="d-inline-block product__add-to-cart">ADD TO CART</span>
                                     </div>
                                     <div>
-                                        <img src="https://placehold.it/185x210" class="img-fluid mx-auto d-block mx-auto" alt="image-description">
+                                        <img loading="lazy"  src="https://placehold.it/185x210" class="img-fluid mx-auto d-block mx-auto" alt="image-description">
                                     </div>
                                 </div>
                             </div>
@@ -1861,7 +1894,7 @@ class PageBuilderController extends Controller
                                             <div class="font-size-4 mb-2 position-relative z-index-2">for adults</div>
                                             <a href="#" class="stretched-link h-primary">Shop Now</a>
                                         </div>
-                                        <img src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
+                                        <img loading="lazy"  src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
                                     </div>
                                 </div>
                             </div>
@@ -1873,7 +1906,7 @@ class PageBuilderController extends Controller
                                             <div class="font-size-4 mb-2 position-relative z-index-2">Cookbooks</div>
                                             <a href="#" class="stretched-link h-primary">Shop Now</a>
                                         </div>
-                                        <img src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
+                                        <img loading="lazy"  src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
                                     </div>
                                 </div>
                             </div>
@@ -1885,7 +1918,7 @@ class PageBuilderController extends Controller
                                             <div class="font-size-4 mb-2 position-relative z-index-2">Available</div>
                                             <a href="#" class="stretched-link h-primary">Shop Now</a>
                                         </div>
-                                        <img src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
+                                        <img loading="lazy"  src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
                                     </div>
                                 </div>
                             </div>
@@ -1895,7 +1928,7 @@ class PageBuilderController extends Controller
                                         <div class="font-size-4 font-weight-medium position-relative z-index-2">Monthly Selected</div>
                                         <div class="font-size-4 mb-2 position-relative z-index-2">Books</div>
                                         <a href="#" class="stretched-link h-primary">Shop Now</a>
-                                        <img src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
+                                        <img loading="lazy"  src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
                                     </div>
                                 </div>
                             </div>
@@ -1926,7 +1959,7 @@ class PageBuilderController extends Controller
                                                         </a>
                                                     </div>
                                                     <div class="d-flex justify-content-end d-md-block position-md-absolute bottom-md-30 right-md-30">
-                                                        <img src="https://placehold.it/180x223" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                                        <img loading="lazy"  src="https://placehold.it/180x223" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1948,7 +1981,7 @@ class PageBuilderController extends Controller
                                                         </a>
                                                     </div>
                                                     <div class="d-flex justify-content-end d-md-block position-md-absolute bottom-md-30 right-md-30">
-                                                        <img src="https://placehold.it/180x223" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                                        <img loading="lazy"  src="https://placehold.it/180x223" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1971,7 +2004,7 @@ class PageBuilderController extends Controller
                                                     </div>
                                                     <div class="position-md-absolute bottom-md-30 right-md-30">
                                                         <div class="d-flex justify-content-end d-md-block">
-                                                            <img src="https://placehold.it/180x223" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                                            <img loading="lazy"  src="https://placehold.it/180x223" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
                                                         </div>
                                                     </div>
                                                     <div class="position-md-absolute bottom-md-30">
@@ -2019,7 +2052,7 @@ class PageBuilderController extends Controller
                                                 <div class="font-size-4 font-weight-medium position-relative z-index-2">Coloring Books</div>
                                                 <div class="font-size-4 mb-2 position-relative z-index-2">for adults</div>
                                                 <a href="#" class="stretched-link h-primary">Shop Now</a>
-                                                <img src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
+                                                <img loading="lazy"  src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
                                             </div>
                                         </div>
                                     </div>
@@ -2029,7 +2062,7 @@ class PageBuilderController extends Controller
                                                 <div class="font-size-4 font-weight-medium position-relative z-index-2">Best</div>
                                                 <div class="font-size-4 mb-2 position-relative z-index-2">Cookbooks</div>
                                                 <a href="#" class="stretched-link h-primary">Shop Now</a>
-                                                <img src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
+                                                <img loading="lazy"  src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
                                             </div>
                                         </div>
                                     </div>
@@ -2039,7 +2072,7 @@ class PageBuilderController extends Controller
                                                 <div class="font-size-4 font-weight-medium position-relative z-index-2">New Books</div>
                                                 <div class="font-size-4 mb-2 position-relative z-index-2">Available</div>
                                                 <a href="#" class="stretched-link h-primary">Shop Now</a>
-                                                <img src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
+                                                <img loading="lazy"  src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
                                             </div>
                                         </div>
                                     </div>
@@ -2049,7 +2082,7 @@ class PageBuilderController extends Controller
                                                 <div class="font-size-4 font-weight-medium position-relative z-index-2">Monthly Selected</div>
                                                 <div class="font-size-4 mb-2 position-relative z-index-2">Books</div>
                                                 <a href="#" class="stretched-link h-primary">Shop Now</a>
-                                                <img src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
+                                                <img loading="lazy"  src="https://placehold.it/130x150" class="position-absolute bottom-0 mb-4 mr-4 right-0 d-block attachment-shop_catalog size-shop_catalog wp-post-image img-fluid" alt="image-description">
                                             </div>
                                         </div>
                                     </div>
@@ -2218,7 +2251,7 @@ class PageBuilderController extends Controller
                                             </div>
                                         </div>
                                         <div class="d-flex d-md-block justify-content-end position-md-absolute bottom-md-40 right-md-55">
-                                            <img src="https://placehold.it/180x203" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                            <img loading="lazy"  src="https://placehold.it/180x203" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
                                         </div>
                                     </div>
                                 </div>
@@ -2238,7 +2271,7 @@ class PageBuilderController extends Controller
                                             </div>
                                         </div>
                                         <div class="d-flex d-md-block justify-content-end position-md-absolute bottom-md-40 right-md-55">
-                                            <img src="https://placehold.it/180x203" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                            <img loading="lazy"  src="https://placehold.it/180x203" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
                                         </div>
                                     </div>
                                 </div>
@@ -2264,7 +2297,7 @@ class PageBuilderController extends Controller
                                         <span class="product__add-to-cart d-inline-block">Shop Now</span>
                                     </a>
                                     <div class="d-flex justify-content-end">
-                                        <img src="https://placehold.it/230x250" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                        <img loading="lazy"  src="https://placehold.it/230x250" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
                                     </div>
                                 </div>
                             </div>
@@ -2323,7 +2356,7 @@ class PageBuilderController extends Controller
                                         </a>
                                     </div>
                                     <div class="d-flex justify-content-end d-md-block position-md-absolute bottom-md-65 right-0">
-                                        <img src="https://placehold.it/250x250" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
+                                        <img loading="lazy"  src="https://placehold.it/250x250" class="img-fluid attachment-shop_catalog size-shop_catalog wp-post-image" alt="image-description">
                                     </div>
                                     <div class="d-flex align-items-stretch pb-1">
                                         <div class="py-2d75 text-primary-home-v3 mr-5">
@@ -2365,7 +2398,7 @@ class PageBuilderController extends Controller
                                                 <div class="font-size-5">$49</div>
                                             </div>
                                         </div>
-                                        <a href="#" class="d-block"><img src="https://placehold.it/200x327" class="attachment-shop_catalog size-shop_catalog wp-post-image d-block mx-auto"></a>
+                                        <a href="#" class="d-block"><img loading="lazy"  src="https://placehold.it/200x327" class="attachment-shop_catalog size-shop_catalog wp-post-image d-block mx-auto"></a>
                                     </div>
                                     <div class="woocommerce-loop-product__body">
                                         <div class="mb-3">
@@ -2373,8 +2406,8 @@ class PageBuilderController extends Controller
                                             <h2 class="woocommerce-loop-product__title font-size-3 text-lh-md mb-2 text-height-2 crop-text-2 h-dark"><a href="#">Dark in Death: An Eve Dallas Novel (In Death, Book 46)</a></h2>
                                             <div class="font-size-2 text-gray-700 mb-1 text-truncate"><a href="#" class="text-gray-700">Nora Roberts</a></div>
                                             <div class="price d-flex align-items-center font-weight-medium font-size-22">
-                                                <ins class="text-decoration-none mr-2"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>79</span></ins>
-                                                <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">$</span>99</span></del>
+                                                <ins class="text-decoration-none mr-2"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>79</span></ins>
+                                                <del class="font-size-1 font-weight-regular text-gray-700"><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">'.$bex->base_currency_symbol.'</span>99</span></del>
                                             </div>
                                         </div>
                                         <div class="countdown-timer mb-5">
@@ -2427,22 +2460,22 @@ class PageBuilderController extends Controller
                         <div class="space-1 space-lg-2">
                             <div class="d-lg-flex align-items-center justify-content-between">
                                 <div class="text-center mb-5 mb-lg-0">
-                                    <img class="img-fluid" src="../../assets/img/150x32/img1.png" alt="Image-Description">
+                                    <img loading="lazy"  class="img-fluid" src="../../assets/img/150x32/img1.png" alt="Image-Description">
                                 </div>
                                 <div class="text-center mb-5 mb-lg-0">
-                                    <img class="img-fluid" src="../../assets/img/150x32/img2.png" alt="Image-Description">
+                                    <img loading="lazy"  class="img-fluid" src="../../assets/img/150x32/img2.png" alt="Image-Description">
                                 </div>
                                 <div class="text-center mb-5 mb-lg-0">
-                                    <img class="img-fluid" src="../../assets/img/150x32/img3.png" alt="Image-Description">
+                                    <img loading="lazy"  class="img-fluid" src="../../assets/img/150x32/img3.png" alt="Image-Description">
                                 </div>
                                 <div class="text-center mb-5 mb-lg-0">
-                                    <img class="img-fluid" src="../../assets/img/150x32/img4.png" alt="Image-Description">
+                                    <img loading="lazy"  class="img-fluid" src="../../assets/img/150x32/img4.png" alt="Image-Description">
                                 </div>
                                 <div class="text-center mb-5 mb-lg-0">
-                                    <img class="img-fluid" src="../../assets/img/150x32/img6.png" alt="Image-Description">
+                                    <img loading="lazy"  class="img-fluid" src="../../assets/img/150x32/img6.png" alt="Image-Description">
                                 </div>
                                 <div class="text-center mb-5 mb-lg-0">
-                                    <img class="img-fluid" src="../../assets/img/150x32/img5.png" alt="Image-Description">
+                                    <img loading="lazy"  class="img-fluid" src="../../assets/img/150x32/img5.png" alt="Image-Description">
                                 </div>
                             </div>
                         </div>
@@ -2550,7 +2583,7 @@ class PageBuilderController extends Controller
                                                     <div class='single-category'>";
                                     if (!empty($scategory->image)) {
                                         $scatsec .= "<div class='img-wrapper'>
-                                                                <img class='lazy' data-src='" . url("assets/front/img/service_category_icons/$scategory->image") . "' alt=''>
+                                                                <img loading='lazy'  class='lazy' data-src='" . url("assets/front/img/service_category_icons/$scategory->image") . "' alt=''>
                                                             </div>";
                                     }
                                     $scatsec .= "<div class='text'>
@@ -2597,7 +2630,7 @@ class PageBuilderController extends Controller
                                 $servicesSec .= "<div class='col-lg-4 col-md-6 col-sm-8'>
                                         <div class='services-item mt-30'>
                                             <div class='services-thumb'>
-                                                <img class='lazy' data-src='" . url('assets/front/img/services/' . $service->main_image) . "' alt='service' />
+                                                <img loading='lazy'  class='lazy' data-src='" . url('assets/front/img/services/' . $service->main_image) . "' alt='service' />
                                             </div>
                                             <div class='services-content'>
                                                 <a class='title'";
@@ -2695,7 +2728,7 @@ class PageBuilderController extends Controller
                 foreach ($members as $key => $member) {
                     $teamSec .= "<div class='single-team-member col-lg-3 mx-0'>
                                 <div class='team-img-wrapper'>
-                                    <img class='lazy' data-src='" . url('assets/front/img/members/' . $member->image) . "' alt=''>
+                                    <img loading='lazy'  class='lazy' data-src='" . url('assets/front/img/members/' . $member->image) . "' alt=''>
                                     <div class='social-accounts'>
                                         <ul class='social-account-lists'>";
                     if (!empty($member->facebook)) {
@@ -2778,7 +2811,7 @@ class PageBuilderController extends Controller
                                     <div class='testimonial-carousel row'>";
                     foreach ($testimonials as $key => $testimonial) {
                         $testimonialSec .= "<div class='single-testimonial col-6 mx-0'>
-                                                <div class='img-wrapper'><img class='lazy' data-src='" . url('assets/front/img/testimonials/' . $testimonial->image) . "' alt=''></div>
+                                                <div class='img-wrapper'><img loading='lazy'  class='lazy' data-src='" . url('assets/front/img/testimonials/' . $testimonial->image) . "' alt=''></div>
                                                 <div class='client-desc'>
                                                     <p class='comment'>" . convertUtf8($testimonial->comment) . "</p>
                                                     <h6 class='name'>" . convertUtf8($testimonial->name) . "</h6>
@@ -2860,7 +2893,7 @@ class PageBuilderController extends Controller
                     foreach ($blogs as $key => $blog) {
                         $blogSec .= "<div class='single-blog col-lg-4 mx-0'>
                                         <div class='blog-img-wrapper'>
-                                            <img data-src='" . url('assets/front/img/blogs/' . $blog->main_image) . "' alt='' class='lazy'>
+                                            <img loading='lazy'  data-src='" . url('assets/front/img/blogs/' . $blog->main_image) . "' alt='' class='lazy'>
                                         </div>
                                         <div class='blog-txt'>";
 
@@ -2924,7 +2957,7 @@ class PageBuilderController extends Controller
                         $partnerSec .= "<a class='single-partner-item d-block col-lg-3 mx-0' href='" . $partner->url . "' target='_blank'>
                                                 <div class='outer-container'>
                                                     <div class='inner-container'>
-                                                        <img class='lazy' data-src='" . url('assets/front/img/partners/' . $partner->image) . "' alt=''>
+                                                        <img loading='lazy'  class='lazy' data-src='" . url('assets/front/img/partners/' . $partner->image) . "' alt=''>
                                                     </div>
                                                 </div>
                                             </a>";
@@ -2948,7 +2981,7 @@ class PageBuilderController extends Controller
                         <div class='col-lg-6'>
                             <div class='finlance_box_img'>
                                 <div class='finlance_img'>
-                                    <img src='" . url('assets/front/img/' . $bs->intro_bg) . "' class='img-fluid' alt=''>
+                                    <img loading='lazy'  src='" . url('assets/front/img/' . $bs->intro_bg) . "' class='img-fluid' alt=''>
                                 </div>
                                 <div class='play_box'>
                                     <a href='" . $bs->intro_section_video_link . "' class='play_btn'><i class='fas fa-play'></i></a>
@@ -3051,7 +3084,7 @@ class PageBuilderController extends Controller
                                         <div class='grid_inner_item'>";
                         if (!empty($scat->image)) {
                             $scatsec .= "<div class='finlance_img'>
-                                                    <img data-src='" . url('assets/front/img/service_category_icons/' . $scat->image) . "' class='img-fluid lazy' alt=''>
+                                                    <img loading='lazy'  data-src='" . url('assets/front/img/service_category_icons/' . $scat->image) . "' class='img-fluid lazy' alt=''>
                                                     <div class='service_overlay'>
                                                         <div class='button_box'>
                                                             <a href='" . route('front.services', ['category' => $scat->id]) . "' class='more_icon'><i class='fas fa-angle-double-right'></i></a>
@@ -3104,7 +3137,7 @@ class PageBuilderController extends Controller
                                         <div class='grid_inner_item'>";
                         if (!empty($service->main_image)) {
                             $servicesSec .= "<div class='finlance_img'>
-                                                    <img class='lazy' data-src='" . url('assets/front/img/services/' . $service->main_image) . "' alt='service' />";
+                                                    <img loading='lazy'  class='lazy' data-src='" . url('assets/front/img/services/' . $service->main_image) . "' alt='service' />";
                             if ($service->details_page_status == 1) {
                                 $servicesSec .= "<div class='service_overlay'>
                                                             <div class='button_box'>
@@ -3163,7 +3196,7 @@ class PageBuilderController extends Controller
                         $portfoliosSec .= "<div class='grid_item col-3 px-0 mx-0'>
                                         <div class='grid_inner_item'>
                                             <div class='finlance_img'>
-                                                <img data-src='" . url('assets/front/img/portfolios/featured/' . $portfolio->featured_image) . "' class='img-fluid lazy' alt=''>
+                                                <img loading='lazy'  data-src='" . url('assets/front/img/portfolios/featured/' . $portfolio->featured_image) . "' class='img-fluid lazy' alt=''>
                                                 <div class='project_overlay'>
                                                     <div class='finlance_content'>
                                                         <a href='" . route('front.portfoliodetails', [$portfolio->slug]) . "' class='more_icon'><i class='fas fa-angle-double-right'></i></a>
@@ -3205,7 +3238,7 @@ class PageBuilderController extends Controller
                         $teamSec .= "<div class='grid_item col-4 mx-0'>
                                         <div class='grid_inner_item'>
                                             <div class='finlance_img'>
-                                                <img data-src='" . url('assets/front/img/members/' . $member->image) . "' class='img-fluid lazy' alt=''>
+                                                <img loading='lazy'  data-src='" . url('assets/front/img/members/' . $member->image) . "' class='img-fluid lazy' alt=''>
                                                 <div class='team_overlay'>
                                                     <div class='finlance_content'>
                                                         <h3>" . convertUtf8($member->name) . "</h3>
@@ -3291,12 +3324,12 @@ class PageBuilderController extends Controller
                                         <div class='row align-items-center'>
                                             <div class='col-lg-5 col-md-5'>
                                                 <div class='finlance_img'>
-                                                    <img data-src='" . url('assets/front/img/testimonials/' . $testimonial->image) . "' class='img-fluid lazy' alt=''>
+                                                    <img loading='lazy'  data-src='" . url('assets/front/img/testimonials/' . $testimonial->image) . "' class='img-fluid lazy' alt=''>
                                                 </div>
                                             </div>
                                             <div class='col-lg-7 col-md-7'>
                                                 <div class='finlance_content'>
-                                                    <img class='lazy' data-src='" . url('assets/front/img/quote.png') . "' alt=''>
+                                                    <img loading='lazy'  class='lazy' data-src='" . url('assets/front/img/quote.png') . "' alt=''>
                                                     <p>" . convertUtf8($testimonial->comment) . "</p>
                                                     <h3>" . convertUtf8($testimonial->name) . "</h3>
                                                     <h6>" . convertUtf8($testimonial->rank) . "</h6>
@@ -3382,7 +3415,7 @@ class PageBuilderController extends Controller
                         $blogSec .= "<div class='grid_item col-4 mx-0'>
                             <div class='grid_inner_item'>
                                 <div class='finlance_img'>
-                                    <a href='" . route('front.blogdetails', [$blog->slug]) . "'><img data-src='" . url('assets/front/img/blogs/' . $blog->main_image) . "' class='img-fluid lazy' alt=''></a>
+                                    <a href='" . route('front.blogdetails', [$blog->slug]) . "'><img loading='lazy'  data-src='" . url('assets/front/img/blogs/' . $blog->main_image) . "' class='img-fluid lazy' alt=''></a>
                                     <div class='blog-overlay'>
                                         <div class='finlance_content'>";
 
@@ -3442,7 +3475,7 @@ class PageBuilderController extends Controller
                             <div class='partner_slide row'>";
                             foreach ($partners as $key => $partner) {
                                 $partnerSec .= "<div class='single_partner col-3 mx-0'>
-                                    <a href='" . $partner->url . "' target='_blank'><img data-src='" . url('assets/front/img/partners/' . $partner->image) . "' class='img-fluid lazy' alt=''></a>
+                                    <a href='" . $partner->url . "' target='_blank'><img loading='lazy'  data-src='" . url('assets/front/img/partners/' . $partner->image) . "' class='img-fluid lazy' alt=''></a>
                                 </div>";
                             }
                             $partnerSec .= "</div>
@@ -3559,7 +3592,7 @@ class PageBuilderController extends Controller
                                                     <div class='grid_inner_item'>";
                                 if (!empty($scat->image)) {
                                     $scatsec .= "<div class='finlance_icon'>
-                                        <img data-src='" . url('assets/front/img/service_category_icons/' . $scat->image) . "' class='img-fluid lazy' alt=''>
+                                        <img loading='lazy'  data-src='" . url('assets/front/img/service_category_icons/' . $scat->image) . "' class='img-fluid lazy' alt=''>
                                     </div>";
                                 }
                                 $scatsec .= "<div class='finlance_content'>
@@ -3612,7 +3645,7 @@ class PageBuilderController extends Controller
                                             <div class='grid_inner_item'>";
                         if (!empty($service->main_image)) {
                             $servicesSec .= "<div class='finlance_icon' style='margin-bottom: 20px;'>
-                                                        <img class='lazy' data-src='" . url('assets/front/img/services/' . $service->main_image) . "' alt='service' />
+                                                        <img loading='lazy'  class='lazy' data-src='" . url('assets/front/img/services/' . $service->main_image) . "' alt='service' />
                                                     </div>";
                         }
                         $servicesSec .= "<div class='finlance_content'>
@@ -3667,7 +3700,7 @@ class PageBuilderController extends Controller
                         $portfoliosSec .= "<div class='grid_item'>
                                         <div class='grid_inner_item'>
                                             <div class='finlance_img'>
-                                                <img data-src='" . url('assets/front/img/portfolios/featured/' . $portfolio->featured_image) . "' class='img-fluid lazy' alt=''>
+                                                <img loading='lazy'  data-src='" . url('assets/front/img/portfolios/featured/' . $portfolio->featured_image) . "' class='img-fluid lazy' alt=''>
                                                 <div class='project_overlay'>
                                                     <div class='finlance_content'>
                                                         <a href='" . route('front.portfoliodetails', [$portfolio->slug]) . "' class='more_icon'><i class='fas fa-angle-double-right'></i></a>
@@ -3714,7 +3747,7 @@ class PageBuilderController extends Controller
                         $teamSec .= "<div class='grid_item col-4 mx-0'>
                                         <div class='grid_inner_item'>
                                             <div class='finlance_img'>
-                                                <img data-src='" . url('assets/front/img/members/' . $member->image) . "' class='img-fluid lazy' alt=''>
+                                                <img loading='lazy'  data-src='" . url('assets/front/img/members/' . $member->image) . "' class='img-fluid lazy' alt=''>
                                                 <div class='team_overlay'>
                                                     <ul class='social_box'>";
                         if (!empty($member->facebook)) {
@@ -3799,11 +3832,11 @@ class PageBuilderController extends Controller
                             foreach ($testimonials as $key => $testimonial) {
                                 $testimonialSec .= "<div class='testimonial_box'>
                                     <div class='quote'>
-                                        <img class='lazy' data-src='" . url('assets/front/img/quote.png') . "' alt=''>
+                                        <img loading='lazy'  class='lazy' data-src='" . url('assets/front/img/quote.png') . "' alt=''>
                                     </div>
                                     <div class='client_box'>
                                         <div class='thumb'>
-                                            <img class='lazy' data-src='" . url('assets/front/img/testimonials/' . $testimonial->image) . "' alt=''>
+                                            <img loading='lazy'  class='lazy' data-src='" . url('assets/front/img/testimonials/' . $testimonial->image) . "' alt=''>
                                         </div>
                                         <div class='info'>
                                             <h3>" . convertUtf8($testimonial->name) . "</h3>
@@ -3911,7 +3944,7 @@ class PageBuilderController extends Controller
                                                 </div>
                                                 <div class='col-lg-6'>
                                                     <div class='finlance_img'>
-                                                        <a href='" . route('front.blogdetails', [$blog->slug]) . "'><img data-src='" . url('assets/front/img/blogs/' . $blog->main_image) . "' class='img-fluid lazy' alt='' width='100%'></a>
+                                                        <a href='" . route('front.blogdetails', [$blog->slug]) . "'><img loading='lazy'  data-src='" . url('assets/front/img/blogs/' . $blog->main_image) . "' class='img-fluid lazy' alt='' width='100%'></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -3957,7 +3990,7 @@ class PageBuilderController extends Controller
                             <div class='partner_slide row'>";
                             foreach ($partners as $key => $partner) {
                                 $partnerSec .= "<div class='single_partner col-3 mx-0'>
-                                    <a href='" . $partner->url . "' target='_blank'><img data-src='" . url('assets/front/img/partners/' . $partner->image) . "' class='img-fluid lazy' alt=''></a>
+                                    <a href='" . $partner->url . "' target='_blank'><img loading='lazy'  data-src='" . url('assets/front/img/partners/' . $partner->image) . "' class='img-fluid lazy' alt=''></a>
                                 </div>";
                             }
                             $partnerSec .= "</div>
@@ -4068,7 +4101,7 @@ class PageBuilderController extends Controller
                         $scatsec .= "<div class='single-service-item col-4 mx-0'>";
                         if (!empty($scat->image)) {
                             $scatsec .= "<div class='single-service-bg'>
-                                                <img data-src='" . url('assets/front/img/service_category_icons/' . $scat->image) . "' class='img-fluid lazy' alt=''>
+                                                <img loading='lazy'  data-src='" . url('assets/front/img/service_category_icons/' . $scat->image) . "' class='img-fluid lazy' alt=''>
                                                 <span><i class='fas fa-quidditch'></i></span>
                                                 <div class='single-service-link'>
                                                     <a href='" . route('front.services', ['category' => $scat->id]) . "' class='main-btn service-btn'>" . __('View Services') . "</a>
@@ -4122,7 +4155,7 @@ class PageBuilderController extends Controller
                         $servicesSec .= "<div class='single-service-item col-4 mx-0'>";
                         if (!empty($service->main_image)) {
                             $servicesSec .= "<div class='single-service-bg'>
-                                                    <img class='lazy' data-src='" . url('assets/front/img/services/' . $service->main_image) . "' alt=''>
+                                                    <img loading='lazy'  class='lazy' data-src='" . url('assets/front/img/services/' . $service->main_image) . "' alt=''>
                                                     <span><i class='fas fa-quidditch'></i></span>";
                             if ($service->details_page_status == 1) {
                                 $servicesSec .= "<div class='single-service-link'>
@@ -4178,7 +4211,7 @@ class PageBuilderController extends Controller
                             <div class='project-slider-active project-slick row'>";
                     foreach ($portfolios as $key => $portfolio) {
                         $portfoliosSec .= "<div class='single-project-item col-3 mx-0'>
-                                        <img class='lazy' data-src='" . url('assets/front/img/portfolios/featured/' . $portfolio->featured_image) . "' alt=''>
+                                        <img loading='lazy'  class='lazy' data-src='" . url('assets/front/img/portfolios/featured/' . $portfolio->featured_image) . "' alt=''>
                                         <div class='project-link text-center'>
                                             <h4>" . (strlen($portfolio->title) > 36 ? mb_substr($portfolio->title, 0, 36, 'utf-8') . '...' : $portfolio->title) . "</h4>";
                         if (!empty($portfolio->service)) {
@@ -4215,7 +4248,7 @@ class PageBuilderController extends Controller
                             <div class='team-carousel-active team-slick row'>";
                     foreach ($members as $key => $member) {
                         $teamSec .= "<div class='single-team-item col-4 mx-0'>
-                                        <img class='lazy' data-src='" . url('assets/front/img/members/' . $member->image) . "' alt=''>
+                                        <img loading='lazy'  class='lazy' data-src='" . url('assets/front/img/members/' . $member->image) . "' alt=''>
                                         <div class='single-team-content'>
                                             <div class='single-team-member-details'>
                                                 <h4>" . convertUtf8($member->name) . "</h4>
@@ -4294,7 +4327,7 @@ class PageBuilderController extends Controller
                     foreach ($testimonials as $key => $testimonial) {
                         $testimonialSec .= "<div class='single-testimonial-item'>
                                         <div class='testimonial-author-img'>
-                                            <img data-src='" . url('assets/front/img/testimonials/' . $testimonial->image) . "' class='img-fluid lazy' alt=''>
+                                            <img loading='lazy'  data-src='" . url('assets/front/img/testimonials/' . $testimonial->image) . "' class='img-fluid lazy' alt=''>
                                         </div>
                                         <div class='testimonial-author-details'>
                                             <h4>" . convertUtf8($testimonial->name) . " <span>" . convertUtf8($testimonial->rank) . "</span></h4>
@@ -4374,7 +4407,7 @@ class PageBuilderController extends Controller
 
                         $blogSec .= "<div class='single-blog-item col-4 mx-0'>
                                         <div class='single-blog-img'>
-                                            <img class='lazy' data-src='" . url('assets/front/img/blogs/' . $blog->main_image) . "' alt=''>
+                                            <img loading='lazy'  class='lazy' data-src='" . url('assets/front/img/blogs/' . $blog->main_image) . "' alt=''>
                                         </div>
                                         <div class='single-blog-details'>";
 
@@ -4424,7 +4457,7 @@ class PageBuilderController extends Controller
                                     <div class='brand-container brand-carousel-active row'>";
                                     foreach ($partners as $key => $partner) {
                                         $partnerSec .= "<div class='single-brand-logo col-3 mx-0'>
-                                            <a class='d-block' href='" . $partner->url . "' target='_blank'><img data-src='" . url('assets/front/img/partners/' . $partner->image) . "' class='img-fluid lazy' alt=''></a>
+                                            <a class='d-block' href='" . $partner->url . "' target='_blank'><img loading='lazy'  data-src='" . url('assets/front/img/partners/' . $partner->image) . "' class='img-fluid lazy' alt=''></a>
                                         </div>";
                                     }
                                     $partnerSec .= "</div>
@@ -4448,7 +4481,7 @@ class PageBuilderController extends Controller
                         <div class='col-lg-6'>
                             <div class='finlance_box_img'>
                                 <div class='finlance_img'>
-                                    <img src='" . url('assets/front/img/' . $bs->intro_bg) . "' class='img-fluid' alt=''>
+                                    <img loading='lazy'  src='" . url('assets/front/img/' . $bs->intro_bg) . "' class='img-fluid' alt=''>
                                 </div>
                                 <div class='play_box'>
                                     <a href='" . $bs->intro_section_video_link . "' class='play_btn'><i class='fas fa-play'></i></a>
@@ -4549,7 +4582,7 @@ class PageBuilderController extends Controller
                         $scatsec .= "<div class='grid_item col-4 mx-0'>
                                         <div class='grid_inner_item'>
                                             <div class='finlance_icon'>
-                                                <img data-src='" . url('assets/front/img/service_category_icons/' . $scat->image) . "' class='img-fluid lazy' alt=''>
+                                                <img loading='lazy'  data-src='" . url('assets/front/img/service_category_icons/' . $scat->image) . "' class='img-fluid lazy' alt=''>
                                             </div>
                                             <div class='finlance_content'>
                                                 <h4>" . convertUtf8($scat->name) . "</h4>
@@ -4598,7 +4631,7 @@ class PageBuilderController extends Controller
                                     <div class='grid_inner_item'>";
                                     if (!empty($service->main_image)) {
                                             $servicesSec .= "<div class='finlance_icon' style='margin-bottom: 20px;'>
-                                                <img class='lazy' data-src='" . url('assets/front/img/services/' . $service->main_image) . "' alt='service' />
+                                                <img loading='lazy'  class='lazy' data-src='" . url('assets/front/img/services/' . $service->main_image) . "' alt='service' />
                                             </div>";
                                     }
                                     $servicesSec .= "<div class='finlance_content'>
@@ -4652,7 +4685,7 @@ class PageBuilderController extends Controller
                         $portfoliosSec .= "<div class='grid_item col-3 mx-0'>
                                         <div class='grid_inner_item'>
                                             <div class='finlance_img'>
-                                                <img data-src='" . url('assets/front/img/portfolios/featured/' . $portfolio->featured_image) . "' class='img-fluid lazy' alt=''>
+                                                <img loading='lazy'  data-src='" . url('assets/front/img/portfolios/featured/' . $portfolio->featured_image) . "' class='img-fluid lazy' alt=''>
                                                 <div class='overlay_img'></div>
                                                 <div class='overlay_content'>
                                                     <div class='button_box'>
@@ -4704,7 +4737,7 @@ class PageBuilderController extends Controller
                                 $teamSec .= "<div class='grid_item col-4 mx-0'>
                                                 <div class='grid_inner_item'>
                                                     <div class='finlance_img'>
-                                                        <img data-src='" . url('assets/front/img/members/' . $member->image) . "' class='img-fluid lazy' alt=''>
+                                                        <img loading='lazy'  data-src='" . url('assets/front/img/members/' . $member->image) . "' class='img-fluid lazy' alt=''>
                                                         <div class='overlay_content'>
                                                             <div class='social_box'>
                                                                 <ul>";
@@ -4787,7 +4820,7 @@ class PageBuilderController extends Controller
                             foreach ($testimonials as $key => $testimonial) {
                                 $testimonialSec .= "<div class='testimonial_box d-flex align-items-center col-6 mx-0'>
                                     <div class='finlance_img'>
-                                        <img data-src='" . url('assets/front/img/testimonials/' . $testimonial->image) . "' class='img-fluid lazy' alt=''>
+                                        <img loading='lazy'  data-src='" . url('assets/front/img/testimonials/' . $testimonial->image) . "' class='img-fluid lazy' alt=''>
                                     </div>
                                     <div class='finlance_content'>
                                         <h4>" . convertUtf8($testimonial->name) . "</h4>
@@ -4869,7 +4902,7 @@ class PageBuilderController extends Controller
                         $blogSec .= "<div class='grid_item col-4 mx-0'>
                                         <div class='grid_inner_item'>
                                             <div class='finlance_img'>
-                                                <a href='" . route('front.blogdetails', [$blog->slug]) . "'><img data-src='" . url('assets/front/img/blogs/' . $blog->main_image) . "' class='img-fluid lazy' alt=''></a>
+                                                <a href='" . route('front.blogdetails', [$blog->slug]) . "'><img loading='lazy'  data-src='" . url('assets/front/img/blogs/' . $blog->main_image) . "' class='img-fluid lazy' alt=''></a>
                                             </div>
                                             <div class='finlance_content'>
                                                 <div class='post_meta'>";
@@ -4923,7 +4956,7 @@ class PageBuilderController extends Controller
                             <div class='partner_slide row'>";
                             foreach ($partners as $key => $partner) {
                                 $partnerSec .= "<div class='single_partner col-3 mx-0'>
-                                                <a href='" . $partner->url . "'><img data-src='" . url('assets/front/img/partners/' . $partner->image) . "' class='img-fluid lazy' alt=''></a>
+                                                <a href='" . $partner->url . "'><img loading='lazy'  data-src='" . url('assets/front/img/partners/' . $partner->image) . "' class='img-fluid lazy' alt=''></a>
                                             </div>";
                             }
                             $partnerSec .= "</div>
@@ -4943,10 +4976,10 @@ class PageBuilderController extends Controller
                         <div class='col-lg-6'>
                             <div class='logistics_box_img'>
                                 <div class='logistics_img'>
-                                    <img src='" . url('assets/front/img/' . $bs->intro_bg) . "' class='img-fluid' alt=''>
+                                    <img loading='lazy'  src='" . url('assets/front/img/' . $bs->intro_bg) . "' class='img-fluid' alt=''>
                                 </div>
                                 <div class='logistics_img'>
-                                    <img src='" . url('assets/front/img/' . $be->intro_bg2) . "' class='img-fluid' alt=''>
+                                    <img loading='lazy'  src='" . url('assets/front/img/' . $be->intro_bg2) . "' class='img-fluid' alt=''>
                                     <div class='play_box'>
                                         <a href='" . $bs->intro_section_video_link . "' class='play_btn'><i class='fas fa-play'></i></a>
                                     </div>
@@ -5043,7 +5076,7 @@ class PageBuilderController extends Controller
                         $scatsec .= "<div class='grid_item col-4 mx-0'>
                                         <div class='grid_inner_item'>
                                             <div class='logistics_icon'>
-                                                <img data-src='" . url('assets/front/img/service_category_icons/' . $scat->image) . "' class='img-fluid lazy' alt=''>
+                                                <img loading='lazy'  data-src='" . url('assets/front/img/service_category_icons/' . $scat->image) . "' class='img-fluid lazy' alt=''>
                                             </div>
                                             <div class='logistics_content'>
                                                 <h4>" . convertUtf8($scat->name) . "</h4>
@@ -5092,7 +5125,7 @@ class PageBuilderController extends Controller
 
                                 if (!empty($service->main_image)) {
                                     $servicesSec .= "<div class='logistics_icon'>
-                                                            <img data-src='" . url('assets/front/img/services/' . $service->main_image) . "' class='img-fluid lazy' alt=''>
+                                                            <img loading='lazy'  data-src='" . url('assets/front/img/services/' . $service->main_image) . "' class='img-fluid lazy' alt=''>
                                                         </div>";
                                 }
 
@@ -5147,7 +5180,7 @@ class PageBuilderController extends Controller
                         $portfoliosSec .= "<div class='grid_item col-3 mx-0'>
                                         <div class='grid_inner_item'>
                                             <div class='logistics_img'>
-                                                <img data-src='" . url('assets/front/img/portfolios/featured/' . $portfolio->featured_image) . "' class='img-fluid lazy' alt=''>
+                                                <img loading='lazy'  data-src='" . url('assets/front/img/portfolios/featured/' . $portfolio->featured_image) . "' class='img-fluid lazy' alt=''>
                                                 <div class='overlay_img'></div>
                                                 <div class='overlay_content'>
                                                     <div class='button_box'>
@@ -5199,7 +5232,7 @@ class PageBuilderController extends Controller
                         $teamSec .= "<div class='grid_item col-4 mx-0'>
                                         <div class='grid_inner_item'>
                                             <div class='logistics_img'>
-                                                <img data-src='" . url('assets/front/img/members/' . $member->image) . "' class='img-fluid lazy' alt=''>
+                                                <img loading='lazy'  data-src='" . url('assets/front/img/members/' . $member->image) . "' class='img-fluid lazy' alt=''>
                                                 <div class='overlay_content'>
                                                     <div class='social_box'>
                                                         <ul>";
@@ -5282,7 +5315,7 @@ class PageBuilderController extends Controller
                     foreach ($testimonials as $key => $testimonial) {
                         $testimonialSec .= "<div class='testimonial_box d-lg-flex align-items-lg-center'>
                                         <div class='logistics_img'>
-                                            <img data-src='" . url('assets/front/img/testimonials/' . $testimonial->image) . "' class='img-fluid lazy' alt='' width='100%'>
+                                            <img loading='lazy'  data-src='" . url('assets/front/img/testimonials/' . $testimonial->image) . "' class='img-fluid lazy' alt='' width='100%'>
                                         </div>
                                         <div class='logistics_content'>
                                             <h4>" . convertUtf8($testimonial->name) . "</h4>
@@ -5364,7 +5397,7 @@ class PageBuilderController extends Controller
                         $blogSec .= "<div class='grid_item col-4 mx-0'>
                                         <div class='grid_inner_item'>
                                             <div class='logistics_img'>
-                                                <a href='" . route('front.blogdetails', [$blog->slug]) . "'><img data-src='" . url('assets/front/img/blogs/' . $blog->main_image) . "' class='img-fluid lazy' alt=''></a>
+                                                <a href='" . route('front.blogdetails', [$blog->slug]) . "'><img loading='lazy'  data-src='" . url('assets/front/img/blogs/' . $blog->main_image) . "' class='img-fluid lazy' alt=''></a>
                                             </div>
                                             <div class='logistics_content'>
                                                 <div class='post_meta'>";
@@ -5418,7 +5451,7 @@ class PageBuilderController extends Controller
                             <div class='partner_slide row'>";
                     foreach ($partners as $key => $partner) {
                         $partnerSec .= "<div class='single_partner col-3 mx-0'>
-                            <a href='" . $partner->url . "'><img data-src='" . url('assets/front/img/partners/' . $partner->image) . "' class='img-fluid lazy' alt=''></a>
+                            <a href='" . $partner->url . "'><img loading='lazy'  data-src='" . url('assets/front/img/partners/' . $partner->image) . "' class='img-fluid lazy' alt=''></a>
                         </div>";
                     }
                     $partnerSec .= "</div>
@@ -5438,10 +5471,10 @@ class PageBuilderController extends Controller
                         <div class='col-lg-7'>
                             <div class='lawyer_box_img'>
                                 <div class='lawyer_img'>
-                                    <img src='" . url('assets/front/img/' . $bs->intro_bg) . "' class='img-fluid' alt=''>
+                                    <img loading='lazy'  src='" . url('assets/front/img/' . $bs->intro_bg) . "' class='img-fluid' alt=''>
                                 </div>
                                 <div class='lawyer_img'>
-                                    <img src='" . url('assets/front/img/' . $be->intro_bg2) . "' class='img-fluid' alt=''>
+                                    <img loading='lazy'  src='" . url('assets/front/img/' . $be->intro_bg2) . "' class='img-fluid' alt=''>
                                     <div class='play_box'>
                                         <a href='" . $bs->intro_section_video_link . "' class='play_btn'><i class='fas fa-play'></i></a>
                                     </div>
@@ -5536,7 +5569,7 @@ class PageBuilderController extends Controller
                                         $scatsec .= "<div class='grid_item col-lg-4 mx-0'>
                                             <div class='grid_inner_item'>
                                                 <div class='lawyer_img'>
-                                                    <img data-src='" . url('assets/front/img/service_category_icons/' . $scat->image) . "' class='img-fluid lazy' alt=''>
+                                                    <img loading='lazy'  data-src='" . url('assets/front/img/service_category_icons/' . $scat->image) . "' class='img-fluid lazy' alt=''>
                                                 </div>
                                                 <div class='lawyer_content'>
                                                     <h4>" . convertUtf8($scat->name) . "</h4>
@@ -5584,7 +5617,7 @@ class PageBuilderController extends Controller
                                             <div class='lawyer_img'>";
                         if (!empty($service->main_image)) {
                             $servicesSec .= "<div class='logistics_icon'>
-                                                        <img data-src='" . url('assets/front/img/services/' . $service->main_image) . "' class='img-fluid lazy' alt=''>
+                                                        <img loading='lazy'  data-src='" . url('assets/front/img/services/' . $service->main_image) . "' class='img-fluid lazy' alt=''>
                                                     </div>";
                         }
                         $servicesSec .= "</div>
@@ -5638,7 +5671,7 @@ class PageBuilderController extends Controller
                         $portfoliosSec .= "<div class='col-lg-3 grid_item mx-0' data-gjs-draggable='false' data-gjs-editable='false' data-gjs-removable='false' data-gjs-propagate=" . '["removable","editable","draggable"]' . ">
                                         <div class='grid_inner_item'>
                                             <div class='lawyer_img'>
-                                                <img data-src='" . url('assets/front/img/portfolios/featured/' . $portfolio->featured_image) . "' class='img-fluid lazy' alt=''>
+                                                <img loading='lazy'  data-src='" . url('assets/front/img/portfolios/featured/' . $portfolio->featured_image) . "' class='img-fluid lazy' alt=''>
                                                 <div class='overlay_img'></div>
                                                 <div class='overlay_content'>
                                                     <h3><a href='" . route('front.portfoliodetails', [$portfolio->slug]) . "'>" . (strlen($portfolio->title) > 25 ? mb_substr($portfolio->title, 0, 25, 'utf-8') . '...' : $portfolio->title) . "</a></h3>";
@@ -5680,7 +5713,7 @@ class PageBuilderController extends Controller
                         $teamSec .= "<div class='col-lg-4 grid_item mx-0'>
                                         <div class='grid_inner_item'>
                                             <div class='lawyer_img'>
-                                                <img data-src='" . url('assets/front/img/members/' . $member->image) . "' class='img-fluid lazy' alt=''>
+                                                <img loading='lazy'  data-src='" . url('assets/front/img/members/' . $member->image) . "' class='img-fluid lazy' alt=''>
                                             </div>
                                             <div class='lawyer_content text-center'>
                                                 <h4>" . convertUtf8($member->name) . "</h4>
@@ -5758,11 +5791,11 @@ class PageBuilderController extends Controller
                             foreach ($testimonials as $key => $testimonial) {
                                 $testimonialSec .= "<div class='testimonial_box col-lg-4 mx-0' data-gjs-draggable='false' data-gjs-editable='false' data-gjs-removable='false' data-gjs-propagate=" . '["removable","editable","draggable"]' . ">
                                     <div class='lawyer_content_box'>
-                                        <img class='lazy' data-src='" . url('assets/front/img/quote_1.png') . "' alt=''>
+                                        <img loading='lazy'  class='lazy' data-src='" . url('assets/front/img/quote_1.png') . "' alt=''>
                                         <p>" . convertUtf8($testimonial->comment) . "</p>
                                         <div class='admin_box d-flex align-items-center'>
                                             <div class='thumb'>
-                                                <img data-src='" . url('assets/front/img/testimonials/' . $testimonial->image) . "' class='img-fluid lazy' alt=''>
+                                                <img loading='lazy'  data-src='" . url('assets/front/img/testimonials/' . $testimonial->image) . "' class='img-fluid lazy' alt=''>
                                             </div>
                                             <div class='info'>
                                                 <h4>" . convertUtf8($testimonial->name) . "</h4>
@@ -5801,7 +5834,7 @@ class PageBuilderController extends Controller
                                 $packageSec .= "<div class='col-lg-4 mx-0 pricing_box text-center' data-gjs-draggable='false' data-gjs-editable='false' data-gjs-removable='false' data-gjs-propagate=" . '["removable","editable","draggable"]' . ">
                                                 <div class='pricing_title'>";
                                 if (!empty($package->image)) {
-                                    $packageSec .= "<img class='lazy' data-src='" . url('assets/front/img/packages/' . $package->image) . "' alt=''>";
+                                    $packageSec .= "<img loading='lazy'  class='lazy' data-src='" . url('assets/front/img/packages/' . $package->image) . "' alt=''>";
                                 }
                                 $packageSec .= "<h3>" . convertUtf8($package->title) . "</h3>";
                                 if($bex->recurring_billing == 1) {
@@ -5854,7 +5887,7 @@ class PageBuilderController extends Controller
                                 $blogSec .= "<div class='col-lg-4 mx-0 grid_item' data-gjs-draggable='false' data-gjs-editable='false' data-gjs-removable='false' data-gjs-propagate=" . '["removable","editable","draggable"]' . ">
                                                 <div class='grid_inner_item'>
                                                     <div class='lawyer_img'>
-                                                        <a href='" . route('front.blogdetails', [$blog->slug]) . "'><img data-src='" . url('assets/front/img/blogs/' . $blog->main_image) . "' class='img-fluid lazy' alt=''></a>
+                                                        <a href='" . route('front.blogdetails', [$blog->slug]) . "'><img loading='lazy'  data-src='" . url('assets/front/img/blogs/' . $blog->main_image) . "' class='img-fluid lazy' alt=''></a>
                                                     </div>
                                                     <div class='lawyer_content'>
                                                         <div class='post_meta'>";
@@ -5909,7 +5942,7 @@ class PageBuilderController extends Controller
                             <div class='partner_slide row'>";
                             foreach ($partners as $key => $partner) {
                                 $partnerSec .= "<div class='single_partner col-lg-3 mx-0'>
-                                    <a href='" . $partner->url . "'><img data-src='" . url('assets/front/img/partners/' . $partner->image) . "' class='img-fluid lazy' alt=''></a>
+                                    <a href='" . $partner->url . "'><img loading='lazy'  data-src='" . url('assets/front/img/partners/' . $partner->image) . "' class='img-fluid lazy' alt=''></a>
                                 </div>";
                             }
                             $partnerSec .= "</div>

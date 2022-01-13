@@ -35,13 +35,15 @@
     <div class="col-md-12">
        <div class="card">
           <div class="card-header">
-             <div class="row">
-                <div class="col-lg-6">
-                   <div class="card-title">
-                      Email Templates
-                   </div>
-                </div>
-             </div>
+              <div class="card-title">
+                  <div class="card-title d-inline-block">Email Templates</div>
+                  <a class="btn btn-info btn-sm float-right d-inline-block" href="{{route('admin.email.templates.create')}}">
+                            <span class="btn-label">
+                              <i class="fas fa-plus-circle"></i>
+                            </span>
+                      Add
+                  </a>
+              </div>
           </div>
           <div class="card-body">
              <div class="row">

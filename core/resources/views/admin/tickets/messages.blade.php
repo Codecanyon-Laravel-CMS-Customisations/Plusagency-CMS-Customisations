@@ -42,7 +42,12 @@
                      <div class="col-lg-12">
                         <h3 class="text-white">{{$ticket->subject}}</h3>
                         @if($ticket->status != 'close')
-                        <button class="close-ticket btn btn-success btn-md" data-href="{{route('admin.ticket.close',$ticket->id)}}"><i class="fas fa-check mr-1"></i> Close Ticket</button>
+                            @if($ticket->user->is_digital_system && $ticket->digital_system_user_id)
+                            <button class="close-ticket btn btn-success btn-md" data-href="{{route('admin.ticket.digital_approval', [$ticket->id, 'approve'])}}"><i class="fas fa-user-check mr-1"></i> Approve Client Account</button>
+                            <button class="close-ticket btn btn-danger btn-md" data-href="{{route('admin.ticket.digital_approval', [$ticket->id, 'revoke'])}}"><i class="fas fa-user-times mr-1"></i> Revoke Client Account</button>
+                            @else
+                                <button class="close-ticket btn btn-success btn-md" data-href="{{route('admin.ticket.close',$ticket->id)}}"><i class="fas fa-check mr-1"></i> Close Ticket</button>
+                            @endif
                         @endif
                      </div>
                      <div class="col-lg-12 my-3">
@@ -57,12 +62,82 @@
                      </div>
                   </div>
                   <div class="row">
-                     <div class="col-lg-8 offset-lg-2">
-                        <p style="font-size: 16px;">{!! replaceBaseUrl($ticket->message) !!}</p>
-                        @if($ticket->zip_file)
-                        <a href="{{asset('assets/front/user-suppor-file/'.$ticket->zip_file)}}" download="{{__('support_file')}}" class="btn btn-primary"><i class="fas fa-download"></i> Download Attachment</a>
-                        @endif
-                     </div>
+                        @if($ticket->user->is_digital_system)
+                            <div class="col-md-7">
+                                <p style="font-size: 16px;">{!! replaceBaseUrl($ticket->message) !!}</p>
+                                @if($ticket->zip_file)
+                                    <a href="{{asset('assets/front/user-suppor-file/'.$ticket->zip_file)}}" download="{{__('support_file')}}" class="btn btn-primary"><i class="fas fa-download"></i> Download Attachment</a>
+                                @endif
+                            </div>
+                            <div class="col-md-5 woocommerce-product-gallery woocommerce-product-gallery--with-images images">
+                                {{-- @ foreach ($ticket->digital_system_stack_trace as $field)
+                                    <li>{-{ $field }-}</li>
+                                @ endforeach --}}
+                                <div class="list-group text-left">
+                                    @php
+                                        $trace  = explode(",", $ticket->digital_system_stack_trace);
+
+                                        foreach ($trace as $tr)
+                                        {
+                                            $td = explode(":", $tr);
+                                            if (Illuminate\Support\Str::startsWith($td[0], "\"_")) continue;
+                                            if (isset($td[0]) && strlen($td[0]) > 25)
+                                            {
+                                                $td_x  = null;
+                                            }
+                                            else {
+                                                $td_x  = " : ".$td[1];
+                                            }
+                                            $str = $td[0].$td_x;
+                                            echo "<a href='javascript:;' class='list-group-item list-group-item-action active'>$str</a>";
+                                        }
+                                    @endphp
+                                </div>
+                                {!!
+                                trim(
+                                    json_decode($ticket->digital_system_stack_trace)
+                                )
+                                !!}
+                            </div>
+                        @elseif($ticket->products && $ticket->products->count() >= 1)
+                            <div class="col-md-7">
+                                <div class="text-left" style="font-weight: bold">
+                                    <p style="font-size: 16px;">Email: {!! replaceBaseUrl($ticket->products()->first()->pivot->email) !!}</p>
+                                    <p style="font-size: 16px;">Phone: {!! replaceBaseUrl($ticket->products()->first()->pivot->whatsapp_number) !!}</p>
+                                    <p style="font-size: 16px;">Preferred Communication: {!! replaceBaseUrl($ticket->products()->first()->pivot->preferred_communication) !!}</p>
+                                </div>
+                                <p style="font-size: 16px;" class="text-justify">{!! replaceBaseUrl($ticket->message) !!}</p>
+                                @if($ticket->zip_file)
+                                    <a href="{{asset('assets/front/user-suppor-file/'.$ticket->zip_file)}}" download="{{__('support_file')}}" class="btn btn-primary"><i class="fas fa-download"></i> Download Attachment</a>
+                                @endif
+                            </div>
+                            <div class="col-md-5 woocommerce-product-gallery woocommerce-product-gallery--with-images images">
+                                @foreach ($ticket->products as $product)
+                                    @if($product->id)
+                                        <div class="d-flex py-3 text-left">
+                                            <div class="d-flex col-md-5 woocommerce-product-gallery woocommerce-product-gallery--with-images images">
+                                                <img src="{{trim($product->feature_image)}}" alt="" class="mx-auto img-fluid" width="250">
+                                            </div>
+                                            <div class="d-block">
+                                                <p class="lead">PRODUCT::<br/> <a href="{{ route('admin.product.edit', $product->id) }}">
+                                                    {{ $product->title }}</a>
+                                                </p>
+                                                <div class="price d-flex lead">
+                                                    <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">{{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}</span>{{ $product->current_price }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        @else
+                          <div class="col-lg-8 offset-lg-2">
+                              <p style="font-size: 16px;">{!! replaceBaseUrl($ticket->message) !!}</p>
+                              @if($ticket->zip_file)
+                                  <a href="{{asset('assets/front/user-suppor-file/'.$ticket->zip_file)}}" download="{{__('support_file')}}" class="btn btn-primary"><i class="fas fa-download"></i> Download Attachment</a>
+                              @endif
+                          </div>
+                      @endif
                   </div>
                </div>
             </div>

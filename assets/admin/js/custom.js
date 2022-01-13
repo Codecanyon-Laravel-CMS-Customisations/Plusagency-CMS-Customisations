@@ -720,14 +720,70 @@ $(function ($) {
       $(".bulk-activate").removeClass('d-none');
       $(".bulk-delete").addClass('d-inline-block');
       $(".bulk-activate").addClass('d-inline-block');
+      $(".bulk-deactivate").addClass('d-inline-block');
     }
     // if no checkbox is checked then hide the delete button
     else {
+      $(".bulk-deactivate").removeClass('d-inline-block');
       $(".bulk-activate").removeClass('d-inline-block');
       $(".bulk-delete").removeClass('d-inline-block');
       $(".bulk-activate").addClass('d-none');
       $(".bulk-delete").addClass('d-none');
     }
+  });
+  
+  $('.bulk-deactivate').on('click', function () {
+    swal({
+      title: 'Are you sure?',
+      text: "You can remove individual items!",
+      type: 'warning',
+      buttons: {
+        confirm: {
+          text: 'Yes, remove them!',
+          className: 'btn btn-success'
+        },
+        cancel: {
+          visible: true,
+          className: 'btn btn-danger'
+        }
+      }
+    }).then((Activate) => {
+      if (Activate) {
+        $(".request-loader").addClass('show');
+        let href = $(this).data('href');
+        let ids = [];
+        
+        // take ids of checked one's
+        $(".bulk-check:checked").each(function () {
+          if ($(this).data('val') != 'all') {
+            ids.push($(this).data('val'));
+          }
+        });
+        
+        let fd = new FormData();
+        for (let i = 0; i < ids.length; i++) {
+          fd.append('ids[]', ids[i]);
+        }
+        
+        $.ajax({
+          url: href,
+          method: 'POST',
+          data: fd,
+          contentType: false,
+          processData: false,
+          success: function (data) {
+            console.log(data);
+            
+            $(".request-loader").removeClass('show');
+            if (data == "success") {
+              location.reload();
+            }
+          }
+        });
+      } else {
+        swal.close();
+      }
+    });
   });
   
   $('.bulk-activate').on('click', function () {

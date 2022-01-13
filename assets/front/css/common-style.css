@@ -7867,3 +7867,13 @@ select {
 }
 
 /* New Portfolio Style End */
+
+
+
+
+/* Custom Styles Start */
+.site-branding {
+    max-width: 300px;
+}
+
+/* Custom Styles End */

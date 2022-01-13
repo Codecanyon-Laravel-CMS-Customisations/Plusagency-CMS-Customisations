@@ -90,6 +90,7 @@
                                         <select class="form-control" name="bookworm_slider_version">
                                             <option value="" selected disabled>Select Home Slider Version</option>
                                             {{-- <option value="default" {{$abe->theme_version == 'default' ? 'selected' : ''}}>Default</option> --}}
+                                            <option value="cvs1" {{$abe->bookworm_slider_version == 'cvs1' ? 'selected' : ''}}>Custom Video Slider</option>
                                             <option value="v1" {{$abe->bookworm_slider_version == 'v1' ? 'selected' : ''}}>Home v1</option>
                                             <option value="v2" {{$abe->bookworm_slider_version == 'v2' ? 'selected' : ''}}>Home v2</option>
                                             <option value="v3" {{$abe->bookworm_slider_version == 'v3' ? 'selected' : ''}}>Home v3</option>
@@ -146,8 +147,8 @@
                                             <option value="v1" {{$abe->bookworm_header_version == 'v1' ? 'selected' : ''}}>Header v1</option>
                                             <option value="v2" {{$abe->bookworm_header_version == 'v2' ? 'selected' : ''}}>Header v2</option>
                                             <option value="v3" {{$abe->bookworm_header_version == 'v3' ? 'selected' : ''}}>Header v3</option>
-                                            {{-- <option value="v4" {{$abe->bookworm_header_version == 'v4' ? 'selected' : ''}}>Header v4</option>
-                                            <option value="v5" {{$abe->bookworm_header_version == 'v5' ? 'selected' : ''}}>Header v5</option> --}}
+                                            {{-- <option value="v4" {{$abe->bookworm_header_version == 'v4' ? 'selected' : ''}}>Header v4</option> --}}
+                                            {{-- <option value="v5" {{$abe->bookworm_header_version == 'v5' ? 'selected' : ''}}>Header v5</option> --}}
                                             <option value="v6" {{$abe->bookworm_header_version == 'v6' ? 'selected' : ''}}>Header v6</option>
                                             <option value="v7" {{$abe->bookworm_header_version == 'v7' ? 'selected' : ''}}>Header v7</option>
                                             <option value="v8" {{$abe->bookworm_header_version == 'v8' ? 'selected' : ''}}>Header v8</option>

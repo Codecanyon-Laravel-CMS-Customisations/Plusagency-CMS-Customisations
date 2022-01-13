@@ -55,10 +55,10 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
       <div class="card">
         <div class="card-header">
             <div class="row">
-                <div class="col-lg-4">
-                    <div class="card-title d-inline-block">Products</div>
-                </div>
-                <div class="col-lg-3">
+{{--                <div class="col-lg-4">--}}
+{{--                    <div class="card-title d-inline-block">Products</div>--}}
+{{--                </div>--}}
+                <div class="col-lg-5">
                     @if (!empty($langs))
                         <select name="language" class="form-control" onchange="window.location='{{url()->current() . '?language='}}'+this.value">
                             <option value="" selected disabled>Select a Language</option>
@@ -68,9 +68,10 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                         </select>
                     @endif
                 </div>
-                <div class="col-lg-4 offset-lg-1 mt-2 mt-lg-0">
+                <div class="col-lg-7 mt-2 mt-lg-0">
                     <a href="{{route('admin.product.type')}}" class="btn btn-primary float-right btn-sm"><i class="fas fa-plus"></i> Add Product</a>
                     <button class="btn btn-secondary float-right btn-sm mr-2 d-none bulk-activate" data-href="{{route('admin.product.bulk.activate')}}"><i class="fas fa-tasks"></i> Add to menu</button>
+                    <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-deactivate" data-href="{{route('admin.product.bulk.deactivate')}}"><i class="fas fa-tasks"></i> Remove from menu</button>
                     <button class="btn btn-danger float-right btn-sm mr-2 d-none bulk-delete" data-href="{{route('admin.product.bulk.delete')}}"><i class="flaticon-interface-5"></i> Delete</button>
                 </div>
             </div>

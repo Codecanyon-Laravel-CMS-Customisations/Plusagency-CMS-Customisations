@@ -28,9 +28,12 @@ class Product extends Model
         'meta_keywords',
         'meta_description',
         'type',
+        'tabs',
         'download_link',
         'download_file',
         'attributes',
+        'digital',
+        'offline',
         'options',
         'sub_categories',
         'is_variation',
@@ -38,20 +41,29 @@ class Product extends Model
         'sub_child_category_id'
     ];
 
+    protected $casts    = [
+        'digital'       => 'boolean',
+        'offline'       => 'boolean',
+    ];
+
     public function getTitleAttribute($title)
     {
-        return html_entity_decode($title);
+        return trim(nl2br(html_entity_decode($title, ENT_QUOTES)));
     }
     public function getSummaryAttribute($summary)
     {
-        return html_entity_decode($summary);
+        return trim(nl2br(html_entity_decode($summary, ENT_QUOTES)));
     }
     public function getDescriptionAttribute($description)
     {
-        return html_entity_decode($description);
+        return trim(nl2br(html_entity_decode($description, ENT_QUOTES)));
     }
+
     public function getFeatureImageAttribute($feature_image)
     {
+        if(trim($feature_image) == '') return trim(asset("assets/front/img/product/edition_placeholder.png"));
+        if(Str::endsWith($feature_image, 'featured')) return trim(asset("assets/front/img/product/edition_placeholder.png"));
+        if(Str::endsWith($feature_image, 'featured/')) return trim(asset("assets/front/img/product/edition_placeholder.png"));
         if(Str::startsWith($feature_image, 'http')) return trim($feature_image);
 
         //make link http
@@ -81,7 +93,8 @@ class Product extends Model
     }
 
     public function sub_category() {
-        return $this->hasOne('App\ChidCategory','id','sub_category_id');
+        //return $this->hasOne('App\ChidCategory','id','sub_category_id');
+        return $this->hasOne('App\Pcategory','id','sub_category_id');
     }
 
     public function child_category() {

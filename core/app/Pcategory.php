@@ -49,16 +49,13 @@ class Pcategory extends Model
         return $this->products_all()->orWhere('category_id', $this->id)->orWhere('sub_category_id', $this->id);
     }
     public function products_sub_0() {
-
-        return $this->products_all()->where('category_id', $this->id);
+        return $this->hasMany('App\Product','category_id','id');
     }
     public function products_sub_1() {
-
-        return $this->products_all()->where('sub_category_id', $this->id);
+        return $this->hasMany('App\Product','sub_category_id','id');
     }
     public function products_sub_2() {
-
-        return $this->products_all()->where('sub_child_category_id', $this->id);
+        return $this->hasMany('App\Product','sub_child_category_id','id');
     }
 
     public function language() {

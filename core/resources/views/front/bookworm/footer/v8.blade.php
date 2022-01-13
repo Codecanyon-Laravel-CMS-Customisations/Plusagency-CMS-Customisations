@@ -59,31 +59,13 @@
                     <div class="mb-5 mb-lg-0">
                         <h4 class="font-size-3 font-weight-medium mb-2 mb-xl-5 pb-xl-1 text-gray-500">Follow</h4>
                         <ul class="list-unstyled mb-0 d-flex">
-                            <li class="btn pl-0">
-                                <a class="text-white" href="#">
-                                    <span class="fab fa-instagram"></span>
-                                </a>
-                            </li>
-                            <li class="btn">
-                                <a class="text-white" href="#">
-                                    <span class="fab fa-facebook-f"></span>
-                                </a>
-                            </li>
-                            <li class="btn">
-                                <a class="text-white" href="#">
-                                    <span class="fab fa-youtube"></span>
-                                </a>
-                            </li>
-                            <li class="btn">
-                                <a class="text-white" href="#">
-                                    <span class="fab fa-twitter"></span>
-                                </a>
-                            </li>
-                            <li class="btn">
-                                <a class="text-white" href="#">
-                                    <span class="fab fa-pinterest"></span>
-                                </a>
-                            </li>
+                            @foreach ($socials as $key => $social)
+                                <li class="btn @if($loop->first) pl-0 @endif">
+                                    <a class="text-white" target="_blank" href="{{$social->url}}">
+                                        <span class="{{$social->icon}}"></span>
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -119,23 +101,119 @@
                 <!-- End Copyright -->
 
                 <div class="d-md-flex justify-content-md-end align-items-center">
-                    <!-- Select -->
-                    <div class="dropdown bootstrap-select js-select dropdown-select"><select class="js-select selectpicker dropdown-select" data-style="bg-transparent border-0 text-gray-500 px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true" tabindex="-98">
-                        <option value="one" selected="">English (United States)</option>
-                        <option value="two">Deutsch</option>
-                        <option value="three">Français</option>
-                        <option value="four">Español</option>
-                    </select><button type="button" class="btn dropdown-toggle bg-transparent border-0 text-gray-500 px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2" data-toggle="dropdown" role="button" title="English (United States)"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">English (United States)</div></div> </div></button><div class="dropdown-menu dropdown-menu-right" role="combobox"><div class="inner show" role="listbox" aria-expanded="false" tabindex="-1"><ul class="dropdown-menu inner show"></ul></div></div></div>
-                    <!-- End Select -->
+                    <select class="changeLanguage js-select selectpicker dropdown-select ml-lg-4 mb-3 mb-md-0" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true">
+                        @php
+                            $languages = \App\Language::all()->sortBy('name', 0, false);
+                        @endphp
+                        @foreach($languages as $language)
+                            <option data-link="{{ route('changeLanguage', $language->code) }}" value="{{ $language->code }}" @if($language->code == session('lang')) selected @endif>{{ $language->name }}</option>
+                        @endforeach
+                    </select>
+                    @php
+                        $world_currencies       = App\Models\Country::with('currencies')->whereHas('currencies')->where('status', true)->get()->sortBy('name', 0, false);
+                        // $countries              = App\Models\Country::all()->sortBy('name', 0, false);
+                        // $currencies             = App\Models\Currency::with('conversion')->whereHas('conversion')->orderBy('name', 'asc');
 
-                    <!-- Select -->
-                    <div class="dropdown bootstrap-select js-select dropdown-select ml-md-3 fit-width"><select class="js-select selectpicker dropdown-select ml-md-3" data-style="bg-transparent border-0 text-gray-500 px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true" data-width="fit" tabindex="-98">
-                        <option value="one" selected="">$ USD</option>
-                        <option value="two">€ EUR</option>
-                        <option value="three">₺ TL</option>
-                        <option value="four">₽ RUB</option>
-                    </select><button type="button" class="btn dropdown-toggle bg-transparent border-0 text-gray-500 px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2" data-toggle="dropdown" role="button" title="$ USD"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">$ USD</div></div> </div></button><div class="dropdown-menu dropdown-menu-right" role="combobox"><div class="inner show" role="listbox" aria-expanded="false" tabindex="-1"><ul class="dropdown-menu inner show"></ul></div></div></div>
-                    <!-- End Select -->
+                        $counter                = 0;
+                        $cc_options_1           = '';
+                        $countries_options      = '';
+
+                    @endphp
+                    @foreach ($world_currencies as $world_currency)
+                        @php
+                            //get only active currencies + countries
+                            $session_wc         = session('geo_data_user_country');
+                            $cc_options         = '';
+                            $wc_id              = $world_currency->id;
+                            if ($session_wc    != $wc_id) continue;
+
+                            $wc_e_id            = encrypt($world_currency->id);
+                            $route              = route('changeCountry', $wc_e_id);
+                            $wc_selected        = $wc_id == $session_wc ? 'selected' : '';
+                            $wc_value           = $world_currency->name.'  ( '.$world_currency->alpha_2_code.' )';
+
+                            foreach ($world_currency->currencies as $pc)
+                            {
+                                $cc_id          = $pc->id;
+                                $cc_e_id        = encrypt($pc->id);
+                                $cc_route       = route('changeCurrency', ['hash' => $cc_e_id, 'country' => $world_currency->id]);
+                                $cc_selected    = $cc_id == session('geo_data_user_currency') ? 'selected' : '';
+                                $cc_value       = trim($pc->symbol) != trim($pc->acronym) ? $pc->symbol.' '.$pc->acronym : ''.$pc->acronym;
+
+                                if ($counter < 1) $cc_options_1    .= "<option data-link='$cc_route' value='$cc_e_id' $cc_selected>$cc_value</option>";
+                                $cc_options    .= "<option data-link='$cc_route' value='$cc_e_id' $cc_selected>$cc_value</option>";
+
+                            }
+
+                            $countries_options .= "<option data-link=\"$route\" data-cc=\"$cc_options\" value=\"$wc_e_id\" $wc_selected>$wc_value</option>";
+                            $counter++;
+                        @endphp
+                    @endforeach
+                    @foreach ($world_currencies as $world_currency)
+                        @php
+                            $session_wc         = session('geo_data_user_country');
+                            $cc_options         = '';
+                            $wc_id              = $world_currency->id;
+                            if ($session_wc     == $wc_id) continue;
+
+                            $wc_e_id            = encrypt($world_currency->id);
+                            $route              = route('changeCountry', $wc_e_id);
+                            $wc_selected        = $wc_id == $session_wc ? 'selected' : '';
+                            $wc_value           = $world_currency->name.'  ( '.$world_currency->alpha_2_code.' )';
+
+                            foreach ($world_currency->currencies as $pc)
+                            {
+                                $cc_id          = $pc->id;
+                                $cc_e_id        = encrypt($pc->id);
+                                $cc_route       = route('changeCurrency', ['hash' => $cc_e_id, 'country' => $world_currency->id]);
+                                $cc_selected    = $cc_id == session('geo_data_user_currency') ? 'selected' : '';
+                                $cc_value       = trim($pc->symbol) != trim($pc->acronym) ? $pc->symbol.' '.$pc->acronym : ''.$pc->acronym;
+
+                                if ($counter < 1) $cc_options_1    .= "<option data-link='$cc_route' value='$cc_e_id' $cc_selected>$cc_value</option>";
+                                $cc_options    .= "<option data-link='$cc_route' value='$cc_e_id' $cc_selected>$cc_value</option>";
+
+                            }
+
+                            $countries_options .= "<option data-link=\"$route\" data-cc=\"$cc_options\" value=\"$wc_e_id\" $wc_selected>$wc_value</option>";
+                            $counter++;
+                        @endphp
+                    @endforeach
+                    <select class="changeCountry js-select selectpicker dropdown-select ml-lg-4 mb-3 mb-md-0" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true">
+                        {!! $countries_options !!}
+                    </select>
+                    <select class="changeCurrency js-select selectpicker dropdown-select ml-md-3" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-width="fit" data-dropdown-align-right="true">
+                        {!! $cc_options_1 !!}
+                    </select>
+                    <script>
+                        var tgtLang     = $('.changeLanguage');
+                        var tgtCountry  = $('.changeCountry');
+                        var tgtCurrency = $('.changeCurrency');
+
+                        tgtLang.on('change', function () {
+                            changeLanguageMethod();
+                        });
+                        tgtCountry.on('change', function () {
+                            changeCountryMethod();
+                        });
+                        tgtCurrency.on('change', function () {
+                            changeCurrencyMethod();
+                        });
+
+                        function changeLanguageMethod() {
+                            window.location.assign(tgtLang.find('option:selected').attr('data-link'));
+                        }
+                        function changeCountryMethod() {
+                            tgtCountry.selectpicker('refresh');
+                            tgtCurrency.selectpicker('refresh');
+                            tgtCurrency.html(tgtCountry.find('option:selected').attr('data-cc'));
+                            // window.location.assign(tgtCountry.find('option:selected').attr('data-link'));
+                            tgtCountry.selectpicker('refresh');
+                            tgtCurrency.selectpicker('refresh');
+                        }
+                        function changeCurrencyMethod() {
+                            window.location.assign(tgtCurrency.find('option:selected').attr('data-link'));
+                        }
+                    </script>
                 </div>
             </div>
         </div>

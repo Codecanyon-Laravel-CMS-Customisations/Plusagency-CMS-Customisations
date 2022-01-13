@@ -2,36 +2,64 @@
 
 namespace App\Http\Controllers\Front;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\BasicSetting as BS;
-use App\BasicExtended as BE;
-use App\BasicExtra;
-use App\Coupon;
-use App\Product;
-use App\ShippingCharge;
-use App\ProductReview;
 use Auth;
-use App\Pcategory;
 use Session;
+use App\Coupon;
+use App\Ticket;
+use XSSCleaner;
+use App\Product;
 use App\Language;
+use App\Pcategory;
+use Carbon\Carbon;
+use App\BasicExtra;
+use App\ProductReview;
+use App\WebsiteColors;
 use App\OfflineGateway;
 use App\PaymentGateway;
-use App\WebsiteColors;
-use Carbon\Carbon;
+use App\ShippingCharge;
+use App\Models\Currency;
+use App\Models\EasyForm;
+use App\BasicSetting as BS;
+use App\BasicExtended as BE;
+use Illuminate\Http\Request;
+use PHPMailer\PHPMailer\PHPMailer;
+use App\Http\Controllers\Controller;
+use Symfony\Component\DomCrawler\Crawler;
 
 class ProductController extends Controller
 {
+    public $bex;
+    public $forms_url   = "https://forms.upwork-plus.test";
 
     public function __construct()
     {
         $bs = BS::first();
         $be = BE::first();
+        // $this->set_geo_currency();
+    }
+
+    public function set_geo_currency($bex = null)
+    {
+        $geo_data_base_currency             = angel_get_base_currency_id();//App\Models\Currency::find(81);
+        $geo_data_user_currency             = angel_get_user_currency_id();//App\Models\Currency::find(23);
+
+        // dd( $geo_data_base_currency);
+        // echo json_encode( $geo_data_base_currency);return;
+        // $bc_id      = App\Models\Currency::query()->where('name', App\BasicExtra::first()->base_currency_text)->orderBy('id', 'desc')->first();
+        // echo json_encode($bc_id);//        return $bc_id->id;
+
+
+        $bex_user_currency                  = Currency::find($geo_data_user_currency);
+        $bex->base_currency_symbol          = '##';//$bex_user_currency->symbol;
+        $bex->base_currency_symbol_position = strtolower($bex_user_currency->symbol_position);
+        $bex->base_currency_text            = $bex_user_currency->name;
+        $bex->base_currency_text_position   = strtolower($bex_user_currency->text_positio);
+
+        $this->bex  = $bex;
     }
 
     public function product(Request $request)
     {
-
         $bex = BasicExtra::first();
         $data['colors'] = WebsiteColors::all();
         if ($bex->is_shop == 0) {
@@ -55,6 +83,7 @@ class ProductController extends Controller
         $minprice = $request->minprice;
         $maxprice = $request->maxprice;
         $category = $request->category_id;
+        if(!Pcategory::find($category)) $category = null;
         $tag = $request->tag;
 
         if($request->type){
@@ -69,12 +98,21 @@ class ProductController extends Controller
             Product::has('category')->with('category')->when($category, function ($query, $category) {
                 return $query->where('category_id', $category);
             })
+            ->when($request->has('c-id'), function ($query) {
+                return trim(request('c-id')) == '' ? $query : $query->where('category_id', request('c-id'));
+            })
+            ->when($request->has('sc-id'), function ($query) {
+                return trim(request('sc-id')) == '' ? $query : $query->where('sub_category_id', request('sc-id'));
+            })
+            ->when($request->has('scc-id'), function ($query) {
+                return trim(request('scc-id')) == '' ? $query : $query->where('sub_child_category_id', request('scc-id'));
+            })
             ->when($lang_id, function ($query, $lang_id) {
                 return $query->where('language_id', $lang_id);
             })
             ->when($search, function ($query, $search) {
                 //return $query->where('title', 'like', '%' . $search . '%')->orwhere('summary', 'like', '%' . $search . '%')->orwhere('description', 'like', '%' . $search . '%');
-                return $query->where('title', 'like', '%' . $search . '%');
+                return trim($search) == '' ? $query : $query->where('title', 'like', '%' . $search . '%');
             })
             ->when($minprice, function ($query, $minprice) {
                 return $query->where('current_price', '>=', $minprice);
@@ -102,7 +140,6 @@ class ProductController extends Controller
             })
 
             ->where('status', 1)->paginate(9);
-
             $version = $be->theme_version;
 
             if ($version == 'dark') {
@@ -124,6 +161,12 @@ class ProductController extends Controller
 
     public function productDetails($slug)
     {
+
+        if(empty(Product::where('slug', $slug)->first()))
+        {
+            session()->flash('error', 'Product not found!');
+            return redirect()->to('products');
+        }
         $bex = BasicExtra::first();
         if ($bex->is_shop == 0) {
             return back();
@@ -136,8 +179,10 @@ class ProductController extends Controller
         }
 
         Session::put('link', url()->current());
-        $data['product'] = Product::where('slug', $slug)->where('language_id',$currentLang->id)->first();
+        $data['product']    = Product::where('slug', $slug)->where('language_id',$currentLang->id)->first();
         $data['categories'] = Pcategory::where('status', 1)->where('language_id',$currentLang->id)->get();
+
+//        dd($data);
 
         $data['related_product'] = Product::where('category_id', $data['product']->category_id)->where('language_id',$currentLang->id)->where('id', '!=', $data['product']->id)->get();
 
@@ -148,8 +193,9 @@ class ProductController extends Controller
             $version = 'default';
         }
 
-        $data['version'] = $version;
+        $data['payload']    = $this->getForm();
 
+        $data['version']    = $version;
         if($be->theme_version == 'bookworm') {
             return view('front.bookworm.product', $data);
         } else {
@@ -185,6 +231,30 @@ class ProductController extends Controller
         $data['version'] = $version;
 
         return view('front.product.cart', compact('cart', 'version'));
+    }
+
+    public function product_categories()
+    {
+        if (session()->has('lang')) {
+            $currentLang = Language::where('code', session()->get('lang'))->first();
+        } else {
+            $currentLang = Language::where('is_default', 1)->first();
+        }
+
+
+        $pcategories    = Pcategory::all()
+        ->where('show_in_menu', '1')
+        ->where('language_id', $currentLang->id)
+        ->sortBy('name', 0, false);
+
+
+        $be                 = $currentLang->basic_extended;
+        $version            = $be->theme_version;
+        if ($version        == 'dark') {
+            $version        = 'default';
+        }
+
+        return view('front.product.product_categories', compact('pcategories', 'be', 'version'));
     }
 
     public function addToCart($id)
@@ -562,5 +632,332 @@ class ProductController extends Controller
                 return response()->json(['status' => 'error', 'message' => "Coupon is not valid"]);
             }
         }
+    }
+
+    public function product_iquiries(Product $product)
+    {
+        if (session()->has('lang')) {
+            $currentLang = Language::where('code', session()->get('lang'))->first();
+        } else {
+            $currentLang = Language::where('is_default', 1)->first();
+        }
+
+        $bse                = $currentLang->basic_extra;
+        $currentLang        = $currentLang;
+
+        $be                     = $currentLang->basic_extended;
+        $version                = $be->theme_version;
+
+        if ($version == 'dark') {
+            $version = 'default';
+        }
+
+        return view('front.product_offline_inquiry'
+            , compact('product', 'bse', 'currentLang', 'version')
+        );
+    }
+
+    public function product_iquiries_store(Request $request, Product $product)
+    {
+        if (session()->has('lang')) {
+            $currentLang = Language::where('code', session()->get('lang'))->first();
+        } else {
+            $currentLang = Language::where('is_default', 1)->first();
+        }
+        $bs = $currentLang->basic_setting;
+
+        $messages = [
+            'g-recaptcha-response.required' => 'Please verify that you are not a robot.',
+            'g-recaptcha-response.captcha'  => 'Captcha error! try again later or contact site admin.',
+        ];
+
+        $rules = [
+            'name'                          => 'required',
+            'email'                         => 'required|email',
+            'whatsapp_number'               => 'nullable',
+            'preferred_communication'       => 'nullable',
+            'subject'                       => 'required',
+            'message'                       => 'required'
+        ];
+        if ($bs->is_recaptcha == 1) {
+            $rules['g-recaptcha-response'] = 'required|captcha';
+        }
+
+        $request->validate($rules, $messages);
+
+        $request->validate($rules, $messages);
+
+        $be             = BE::firstOrFail();
+        $from           = $request->email;
+        $to             = $be->to_mail;
+        $subject        = $request->subject;
+        $message        = XSSCleaner::clean($request->message);
+
+
+        ///create a ticket
+        $input['subject']       = $subject;
+        $input['message']       = $message;
+        $input['user_id']       = auth()->check() ? Auth::user()->id : NULL;
+        //$input['product_id']    = $product->id;
+        $input['ticket_number'] = rand(1000000,9999999);
+        $input['last_message']  = Carbon::now();
+
+
+        //send email
+        try {
+
+            $mail       = new PHPMailer(true);
+            $mail->setFrom($from, $request->name);
+            $mail->addAddress($to);     // Add a recipient
+
+            // Content
+            $mail->isHTML(true);  // Set email format to HTML
+            $mail->Subject = $subject;
+            $mail->Body    = $message." <br/> <small>ticket number <strong>#".$input['ticket_number']."</strong></small>";
+
+            $mail->send();
+        }catch (\Exception $e) { }
+
+        $pivot              = [];
+        if(auth()->check())
+        {
+            foreach($request->products as $key => $value)
+            {
+                $pivot[$value]                  = [
+                    'user_id'                   => auth()->id(),
+                    'email'                     => auth()->user()->email,
+                    'whatsapp_number'           => trim($request->whatsapp_number),
+                    'preferred_communication'   => trim($request->preferred_communication),
+                ];
+            }
+        }
+        else
+        {
+            foreach($request->products as $key => $value)
+            {
+                $pivot[$value]                  = [
+                    'email'                     => $request->email,
+                    'whatsapp_number'           => trim($request->whatsapp_number),
+                    'preferred_communication'   => trim($request->preferred_communication),
+                ];
+            }
+        }
+
+
+
+        $ticket                 = Ticket::firstOrCreate($input);
+        if(auth()->check()) $ticket->user_id    = auth()->id();
+        $ticket->products()->sync($pivot);
+
+        session()->flash('product_ids', $request->products);
+        session()->flash('success', 'Email sent successfully!');
+        return back();
+    }
+
+    public function product_iquiries_bulk(Request $request)
+    {
+        if (session()->has('lang')) {
+            $currentLang = Language::where('code', session()->get('lang'))->first();
+        } else {
+            $currentLang = Language::where('is_default', 1)->first();
+        }
+        $bs = $currentLang->basic_setting;
+
+        $messages = [
+            'g-recaptcha-response.required' => 'Please verify that you are not a robot.',
+            'g-recaptcha-response.captcha'  => 'Captcha error! try again later or contact site admin.',
+        ];
+
+        $rules = [
+            'name'                          => 'required',
+            'email'                         => 'required|email',
+            'whatsapp_number'               => 'nullable',
+            'preferred_communication'       => 'nullable',
+            'subject'                       => 'required',
+            'message'                       => 'required'
+        ];
+        if ($bs->is_recaptcha == 1) {
+            $rules['g-recaptcha-response'] = 'required|captcha';
+        }
+
+        $request->validate($rules, $messages);
+
+        $request->validate($rules, $messages);
+
+        $be             = BE::firstOrFail();
+        $from           = $request->email;
+        $to             = $be->to_mail;
+        $subject        = $request->subject;
+        $products       = Product::query()->whereIn('id', $request->products)->get();
+        $message        = XSSCleaner::clean($request->message);
+
+
+        ///create a ticket
+        $input['subject']       = $subject;
+        $input['message']       = $message;
+        $input['user_id']       = auth()->check() ? Auth::user()->id : NULL;
+        //$input['product_id']    = $product->id;
+        $input['ticket_number'] = rand(1000000,9999999);
+        $input['last_message']  = Carbon::now();
+
+        $products_string        = "<hr/><table>
+        <thead>
+        <td>PRODUCTS</td>
+        </thead>
+        <tbody>";
+
+        foreach ($products as $product)
+        {
+            $products_string       .= "
+        <tr>
+        <td style='display: flex;'>
+        <img style='max-width:7rem;' src='$product->feature_image'/>
+        <div>
+        <p>$product->title</p>
+        <p>PRICE: $product->current_price</p>
+        <p>SKU  : $product->sku</p>
+        </div>
+        </td>
+        </tr>";
+        }
+
+        $products_string       .= "</tbody></table>";
+
+        //return $message.$products_string." <hr/> <small>ticket number <strong>#".$input['ticket_number']."</strong></small>";
+
+
+        //send email
+        try {
+
+            $mail       = new PHPMailer(true);
+            $mail->setFrom($from, $request->name);
+            $mail->addAddress($to);     // Add a recipient
+
+            // Content
+            $mail->isHTML(true);  // Set email format to HTML
+            $mail->Subject = $subject;
+            $mail->Body    = $message.$products_string." <hr/> <small>ticket number <strong>#".$input['ticket_number']."</strong></small>";
+
+            $mail->send();
+        }catch (\Exception $e) { }
+
+        $pivot              = [];
+        if(auth()->check())
+        {
+            foreach($request->products as $key => $value)
+            {
+                $pivot[$value]                  = [
+                    'user_id'                   => auth()->id(),
+                    'email'                     => auth()->user()->email,
+                    'whatsapp_number'           => trim($request->whatsapp_number),
+                    'preferred_communication'   => trim($request->preferred_communication),
+                ];
+            }
+        }
+        else
+        {
+            foreach($request->products as $key => $value)
+            {
+                $pivot[$value]                  = [
+                    'email'                     => $request->email,
+                    'whatsapp_number'           => trim($request->whatsapp_number),
+                    'preferred_communication'   => trim($request->preferred_communication),
+                ];
+            }
+        }
+
+
+
+        $ticket                 = Ticket::firstOrCreate($input);
+        if(auth()->check()) $ticket->user_id    = auth()->id();
+        $ticket->products()->sync($pivot);
+
+        session()->flash('product_ids', $request->products);
+        session()->flash('success', 'Email sent successfully!');
+        return back();
+    }
+
+
+
+    public function getForm()
+    {
+        try
+        {
+            $hash               = md5('Angel');
+            $resource_url       = env("ANGEL_URL", "https://angelbookhouse.com");
+            $payload            = EasyForm::count() >= 1 ? EasyForm::first() : new EasyForm();
+
+
+            // dd($payload);
+
+            $this->forms_url    = trim(html_entity_decode($payload->easy_form_server_url));
+            $crawler            = new Crawler(html_entity_decode($payload->easy_form_restricted));
+
+            //form
+            $form               = $crawler->filter("body form");
+
+            //styles
+            $style_links        = $crawler->filter("link")->each(function($link)
+            {
+                $link           = $this->make_abs_url($link->outerHtml(), "href");
+                if (!str_contains($link, 'bootstrap.min.css') ) return  $link;
+            });
+            $style_tags     = $crawler->filter("style");
+
+            //scripts
+            $script_links   = $crawler->filter("script[src]")->each(function($script)
+            {
+                $link           = $this->make_abs_url($script->outerHtml(), "src");
+                if (!str_contains($link, 'static_files/js/libs/jquery.js') ) return  $link;
+            });
+            $script_tags     = $crawler->filter("script");
+
+
+
+
+            // return $form->html("");
+            //return $form->outerHtml("");
+            // dd("<style>".$style_tags->eq(0)->html('')."</style>");
+            // dd($style_links);
+            // dd("<script>".$script_tags->eq(0)->html('')."</script>");
+            // dd($script_links);
+
+            return [
+                "form"      => [
+                    "inner" => $form->html(""),
+                    "outer" => $form->outerHtml(""),
+                ],
+                "styles"    => [
+                    "tags"  => "<style>".str_replace('body', '.body', $style_tags->eq(0)->html("") )." body{padding:0px !important}</style>",
+                    "links" => str_replace('/static_files/css/bootstrap.min.css', '', $style_links),
+                ],
+                "scripts"   => [
+                    "tags"  => "<script>".$script_tags->eq(0)->html("")."</script>",
+                    "links" => $script_links,
+                ],
+            ];
+        }
+        catch(\Exception $exception)
+        {
+            return [
+                "form"      => [
+                    "inner" => "<div class='text-center py-5'><h2 class=''></h2></div>",
+                    "outer" => "<div class='text-center py-5'><h2 class=''></h2></div>",
+                ],
+                "styles"    => [
+                    "tags"  => "",
+                    "links" => array(),
+                ],
+                "scripts"   => [
+                    "tags"  => "",
+                    "links" => array(),
+                ],
+            ];
+        }
+    }
+
+    public function make_abs_url(string $link, $needle = "href")
+    {
+        return str_replace("$needle=\"", "$needle=\"$this->forms_url/static_files/", $link);
     }
 }

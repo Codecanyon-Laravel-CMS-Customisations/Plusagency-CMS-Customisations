@@ -1,4 +1,8 @@
+/.idea
+/.vscode
 /assets/.idea
+/assets/front/img/
+/assets/lfm/files/
 /public/hot
 /public/storage
 /storage
@@ -24,4 +28,5 @@ yarn-error.log
 /core/yarn-error.log
 /core/.idea
 /core/*.zip
+/core/*.txt
 

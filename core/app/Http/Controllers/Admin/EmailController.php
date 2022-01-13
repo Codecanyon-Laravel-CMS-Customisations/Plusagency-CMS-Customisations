@@ -56,6 +56,7 @@ class EmailController extends Controller
 
     public function mailToAdmin() {
         $data['abe'] = BasicExtended::first();
+
         return view('admin.basic.email.mail_to_admin', $data);
     }
 
@@ -81,6 +82,20 @@ class EmailController extends Controller
     public function templates() {
         $data['templates'] = EmailTemplate::orderBy('id', 'ASC')->get();
         return view('admin.basic.email.templates.index', $data);
+    }
+
+    public function templates_create() {
+        return view('admin.basic.email.templates.create');
+    }
+
+    public function templates_store(Request $request) {
+        $template = EmailTemplate::firstOrCreate(['email_type' => $request->email_type]);
+        $template->email_subject = $request->email_subject;
+        $template->email_body = $request->email_body;
+        $template->save();
+
+        Session::flash('success', 'Email Template created successfully!');
+        return "success";
     }
 
     public function editTemplate($id) {

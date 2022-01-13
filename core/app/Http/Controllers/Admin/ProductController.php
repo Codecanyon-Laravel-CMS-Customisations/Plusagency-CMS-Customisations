@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Session;
+use App\User;
 use Validator;
 use App\Product;
 use App\Language;
@@ -12,6 +13,7 @@ use App\BasicExtra;
 use App\ProductImage;
 use App\ProductOrder;
 use App\ChildCategory;
+use App\Models\EasyForm;
 use Illuminate\Support\Str;
 use App\BasicExtended as BE;
 use Illuminate\Http\Request;
@@ -20,6 +22,7 @@ use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use AngelBooks\Plugins\Imports\ProductsImport;
 
 class ProductController extends Controller
 {
@@ -65,7 +68,7 @@ class ProductController extends Controller
     public function uploadUpdate(Request $request, $id)
     {
         $img = $request->file('file');
-        $allowedExts = array('jpg', 'png', 'jpeg');
+        $allowedExts = array('jpg', 'png', 'jpeg','gif');
 
         $rules = [
             'file' => [
@@ -131,12 +134,21 @@ class ProductController extends Controller
 
         if( $request->input('is_variation') ) {
             $in = $request->all();
-            $in['language_id'] = 169;
+            $in['language_id']  = 169;
             $in['is_variation'] = 1;
+            $importer           = new ProductsImport();
+
+            if (isset($request['summary'])) unset($request['summary']);
+            if (isset($request['description'])) unset($request['description']);
 
             $product = Product::create($in);
             $product->custom_fields = json_encode( $product_fields );
             // $featured_image = uniqid() .'.'.'png';
+
+
+            $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($request->short_description))));
+            $in['description']  = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($request->description))));
+
             $thubmnail = '';
             try {
                 $thumbnail = $request->file('thumbnail')->store('front/img/product/featured', 'assets');
@@ -354,8 +366,7 @@ class ProductController extends Controller
         $convImages = [];
 
         foreach ($images as $key => $image) {
-            // $convImages[] = url("assets/front/img/product/sliders/$image->image");
-            $convImages[] = Str::startsWith($image->image, "http") ? url("$image->image") : url("assets/front/img/product/sliders/$image->image");
+            $convImages[] = url("assets/front/img/product/sliders/$image->image");
         }
 
         return $convImages;
@@ -510,6 +521,13 @@ class ProductController extends Controller
         $in = $request->all();
         $in['slug'] = $slug;
 
+
+        $in['summary']      = trim(e((new ProductsImport())->parse_tabs($request->short_description)));
+        $in['description']  = trim(e((new ProductsImport())->parse_tabs($request->description)));
+
+        if (isset($request['summary'])) unset($request['summary']);
+        if (isset($request['description'])) unset($request['description']);
+
         // if the type is digital && 'link' method is selected, then store the downloadable file
         if ($product->type == 'digital' && $request->file_type == 'link') {
             @unlink('core/storage/digital_products/' . $product->download_file);
@@ -653,14 +671,6 @@ class ProductController extends Controller
     }
 
 
-    public function populerTag(Request $request)
-    {
-        $lang = Language::where('code', $request->language)->first();
-        $lang_id = $lang->id;
-        $data = BE::where('language_id',$lang_id)->first();
-        return view('admin.product.tag.index',compact('data'));
-    }
-
     public function bulkActivate(Request $request)
     {
         $ids = $request->ids;
@@ -670,6 +680,27 @@ class ProductController extends Controller
 
         Session::flash('success', 'Product added to menu-builder successfully!');
         return "success";
+    }
+
+
+    public function bulkDeactivate(Request $request)
+    {
+        $ids = $request->ids;
+        Product::query()
+            ->whereIn('id', $ids)
+            ->update(['show_in_page_builder' => '0']);
+
+        Session::flash('success', 'Product added to menu-builder successfully!');
+        return "success";
+    }
+
+
+    public function populerTag(Request $request)
+    {
+        $lang = Language::where('code', $request->language)->first();
+        $lang_id = $lang->id;
+        $data = BE::where('language_id',$lang_id)->first();
+        return view('admin.product.tag.index',compact('data'));
     }
 
     public function populerTagupdate(Request $request)

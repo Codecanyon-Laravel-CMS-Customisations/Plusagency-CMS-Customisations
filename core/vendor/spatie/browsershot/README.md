@@ -52,7 +52,9 @@ foreach ($requests as $request) {
 
 ## Support us
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/browsershot.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/browsershot)
+Learn how to create a package like this one, by watching our premium video course:
+
+[![Laravel Package training](https://spatie.be/github/package-training.jpg)](https://laravelpackage.training)
 
 We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
 
@@ -480,7 +482,7 @@ Optionally you can give a custom unit to the `paperSize` as the third parameter.
 You can use the `format` method and provide a format size:
 
 ```php
-Browsershot::html('https://example.com')->format('A4')->save('example.pdf');
+Browsershot::url('https://example.com')->format('A4')->save('example.pdf');
 ```
 
 The `format` options available by puppeteer are:
@@ -682,6 +684,16 @@ Browsershot::url('https://example.com')
    ...
 ```
 
+#### Prevent unsuccessful response
+
+You may want to throw an error when the page response is unsuccessful, you can use the following method :
+
+```php
+Browsershot::url('https://example.com')
+   ->preventUnsuccessfulResponse()
+    ...
+```
+
 #### Specify a proxy Server
 
 You can specify a proxy server to use when connecting. The argument passed to `setProxyServer` will be passed to the `--proxy-server=` option of Chromium. More info here: https://www.chromium.org/developers/design-documents/network-settings#TOC-Command-line-options-for-proxy-settings
@@ -692,9 +704,21 @@ Browsershot::url('https://example.com')
    ...
 ```
 
-#### Setting extraHTTPHeaders
+#### Added extra headers to the navigational request
 
-To send custom HTTP headers, set the extraHTTPHeaders option like so:
+To add custom HTTP headers to a navigational HTTP request, use `extraNavigationHTTPHeaders` like so:
+
+```php
+Browsershot::url('https://example.com')
+    ->setExtraNavigationHttpHeaders(['Custom-Header-Name' => 'Custom-Header-Value'])
+   ...
+```
+
+This will add the header to the page you want to render, but those headers will not be added to any external resources that make up that page.
+
+#### Adding extra headers to every request
+
+To add custom HTTP headers to the navigational HTTP request and all resources that make up the page, use `setExtraHttpHeaders`:
 
 ```php
 Browsershot::url('https://example.com')
@@ -831,7 +855,6 @@ Browsershot::url('https://example.com')
    ->setEnvironmentOptions(['TZ' => 'Pacific/Auckland'])
    ...
 ```
-
 
 ## Related packages
 

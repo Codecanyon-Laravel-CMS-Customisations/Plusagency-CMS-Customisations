@@ -2,22 +2,31 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\BasicExtended;
+use Config;
+use Artisan;
+use App\Home;
+use Validator;
+use App\Service;
+use App\Language;
+use App\Timezone;
 use App\BasicExtra;
 use App\BasicSetting;
-use App\Home;
-use App\Http\Controllers\Controller;
-use App\Language;
-use App\Service;
-use App\Timezone;
-use Artisan;
-use Config;
+use App\BasicExtended;
+use App\Models\Country;
+use App\Models\Currency;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
-use Validator;
 
 class BasicController extends Controller
 {
+    public $arrContextOptions   = array(
+        "ssl"                   => array(
+            "verify_peer"       => false,
+            "verify_peer_name"  => false,
+        ),
+    );
+
     public function fileManager() {
         return view('admin.basic.file-manager');
     }
@@ -31,16 +40,16 @@ class BasicController extends Controller
 
     public function updatelogo(Request $request)
     {
-        $logo = $request->logo;
-        $favicon = $request->favicon;
-        $breadcrumb = $request->breadcrumb;
+        $logo           = $request->logo;
+        $favicon        = $request->favicon;
+        $breadcrumb     = $request->breadcrumb;
 
-        $allowedExts = array('jpg', 'png', 'jpeg', 'svg');
-        $extLogo = pathinfo($logo, PATHINFO_EXTENSION);
-        $extFav = pathinfo($favicon, PATHINFO_EXTENSION);
-        $extBread = pathinfo($breadcrumb, PATHINFO_EXTENSION);
+        $allowedExts    = array('jpg', 'png', 'jpeg', 'svg');
+        $extLogo        = pathinfo($logo, PATHINFO_EXTENSION);
+        $extFav         = pathinfo($favicon, PATHINFO_EXTENSION);
+        $extBread       = pathinfo($breadcrumb, PATHINFO_EXTENSION);
 
-        $rules = [];
+        $rules          = [];
 
         if ($request->filled('logo')) {
             $rules['logo'] = [
@@ -82,7 +91,7 @@ class BasicController extends Controller
             foreach ($bss as $key => $bs) {
                 @unlink('assets/front/img/' . $bs->logo);
                 $filename = uniqid() .'.'. $extLogo;
-                @copy(str_replace(' ', '%20', $logo), 'assets/front/img/' . $filename);
+                @copy(str_replace(' ', '%20', $logo), 'assets/front/img/' . $filename, stream_context_create($this->arrContextOptions));
 
                 $bs->logo = $filename;
                 $bs->save();
@@ -98,7 +107,7 @@ class BasicController extends Controller
             foreach ($bss as $key => $bs) {
                 @unlink('assets/front/img/' . $bs->favicon);
                 $filename = uniqid() .'.'. $extFav;
-                @copy(str_replace(' ', '%20', $favicon), 'assets/front/img/' . $filename);
+                @copy(str_replace(' ', '%20', $favicon), 'assets/front/img/' . $filename, stream_context_create($this->arrContextOptions));
 
                 $bs->favicon = $filename;
                 $bs->save();
@@ -114,7 +123,7 @@ class BasicController extends Controller
             foreach ($bss as $key => $bs) {
                 @unlink('assets/front/img/' . $bs->breadcrumb);
                 $filename = uniqid() .'.'. $extBread;
-                @copy(str_replace(' ', '%20', $breadcrumb), 'assets/front/img/' . $filename);
+                @copy(str_replace(' ', '%20', $breadcrumb), 'assets/front/img/' . $filename, stream_context_create($this->arrContextOptions));
 
                 $bs->breadcrumb = $filename;
                 $bs->save();
@@ -231,7 +240,7 @@ class BasicController extends Controller
 
         if ($request->filled('preloader')) {
             $filename = uniqid() .'.'. $extPreloader;
-            @copy(str_replace(' ', '%20', $preloader), 'assets/front/img/' . $filename);
+            @copy(str_replace(' ', '%20', $preloader), 'assets/front/img/' . $filename, stream_context_create($this->arrContextOptions));
         }
 
         $bexs = BasicExtra::all();
@@ -256,24 +265,33 @@ class BasicController extends Controller
         $data['abx'] = BasicExtra::first();
         $data['timezones'] = Timezone::all();
 
+        $data['world_currencies']   = Country::with('currencies')->whereHas('currencies')->get()->sortBy('name', 0, false);
+        $data['countries']          = Country::all()->where('status', true)->sortBy('name', 0, false);
+        $data['currencies']         = Currency::all()->where('status', true)->sortBy('name', 0, false);
+
         return view('admin.basic.basicinfo', $data);
     }
 
     public function updatebasicinfo(Request $request)
     {
         $rules = [
-            'website_title' => 'required',
-            'base_color' => 'required',
-            'secondary_base_color' => 'required',
-            'hero_area_overlay_color' => 'required',
-            'hero_area_overlay_opacity' => 'required|numeric|max:1|min:0',
-            'breadcrumb_area_overlay_color' => 'required',
-            'breadcrumb_area_overlay_opacity' => 'required|numeric|max:1|min:0',
-            'base_currency_symbol' => 'required',
-            'base_currency_symbol_position' => 'required',
-            'base_currency_text' => 'required',
-            'base_currency_text_position' => 'required',
-            'base_currency_rate' => 'required|numeric',
+            'website_title'                     => 'required',
+            'base_color'                        => 'required',
+            'secondary_base_color'              => 'required',
+            'hero_area_overlay_color'           => 'required',
+            'hero_area_overlay_opacity'         => 'required|numeric|max:1|min:0',
+            'breadcrumb_area_overlay_color'     => 'required',
+            'breadcrumb_area_overlay_opacity'   => 'required|numeric|max:1|min:0',
+            'base_currency_symbol'              => 'required',
+            'base_currency_symbol_position'     => 'required',
+            'base_currency_text'                => 'required',
+            'base_currency_text_position'       => 'required',
+            'base_currency_rate'                => 'required|numeric',
+            'header_v2_button_text'             => 'nullable',
+            'digital_resource_link'             => 'nullable',
+            'digital_resource_text'             => 'nullable',
+            'offline_resource_text'             => 'nullable',
+            'header_shipping_text'              => 'nullable',
         ];
 
         $be = BasicExtended::first();
@@ -312,8 +330,13 @@ class BasicController extends Controller
             }
 
 
-            $be->breadcrumb_overlay_color = $request->breadcrumb_area_overlay_color;
+            $be->breadcrumb_overlay_color   = $request->breadcrumb_area_overlay_color;
             $be->breadcrumb_overlay_opacity = $request->breadcrumb_area_overlay_opacity;
+            $be->header_v2_button_text      = $request->header_v2_button_text;
+            $be->digital_resource_link      = preg_replace("/\/$/", "", $request->digital_resource_link);
+            $be->digital_resource_text      = $request->digital_resource_text;
+            $be->offline_resource_text      = $request->offline_resource_text;
+            $be->header_shipping_text       = $request->header_shipping_text;
             $be->save();
         }
 
@@ -639,7 +662,7 @@ class BasicController extends Controller
 
         if ($request->filled('maintenance')) {
             @unlink('assets/front/img/maintainance.png');
-            @copy(str_replace(' ', '%20', $maintenance), 'assets/front/img/maintainance.png');
+            @copy(str_replace(' ', '%20', $maintenance), 'assets/front/img/maintainance.png', stream_context_create($this->arrContextOptions));
         }
 
         $bss = BasicSetting::all();

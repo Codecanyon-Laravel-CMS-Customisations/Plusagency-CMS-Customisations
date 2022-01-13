@@ -1198,6 +1198,8 @@ id="course"
 @elseif(request()->path() == 'admin/file-manager') active
 @elseif(request()->path() == 'admin/preloader') active
 @elseif(request()->path() == 'admin/basicinfo') active
+@elseif(request()->path() == 'admin/easy-forms') active
+@elseif(request()->path() == 'admin/magic-zoom') active
 @elseif(request()->path() == 'admin/support') active
 @elseif(request()->path() == 'admin/social') active
 @elseif(request()->is('admin/social/*')) active
@@ -1206,6 +1208,10 @@ id="course"
 @elseif(request()->path() == 'admin/seo') active
 @elseif(request()->path() == 'admin/maintainance') active
 @elseif(request()->path() == 'admin/cookie-alert') active
+@elseif(request()->path() == 'admin/currency') active
+@elseif(request()->path() == 'admin/currency/world-currencies') active
+@elseif(request()->path() == 'admin/currency/currencies') active
+@elseif(request()->path() == 'admin/currency/countries') active
 @elseif(request()->path() == 'admin/mail-from-admin') active
 @elseif(request()->path() == 'admin/mail-to-admin') active
 @elseif(request()->routeIs('admin.featuresettings')) active
@@ -1229,6 +1235,8 @@ id="course"
 @elseif(request()->path() == 'admin/file-manager') show
 @elseif(request()->path() == 'admin/preloader') show
 @elseif(request()->path() == 'admin/basicinfo') show
+@elseif(request()->path() == 'admin/easy-forms') show
+@elseif(request()->path() == 'admin/magic-zoom') show
 @elseif(request()->path() == 'admin/support') show
 @elseif(request()->path() == 'admin/social') show
 @elseif(request()->is('admin/social/*')) show
@@ -1237,6 +1245,11 @@ id="course"
 @elseif(request()->path() == 'admin/seo') show
 @elseif(request()->path() == 'admin/maintainance') show
 @elseif(request()->path() == 'admin/cookie-alert') show
+@elseif(request()->path() == 'admin/currency') show
+@elseif(request()->path() == 'admin/currency/world-currencies') show
+@elseif(request()->path() == 'admin/currency/conversions') show
+@elseif(request()->path() == 'admin/currency/currencies') show
+@elseif(request()->path() == 'admin/currency/countries') show
 @elseif(request()->path() == 'admin/mail-from-admin') show
 @elseif(request()->path() == 'admin/mail-to-admin') show
 @elseif(request()->routeIs('admin.featuresettings')) show
@@ -1255,6 +1268,60 @@ id="course"
         <a href="{{route('admin.basicinfo')}}">
             <span class="sub-item">General Settings</span>
         </a>
+    </li>
+    <li class="@if(request()->path() == 'admin/magic-zoom') active @endif">
+        <a href="{{route('admin.magic-zoom')}}">
+            <span class="sub-item">Magic Zoom Settings</span>
+        </a>
+    </li>
+    <li class="@if(request()->path() == 'admin/easy-forms') active @endif">
+        <a href="{{route('admin.easy-forms')}}">
+            <span class="sub-item">E-Forms Settings</span>
+        </a>
+    </li>
+{{--    <li class="@if(request()->path() == 'admin/basicinfo') active @endif">--}}
+{{--        <a href="{{route('admin.basicinfo')}}">--}}
+{{--            <span class="sub-item">Currency Settings</span>--}}
+{{--        </a>--}}
+{{--    </li>--}}
+{{--    <li class="@if(request()->path() == 'admin/basicinfo') active @endif">--}}
+{{--        <a href="{{route('admin.basicinfo')}}">--}}
+{{--            <span class="sub-item">Countries Settings</span>--}}
+{{--        </a>--}}
+{{--    </li>--}}
+    <li class="submenu">
+        <a data-toggle="collapse" href="#currencyset" aria-expanded="{{(request()->path() == 'admin/currency/countries' || request()->path() == 'admin/currency/currencies' || request()->path() == 'admin/currency/world-currencies' || request()->path() == 'admin/currency/conversions' || request()->routeIs('admin.currency.conversions.index')) ? 'true' : 'false' }}">
+            <span class="sub-item">Currency Settings</span>
+            <span class="caret"></span>
+        </a>
+        <div class="collapse {{(request()->path() == 'admin/currency/countries' || request()->path() == 'admin/currency/currencies' || request()->path() == 'admin/currency/world-currencies' || request()->path() == 'admin/currency/conversions' || request()->routeIs('admin.currency.conversions.index')) ? 'show' : '' }}" id="currencyset" style="">
+            <ul class="nav nav-collapse subnav">
+                <li class="@if(request()->path() == 'admin/currency/countries') active @endif">
+                    <a href="{{route('admin.currency.countries.index')}}">
+                        <span class="sub-item">Countries</span>
+                    </a>
+                </li>
+                <li class="@if(request()->path() == 'admin/currency/currencies') active @endif">
+                    <a href="{{route('admin.currency.currencies.index')}}">
+                        <span class="sub-item">Currencies</span>
+                    </a>
+                </li>
+                <li class="@if(request()->path() == 'admin/currency/conversions') active
+                    @elseif(request()->routeIs('admin.currency.conversions.index')) active
+                    @endif">
+                    <a href="{{route('admin.currency.conversions.index')}}">
+                        <span class="sub-item">Currency Conversions</span>
+                    </a>
+                </li>
+                <li class="@if(request()->path() == 'admin/currency/world-currencies') active
+                    @elseif(request()->routeIs('admin.currency.world-currencies.index')) active
+                    @endif">
+                    <a href="{{route('admin.currency.world-currencies.index')}}">
+                        <span class="sub-item">Currencies</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </li>
     <li class="submenu">
         <a data-toggle="collapse" href="#emailset" aria-expanded="{{(request()->path() == 'admin/mail-from-admin' || request()->path() == 'admin/mail-to-admin' || request()->path() == 'admin/email-templates' || request()->routeIs('admin.email.editTemplate')) ? 'true' : 'false' }}">

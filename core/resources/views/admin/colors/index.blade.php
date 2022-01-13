@@ -73,10 +73,13 @@
                                 <div class="col-3">
                                     <div class="nav flex-column nav-pills" id="v-pills-tab1" role="tablist" aria-orientation="vertical">
                                         @foreach ($website_colors_obj as $key => $value)
-                                            <a class="nav-link my-1 @if($value['active']) active @endif" id="v-pills-tab-{{ $key }}" data-toggle="pill" href="#v-pills-{{ $key }}" role="tab" aria-controls="v-pills-{{ $key }}" aria-selected="@if($value['active']) true @else false @endif">{{ $value['tab_title'] }}</a>
+                                            <a class="nav-link my-1 text-left pl-2 @if($value['active']) active @endif" id="v-pills-tab-{{ $key }}" data-toggle="pill" href="#v-pills-{{ $key }}" role="tab" aria-controls="v-pills-{{ $key }}" aria-selected="@if($value['active']) true @else false @endif">{{ $value['tab_title'] }}</a>
                                         @endforeach
                                         <button class="my-2 btn btn-block btn-success save-all-presets" >
                                             <strong>SAVE ALL</strong>
+                                        </button>
+                                        <button class="my-2 btn btn-block btn-danger clear-all-presets" >
+                                            <strong>RESET ALL</strong>
                                         </button>
                                     </div>
                                 </div>
@@ -106,11 +109,6 @@
                                                                                         $saved_presets  = $website_colors_col->where('element', $element['attr_default']);
                                                                                         $color_set      = $saved_presets->where('attribute', 'color')->first();
                                                                                         $background_set = $saved_presets->where('attribute', 'background-color')->first();
-                                                                                        // echo json_encode($saved_presets);
-                                                                                        // echo "<hr/>";
-                                                                                        // echo json_encode($background_set);
-                                                                                        // echo "<hr/>";
-                                                                                        // echo ($color_set->value);
                                                                                     @endphp
                                                                                     <div class="row">
                                                                                         <div class="col-lg-4">
@@ -118,11 +116,15 @@
                                                                                                 <label>Attribute **</label>
                                                                                                 <select name="attribute" class="form-control">
                                                                                                     <option @if ($color_set)
-                                                                                                            data-color="{{ $color_set->value }}"
-                                                                                                            @endif value="color">Text Color</option>
+                                                                                                            data-color="{{ trim(str_replace('!important', '', $color_set->value)) }}"
+                                                                                                            @endif
+                                                                                                            data-important="@if(isset($element['important_default'])) {{ trim($element['important_default']) }} @endif"
+                                                                                                            value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Text Color @endif</option>
                                                                                                     <option @if ($background_set)
-                                                                                                            data-color="{{ $background_set->value }}"
-                                                                                                            @endif value="background-color">Background Color</option>
+                                                                                                            data-color="{{ trim(str_replace('!important', '', $background_set->value)) }}"
+                                                                                                            @endif
+                                                                                                            data-important="@if(isset($element['important_default'])) {{ trim($element['important_default']) }} @endif"
+                                                                                                            value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else background-color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Background Color @endif</option>
                                                                                                 </select>
                                                                                                 @if (Session::get('data') == 0)
                                                                                                     @if ($errors->has('attribute'))
@@ -159,8 +161,12 @@
                                                                                             <div class="form-group">
                                                                                                 <label>Attribute **</label>
                                                                                                 <select name="attribute" class="form-control">
-                                                                                                    <option value="color">Text Color</option>
-                                                                                                    <option value="background-color">Background Color</option>
+                                                                                                    <option
+                                                                                                        data-important="@if(isset($element['important_default'])) {{ trim($element['important_default']) }} @endif"
+                                                                                                        value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Text Color @endif </option>
+                                                                                                    <option
+                                                                                                        data-important="@if(isset($element['important_default'])) {{ trim($element['important_default']) }} @endif"
+                                                                                                        value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else background-color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Background Color @endif </option>
                                                                                                 </select>
                                                                                                 @if (Session::get('data') == 0)
                                                                                                     @if ($errors->has('attribute'))
@@ -194,98 +200,106 @@
                                                                                 @endif
                                                                             </form>
                                                                         </div>
-                                                                        <div class="col-12">
-                                                                            <form action="{{route('admin.colorSettings.store')}}" method="post">
-                                                                                @csrf
-                                                                                <input type="hidden" name="element" value="{{ $element['attr_hover'] }}">
-                                                                                @if ($website_colors_col->where('element', $element['attr_hover'])->count() >= 1 )
-                                                                                    @php
-                                                                                        $saved_presets  = $website_colors_col->where('element', $element['attr_hover']);
-                                                                                        $color_set      = $saved_presets->where('attribute', 'color')->first();
-                                                                                        $background_set = $saved_presets->where('attribute', 'background-color')->first();
-                                                                                    @endphp
-                                                                                    <div class="row">
-                                                                                        <div class="col-lg-4">
-                                                                                            <div class="form-group">
-                                                                                                <label>Attribute *HOVER*</label>
-                                                                                                <select name="attribute" class="form-control">
-                                                                                                    <option @if ($color_set)
-                                                                                                            data-color="{{ $color_set->value }}"
-                                                                                                            @endif value="color">Text Color</option>
-                                                                                                    <option @if ($background_set)
-                                                                                                            data-color="{{ $background_set->value }}"
-                                                                                                            @endif value="background-color">Background Color</option>
-                                                                                                </select>
-                                                                                                @if (Session::get('data') == 0)
-                                                                                                    @if ($errors->has('attribute'))
-                                                                                                        <p class="mb-0 text-danger">{{$errors->first('attribute')}}</p>
-                                                                                                    @endif
-                                                                                                @endif
-                                                                                            </div>
-                                                                                        </div>
-                                                                                        <div class="col-lg-8">
-                                                                                            <div class="row px-0">
-                                                                                                <div class="col-lg-8 px-0">
-                                                                                                    <div class="form-group">
-                                                                                                        <label>Color **</label>
-                                                                                                        <input class="jscolor form-control ltr" name="color">
-                                                                                                        @if (Session::get('data') == 0)
-                                                                                                            @if ($errors->has('color'))
-                                                                                                                <p class="mb-0 text-danger">{{$errors->first('color')}}</p>
-                                                                                                            @endif
+                                                                        @if(!isset($element['attr_mono']))
+                                                                            <div class="col-12">
+                                                                                <form action="{{route('admin.colorSettings.store')}}" method="post">
+                                                                                    @csrf
+                                                                                    <input type="hidden" name="element" value="{{ $element['attr_hover'] }}">
+                                                                                    @if ($website_colors_col->where('element', $element['attr_hover'])->count() >= 1 )
+                                                                                        @php
+                                                                                            $saved_presets  = $website_colors_col->where('element', $element['attr_hover']);
+                                                                                            $color_set      = $saved_presets->where('attribute', 'color')->first();
+                                                                                            $background_set = $saved_presets->where('attribute', 'background-color')->first();
+                                                                                        @endphp
+                                                                                        <div class="row">
+                                                                                            <div class="col-lg-4">
+                                                                                                <div class="form-group">
+                                                                                                    <label>Attribute *HOVER*</label>
+                                                                                                    <select name="attribute" class="form-control">
+                                                                                                        <option @if ($color_set)
+                                                                                                                data-color="{{ trim(str_replace('!important', '', $color_set->value)) }}"
+                                                                                                                data-important="@if(isset($element['important_hover'])) {{ trim($element['important_hover']) }} @endif"
+                                                                                                                @endif value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Text Color @endif </option>
+                                                                                                        <option @if ($background_set)
+                                                                                                                data-color="{{ trim(str_replace('!important', '', $background_set->value)) }}"
+                                                                                                                data-important="@if(isset($element['important_hover'])) {{ trim($element['important_hover']) }} @endif"
+                                                                                                                @endif value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else background-color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Background Color @endif </option>
+                                                                                                    </select>
+                                                                                                    @if (Session::get('data') == 0)
+                                                                                                        @if ($errors->has('attribute'))
+                                                                                                            <p class="mb-0 text-danger">{{$errors->first('attribute')}}</p>
                                                                                                         @endif
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                                <div class="col-lg-4 px-0">
-                                                                                                    <div class="form-group">
-                                                                                                        <label>Click me!</label>
-                                                                                                        <button type="submit" id="displayNotif" class="btn btn-success">Save</button>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                @else
-                                                                                    <div class="row">
-                                                                                        <div class="col-lg-4">
-                                                                                            <div class="form-group">
-                                                                                                <label>Attribute *HOVER*</label>
-                                                                                                <select name="attribute" class="form-control">
-                                                                                                    <option value="color">Text Color</option>
-                                                                                                    <option value="background-color">Background Color</option>
-                                                                                                </select>
-                                                                                                @if (Session::get('data') == 0)
-                                                                                                    @if ($errors->has('attribute'))
-                                                                                                        <p class="mb-0 text-danger">{{$errors->first('attribute')}}</p>
                                                                                                     @endif
-                                                                                                @endif
+                                                                                                </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                        <div class="col-lg-8">
-                                                                                            <div class="row px-0">
-                                                                                                <div class="col-lg-8 px-0">
-                                                                                                    <div class="form-group">
-                                                                                                        <label>Color **</label>
-                                                                                                        <input class="jscolor form-control ltr" name="color">
-                                                                                                        @if (Session::get('data') == 0)
-                                                                                                            @if ($errors->has('color'))
-                                                                                                                <p class="mb-0 text-danger">{{$errors->first('color')}}</p>
+                                                                                            <div class="col-lg-8">
+                                                                                                <div class="row px-0">
+                                                                                                    <div class="col-lg-8 px-0">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>Color **</label>
+                                                                                                            <input class="jscolor form-control ltr" name="color">
+                                                                                                            @if (Session::get('data') == 0)
+                                                                                                                @if ($errors->has('color'))
+                                                                                                                    <p class="mb-0 text-danger">{{$errors->first('color')}}</p>
+                                                                                                                @endif
                                                                                                             @endif
-                                                                                                        @endif
+                                                                                                        </div>
                                                                                                     </div>
-                                                                                                </div>
-                                                                                                <div class="col-lg-4 px-0">
-                                                                                                    <div class="form-group">
-                                                                                                        <label>Click me!</label>
-                                                                                                        <button type="submit" id="displayNotif" class="btn btn-success">Save</button>
+                                                                                                    <div class="col-lg-4 px-0">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>Click me!</label>
+                                                                                                            <button type="submit" id="displayNotif" class="btn btn-success">Save</button>
+                                                                                                        </div>
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
-                                                                                    </div>
-                                                                                @endif
-                                                                            </form>
-                                                                        </div>
+                                                                                    @else
+                                                                                        <div class="row">
+                                                                                            <div class="col-lg-4">
+                                                                                                <div class="form-group">
+                                                                                                    <label>Attribute *HOVER*</label>
+                                                                                                    <select name="attribute" class="form-control">
+                                                                                                        <option
+                                                                                                            data-important="@if(isset($element['important_hover'])) {{ trim($element['important_hover']) }} @endif"
+                                                                                                            value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Text Color @endif</option>
+                                                                                                        <option
+                                                                                                            data-important="@if(isset($element['important_hover'])) {{ trim($element['important_hover']) }} @endif"
+                                                                                                            value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else background-color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Background Color @endif</option>
+                                                                                                    </select>
+                                                                                                    @if (Session::get('data') == 0)
+                                                                                                        @if ($errors->has('attribute'))
+                                                                                                            <p class="mb-0 text-danger">{{$errors->first('attribute')}}</p>
+                                                                                                        @endif
+                                                                                                    @endif
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col-lg-8">
+                                                                                                <div class="row px-0">
+                                                                                                    <div class="col-lg-8 px-0">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>Color **</label>
+                                                                                                            <input class="jscolor form-control ltr" name="color">
+                                                                                                            @if (Session::get('data') == 0)
+                                                                                                                @if ($errors->has('color'))
+                                                                                                                    <p class="mb-0 text-danger">{{$errors->first('color')}}</p>
+                                                                                                                @endif
+                                                                                                            @endif
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-lg-4 px-0">
+                                                                                                        <div class="form-group">
+                                                                                                            <label>Click me!</label>
+                                                                                                            <button type="submit" id="displayNotif" class="btn btn-success">Save</button>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    @endif
+                                                                                </form>
+                                                                            </div>
+                                                                        @endif
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -311,8 +325,7 @@
                                                 <div class="col-lg-4">
                                                     <div class="form-group">
                                                         <label>Element **</label>
-                                                        <select name="element" class="form-control">
-                                                            <option value="" disabled selected>Please choose an element</option>
+                                                        <select id="hard_options" name="element" class="form-control">
                                                             <option value="body">Body</option>
                                                             <option value="header">Header</option>
                                                             <option value="h1">Heading 1</option>
@@ -487,7 +500,7 @@
                                                         <div class="col-lg-3">
                                                             <div class="form-group">
                                                                 <label>Color **</label>
-                                                                <input class="jscolor form-control ltr" name="color" value="{{ $color->value }}">
+                                                                <input class="jscolor form-control ltr" name="color" value="{{ str_replace(' ', '', str_replace('!important', '', $color->value)) }}">
                                                                 @if (Session::get('data') == 2)
                                                                     @if ($errors->has('color'))
                                                                         <p class="mb-0 text-danger">{{$errors->first('color')}}</p>
@@ -547,7 +560,7 @@
 
 
             var data    = {
-                "color"     : $(this).find('input[name="color"]').val(),
+                "color"     : $(this).find('input[name="color"]').val()+' '+$(this).find('select[name="attribute"]').find('option:selected').attr('data-important'),
                 "element"   : $(this).find('input[name="element"]').val(),
                 "attribute" : $(this).find('select[name="attribute"]').find('option:selected').val(),
             };
@@ -613,6 +626,9 @@
                 $('.save-all-presets').html(initialHtml);
             }, 2000);
         });
+        $('.clear-all-presets').on('click', function(){
+            window.location.assign("{{ route('admin.colorSettings.bulk-destroy') }}");
+        });
 
         function savePreset(f1, progress){
             $('.save-all-presets').html(progress);
@@ -634,5 +650,11 @@
                 dataType: 'json'
             });
         }
+    </script>
+    <script>
+        $("#hard_options").html($("#hard_options option").sort(function (a, b) {
+            return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
+        })).prepend('<option value="" disabled selected>Please choose an element</option>');
+
     </script>
 @endsection

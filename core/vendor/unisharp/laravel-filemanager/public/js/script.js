@@ -279,11 +279,7 @@ function performLfmRequest(url, parameter, type) {
     data: data,
     cache: false
   }).fail(function (jqXHR, textStatus, errorThrown) {
-    if (jqXHR.responseText && jqXHR.responseText.indexOf("File name already in use!") > -1) {
-      alert("File name already in use!");
-    } else if (jqXHR.responseText && jqXHR.responseText.indexOf("File already exists") > -1) {
-      alert("File already exists there!");
-    }
+    displayErrorResponse(jqXHR);
   });
 }
 
@@ -454,9 +450,6 @@ function loadItems(page) {
             });
 
           if (item.thumb_url) {
-            if (item.thumb_url.indexOf('folder.png') > -1) {
-              item.thumb_url = item.thumb_url.replace('vendor/laravel-filemanager', 'core/vendor/unisharp/laravel-filemanager/public');
-            }
             var image = $('<div>').css('background-image', 'url("' + item.thumb_url + '?timestamp=' + item.time + '")');
           } else {
             var icon = $('<div>').addClass('ico');

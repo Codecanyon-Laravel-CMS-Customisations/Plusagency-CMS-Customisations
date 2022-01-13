@@ -1,5 +1,4 @@
 @extends("front.$version.layout")
-
 @section('pagename')
 - {{__('Contact Us')}}
 @endsection

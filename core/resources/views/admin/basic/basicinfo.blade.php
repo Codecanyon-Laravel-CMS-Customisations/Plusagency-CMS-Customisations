@@ -28,13 +28,13 @@
       <div class="card">
         <form class="" action="{{route('admin.basicinfo.update')}}" method="post">
           @csrf
-          <div class="card-header">
-              <div class="row">
-                  <div class="col-lg-10">
-                      <div class="card-title">Update Basic Informations</div>
-                  </div>
-              </div>
-          </div>
+{{--          <div class="card-header">--}}
+{{--              <div class="row">--}}
+{{--                  <div class="col-lg-10">--}}
+{{--                      <div class="card-title">Update Basic Informations</div>--}}
+{{--                  </div>--}}
+{{--              </div>--}}
+{{--          </div>--}}
           <div class="card-body pt-5 pb-5">
             <div class="row">
               <div class="col-lg-8 offset-lg-2">
@@ -66,62 +66,58 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <label>Base Currency Symbol **</label>
-                            <input type="text" class="form-control ltr" name="base_currency_symbol" value="{{$abx->base_currency_symbol}}">
-                            @if ($errors->has('base_currency_symbol'))
-                              <p class="mb-0 text-danger">{{$errors->first('base_currency_symbol')}}</p>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="col-lg-6">
-                        <div class="form-group">
-                            <label>Base Currency Symbol Position **</label>
-                            <select name="base_currency_symbol_position" class="form-control ltr">
-                                <option value="left" {{$abx->base_currency_symbol_position == 'left' ? 'selected' : ''}}>Left</option>
-                                <option value="right" {{$abx->base_currency_symbol_position == 'right' ? 'selected' : ''}}>Right</option>
-                            </select>
-                            @if ($errors->has('base_currency_symbol_position'))
-                              <p class="mb-0 text-danger">{{$errors->first('base_currency_symbol_position')}}</p>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-
-
-
-                <div class="row">
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label>Base Currency Text **</label>
-                            <input type="text" class="form-control ltr" name="base_currency_text" value="{{$abx->base_currency_text}}">
-                            @if ($errors->has('base_currency_text'))
-                              <p class="mb-0 text-danger">{{$errors->first('base_currency_text')}}</p>
-                            @endif
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <label>Base Currency Text Position **</label>
-                            <select name="base_currency_text_position" class="form-control ltr">
-                                <option value="left" {{$abx->base_currency_text_position == 'left' ? 'selected' : ''}}>Left</option>
-                                <option value="right" {{$abx->base_currency_text_position == 'right' ? 'selected' : ''}}>Right</option>
+                            <label>Base Currency **</label>
+                            <select class="form-control ltr currency_selector">
+                                @foreach ($currencies as $wc)
+                                    <option data-name="{{ $wc->name }}" data-acronym="{{ $wc->acronym }}" data-symbol="{{ $wc->symbol }}" data-symbol-position="{{ $wc->symbol_position == "R" ? "Right" : "Left" }}" data-text-position="{{ $wc->text_position == "R" ? "Right" : "Left"  }}" data-rate="{{ $wc->conversion ? $wc->conversion->rate : ""  }}" value="{{ $wc->id }}" {{ $abx->base_currency_text == $wc->name ? 'selected' : '' }}>{{ $wc->name }} ({{ $wc->acronym }})</option>
+                                @endforeach
                             </select>
                             @if ($errors->has('base_currency_text_position'))
                               <p class="mb-0 text-danger">{{$errors->first('base_currency_text_position')}}</p>
                             @endif
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Base Currency Text **</label>
+                            <input type="text" class="form-control ltr" name="base_currency_text" disabled value="{{$abx->base_currency_text}}">
+                            <input type="hidden" class="form-control ltr" name="base_currency_text" value="{{$abx->base_currency_text}}">
+                            @if ($errors->has('base_currency_text'))
+                              <p class="mb-0 text-danger">{{$errors->first('base_currency_text')}}</p>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Base Currency Symbol **</label>
+                            <input type="text" class="form-control ltr" name="base_currency_symbol" disabled value="{{$abx->base_currency_symbol}}">
+                            <input type="hidden" class="form-control ltr" name="base_currency_symbol" value="{{$abx->base_currency_symbol}}">
+                            @if ($errors->has('base_currency_symbol'))
+                              <p class="mb-0 text-danger">{{$errors->first('base_currency_symbol')}}</p>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Base Currency Symbol Position **</label>
+                            <input name="base_currency_symbol_position" class="form-control ltr" disabled>
+                            <input name="base_currency_symbol_position" class="form-control ltr" type="hidden">
+                            @if ($errors->has('base_currency_symbol_position'))
+                              <p class="mb-0 text-danger">{{$errors->first('base_currency_symbol_position')}}</p>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
                         <div class="form-group">
                             <label>Base Currency Rate **</label>
                             <div class="input-group mb-2">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">1 USD =</span>
                                 </div>
-                                <input type="text" name="base_currency_rate" class="form-control ltr" value="{{$abx->base_currency_rate}}">
+                                <input type="text" name="base_currency_rate" class="form-control ltr" disabled value="{{$abx->base_currency_rate}}">
+                                <input type="hidden" name="base_currency_rate" class="form-control ltr" value="{{$abx->base_currency_rate}}">
                                 <div class="input-group-append">
-                                  <span class="input-group-text">{{$abx->base_currency_text}}</span>
+                                  <span class="input-group-text span-rated-symbol">{{$abx->base_currency_text}}</span>
                                 </div>
                             </div>
 
@@ -130,8 +126,17 @@
                             @endif
                         </div>
                     </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Base Currency Text Position **</label>
+                            <input name="base_currency_text_position" class="form-control ltr" disabled value="">
+                            <input name="base_currency_text_position" class="form-control ltr" type="hidden" value="">
+                            @if ($errors->has('base_currency_text_position'))
+                              <p class="mb-0 text-danger">{{$errors->first('base_currency_text_position')}}</p>
+                            @endif
+                        </div>
+                    </div>
                 </div>
-
 
 
                 <div class="row">
@@ -204,6 +209,49 @@
                             @endif
                         </div>
                     </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Header V2 button text</label>
+                            <input type="text" class="form-control ltr" name="header_v2_button_text" value="{{$abe->header_v2_button_text}}">
+                            @if ($errors->has('header_v2_button_text'))
+                              <p class="mb-0 text-danger">{{$errors->first('header_v2_button_text')}}</p>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label>Header V3 shipping text</label>
+                            <input type="text" class="form-control ltr" name="header_shipping_text" value="{{$abe->header_shipping_text}}">
+                            @if ($errors->has('header_shipping_text'))
+                              <p class="mb-0 text-danger">{{$errors->first('header_shipping_text')}}</p>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Digital Resource Link</label>
+                            <input type="text" class="form-control ltr" placeholder="e.g https://digital.angelbookhouse.com/" name="digital_resource_link" value="{{$abe->digital_resource_link}}">
+                            @if ($errors->has('digital_resource_link'))
+                              <p class="mb-0 text-danger">{{$errors->first('digital_resource_link')}}</p>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Digital Resource Text</label>
+                            <input type="text" class="form-control ltr" placeholder="e.g CLICK  TO ACCESS RESOURCE" name="digital_resource_text" value="{{$abe->digital_resource_text}}">
+                            @if ($errors->has('digital_resource_text'))
+                              <p class="mb-0 text-danger">{{$errors->first('digital_resource_text')}}</p>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Offline Resource Text</label>
+                            <input type="text" class="form-control ltr" placeholder="e.g CLICK  TO ACCESS RESOURCE" name="offline_resource_text" value="{{$abe->offline_resource_text}}">
+                            @if ($errors->has('offline_resource_text'))
+                              <p class="mb-0 text-danger">{{$errors->first('offline_resource_text')}}</p>
+                            @endif
+                        </div>
+                    </div>
                 </div>
 
               </div>
@@ -223,4 +271,36 @@
     </div>
   </div>
 
+@endsection
+@section('scripts')
+  <script>
+        $(document).ready(function(){
+            let currency_selector = $('.currency_selector');
+
+            initCurrencySelector(currency_selector);
+
+            currency_selector.on('change', function() {
+                initCurrencySelector(this);
+            });
+
+            function initCurrencySelector(tgt) {
+                let activeOption    = $(tgt).find('option:selected');
+
+                let dName           = activeOption.attr('data-name');
+                let dRate           = activeOption.attr('data-rate');
+                let dAcronym        = activeOption.attr('data-acronym');
+                let dSymbol         = activeOption.attr('data-symbol');
+                let dSymbolPosition = activeOption.attr('data-symbol-position');
+                let dTextPosition   = activeOption.attr('data-text-position');
+
+                $('.span-rated-symbol').text(dSymbol);
+                $('input[name="base_currency_text"]').val(dName);
+                $('input[name="base_currency_rate"]').val(dRate);
+                $('input[name="base_currency_symbol"]').val(dSymbol);
+                $('input[name="base_currency_text_position"]').val(dAcronym);
+                $('input[name="base_currency_text_position"]').val(dTextPosition);
+                $('input[name="base_currency_symbol_position"]').val(dSymbolPosition);
+            }
+        });
+  </script>
 @endsection

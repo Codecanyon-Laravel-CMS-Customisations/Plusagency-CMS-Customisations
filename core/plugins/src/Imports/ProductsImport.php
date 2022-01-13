@@ -2,6 +2,8 @@
 
 namespace AngelBooks\Plugins\Imports;
 
+use App\BasicExtended;
+use App\Language;
 use App\User;
 use App\Group;
 use App\Product;
@@ -12,6 +14,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Concerns\OnEachRow;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Symfony\Component\DomCrawler\Crawler;
 
 class ProductsImport implements OnEachRow, WithHeadingRow
 {
@@ -22,46 +25,56 @@ class ProductsImport implements OnEachRow, WithHeadingRow
 
         if (strlen(trim(convertUtf8($row['name']))) > 1)
         {
-            $product                = Product::firstOrCreate([
-                'sku'               => trim(convertUtf8($row['sku'])),
+            $product                        = Product::firstOrCreate([
+                'sku'                       => trim(convertUtf8($row['sku'])),
                 // 'status'    => 1,
             ]);
+            if (!isset($row['offline'])) $row['offline'] = 0;
+            if (!isset($row['digital'])) $row['digital'] = 0;
 
-            $product_categories         = $this->setProductCategories($row);
+            $product_categories             = $this->setProductCategories($row);
 
-            $parent_category            = $product_categories['parent_category'];
-            $sub_category               = $product_categories['sub_category'];
-            $sub_child_category         = $product_categories['sub_child_category'];
+            $parent_category                = $product_categories['parent_category'];
+            $sub_category                   = $product_categories['sub_category'];
+            $sub_child_category             = $product_categories['sub_child_category'];
 
 
-            $product->title             = convertUtf8($row['name']);
-            $product->slug              = trim(Str::slug(convertUtf8($row['name'])));
-            $product->language_id       = trim(169);
-            $product->stock             = trim($row['stock']);
-            $product->category_id       = trim($parent_category->id);
-            $product->sub_category_id   = $sub_category ? trim($sub_category->id) : NULL;
-            $product->sub_child_category_id     = $sub_child_category ? trim($sub_child_category->id) : NULL;
-            $product->tags              = trim($row['tags']);
-    //        $product->feature_image     = trim(explode(',', $row['images'])[0]);
-            //$product->pending_images_download   = trim(trim($row['images']));
-            $product->summary           = trim(e($row['short_description']));
-            $product->description       = trim(e($row['description']));
-            $product->current_price     = trim(trim(preg_replace("/[^\d\.]/", "", $row['regular_price'])) != "" ? preg_replace("/[^\d\.]/", "", $row['regular_price']) : '0.00');
-            $product->is_feature        = trim($row['is_featured']);
-            $product->status            = trim(1);
-            $product->rating            = trim('0.00');
-            $product->type              = trim('physical');
+            $product->title                 = convertUtf8($row['name']);
+            $product->slug                  = trim(Str::slug(convertUtf8($row['name'])));
+            $product->language_id           = trim(169);
+            $product->offline               = intval($row['offline']);
+            $product->digital               = intval($row['digital']);
+            $product->show_inquiry_form     = intval(isset($row['show_inquiry_form']) ? $row['show_inquiry_form'] : 0);
+            $product->stock                 = trim($row['stock']);
+            $product->category_id           = trim($parent_category->id);
+            $product->sub_category_id       = $sub_category ? trim($sub_category->id) : NULL;
+            $product->sub_child_category_id = $sub_child_category ? trim($sub_child_category->id) : NULL;
+            $product->tags                  = trim($row['tags']);
+            // $product->feature_image         = trim(explode(',', $row['images'])[0]);
+            // $product->pending_images_download   = trim(trim($row['images']));
+            $product->summary               = trim(e($this->parse_digital_links($product, (string)$row['short_description'])));
+            $product->description           = trim(e($this->parse_digital_links($product, (string)$row['description'])));
+            $product->current_price         = trim(trim(preg_replace("/[^\d\.]/", "", $row['regular_price'])) != "" ? preg_replace("/[^\d\.]/", "", $row['regular_price']) : '0.00');
+            $product->is_feature            = trim($row['is_featured']);
+            $product->status                = trim(1);
+            $product->rating                = trim('0.00');
+            $product->type                  = trim('physical');
             $product->save();
 
              $this->setProductImages($product, $row);
             // $this->setChildSubCategory($product, $row);
-            // $this->setProductAttributes($product, $row);
+             $this->setProductAttributes($product, $row);
+             $this->setProductTabs($product, $row);
+
+             if(isset($row['add_to_menu'])) $product->show_in_page_builder  = intval($row['add_to_menu']);$product->save();
         }
 
     }
 
     public function setCategory(Product $product, Array $row)
     {
+        //product category
+        if (!isset($row['categories']))   $row['categories'] = "Default Category";
         $category_col           = trim($row['categories']);
         if (strlen(trim($category_col)) < 3)            $category_col           = "Default Category";
 
@@ -87,8 +100,9 @@ class ProductsImport implements OnEachRow, WithHeadingRow
     public function setProductCategories(Array $row)
     {
         //product category
+        if (!isset($row['child_categories']))       $row['child_categories']     = "Default Category";
         if (!isset($row['sub_child_categories']))   $row['sub_child_categories'] = "Default Category";
-        $category_col           = trim($row['categories']);
+        $category_col           = isset($row['categories']) ? trim($row['categories']) : "Default Category";
         $child_category_col     = Str::contains($row['child_categories'], '>') ?     trim(explode('>', $row['child_categories'])[0])     : trim($row['child_categories']);
         $sub_child_category_col = Str::contains($row['sub_child_categories'], '>') ? trim(explode('>', $row['sub_child_categories'])[0]) : trim($row['sub_child_categories']);
 
@@ -159,6 +173,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
 
     public function setSubCategory(Pcategory $parent_category, Product $product, Array $row)
     {
+        if (!isset($row['child_categories']))   $row['child_categories'] = "Default Category";
         $child_category_col         = trim(explode('>', $row['child_categories'])[0]);
         if (strlen(trim($child_category_col)) < 3)      $child_category_col     = "Default Category";
 
@@ -210,10 +225,10 @@ class ProductsImport implements OnEachRow, WithHeadingRow
 
         if ( isset( $row[ 'attribute_1_name' ] ) ) {
             $attributes[] = [
-                'name' => $row[ 'attribute_1_name' ],
-                'value' => $row[ 'attribute_1_values'],
-                'visible' => $row[ 'attribute_1_visible' ],
-                'global' => $row[ 'attribute_1_global' ]
+                'name'      => $row[ 'attribute_1_name' ],
+                'value'     => $row[ 'attribute_1_values'],
+                'visible'   => $row[ 'attribute_1_visible' ],
+                'global'    => $row[ 'attribute_1_global' ]
             ];
         }
         if ( isset( $row[ 'attribute_2_name' ] ) ) {
@@ -234,10 +249,10 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         }
         if ( isset( $row[ 'attribute_4_name' ] ) ) {
             $attributes[] = [
-                'name' => $row[ 'attribute_4_name' ],
-                'value' => $row[ 'attribute_4_values'],
+                'name'    => $row[ 'attribute_4_name' ],
+                'value'   => isset($row[ 'attribute_4_values']) ? $row[ 'attribute_4_values'] : '',
                 'visible' => $row[ 'attribute_4_visible' ],
-                'global' => $row[ 'attribute_4_global' ]
+                'global'  => $row[ 'attribute_4_global' ]
             ];
         }
         if ( isset( $row[ 'attribute_5_name' ] ) ) {
@@ -326,6 +341,26 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         $product->save();
     }
 
+    public function setProductTabs(Product $product, Array $row)
+    {
+        $tabs                   = [];
+
+        for ($a=0; $a<20; $a++)
+        {
+            $tab_title          = "tab_".$a."_tittle";
+            $tab_content        = "tab_".$a."_content";
+            if ( isset( $row[$tab_title] ) && trim( $row[$tab_title] ) != '' ) {
+                $tabs[]         = [
+                    'title'     => $row[$tab_title],
+                    'content'   => $row[$tab_content],
+                ];
+            }
+        }
+        $product->tabs      = json_encode( $tabs );
+
+        $product->save();
+    }
+
 
     public function setProductImages(Product $product, Array $row)
     {
@@ -378,5 +413,115 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             return $link;
         }catch(\Exception $e){}
         return $link;
+    }
+
+
+    public function parse_tabs($html)
+    {
+        try
+        {
+            $html_template = '
+            <table id="tabs-a">
+            <tr>
+                <td>t==111 Lorem ipsum.</td>
+                <td>t==222 Lorem ipsum.</td>
+                <td>t==333 Lorem ipsum.</td>
+            </tr>
+            <tr>
+                <td>111==Lorem ipsum dolor sit.</td>
+                <td>222==Lorem ipsum dolor sit amet, consectetur.</td>
+                <td>333==Lorem ipsum dolor sit amet, consectetur adipisicing.</td>
+            </tr>
+            </table>
+            <table id="tabs">
+            <tr>
+                <td>t1 Lorem ipsum.</td>
+                <td>t2 Lorem ipsum.</td>
+                <td>t3 Lorem ipsum.</td>
+            </tr>
+            <tr>
+                <td>Lorem ipsum dolor sit.</td>
+                <td>Lorem ipsum dolor sit amet, consectetur.</td>
+                <td>Lorem ipsum dolor sit amet, consectetur adipisicing.</td>
+            </tr>
+            </table>
+            <table id="tabs-z">
+            <tr>
+                <td>t111 Lorem ipsum.</td>
+                <td>t222 Lorem ipsum.</td>
+                <td>t333 Lorem ipsum.</td>
+            </tr>
+            <tr>
+                <td>111Lorem ipsum dolor sit.</td>
+                <td>222Lorem ipsum dolor sit amet, consectetur.</td>
+                <td>333Lorem ipsum dolor sit amet, consectetur adipisicing.</td>
+            </tr>
+            </table>';
+
+
+            $index          = 0;
+            $html_t         = "";
+            $html_d         = "";
+            $html_x         = "";
+            $titles         = array();
+            $descriptions   = array();
+            $crawler        = new Crawler($html);
+            $crawler        = $crawler->filter('table#tabs > tr');
+            $crawler_t_tr   = $crawler->eq(0);
+            $crawler_d_tr   = $crawler->eq(1);
+
+            foreach ($crawler_t_tr->filter('td') as $node) { array_push($titles, $node->nodeValue); }
+            foreach ($crawler_d_tr->filter('td') as $node) { array_push($descriptions, $node->nodeValue); }
+
+
+            foreach ($titles as $title)
+            {
+                $tab_id         = "tab-".rand(0, 777);
+                $active_status  = $index == 0 ? " active " : "";
+                $description    = isset($descriptions[$index]) ? $descriptions[$index] : "";
+                $html_t         .= "<li class='nav-item'><a class='nav-link $active_status' data-toggle='tab' href='#$tab_id' role='tab'>$title</a></li>";
+                $html_d         .= "<div class='tab-pane $active_status' id='$tab_id' role='tabpanel'>$description</div>";
+                $index++;
+            }
+            $html_x .= "<ul class='nav nav-pills mb-3' role='tablist'>$html_t</ul>";
+            $html_x .= "<div class='tab-content'>$html_d</div>";
+
+            //////////////
+//            $crawler        = new Crawler($html);
+//            $a = $crawler->filter('table#tabs');
+//            $b = $crawler->addContent('///////////');
+//            return $b;
+            /// ///////////
+
+            return intval($index) >= 1 ? "<div class='py-2 pt-5'>$html_x</div>" : trim($html);
+        }
+        catch (\Exception $exception)
+        { return trim($html); }
+        return trim($html);
+    }
+
+
+    public function parse_digital_links(Product $product, string $string)
+    {
+        if (!Str::contains("$string", "**DL**")) /* $product->digital   = '0'; $product->save();*/ return trim($string);
+
+
+        $lang               = Language::where('code', request()->has('language') ? request()->has('language') : 'en')->first();
+
+        $bse                = BasicExtended::query();
+        $bse->when($lang, function ($query) use ($lang){
+            return $query->where('language_id', $lang->id);
+        });
+        $bse->orderBy('id', 'DESC');
+
+        $data               = $bse->get()->first();
+        // $product->digital   = '1';
+        // $product->save();
+
+        $digital_link       = $data->digital_resource_link;
+        $digital_text       = $data->digital_resource_text;
+        $digital_html       = "<a target='_blank' href='$digital_link' class='btn btn-link px-2'>$digital_text</a>";
+
+        return  str_replace("**DL**", " $digital_html ", trim($string));
     }
 }

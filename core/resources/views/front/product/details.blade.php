@@ -1,5 +1,4 @@
 @extends("front.$version.layout")
-
 @section('pagename')
  - {{__('Product')}} - {{convertUtf8($product->title)}}
 @endsection
