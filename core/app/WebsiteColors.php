@@ -9,9 +9,9 @@ class WebsiteColors extends Model
     protected $fillable     = ['element', 'attribute', 'value'];
 
     public const COLOR_SELECTIONS = [
-        'general_section'           => [
+        'jquery_sidebar_nav_menu_section'           => [
             "active"                => true,
-            "tab_title"             => "General Section",
+            "tab_title"             => "jQuery/ SidebarNav Menu Section",
             "elements"              => [
                 [
                     "section_title"         => "Website body section",
@@ -77,7 +77,7 @@ class WebsiteColors extends Model
         ],
         'header_section'            => [
             "active"                => false,
-            "tab_title"             => "Header Section",
+            "tab_title"             => "All Headers Menus/Icons/Text/Search Section",
             "elements"              => [
                 [
                     "section_title"         => "Website header section",
@@ -145,11 +145,31 @@ class WebsiteColors extends Model
                     "important_default"     => " !important",
                     "important_hover"       => " !important",
                 ],
+                [
+                    "section_title"         => "Header v7 top bar section",
+                    "section_description"   => "This area controls the look of header v7 top bar colors",
+                    "attr_default"          => ".site-header__v7 :is(.topbar, .topbar__nav)",
+                    "attr_hover"            => ".site-header__v7 :is(.topbar, .topbar__nav):hover",
+                    "important_default"     => " !important",
+                    "important_hover"       => " !important",
+                    "attr_config"           => "background-color",
+                    "attr_mono"             => true,
+                ],
+                [
+                    "section_title"         => "Header v7 top bar section texts",
+                    "section_description"   => "This area controls the look of header v7 top bar color colors",
+                    "attr_default"          => ".site-header__v7 :is(.topbar, .topbar__nav) .nav-item .text-dark",
+                    "attr_hover"            => ".site-header__v7 :is(.topbar, .topbar__nav) .nav-item .text-dark:hover",
+                    "important_default"     => " !important",
+                    "important_hover"       => " !important",
+                    "attr_config"           => "color",
+                    "attr_mono"             => true,
+                ],
             ],
         ],
         'categories_section'             => [
             "active"                => false,
-            "tab_title"             => "Product Categories Section",
+            "tab_title"             => "Custom Categories Section",
             "elements"              => [
                 [
                     "section_title"         => "Mobile Card Title",
@@ -169,7 +189,7 @@ class WebsiteColors extends Model
         ],
         'texts_section'             => [
             "active"                => false,
-            "tab_title"             => "Texts & Headings Section",
+            "tab_title"             => "Bookworm Headers, BG & Texts Section",
             "elements"              => [
                 [
                     "section_title"         => "Website heading 1 text",
@@ -219,7 +239,7 @@ class WebsiteColors extends Model
         ],
         'pagebuilder_section'       => [
             "active"                => false,
-            "tab_title"             => "Pagebuilder Section",
+            "tab_title"             => "Bookworm v3 Featured Categories Section",
             "elements"              => [
                 [
                     "section_title"         => "Pagebuilder tabs",
@@ -241,7 +261,7 @@ class WebsiteColors extends Model
         ],
         'shop_section'              => [
             "active"                => false,
-            "tab_title"             => "Shop, Products & General Pages Section",
+            "tab_title"             => "Products/Shop Pages Section",
             "elements"              => [
                 [
                     "section_title"         => "Pages title section",
@@ -297,7 +317,7 @@ class WebsiteColors extends Model
         ],
         'product_inquiry_form_section'              => [
             "active"                => false,
-            "tab_title"             => "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ",
+            "tab_title"             => "Product Inquiry Form Section",
             "elements"              => [
                 [
                     "section_title"         => "Modal title text",
@@ -441,7 +461,7 @@ class WebsiteColors extends Model
         ],
         'footer_section'            => [
             "active"                => false,
-            "tab_title"             => "Footer Section",
+            "tab_title"             => "Bookworm All Footers Section",
             "elements"              => [
                 [
                     "section_title"         => "Website footer section headers/titles",
