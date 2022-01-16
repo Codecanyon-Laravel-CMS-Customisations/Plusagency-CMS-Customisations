@@ -374,6 +374,7 @@ class ProductController extends Controller
 
     public function update(Request $request)
     {
+//        dd($request->all());
         $slug = make_slug($request->title);
         $product = Product::withoutGlobalScope('variation')->findOrFail($request->product_id);
 
@@ -410,7 +411,8 @@ class ProductController extends Controller
             'title' => $request->title,
             'value' => $request->value,
             'type' => $request->type,
-            'thumbnail' => $thumbnail
+            'thumbnail' => $thumbnail,
+            'description'=>$request->description,
         ] );
         $product->save();
 
@@ -424,18 +426,18 @@ class ProductController extends Controller
         if( ! $request->input('is_variation') ) {
             $rules = [
                 'slider' => 'required',
-                'title' => [
-                    'required',
-                    'max:255',
-                    function ($attribute, $value, $fail) use ($slug, $productId) {
-                        $products = Product::all();
-                        foreach ($products as $key => $product) {
-                            if ($product->id != $productId && strtolower($slug) == strtolower($product->slug)) {
-                                $fail('The title field must be unique.');
-                            }
-                        }
-                    }
-                ],
+//                'title' => [
+//                    'required',
+//                    'max:255',
+//                    function ($attribute, $value, $fail) use ($slug, $productId) {
+//                        $products = Product::all();
+//                        foreach ($products as $key => $product) {
+//                            if ($product->id != $productId && strtolower($slug) == strtolower($product->slug)) {
+//                                $fail('The title field must be unique.');
+//                            }
+//                        }
+//                    }
+//                ],
                 'category_id' => 'required',
                 'status' => 'required'
             ];
@@ -508,9 +510,6 @@ class ProductController extends Controller
                 'category_id.required' => 'Service is required',
                 'description.min' => 'Description is required'
             ];
-
-
-
             $validator = Validator::make($request->all(), $rules, $messages);
             if ($validator->fails()) {
                 $errmsgs = $validator->getMessageBag()->add('error', 'true');
@@ -576,7 +575,6 @@ class ProductController extends Controller
             @unlink('assets/front/img/product/sliders/' . $pi->image);
             $pi->delete();
         }
-
         // store new slider images
         foreach ($fileNames as $key => $fileName) {
             $pi = new ProductImage;

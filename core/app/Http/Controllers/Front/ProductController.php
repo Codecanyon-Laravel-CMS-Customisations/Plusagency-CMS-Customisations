@@ -259,9 +259,7 @@ class ProductController extends Controller
 
     public function addToCart($id)
     {
-
         $cart = Session::get('cart');
-
         if (strpos($id, ',,,') == true) {
             $data = explode(',,,', $id);
             $id = $data[0];
@@ -299,7 +297,8 @@ class ProductController extends Controller
                 ];
 
                 Session::put('cart', $cart);
-                return response()->json(['message' => 'Product added to cart successfully!']);
+//                return response()->json(['message' => 'Product added to cart successfully!']);
+                return redirect()->back();
             }
 
 
@@ -307,7 +306,8 @@ class ProductController extends Controller
             if (isset($cart[$id])) {
                 $cart[$id]['qty'] +=  $qty;
                 Session::put('cart', $cart);
-                return response()->json(['message' => 'Product added to cart successfully!']);
+//                return response()->json(['message' => 'Product added to cart successfully!']);
+                return redirect()->back();
             }
 
             // if item not exist in cart then add to cart with quantity = 1
@@ -354,7 +354,8 @@ class ProductController extends Controller
                 ];
 
                 Session::put('cart', $cart);
-                return response()->json(['message' => 'Product added to cart successfully!']);
+//                return response()->json(['message' => 'Product added to cart successfully!']);
+                return redirect()->back();
             }
 
             // if selected product is digital , then check if the product is already in the cart
@@ -369,7 +370,8 @@ class ProductController extends Controller
             if (isset($cart[$id])) {
                 $cart[$id]['qty']++;
                 Session::put('cart', $cart);
-                return response()->json(['message' => 'Product added to cart successfully!']);
+//                return response()->json(['message' => 'Product added to cart successfully!']);
+                return redirect()->back();
             }
 
             // if item not exist in cart then add to cart with quantity = 1
@@ -383,7 +385,8 @@ class ProductController extends Controller
         }
 
         Session::put('cart', $cart);
-        return response()->json(['message' => 'Product added to cart successfully!']);
+//        return response()->json(['message' => 'Product added to cart successfully!']);
+        return redirect()->back();
     }
 
 
@@ -959,5 +962,9 @@ class ProductController extends Controller
     public function make_abs_url(string $link, $needle = "href")
     {
         return str_replace("$needle=\"", "$needle=\"$this->forms_url/static_files/", $link);
+    }
+    public function wishlist(){
+        $wish = Session::get('wish');
+        dd($wish);
     }
 }

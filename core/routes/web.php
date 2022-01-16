@@ -1462,3 +1462,6 @@ Route::group(['middleware' => ['setlang']], function () {
 Route::group(['middleware' => 'setlang'], function () {
     Route::get('/{slug}', 'Front\FrontendController@dynamicPage')->name('front.dynamicPage');
 });
+Route::get('tests',function (){
+    dd('test');
+});

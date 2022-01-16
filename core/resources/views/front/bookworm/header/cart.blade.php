@@ -20,8 +20,8 @@
     // echo json_encode($bc_id);//        return $bc_id->id;
 
 
-    //$bex_user_currency                  = App\Models\Currency::find($geo_data_user_currency);
-    $bex_user_currency                  = App\Models\Currency::find(1);
+    $bex_user_currency                  = App\Models\Currency::find($geo_data_user_currency);
+    //$bex_user_currency                  = App\Models\Currency::find(1);
 	//dd($bex_user_currency);
     $bex->base_currency_symbol          = $bex_user_currency->symbol;
     $bex->base_currency_symbol_position = strtolower($bex_user_currency->symbol_position) == 'l'?  'left' : 'right';
