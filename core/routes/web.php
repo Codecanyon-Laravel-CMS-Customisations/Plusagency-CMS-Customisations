@@ -160,7 +160,7 @@ Route::group(['middleware' => 'setlang'], function () {
     Route::post('/coupon', 'Front\ProductController@coupon')->name('front.coupon');
 
 
-    Route::get('/wishlist','Front\ProductController@wishlist')->name('wishlist');
+    Route::get('/wishlist/{id}','Front\ProductController@wishlist')->name('wishlist');
 
     // Product Categories
     Route::get('/product-categories', 'Front\ProductController@product_categories')->name('front.product-categories');
