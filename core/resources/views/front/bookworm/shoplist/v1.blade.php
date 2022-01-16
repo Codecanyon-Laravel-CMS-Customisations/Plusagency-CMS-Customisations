@@ -199,9 +199,10 @@
                                                            class="mr-1 h-p-bg btn btn-outline-primary border-0">
                                                             <i class="flaticon-switch"></i>
                                                         </a>
-                                                        <a href="{{url('/wishlist')}}" class="h-p-bg btn btn-outline-primary border-0">
-                                                            <i class="flaticon-heart"></i>
-                                                        </a>
+                                                        <form method="get" action="{{url('wishlist/')}}" class="h-p-bg btn btn-outline-primary border-0">
+                                                            <input type="hidden" name="id" value="{{$product->id}}">
+                                                            <button type="submit" style="background: transparent; border-color: transparent;"><i class="flaticon-heart"></i></button>
+                                                        </form>
                                                     </div>
                                                 @endif
                                             </div>
