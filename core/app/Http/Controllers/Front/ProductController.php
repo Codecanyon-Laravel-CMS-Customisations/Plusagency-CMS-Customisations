@@ -944,7 +944,7 @@ class ProductController extends Controller
 
     public function wishlist(Request $request,$id)
     {
-//        $request->session()->forget('wishlist');
+//        request()->session()->forget('wishlist');
         $cart = Session::get('wishlist');
         if (strpos($id, ',,,') == true) {
             $data = explode(',,,', $id);
