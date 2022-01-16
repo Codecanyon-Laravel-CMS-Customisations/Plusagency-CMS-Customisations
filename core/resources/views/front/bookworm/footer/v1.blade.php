@@ -134,7 +134,9 @@
                         </select>
                         @php
                             $world_currencies       = App\Models\Country::with('currencies')->whereHas('currencies')->where('status', true)->get()->sortBy('name', 0, false);
-                            // $countries              = App\Models\Country::all()->sortBy('name', 0, false);
+                            //$world_currencies       = App\Models\Country::with('currencies')->where('status', true)->get()->sortBy('name', 0, false);
+                            //dd($world_currencies);
+                             //$countries              = App\Models\Country::all()->sortBy('name', 0, false);
                             // $currencies             = App\Models\Currency::with('conversion')->whereHas('conversion')->orderBy('name', 'asc');
 
                             $counter                = 0;
