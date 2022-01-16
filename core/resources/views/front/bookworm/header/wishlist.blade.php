@@ -75,18 +75,30 @@
                     @endif
                     <!-- Title -->
                         <header class="border-bottom px-4 px-md-6 py-4">
-                            <h2 class="font-size-3 mb-0 d-flex align-items-center"><i class="flaticon-heart mr-3 font-size-5"></i>My Wishlist ({{ count(Session::get('wishlist')) }})</h2>
+                            <h2 class="font-size-3 mb-0 d-flex align-items-center"><i class="flaticon-heart mr-3 font-size-5"></i>My Wishlist (
+                                @php
+                                    try {
+echo count(Session::get('wishlist'));
+}
+catch (Exception $e){
+
+}
+                                @endphp</h2>
                         </header>
                         <!-- End Title -->
-                            @foreach ($wishlist as $wish)
-                                <div class="px-4 py-5 px-md-6 border-bottom">
-                                    <div class="media">
-                                        <a target="_blank" href="{{route('front.product.details',$wish['name'])}}" class="d-block"><img src="@if($wish['photo']!=null){{$wish['photo']}}@else{{asset('https://via.placeholder.com/150')}}@endif" class="img-fluid" alt="image-description" width="150"></a>
-                                        <div class="media-body ml-4d875">
-                                            <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                <a href="#" class="text-dark">{{convertUtf8($wish['name'])}}</a>
-                                            </h2>
-                                            <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
+                        @php
+                        try{
+                            foreach ($wishlist as $wish)
+    {
+        @endphp
+                        <div class="px-4 py-5 px-md-6 border-bottom">
+                            <div class="media">
+                                <a target="_blank" href="{{route('front.product.details',$wish['name'])}}" class="d-block"><img src="@if($wish['photo']!=null){{$wish['photo']}}@else{{asset('https://via.placeholder.com/150')}}@endif" class="img-fluid" alt="image-description" width="150"></a>
+                                <div class="media-body ml-4d875">
+                                    <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                        <a href="#" class="text-dark">{{convertUtf8($wish['name'])}}</a>
+                                    </h2>
+                                    <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
                                             <span class="woocommerce-Price-amount amount">
                                                 <div class="product-quantity d-flex mb-35" id="quantity">
                                                 <button type="button" id="sub" class="sub">-</button>
@@ -95,14 +107,20 @@
                                                 <input type="hidden" value="{{$wish['name']}}" class="product_id">
                                                 </div>
                                             </span>
-                                            </div>
-                                        </div>
-                                        <div class="mt-3 ml-3">
-                                            <a href="#" class="text-dark"><i class="fas fa-times"></i></a>
-                                        </div>
                                     </div>
                                 </div>
-                            @endforeach
+                                <div class="mt-3 ml-3">
+                                    <a href="#" class="text-dark"><i class="fas fa-times"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        @php
+    }
+}catch (Exception $e){
+
+}
+                        @endphp
+
                     </div>
                 </div>
                 <!-- End Content -->
@@ -110,3 +128,28 @@
         </div>
     </div>
 </aside>
+{{--@foreach ($wishlist as $wish)--}}
+{{--    <div class="px-4 py-5 px-md-6 border-bottom">--}}
+{{--        <div class="media">--}}
+{{--            <a target="_blank" href="{{route('front.product.details',$wish['name'])}}" class="d-block"><img src="@if($wish['photo']!=null){{$wish['photo']}}@else{{asset('https://via.placeholder.com/150')}}@endif" class="img-fluid" alt="image-description" width="150"></a>--}}
+{{--            <div class="media-body ml-4d875">--}}
+{{--                <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">--}}
+{{--                    <a href="#" class="text-dark">{{convertUtf8($wish['name'])}}</a>--}}
+{{--                </h2>--}}
+{{--                <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">--}}
+{{--                                            <span class="woocommerce-Price-amount amount">--}}
+{{--                                                <div class="product-quantity d-flex mb-35" id="quantity">--}}
+{{--                                                <button type="button" id="sub" class="sub">-</button>--}}
+{{--                                                <input type="text" class="cart_qty" id="1" value="{{$wish['qty']}}" />--}}
+{{--                                                <button type="button" id="add" class="add">+</button>--}}
+{{--                                                <input type="hidden" value="{{$wish['name']}}" class="product_id">--}}
+{{--                                                </div>--}}
+{{--                                            </span>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="mt-3 ml-3">--}}
+{{--                <a href="#" class="text-dark"><i class="fas fa-times"></i></a>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--@endforeach--}}
