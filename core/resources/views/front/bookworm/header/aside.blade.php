@@ -589,3 +589,4 @@
   <!-- End Account Sidebar Navigation - Desktop -->
 
   @include('front.bookworm.header.cart')
+  @include('front.bookworm.header.wishlist')

@@ -30,8 +30,6 @@
 
     // echo json_encode($bex);return;
     // echo json_encode(session()->all());return;
-
-
 @endphp
 <!-- Cart Sidebar Navigation -->
 <aside id="sidebarContent1" class="u-sidebar u-sidebar__xl" aria-labelledby="sidebarNavToggler1">

@@ -181,6 +181,23 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                 </div>
                             </div>
                         </a>
+                            <a id="sidebarNavToggler2" href="javascript:;" role="button"
+                               class="ml-4 d-none d-lg-block target-of-invoker-has-unfolds" aria-controls="sidebarContent2"
+                               aria-haspopup="true" aria-expanded="false" data-unfold-event="click"
+                               data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent2"
+                               data-unfold-type="css-animation" data-unfold-animation-in="fadeInRight"
+                               data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
+                                <div class="d-flex align-items-center text-white font-size-2 text-lh-sm position-relative">
+                                     <span class="position-absolute bg-white width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-dark font-size-n9 left-0 top-0 ml-n2 mt-n1">
+                                         {{count(Session::get('wishlist'))}}
+                                     </span>
+                                    <i class="flaticon-heart font-size-5"></i>
+                                    <div class="ml-2">
+                                        <span class="text-secondary-gray-1080 font-size-1">My Wishlist</span>
+                                        {{-- <div class="">$40.93</div> --}}
+                                    </div>
+                                </div>
+                            </a>
                         <!-- End Cart Sidebar Toggle Button -->
                     </div>
                 </div>
