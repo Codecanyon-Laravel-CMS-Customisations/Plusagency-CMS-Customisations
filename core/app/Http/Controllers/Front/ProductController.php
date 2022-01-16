@@ -1055,7 +1055,7 @@ class ProductController extends Controller
             // if cart not empty then check if this product exist then increment quantity
             if (isset($cart[$id])) {
                 $cart[$id]['qty']++;
-                Session::put('cart', $cart);
+                Session::put('wishlist', $cart);
 //                return response()->json(['message' => 'Product added to cart successfully!']);
                 return redirect()->back();
             }
