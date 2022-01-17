@@ -313,6 +313,16 @@ class WebsiteColors extends Model
                     "attr_config"           => "color",
                     "attr_mono"             => true,
                 ],
+                [
+                    "section_title"         => "Product description section",
+                    "section_description"   => "Configure the color of product description section",
+                    "attr_default"          => ".shop-tab-area #pills-home, .shop-tab-area #pills-home *",
+                    "attr_hover"            => ".shop-tab-area #pills-home, .shop-tab-area #pills-home *",
+                    "important_default"     => " !important",
+                    "important_hover"       => " !important",
+                    "attr_config"           => "color",
+                    "attr_mono"             => true,
+                ],
             ],
         ],
         'product_inquiry_form_section'              => [
