@@ -636,6 +636,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin', 'checkstatus',
         Route::get('/herosection/slider/{id}/edit', 'Admin\SliderController@edit')->name('admin.slider.edit');
         Route::post('/herosection/sliderupdate', 'Admin\SliderController@update')->name('admin.slider.update');
         Route::post('/herosection/slider/delete', 'Admin\SliderController@delete')->name('admin.slider.delete');
+        Route::post('/herosection/slider-2/store', 'Admin\SliderController@store_v2')->name('admin.slider-v2.store');
+        Route::get('/herosection/slider-2/{slider_v2}/edit', 'Admin\SliderController@edit_v2')->name('admin.slider-v2.edit');
+        Route::post('/herosection/sliderupdate-2', 'Admin\SliderController@update_v2')->name('admin.slider-v2.update');
+        Route::post('/herosection/slider-2/delete', 'Admin\SliderController@delete_v2')->name('admin.slider-v2.delete');
 
 
         // Admin Hero Section (Video Version) Routes

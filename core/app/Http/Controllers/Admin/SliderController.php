@@ -2,24 +2,27 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\BasicExtended;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Session;
+use Validator;
 use App\Slider;
 use App\Language;
-use Validator;
-use Session;
+use App\BasicExtended;
+use App\Models\SliderV2;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 
 class SliderController extends Controller
 {
     public function index(Request $request)
     {
-        $lang = Language::where('code', $request->language)->first();
+        $lang               = Language::where('code', $request->language)->first();
+        $lang_id            = $lang->id;
+        $data['sliders']    = Slider::where('language_id', $lang_id)->orderBy('id', 'DESC')->get();
+        $data['sliders_v2'] = SliderV2::where('language_id', $lang_id)->orderBy('id', 'ASC')->get();
+        $data['lang_id']    = $lang_id;
 
-        $lang_id = $lang->id;
-        $data['sliders'] = Slider::where('language_id', $lang_id)->orderBy('id', 'DESC')->get();
-
-        $data['lang_id'] = $lang_id;
+        // return $data['sliders'];
         return view('admin.home.hero.slider.index', $data);
     }
 
@@ -27,6 +30,13 @@ class SliderController extends Controller
     {
         $data['slider'] = Slider::findOrFail($id);
         return view('admin.home.hero.slider.edit', $data);
+    }
+
+    public function edit_v2(SliderV2 $slider_v2)
+    {
+        // return $slider_v2;
+        $data['slider'] = $slider_v2;
+        return view('admin.home.hero.slider.edit-v2', $data);
     }
 
     public function store(Request $request)
@@ -109,6 +119,121 @@ class SliderController extends Controller
         $slider->button_url = $request->button_url;
 
         if ($request->filled('image')) {
+            $filename = uniqid() .'.'. $extImage;
+            @copy(str_replace(' ', '%20', $image), 'assets/front/img/sliders/' . $filename, stream_context_create((new BasicController())->arrContextOptions));
+            $slider->image = $filename;
+        }
+
+        $slider->serial_number = $request->serial_number;
+        $slider->save();
+
+        Session::flash('success', 'Slider added successfully!');
+        return "success";
+    }
+
+    public function store_v2(Request $request)
+    {
+        $image          = $request->image;
+        $allowedExts    = array('jpg', 'png', 'jpeg', 'svg');
+        $extImage       = pathinfo($image, PATHINFO_EXTENSION);
+
+        $messages       = [
+            'language_id.required' => 'The language field is required'
+        ];
+
+        $rules          = [
+            'language_id'           => 'required',
+            'image'                 => 'required',
+            'title'                 => 'nullable',
+            'title_font_size'       => 'required|integer|digits_between:1,3',
+            'text'                  => 'nullable',
+            'text_font_size'        => 'required|integer|digits_between:1,3',
+            'button_text'           => 'nullable',
+            'button_text_font_size' => 'required|integer|digits_between:1,3',
+            'button_url'            => 'nullable|max:255',
+            'serial_number'         => 'required|integer',
+        ];
+
+        if ($request->filled('image'))
+        {
+            $rules['image'] = [
+                function ($attribute, $value, $fail) use ($extImage, $allowedExts) {
+                    if (!in_array($extImage, $allowedExts)) {
+                        return $fail("Only png, jpg, jpeg, svg image is allowed");
+                    }
+                }
+            ];
+        }
+
+        $be                         = BasicExtended::first();
+        $version                    = $be->theme_version;
+
+
+        if ($version == 'cleaning') {
+            $rules['text_font_size'] = 'nullable';
+        }
+
+        if ($version == 'gym' || $version == 'car' || $version == 'cleaning') {
+            $rules['bold_text'] = 'nullable';
+            $rules['bold_text_font_size'] = 'required|integer|digits_between:1,3';
+        }
+
+        if ($version == 'cleaning') {
+            $rules['bold_text_color'] = 'required';
+        }
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            $errmsgs = $validator->getMessageBag()->add('error', 'true');
+            return response()->json($validator->errors());
+        }
+
+        $slider                     = new SliderV2();
+        $slider->language_id        = $request->language_id;
+        $slider->title              = $request->title;
+        $slider->title_font_size    = $request->title_font_size;
+
+        $slider->slider_category    = 'main';
+        if(in_array(trim(strtolower($request->category)), ['main', 'side1', 'side2']))
+        {
+            $slider->slider_category= trim(strtolower($request->category));
+        }
+
+        if(in_array(trim(strtolower($request->category)), ['side1', 'side2']))
+        {
+            $slider                 = SliderV2::firstOrCreate(['slider_category' => trim(strtolower($request->category))]);
+            $slider->slider_category= trim(strtolower($request->category));
+            $slider->title_font_size= $request->title_font_size;
+            $slider->language_id    = $request->language_id;
+            $slider->title          = $request->title;
+
+            //prevent deleting default images
+            if(!Str::contains($slider->image, 'defaults/'))
+            {
+                @unlink('assets/front/img/sliders/' . $slider->image);
+            }
+        }
+
+        if ($version == 'gym' || $version == 'car' || $version == 'cleaning') {
+            $slider->bold_text = $request->bold_text;
+            $slider->bold_text_font_size = $request->bold_text_font_size;
+        }
+        if ($version == 'cleaning') {
+            $slider->bold_text_color = $request->bold_text_color;
+        }
+
+        if ($version != 'cleaning') {
+            $slider->text = $request->text;
+            $slider->text_font_size = $request->text_font_size;
+        }
+
+
+        $slider->button_text                = $request->button_text;
+        $slider->button_text_font_size      = $request->button_text_font_size;
+        $slider->button_url                 = $request->button_url;
+
+        if ($request->filled('image'))
+        {
             $filename = uniqid() .'.'. $extImage;
             @copy(str_replace(' ', '%20', $image), 'assets/front/img/sliders/' . $filename, stream_context_create((new BasicController())->arrContextOptions));
             $slider->image = $filename;
@@ -205,11 +330,117 @@ class SliderController extends Controller
         return "success";
     }
 
+    public function update_v2(Request $request)
+    {
+        $image          = $request->image;
+        $allowedExts    = array('jpg', 'png', 'jpeg', 'svg');
+        $extImage       = pathinfo($image, PATHINFO_EXTENSION);
+
+        $rules = [
+            'title'                 => 'nullable',
+            'title_font_size'       => 'required|integer|digits_between:1,3',
+            'text'                  => 'nullable',
+            'text_font_size'        => 'required|integer|digits_between:1,3',
+            'button_text'           => 'nullable',
+            'button_text_font_size' => 'required|integer|digits_between:1,3',
+            'button_url'            => 'nullable|max:255',
+            'serial_number'         => 'required|integer',
+        ];
+
+        if ($request->filled('image'))
+        {
+            $rules['image'] = [
+                function ($attribute, $value, $fail) use ($extImage, $allowedExts)
+                {
+                    if (!in_array($extImage, $allowedExts))
+                    {
+                        return $fail("Only png, jpg, jpeg, svg image is allowed");
+                    }
+                }
+            ];
+        }
+
+        $be                         = BasicExtended::first();
+        $version                    = $be->theme_version;
+
+        if ($version == 'cleaning')
+        {
+            $rules['text_font_size'] = 'nullable';
+        }
+
+        if ($version == 'gym' || $version == 'car' || $version == 'cleaning') {
+            $rules['bold_text'] = 'nullable';
+            $rules['bold_text_font_size'] = 'required|integer|digits_between:1,3';
+        }
+
+        if ($version == 'cleaning') {
+            $rules['bold_text_color'] = 'required';
+        }
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            $errmsgs = $validator->getMessageBag()->add('error', 'true');
+            return response()->json($validator->errors());
+        }
+
+        $slider                         = SliderV2::findOrFail($request->slider_id);
+        $slider->title                  = $request->title;
+        $slider->title_font_size        = $request->title_font_size;
+
+        if ($request->filled('image'))
+        {
+            //prevent deleting default images
+            if(!Str::contains($slider->image, 'defaults/'))
+            {
+                @unlink('assets/front/img/sliders/' . $slider->image);
+            }
+            $filename = uniqid() .'.'. $extImage;
+            @copy(str_replace(' ', '%20', $image), 'assets/front/img/sliders/' . $filename, stream_context_create((new BasicController())->arrContextOptions));
+            $slider->image = $filename;
+        }
+
+        if ($version == 'gym' || $version == 'car' || $version == 'cleaning') {
+            $slider->bold_text = $request->bold_text;
+            $slider->bold_text_font_size = $request->bold_text_font_size;
+        }
+
+        if ($version == 'cleaning') {
+            $slider->bold_text_color = $request->bold_text_color;
+        }
+
+        if ($version != 'cleaning') {
+            $slider->text = $request->text;
+            $slider->text_font_size = $request->text_font_size;
+        }
+
+        $slider->button_text            = $request->button_text;
+        $slider->button_text_font_size  = $request->button_text_font_size;
+        $slider->button_url             = $request->button_url;
+        $slider->serial_number          = $request->serial_number;
+        $slider->save();
+
+        Session::flash('success', 'Slider updated successfully!');
+        return "success";
+    }
+
     public function delete(Request $request)
     {
-
         $slider = Slider::findOrFail($request->slider_id);
         @unlink('assets/front/img/sliders/' . $slider->image);
+        $slider->delete();
+
+        Session::flash('success', 'Slider deleted successfully!');
+        return back();
+    }
+
+    public function delete_v2(Request $request)
+    {
+        $slider = SliderV2::findOrFail($request->slider_id);
+        //prevent deleting default images
+        if(!Str::contains($slider->image, 'defaults/'))
+        {
+            @unlink('assets/front/img/sliders/' . $slider->image);
+        }
         $slider->delete();
 
         Session::flash('success', 'Slider deleted successfully!');

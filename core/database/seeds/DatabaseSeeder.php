@@ -14,5 +14,6 @@ class DatabaseSeeder extends Seeder
         // $this->call(UsersTableSeeder::class);
         $this->call(CountrySeeder::class);
         $this->call(CurrencySeeder::class);
+        $this->call(SliderV2Seeder::class);
     }
 }

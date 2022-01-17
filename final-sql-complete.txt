@@ -1007,6 +1007,71 @@ ALTER TABLE `setting_magic_zooms`
   
   
   
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `slider_v2_s`
+--
+
+CREATE TABLE `slider_v2_s` (
+  `id` bigint UNSIGNED NOT NULL,
+  `language_id` int NOT NULL DEFAULT '0',
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `text` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slider_category` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'eg main, side1, side2',
+  `button_text` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `button_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `serial_number` int NOT NULL DEFAULT '0',
+  `bold_text` text COLLATE utf8mb4_unicode_ci,
+  `text_font_size` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bold_text_color` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bold_text_font_size` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title_font_size` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `button_text_font_size` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `side_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `another_button_text` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `another_button_text_font_size` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `another_button_url` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `slider_v2_s`
+--
+
+INSERT INTO `slider_v2_s` (`id`, `language_id`, `title`, `text`, `slider_category`, `button_text`, `button_url`, `image`, `serial_number`, `bold_text`, `text_font_size`, `bold_text_color`, `bold_text_font_size`, `title_font_size`, `button_text_font_size`, `side_image`, `another_button_text`, `another_button_text_font_size`, `another_button_url`, `created_at`, `updated_at`) VALUES
+(1, 169, 'Financial Planning For Life', 'Trusted to help guide entrepreneurs make better financial decisions.', 'main', 'Learn More', 'javascript:;', 'defaults/v2-m-1.png', 1, 'Be stronger!', '60', NULL, '147', '24', '14', NULL, NULL, NULL, NULL, '2022-01-17 01:29:45', '2022-01-17 01:43:59'),
+(2, 169, 'Financial Planning For Life', 'Trusted to help guide entrepreneurs make better financial decisions.', 'main', 'Learn More', 'javascript:;', 'defaults/v2-m-1.png', 1, 'Be stronger!', '60', NULL, '147', '24', '14', NULL, NULL, NULL, NULL, '2022-01-17 01:43:59', '2022-01-17 01:43:59'),
+(3, 169, 'Financial Planning For Life', 'Trusted to help guide entrepreneurs make better financial decisions.', 'main', 'Learn More', 'javascript:;', 'defaults/v2-m-1.png', 1, 'Be stronger!', '60', NULL, '147', '24', '14', NULL, NULL, NULL, NULL, '2022-01-17 01:44:00', '2022-01-17 01:44:00'),
+(4, 169, 'Financial Planning For Life', 'Trusted to help guide entrepreneurs make better financial decisions.', 'side1', 'Learn More', 'javascript:;', 'defaults/v2-s-1.png', 1, 'Be stronger!', '60', NULL, '147', '24', '14', NULL, NULL, NULL, NULL, '2022-01-17 01:44:00', '2022-01-17 01:44:00'),
+(5, 169, 'Financial Planning For Life', 'Trusted to help guide entrepreneurs make better financial decisions.', 'side2', 'Learn More', 'javascript:;', 'defaults/v2-s-2.png', 1, 'Be stronger!', '60', NULL, '147', '24', '14', NULL, NULL, NULL, NULL, '2022-01-17 01:44:00', '2022-01-17 01:44:01');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `slider_v2_s`
+--
+ALTER TABLE `slider_v2_s`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `slider_v2_s`
+--
+ALTER TABLE `slider_v2_s`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  
+  
+  
+  
+  
   
   
   
