@@ -203,51 +203,6 @@
             padding-top: 0px !important;
         }
     </style>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.js"></script>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css" />
-    <script>
-        // Open directly via API
-        $(document).ready(function() {
-            $.magnificPopup.open({
-                items: {
-                    src: '<div class="mfp-wrap mfp-close-btn-in mfp-auto-cursor mfp-ready" tabindex="-1" style="overflow: hidden auto;">' +
-                        '<div class="mfp-container mfp-s-ready mfp-inline-holder">' +
-                        '<div class="mfp-content"><div data-popup_delay="1500" data-popup_id="16" id="modal-popup16" class="popup-wrapper" style="display: block;"> ' +
-                        '<div class="popup-five bg_cover lazy entered loaded" data-ll-status="loaded" style="background: white;"> ' +
-                        '<div class="popup_main-content">' +
-                        '<h6 class="section-title">LMS Registration</h6> ' +
-                        '<div class="col-lg-12"> ' +
-                        '<form action="http://127.0.0.1/plus/sendmail" class="contact-form" method="POST"> ' +
-                        '<input type="hidden" name="_token" value="ArQpFZGrZsCg1Wk3EObFp5a1GYafk5mmO7ADZ1zM">                    <div class="row"> ' +
-                        '<div class="col-md-6"> ' +
-                        '<div class="form-element"> ' +
-                        '<input name="name" type="text" placeholder="Name" required=""> ' +
-                        '</div> ' +
-                        '</div> ' +
-                        '<div class="col-md-6"> ' +
-                        '<div class="form-element"> ' +
-                        '<input name="email" type="email" placeholder="Email" required=""> ' +
-                        '</div> </div> ' +
-                        '<div class="col-md-6"> ' +
-                        '<div class="form-element"> ' +
-                        '<input name="subject" type="text" placeholder="Phone Number" required=""> </div> </div> ' +
-                        '<div class="col-md-6"> ' +
-                        '<div class="form-element"> ' +
-                        '<input name="subject" type="text" placeholder="Address" required=""> </div> </div> ' +
-                        '<div class="col-md-12">                        <div class="form-element"> ' +
-                        '<textarea name="message" id="comment" cols="30" rows="10" placeholder="Comment" required=""></textarea> </div> </div> <div class="col-md-12"> <div class="form-element no-margin"> ' +
-                        '<input type="submit" value="Submit"> </div> </div> </div> ' +
-                        '</form>' +
-                        '</div>'+
-                        '</div> ' +
-                        '</div> ' +
-                        '<button title="Close (Esc)" type="button" class="mfp-close">×</button></div></div><div class="mfp-preloader">Loading...</div></div></div>', // can be a HTML string, jQuery object, or CSS selector
-                    type: 'inline'
-                }
-            });
-        })
-
-    </script>
 </head>
 
 <body>

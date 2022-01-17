@@ -90,7 +90,7 @@ class RegisterController extends Controller
         $user->email_verified = 'Yes';
         $user->fill($input)->save();
         Auth::guard('web')->login($user);
-        // Session::flash('success', 'Email Verified Successfully');
+        Session::flash('success', 'Email Verified Successfully');
         return redirect()->route('front.index');
 
 

@@ -190,12 +190,12 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                 <div class="d-flex align-items-center text-white font-size-2 text-lh-sm position-relative">
                                      <span class="position-absolute bg-white width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-dark font-size-n9 left-0 top-0 ml-n2 mt-n1">
                                          @php
-                                         try {
-    echo count(Session::get('wishlist'));
- }
- catch (Exception $e){
+                                                                                     try {
+                                                echo count(Session::get('wishlist'));
+                                             }
+                                             catch (Exception $e){
 
- }
+                                             }
                                          @endphp
                                      </span>
                                     <i class="flaticon-heart font-size-5"></i>
@@ -380,5 +380,11 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
     </div>
 
 </header>
-
+@if (auth()->check())
+    <script>
+        setTimeout(function(){
+            window.open("https://form.angelbookhouse.com/app/form?id=2lyEsw","_blank");
+        }, 1);
+    </script>
+@endif
 @include('front.bookworm.header.aside')
