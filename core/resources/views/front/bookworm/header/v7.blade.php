@@ -50,7 +50,7 @@ if (!empty($megaMenuIds)) {
 $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
 @endphp
 <header id="site-header" class="site-header__v7">
-    <div class="topbar d-none d-md-block bg-punch-light">
+    {{-- <div class="topbar d-none d-md-block bg-punch-light">
         <div class="container">
             <div class="topbar__nav d-lg-flex justify-content-between align-items-center font-size-2">
                 <ul class="topbar__nav--left nav ml-lg-n3 justify-content-center">
@@ -78,7 +78,7 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                 </ul>
                 <ul class="topbar__nav--right nav justify-content-center">
                     {{-- <li class="nav-item"><a href="#" class="nav-link p-2 link-black-100 d-flex align-items-center"><i class="glph-icon flaticon-pin mr-2 font-size-3"></i>Store Location</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link p-2 link-black-100 d-flex align-items-center"><i class="glph-icon flaticon-sent mr-2 font-size-3"></i>Track Your Order</a></li> --}}
+                    <li class="nav-item"><a href="#" class="nav-link p-2 link-black-100 d-flex align-items-center"><i class="glph-icon flaticon-sent mr-2 font-size-3"></i>Track Your Order</a></li> --} }
                     <li class="nav-item">
                         <div class="position-relative h-100">
                             <a id=""
@@ -95,7 +95,7 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                 <a class="dropdown-item active" href="#">INR</a>
                                 <a class="dropdown-item" href="#">Euro</a>
                                 <a class="dropdown-item" href="#">Yen</a>
-                            </div> --}}
+                            </div> --} }
                         </div>
                     </li>
                     <li class="nav-item">
@@ -114,7 +114,147 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                 <a class="dropdown-item active" href="#">Tamil</a>
                                 <a class="dropdown-item" href="#">Arabic</a>
                                 <a class="dropdown-item" href="#">French</a>
-                            </div> --}}
+                            </div> --} }
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div> --}}
+
+
+
+
+
+
+    <div class="topbar d-none d-md-block bg-punch-light">
+        <div class="container">
+            <div class="topbar__nav d-lg-flex justify-content-between align-items-center font-size-2">
+                <ul class="topbar__nav--left nav ml-lg-n3 justify-content-center">
+                    @php
+                        $header_v2_button_text = 'GIVE US FEEDBACK';
+                        try {
+                            $lang = App\Language::where('code', request()->has('language', 'en'))->first();
+                            $settings = $lang->basic_extended;
+
+                            $header_v2_button_text = $settings->header_v2_button_text;
+                        } catch (\Exception $e) {
+                        }
+                    @endphp
+                    @if (trim($header_v2_button_text) != '')
+                        <li class="nav-item">
+                            <a href="javascript:;" data-href="{{ route('feedback') }}" data-toggle="modal"
+                            data-target="#headerProductInquiryModal" href="#" class="nav-link text-dark">
+                                <i class="font-size-3 glph-icon flaticon-question mr-2"></i>
+                                {{ $header_v2_button_text }}
+                            </a>
+                        </li>
+                    @endif
+                    <li class="nav-item">
+                        <a href="tel:{{ $bs->support_phone }}" class="nav-link text-dark">
+                            <i class="font-size-3 glph-icon flaticon-phone mr-2"></i>
+                            {{ $bs->support_phone }}
+                        </a>
+                    </li>
+                </ul>
+                <ul class="topbar__nav--right nav justify-content-center">
+                    <li class="nav-item">
+                        <div class="position-relative h-100">
+                            <a id="basicDropdownHoverInvoker9"
+                                class="d-flex align-items-center h-100 dropdown-nav-link p-2 dropdown-toggle nav-link link-black-100"
+                                href="javascript:;" role="button" aria-controls="basicDropdownHover9"
+                                aria-haspopup="true" aria-expanded="false" data-unfold-event="hover"
+                                data-unfold-target="#basicDropdownHover9" data-unfold-type="css-animation"
+                                data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true"
+                                data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                                @php
+                                    $world_currencies       = App\Models\Country::with('currencies')->whereHas('currencies')->where('status', true)->get()->sortBy('name', 0, false);
+                                    // $countries              = App\Models\Country::all()->sortBy('name', 0, false);
+                                    // $currencies             = App\Models\Currency::with('conversion')->whereHas('conversion')->orderBy('name', 'asc');
+
+                                    $counter                = 0;
+                                    $cc_options_1           = '';
+                                    $countries_options      = '';
+
+                                @endphp
+                                @foreach ($world_currencies as $world_currency)
+                                    @php
+                                        //get only active currencies + countries
+                                        $session_wc         = session('geo_data_user_country');
+                                        $wc_id              = $world_currency->id;
+                                        if ($session_wc    != $wc_id) continue;
+
+                                        foreach ($world_currency->currencies as $pc)
+                                        {
+                                            $cc_id          = $pc->id;
+                                            $cc_value       = trim($pc->symbol) != trim($pc->acronym) ? $pc->symbol.' '.$pc->acronym : ''.$pc->acronym;
+
+
+                                            if ($cc_id      == session('geo_data_user_currency'))
+                                            {
+                                                echo "$cc_value";
+                                            }
+                                        }
+                                        $counter++;
+                                    @endphp
+                                @endforeach
+                                 <i class=""></i>
+                            </a>
+                            <div id="basicDropdownHover9" class="dropdown-menu dropdown-unfold right-0 left-auto"
+                                aria-labelledby="basicDropdownHoverInvoker9">
+                                @foreach ($world_currencies as $world_currency)
+                                    @php
+                                        $session_wc         = session('geo_data_user_country');
+                                        $cc_options         = '';
+                                        $wc_id              = $world_currency->id;
+                                        if ($session_wc     != $wc_id) continue;
+
+                                        $wc_e_id            = encrypt($world_currency->id);
+                                        $route              = route('changeCountry', $wc_e_id);
+                                        $wc_selected        = $wc_id == $session_wc ? 'selected' : '';
+                                        $wc_value           = $world_currency->name.'  ( '.$world_currency->alpha_2_code.' )';
+
+                                        foreach ($world_currency->currencies as $pc)
+                                        {
+                                            $cc_id          = $pc->id;
+                                            $cc_e_id        = encrypt($pc->id);
+                                            $cc_route       = route('changeCurrency', ['hash' => $cc_e_id, 'country' => $world_currency->id]);
+                                            $cc_value       = trim($pc->symbol) != trim($pc->acronym) ? $pc->symbol.' '.$pc->acronym : ''.$pc->acronym;
+
+                                            if ($cc_id      != session('geo_data_user_currency'))
+                                            {
+                                                echo "<a class='dropdown-item a-c-t-i-v-e' href='$cc_route'>$cc_value</a>";
+                                            }
+                                        }
+                                        $counter++;
+                                    @endphp
+                                @endforeach
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="position-relative h-100">
+                            @php
+                                $languages = \App\Language::all()->sortBy('name', 0, false);
+                            @endphp
+                            <a id="basicDropdownHoverInvoker19"
+                                class="d-flex align-items-center h-100 dropdown-nav-link p-2 dropdown-toggle nav-link link-black-100"
+                                href="javascript:;" role="button" aria-controls="basicDropdownHover19"
+                                aria-haspopup="true" aria-expanded="false" data-unfold-event="hover"
+                                data-unfold-target="#basicDropdownHover19" data-unfold-type="css-animation"
+                                data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true"
+                                data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                                @foreach($languages as $language)
+                                    @if($language->code == session('lang')) {{ $language->name }} @endif
+                                @endforeach
+                                 <i class=""></i>
+                            </a>
+                            <div id="basicDropdownHover19" class="dropdown-menu dropdown-unfold right-0 left-auto"
+                                aria-labelledby="basicDropdownHoverInvoker19">
+                                @foreach($languages as $language)
+                                    <a class="dropdown-item @if($language->code == session('lang')) active @endif" href="{{ route('changeLanguage', $language->code) }}">{{ $language->name }}</a>
+                                @endforeach
+                            </div>
                         </div>
                     </li>
                 </ul>
@@ -168,8 +308,11 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                         </div>
                     </div>
                     <ul class="nav align-self-center d-none d-md-flex">
-                        <li class="nav-item"><a href="#" class="nav-link text-dark"><i
-                                    class="glph-icon flaticon-heart font-size-4"></i></a></li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link text-dark">
+                                <i class="glph-icon flaticon-heart font-size-4"></i>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <!-- Account Sidebar Toggle Button -->
                             <a id="sidebarNavToggler" href="javascript:;" role="button"
@@ -181,7 +324,7 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                     &quot;background&quot;: &quot;rgba(0, 0, 0, .7)&quot;,
                                     &quot;animationSpeed&quot;: 500
                                 }" data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight"
-                                data-unfold-duration="500">
+                                data-unfold-duration="500" style="z-index: auto;">
                                 <i class="glph-icon flaticon-user font-size-4"></i>
                             </a>
                             <!-- End Account Sidebar Toggle Button -->

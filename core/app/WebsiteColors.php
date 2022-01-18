@@ -158,8 +158,8 @@ class WebsiteColors extends Model
                 [
                     "section_title"         => "Header v7 top bar section texts",
                     "section_description"   => "This area controls the look of header v7 top bar color colors",
-                    "attr_default"          => ".site-header__v7 :is(.topbar, .topbar__nav) .nav-item .text-dark",
-                    "attr_hover"            => ".site-header__v7 :is(.topbar, .topbar__nav) .nav-item .text-dark:hover",
+                    "attr_default"          => ".site-header__v7 :is(.topbar, .topbar__nav) .nav-item .text-dark, .site-header__v7 :is(.topbar, .topbar__nav) .nav-item :is(#basicDropdownHoverInvoker9, #basicDropdownHoverInvoker19)",
+                    "attr_hover"            => ".site-header__v7 :is(.topbar, .topbar__nav) .nav-item .text-dark:hover, .site-header__v7 :is(.topbar, .topbar__nav) .nav-item :is(#basicDropdownHoverInvoker9, #basicDropdownHoverInvoker19):hover",
                     "important_default"     => " !important",
                     "important_hover"       => " !important",
                     "attr_config"           => "color",
