@@ -160,6 +160,13 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                         <div class="position-relative h-100">
                             @php
                                 $languages = \App\Language::all()->sortBy('name', 0, false);
+                                if(empty(session('lang')))
+                                {
+                                    if($languages->count() >= 1)
+                                    {
+                                        session(['lang' => $languages->last()->code]);
+                                    }
+                                }
                             @endphp
                             <a id="basicDropdownHoverInvoker19"
                                 class="d-flex align-items-center h-100 dropdown-nav-link p-2 dropdown-toggle nav-link link-black-100"
