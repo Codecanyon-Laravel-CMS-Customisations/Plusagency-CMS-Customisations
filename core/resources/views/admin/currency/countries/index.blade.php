@@ -84,6 +84,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                         <th scope="col">REGION</th>
                         <th scope="col">SUB-REGION</th>
                         <th scope="col">STATUS</th>
+                        <th scope="col">ACTION</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -110,6 +111,38 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                                 @else
                                     <span class="badge badge-warning">Inactive</span>
                                 @endif
+                             </td>
+                             <td>
+                                 <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                     Select Action
+                                 </button>
+                                 <div class="dropdown-menu">
+                                     <a href="{{ route('admin.currency.countries.edit', $country->id) }}" class="dropdown-item">
+                                         <i class="fas fa-edit"> Edit country</i>
+                                     </a>
+                                     @if($country->status)
+                                         <a onclick="event.preventDefault(); document.getElementById('deactivateCountryForm-{{$country->id}}').submit();" href="javascript:;" class="dropdown-item">
+                                             <strong><i class="fab fa-audible"> Deactivate</i></strong>
+                                         </a>
+                                     @else
+                                         <a onclick="event.preventDefault(); document.getElementById('deactivateCountryForm-{{$country->id}}').submit();" href="javascript:;" class="dropdown-item">
+                                             <strong><i class="fab fa-audible"> Activate</i></strong>
+                                         </a>
+                                     @endif
+                                     <a onclick="event.preventDefault(); document.getElementById('deleteCountryForm-{{$country->id}}').submit();" href="javascript:;" class="dropdown-item">
+                                         <i class="fas fa-trash"> Delete</i>
+                                     </a>
+                                 </div>
+
+                                 <form id="deactivateCountryForm-{{$country->id}}" class="deleteform d-none" action="{{route('admin.currency.countries.toggle_activate', $country->id)}}" method="post">
+                                     @csrf
+                                     <input type="hidden" name="country_id" value="{{$country->id}}">
+                                 </form>
+                                 <form id="deleteCountryForm-{{$country->id}}" class="deleteform d-none" action="{{route('admin.currency.countries.delete')}}" method="post">
+                                     @csrf
+                                     @method('delete')
+                                     <input type="hidden" name="country_id" value="{{$country->id}}">
+                                 </form>
                              </td>
                         </tr>
                       @endforeach
