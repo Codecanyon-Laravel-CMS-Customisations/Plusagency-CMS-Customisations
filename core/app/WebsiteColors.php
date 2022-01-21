@@ -370,8 +370,10 @@ class WebsiteColors extends Model
                 [
                     "section_title"         => "Product description section",
                     "section_description"   => "Configure the color of product description section",
-                    "attr_default"          => ".shop-tab-area #pills-home, .shop-tab-area #pills-home *",
-                    "attr_hover"            => ".shop-tab-area #pills-home, .shop-tab-area #pills-home *",
+                    // "attr_default"          => ".shop-tab-area #pills-home, .shop-tab-area #pills-home *",
+                    // "attr_hover"            => ".shop-tab-area #pills-home, .shop-tab-area #pills-home *",
+                    "attr_default"          => ".shop-tab-area .tab-pane, .shop-tab-area .tab-pane *",
+                    "attr_hover"            => ".shop-tab-area .tab-pane, .shop-tab-area .tab-pane *",
                     "important_default"     => " !important",
                     "important_hover"       => " !important",
                     "attr_config"           => "color",
