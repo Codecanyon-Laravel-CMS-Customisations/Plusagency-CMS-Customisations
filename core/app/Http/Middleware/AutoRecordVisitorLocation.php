@@ -59,11 +59,6 @@ class AutoRecordVisitorLocation
                 $response = json_decode(curl_exec($ch));
                 curl_close($ch);
 
-                echo json_encode($response);
-                echo "<hr/>";
-                echo $url;
-                echo "<hr/>";
-
                 //store in database
                 $geodata                    = ClientGeoData::firstOrCreate(['ip'    => $response->ip]);
                 $geodata->ip                = $response->ip;
@@ -90,10 +85,7 @@ class AutoRecordVisitorLocation
                 //set client session
                 session()->put('geo_data_user_country', $country->id);
             }
-            catch (\Exception $exception) {
-                echo $exception->getTraceAsString();
-                echo $exception->getMessage();
-            }
+            catch (\Exception $exception) { }
         }
 
         //return ClientGeoData::query()->where('ip', $client_ip)->first();
