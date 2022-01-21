@@ -59,6 +59,9 @@ class AutoRecordVisitorLocation
                 $response = json_decode(curl_exec($ch));
                 curl_close($ch);
 
+                echo json_encode($response);
+                echo "<hr/>";
+
                 //store in database
                 $geodata                    = ClientGeoData::firstOrCreate(['ip'    => $response->ip]);
                 $geodata->ip                = $response->ip;
