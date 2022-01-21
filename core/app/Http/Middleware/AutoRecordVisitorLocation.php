@@ -43,11 +43,10 @@ class AutoRecordVisitorLocation
         if($status)
         {
             //record already in the database and is up-to-date
-            echo $client_ip;
         }
         else
         {
-            try
+            //try
             {
                 //call the api and get latest data
                 $url        = config('geoip.url').$client_ip.'?apikey='.config('geoip.api_key');
@@ -86,7 +85,7 @@ class AutoRecordVisitorLocation
                 //set client session
                 session()->put('geo_data_user_country', $country->id);
             }
-            catch (\Exception $exception) { }
+            //catch (\Exception $exception) { }
         }
 
         //return ClientGeoData::query()->where('ip', $client_ip)->first();
