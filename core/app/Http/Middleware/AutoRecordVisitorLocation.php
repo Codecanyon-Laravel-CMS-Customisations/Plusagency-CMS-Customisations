@@ -25,8 +25,6 @@ class AutoRecordVisitorLocation
     {
         $client_ip  = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 
-        echo $client_ip;
-
         if(auth()->user())
         {
             $status     = ClientGeoData::all()
@@ -45,6 +43,7 @@ class AutoRecordVisitorLocation
         if($status)
         {
             //record already in the database and is up-to-date
+            echo $client_ip;
         }
         else
         {
