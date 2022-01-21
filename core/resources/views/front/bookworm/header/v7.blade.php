@@ -105,11 +105,16 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
 
                                         //get only active currencies + countries
                                         $session_wc         = session('geo_data_user_country');
-                                        $wc_id              = !empty($world_currency->id) ? $world_currency->id : $world_currencies->last()->id;
+                                        $wc_id              = $world_currency->id;
                                         if ($session_wc    != $wc_id) continue;
 
                                         foreach ($world_currency->currencies as $pc)
                                         {
+                                            if (empty(session('geo_data_user_currency')))
+                                            {
+                                                session(['geo_data_user_currency' => $pc->id]);
+                                            }
+
                                             $cc_id          = $pc->id;
                                             $cc_value       = trim($pc->symbol) != trim($pc->acronym) ? $pc->symbol.' '.$pc->acronym : ''.$pc->acronym;
 

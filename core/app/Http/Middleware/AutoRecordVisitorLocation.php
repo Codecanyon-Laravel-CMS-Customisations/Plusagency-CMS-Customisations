@@ -18,6 +18,8 @@ class AutoRecordVisitorLocation
     public function handle($request, Closure $next)
     {
 
+        // echo json_encode(session()->all());
+
         $this->get_ip();
         return $next($request);
     }
@@ -32,6 +34,7 @@ class AutoRecordVisitorLocation
             ->where('user_id', auth()->id())
             ->where('unix_expiry_time', '>=', time())
             ->count();
+
         }
         else
         {
@@ -41,27 +44,34 @@ class AutoRecordVisitorLocation
             ->count();
         }
 
-        if($status)
+        if($status >= 1)
         {
             //record already in the database and is up-to-date
             try
             {
 
                 //get data from database
-                $geodata                    = ClientGeoData::query()->where('ip', $client_ip)->first();
-                $country                    = Country::query()->where('alpha_2_code', $geodata->country_code)->first();
+                $geodata                    = ClientGeoData::query();
+                $geodata->when(auth()->user(), function($query)
+                {
+                    return $query->where('user_id', auth()->id());
+                });
+                $geodata->when(!auth()->user(), function($query) use ($client_ip)
+                {
+                    return $query->where('ip', $client_ip);
+                });
+                $geodata                    = $geodata->where('unix_expiry_time', '>=', time())->orderBy('created_at', 'DESC')->first();
 
-                if($country)
-                { $geodata->country_id      = $country->id; }
-                if(auth()->user())
-                { $geodata->user_id         = auth()->id(); }
-                // $geodata->save();
 
+                if($geodata->country)
+                { $country_id               = $geodata->country->id; }
 
                 //set client session
-                session()->put('geo_data_user_country', $country->id);
+                session()->put('geo_data_user_country', $country_id);
             }
-            catch (\Exception $exception) { }
+            catch (\Exception $exception) {
+                // echo $exception->getMessage();
+            }
         }
         else
         {

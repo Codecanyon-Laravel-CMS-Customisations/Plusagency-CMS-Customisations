@@ -914,6 +914,7 @@ ALTER TABLE `country_currency`
 
 CREATE TABLE `client_geo_data` (
   `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED DEFAULT NULL,
   `country_id` bigint UNSIGNED DEFAULT NULL,
   `currency_id` bigint UNSIGNED DEFAULT NULL,
   `ip` varchar(77) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'ipv4 entry',
@@ -943,6 +944,7 @@ CREATE TABLE `client_geo_data` (
 ALTER TABLE `client_geo_data`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `client_geo_data_ip_unique` (`ip`),
+  ADD KEY `client_geo_data_user_id_index` (`user_id`),
   ADD KEY `client_geo_data_country_id_index` (`country_id`),
   ADD KEY `client_geo_data_currency_id_index` (`currency_id`);
 
@@ -964,6 +966,7 @@ ALTER TABLE `client_geo_data`
 -- Constraints for table `client_geo_data`
 --
 ALTER TABLE `client_geo_data`
+  ADD CONSTRAINT `client_geo_data_user_id_foreign` FOREIGN KEY (`usercountry_id`) REFERENCES `countries` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `client_geo_data_country_id_foreign` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `client_geo_data_currency_id_foreign` FOREIGN KEY (`currency_id`) REFERENCES `currencies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
   
