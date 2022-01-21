@@ -86,6 +86,7 @@ class AutoRecordVisitorLocation
                 session()->put('geo_data_user_country', $country->id);
             }
             catch (\Exception $exception) {
+                echo $exception->getTraceAsString();
                 echo $exception->getMessage();
             }
         }
