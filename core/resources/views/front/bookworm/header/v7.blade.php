@@ -102,20 +102,10 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                 @endphp
                                 @foreach ($world_currencies as $world_currency)
                                     @php
+
                                         //get only active currencies + countries
                                         $session_wc         = session('geo_data_user_country');
-                                        $session_uc         = session('geo_data_user_currency');
                                         $wc_id              = !empty($world_currency->id) ? $world_currency->id : $world_currencies->last()->id;
-                                        $session_wc         = !empty(session('geo_data_user_country')) ? session('geo_data_user_country') : $wc_id;
-                                        try
-                                        {
-                                            $session_uc     = !empty(session('geo_data_user_currency')) ? session('geo_data_user_currency') : $world_currency->currencies->last()->id;
-                                        }
-                                        catch (\Exception $th)
-                                        {
-                                            //throw $th;
-                                        }
-
                                         if ($session_wc    != $wc_id) continue;
 
                                         foreach ($world_currency->currencies as $pc)
@@ -124,7 +114,7 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                             $cc_value       = trim($pc->symbol) != trim($pc->acronym) ? $pc->symbol.' '.$pc->acronym : ''.$pc->acronym;
 
 
-                                            if ($cc_id      == $session_uc) // session('geo_data_user_currency'))
+                                            if ($cc_id      == session('geo_data_user_currency'))
                                             {
                                                 echo "$cc_value";
                                             }

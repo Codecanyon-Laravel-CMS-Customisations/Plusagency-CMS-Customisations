@@ -17,6 +17,7 @@ class AutoRecordVisitorLocation
      */
     public function handle($request, Closure $next)
     {
+
         $this->get_ip();
         return $next($request);
     }
@@ -43,6 +44,24 @@ class AutoRecordVisitorLocation
         if($status)
         {
             //record already in the database and is up-to-date
+            try
+            {
+
+                //get data from database
+                $geodata                    = ClientGeoData::query()->where('ip', $client_ip)->first();
+                $country                    = Country::query()->where('alpha_2_code', $geodata->country_code)->first();
+
+                if($country)
+                { $geodata->country_id      = $country->id; }
+                if(auth()->user())
+                { $geodata->user_id         = auth()->id(); }
+                // $geodata->save();
+
+
+                //set client session
+                session()->put('geo_data_user_country', $country->id);
+            }
+            catch (\Exception $exception) { }
         }
         else
         {

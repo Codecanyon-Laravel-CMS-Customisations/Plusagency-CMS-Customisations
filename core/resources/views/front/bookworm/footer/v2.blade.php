@@ -208,6 +208,7 @@
                             tgtCountry.on('hidden.bs.select', function (e) {
                                 if($(this).find('option').length > 1) return;
                                 changeCountryMethod();
+                                changeCurrencyMethod();
                             });
                             tgtCurrency.on('hidden.bs.select', function (e) {
                                 if($(this).find('option').length > 1) return;
