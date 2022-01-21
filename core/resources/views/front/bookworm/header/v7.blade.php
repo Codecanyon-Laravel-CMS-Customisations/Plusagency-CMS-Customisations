@@ -162,9 +162,9 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                 $languages = \App\Language::all()->sortBy('name', 0, false);
                                 if(empty(session('lang')))
                                 {
-                                    if($languages->count() >= 1)
+                                    if($languages->where('id', 169)->count() >= 1)
                                     {
-                                        session(['lang' => $languages->last()->code]);
+                                        session(['lang' => $languages->where('id', 169)->last()->code]);
                                     }
                                 }
                             @endphp
