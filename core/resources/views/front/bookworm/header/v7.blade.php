@@ -104,7 +104,7 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                     @php
                                         //get only active currencies + countries
                                         $session_wc         = session('geo_data_user_country');
-                                        $wc_id              = $world_currency->id;
+                                        $wc_id              = !empty($world_currency->id) ? $world_currency->id : $world_currencies->last()->id;
                                         if ($session_wc    != $wc_id) continue;
 
                                         foreach ($world_currency->currencies as $pc)
@@ -129,7 +129,8 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                     @php
                                         $session_wc         = session('geo_data_user_country');
                                         $cc_options         = '';
-                                        $wc_id              = $world_currency->id;
+                                        // $wc_id              = $world_currency->id;
+                                        $wc_id              = !empty($world_currency->id) ? $world_currency->id : $world_currencies->last()->id;
                                         if ($session_wc     != $wc_id) continue;
 
                                         $wc_e_id            = encrypt($world_currency->id);

@@ -103,7 +103,7 @@
 
                     <div class="ml-auto d-lg-flex justify-content-xl-end align-items-center">
 
-                        <select class="changeLanguage js-select selectpicker dropdown-select ml-lg-4 mb-3 mb-md-0" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true">
+                        <select class="changeLanguage js-select selectpicker dropdown-select ml-lg-4 mb-3 mb-md-0" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true" data-live-search="true">
                             @php
                                 $languages = \App\Language::all()->sortBy('name', 0, false);
                             @endphp
@@ -180,10 +180,10 @@
                                 $counter++;
                             @endphp
                         @endforeach
-                        <select class="changeCountry js-select selectpicker dropdown-select ml-lg-4 mb-3 mb-md-0" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true">
+                        <select class="changeCountry js-select selectpicker dropdown-select ml-lg-4 mb-3 mb-md-0" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true" data-live-search="true">
                             {!! $countries_options !!}
                         </select>
-                        <select class="changeCurrency js-select selectpicker dropdown-select ml-md-3" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-width="fit" data-dropdown-align-right="true">
+                        <select class="changeCurrency js-select selectpicker dropdown-select ml-md-3" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-width="fit" data-dropdown-align-right="true" data-live-search="true">
                             {!! $cc_options_1 !!}
                         </select>
                         <script>
@@ -200,6 +200,20 @@
                             tgtCurrency.on('change', function () {
                                 changeCurrencyMethod();
                             });
+
+                            tgtLang.on('hidden.bs.select', function (e) {
+                                if($(this).find('option').length > 1) return;
+                                changeLanguageMethod();
+                            });
+                            tgtCountry.on('hidden.bs.select', function (e) {
+                                if($(this).find('option').length > 1) return;
+                                changeCountryMethod();
+                            });
+                            tgtCurrency.on('hidden.bs.select', function (e) {
+                                if($(this).find('option').length > 1) return;
+                                changeCurrencyMethod();
+                            });
+
 
                             function changeLanguageMethod() {
                                 window.location.assign(tgtLang.find('option:selected').attr('data-link'));
