@@ -212,10 +212,10 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                 <form class="modal-form---not" action="{{route('admin.currency.conversions.update')}}" method="POST">
                     @csrf
                     @method('patch')
-                    <input name="conversion_currency_id" type="hidden" class="form-control" value="{{$currency->id}}">
+                    <input name="conversion_currency_id" type="hidden" class="form-control" value="{{$conversion->convertedCurrency->id}}">
                     <div class="form-group">
                         <label for="">Conversion Currency  **</label>
-                        <input type="text" class="form-control" disabled value="{{$currency->name}} ({{$currency->acronym}})">
+                        <input type="text" class="form-control" disabled value="{{$conversion->convertedCurrency->name}} ({{$conversion->convertedCurrency->acronym}})">
                         <p id="errconversion_currency_id" class="mb-0 text-danger em"></p>
                     </div>
                     <div class="form-group">
