@@ -91,8 +91,7 @@ class RegisterController extends Controller
         $user->fill($input)->save();
         Auth::guard('web')->login($user);
         Session::flash('success', 'Email Verified Successfully');
-        return redirect('https://form.angelbookhouse.com/app/form?id=2lyEsw');
-//        return redirect()->route('front.index');
+        return redirect()->route('front.index');
 
 
         // $mailer = new KreativMailer();
