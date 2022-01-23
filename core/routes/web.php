@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Front\ProductController;
+use App\Models\Unscoped\Product;
 use Illuminate\Support\Facades\Route;
 use App\Permalink;
 
@@ -28,6 +29,7 @@ Route::get('test/{slug?}', function ($slug = '') {
     // return App\Models\Unscoped\Product::query()
     // ->where('slug', $slug)->get();
     // return abort(404);
+    return Product::all()->last();
 });
 
 Route::fallback(function () {

@@ -331,6 +331,12 @@
         a[href="https://www.magictoolbox.com/magiczoomplus/"]{
             display: none !important;
         }
+        .shop-tab-area .tab-pane > .list-group > .list-group-item {
+            border-bottom-color: transparent !important;
+        }
+        a#cartIcon .cart-total {
+            color: #161619 !important;
+        }
     </style>
 @endsection
 
