@@ -76,9 +76,9 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                 class="font-size-3 glph-icon flaticon-phone mr-2"></i>{{ $bs->support_phone }}</a>
                     </li>
                 </ul>
-                <ul class="topbar__nav--right nav">
+                {{-- <ul class="topbar__nav--right nav">
                     {{-- <li class="nav-item"><a href="#" class="nav-link py-2 px-3 text-white d-flex align-items-center"><i class="glph-icon flaticon-pin mr-2 font-size-3"></i>Store Location</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link py-2 px-3 text-white d-flex align-items-center"><i class="glph-icon flaticon-sent mr-2 font-size-3"></i>Track Your Order</a></li> --}}
+                    <li class="nav-item"><a href="#" class="nav-link py-2 px-3 text-white d-flex align-items-center"><i class="glph-icon flaticon-sent mr-2 font-size-3"></i>Track Your Order</a></li> --} }
                     <li class="nav-item">
                         <div class="position-relative h-100">
                             <a id=""
@@ -95,7 +95,7 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                 <a class="dropdown-item active" href="#">INR</a>
                                 <a class="dropdown-item" href="#">Euro</a>
                                 <a class="dropdown-item" href="#">Yen</a>
-                            </div> --}}
+                            </div> --} }
                         </div>
                     </li>
                     <li class="nav-item">
@@ -109,6 +109,53 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                 data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
                                 English <i class=""></i>
                             </a>
+                        </div>
+                    </li>
+                </ul> --}}
+                <ul class="topbar__nav--right nav">
+                    <li class="nav-item">
+                        <a href="javascript:;" class="nav-link py-2 px-3 text-white d-flex align-items-center">
+                            <i class="glph-icon flaticon-pin mr-2 font-size-3"></i>
+                            @php
+                                $countries                  = App\Models\Country::get()
+                                    ->sortBy('name', 0, false);
+                                    $country                = $countries->last();
+
+                                    try
+                                    {
+                                        $country    = $countries->where('id', session('geo_data_user_country'))->last();
+                                    }
+                                    catch (\exception $e)
+                                    {
+                                        //throw $th;
+                                    }
+
+                                @endphp
+                            {{ "$country->name ( $country->native_name )" }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        @php
+                            $languages = \App\Language::all()->sortBy('name', 0, false);
+                            if(empty(session('lang')))
+                            {
+                                if($languages->where('id', 169)->count() >= 1)
+                                {
+                                    session(['lang' => $languages->where('id', 169)->last()->code]);
+                                }
+                            }
+                        @endphp
+                        <div class="position-relative h-100">
+                            <a id="basicDropdownHoverInvoker1" class="d-flex align-items-center h-100 dropdown-nav-link py-2 px-3 dropdown-toggle nav-link text-white" href="javascript:;" role="button" aria-controls="basicDropdownHover1" aria-haspopup="true" aria-expanded="false" data-unfold-event="hover" data-unfold-target="#basicDropdownHover1" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                                @foreach($languages as $language)
+                                    @if($language->code == session('lang')) {{ $language->name }} @endif
+                                @endforeach <i class=""></i>
+                            </a>
+                            <div id="basicDropdownHover1" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker1">
+                                @foreach($languages as $language)
+                                    <a class="dropdown-item @if($language->code == session('lang')) active @endif" href="{{ route('changeLanguage', $language->code) }}">{{ $language->name }}</a>
+                                @endforeach
+                            </div>
                         </div>
                     </li>
                 </ul>
@@ -218,41 +265,31 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                     @includeIf('front.bookworm.chemistry.molecules.front_main_nav_strip')
                 </div>
                 <ul class="nav align-self-center ml-auto ml-xl-0">
-                    <li class="d-none d-md-block nav-item"><a href="#" class="nav-link text-dark"><i
-                                class="glph-icon flaticon-heart font-size-4"></i></a></li>
-                    <li class="nav-item">
-                        <!-- Account Sidebar Toggle Button -->
-                        <a id="sidebarNavToggler" href="javascript:;" role="button"
-                            class="nav-link text-dark target-of-invoker-has-unfolds" aria-controls="sidebarContent"
-                            aria-haspopup="true" aria-expanded="false" data-unfold-event="click"
-                            data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent"
-                            data-unfold-type="css-animation" data-unfold-overlay="{
-                                &quot;className&quot;: &quot;u-sidebar-bg-overlay&quot;,
-                                &quot;background&quot;: &quot;rgba(0, 0, 0, .7)&quot;,
-                                &quot;animationSpeed&quot;: 500
-                            }" data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight"
-                            data-unfold-duration="500">
-                            <i class="glph-icon flaticon-user font-size-4"></i>
+                    {{-- <li class="d-none d-md-block nav-item">
+                        <a href="#" class="nav-link text-dark">
+                            <i class="glph-icon flaticon-heart font-size-4"></i>
                         </a>
-                        <!-- End Account Sidebar Toggle Button -->
+                    </li> --}}
+                    <li class="nav-item">
+                        <a id="sidebarNavToggler" href="javascript:;" role="button" class="nav-link text-dark" aria-controls="sidebarContent" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent" data-unfold-type="css-animation" data-unfold-overlay='{
+                                                        "className": "u-sidebar-bg-overlay",
+                                                        "background": "rgba(0, 0, 0, .7)",
+                                                        "animationSpeed": 500
+                                                    }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
+                        <i class="glph-icon flaticon-user font-size-4"></i>
+                    </a>
+
                     </li>
                     <li class="d-none d-md-block nav-item">
-                        <!-- Cart Sidebar Toggle Button -->
-                        <a id="sidebarNavToggler1" href="javascript:;" role="button"
-                            class="nav-link pr-0 text-dark position-relative target-of-invoker-has-unfolds"
-                            aria-controls="sidebarContent1" aria-haspopup="true" aria-expanded="false"
-                            data-unfold-event="click" data-unfold-hide-on-scroll="false"
-                            data-unfold-target="#sidebarContent1" data-unfold-type="css-animation" data-unfold-overlay="{
-                                &quot;className&quot;: &quot;u-sidebar-bg-overlay&quot;,
-                                &quot;background&quot;: &quot;rgba(0, 0, 0, .7)&quot;,
-                                &quot;animationSpeed&quot;: 500
-                            }" data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight"
-                            data-unfold-duration="500">
+                        <a id="sidebarNavToggler1" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="sidebarContent1" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent1" data-unfold-type="css-animation" data-unfold-overlay='{
+                                                        "className": "u-sidebar-bg-overlay",
+                                                        "background": "rgba(0, 0, 0, .7)",
+                                                        "animationSpeed": 500
+                                                    }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
                             {{-- <span class="position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0">3</span> --}}
                             <i class="glph-icon flaticon-icon-126515 font-size-4"></i>
-                            {{-- <span class="d-none d-xl-inline h6 mb-0 ml-1">$40.93</span> --}}
+                            <span class="d-none d-xl-inline h6 mb-0 ml-1">$40.93</span>
                         </a>
-                        <!-- End Cart Sidebar Toggle Button -->
                     </li>
                 </ul>
             </div>

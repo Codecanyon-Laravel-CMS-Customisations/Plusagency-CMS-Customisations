@@ -36,12 +36,41 @@ class Product extends Model
         'sub_categories',
         'is_variation',
         'sub_category_id',
-        'sub_child_category_id'
+        'sub_child_category_id',
+        'current_price_international'
     ];
 
-    protected $casts = [
-        'offline' => 'boolean',
+    protected $casts    = [
+        'digital'       => 'boolean',
+        'offline'       => 'boolean',
     ];
+
+    public function getPriceAttribute()
+    {
+        if(ship_to_india())
+        {
+            return $this->current_price;
+        }
+        return !empty($this->current_price_international) ? $this->current_price_international : $this->current_price;
+    }
+
+    public function getCurrencyAttribute()
+    {
+        if(ship_to_india())
+        {
+            return "INR";
+        }
+        return !empty($this->current_price_international) ? "USD" : "INR";
+    }
+
+    public function getSymbolAttribute()
+    {
+        if(ship_to_india())
+        {
+            return "₹";
+        }
+        return !empty($this->current_price_international) ? "$" : "₹";
+    }
 
     public function getTitleAttribute($title)
     {

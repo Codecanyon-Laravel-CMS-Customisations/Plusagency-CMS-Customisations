@@ -163,11 +163,13 @@ $bex->base_currency_text_position = strtolower($bex_user_currency->text_position
                                                         class="price d-flex align-items-center font-weight-medium font-size-3">
                                                         <span class="woocommerce-Price-amount amount">
                                                             <span class="woocommerce-Price-currencySymbol">
-                                                                {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}
+                                                                {{-- {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }} --}}
+                                                                {{ $product->symbol }}
                                                             </span>
-                                                            {{ angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }}
+                                                            {{-- {{ angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }} --}}
+                                                            {{ number_format(!empty($product->price) ? $product->price : '0.00', 0) }}
                                                             <span class="woocommerce-Price-currencySymbol">
-                                                                {{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}
+                                                                {{-- {{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }} --}}
                                                             </span>
                                                         </span>
                                                     </div>

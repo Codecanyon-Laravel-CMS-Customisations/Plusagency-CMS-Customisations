@@ -29,8 +29,10 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 'sku'                       => trim(convertUtf8($row['sku'])),
                 // 'status'    => 1,
             ]);
+            if (!isset($row['images']))  $row['images']  = "";
             if (!isset($row['offline'])) $row['offline'] = 0;
             if (!isset($row['digital'])) $row['digital'] = 0;
+            if (!isset($row['meta_wcj_price_by_country_regular_price_local_1'])) $row['meta_wcj_price_by_country_regular_price_local_1'] = null;
 
             $product_categories             = $this->setProductCategories($row);
 
@@ -55,10 +57,11 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             $product->summary               = trim(e($this->parse_digital_links($product, (string)$row['short_description'])));
             $product->description           = trim(e($this->parse_digital_links($product, (string)$row['description'])));
             $product->current_price         = trim(trim(preg_replace("/[^\d\.]/", "", $row['regular_price'])) != "" ? preg_replace("/[^\d\.]/", "", $row['regular_price']) : '0.00');
-            $product->is_feature            = trim($row['is_featured']);
-            $product->status                = trim(1);
-            $product->rating                = trim('0.00');
-            $product->type                  = trim('physical');
+            $product->current_price_international   = trim(trim(preg_replace("/[^\d\.]/", "", $row['meta_wcj_price_by_country_regular_price_local_1'])) != "" ? preg_replace("/[^\d\.]/", "", $row['meta_wcj_price_by_country_regular_price_local_1']) : '0.00');
+            $product->is_feature                    = trim($row['is_featured']);
+            $product->status                        = trim(1);
+            $product->rating                        = trim('0.00');
+            $product->type                          = trim('physical');
             $product->save();
 
              $this->setProductImages($product, $row);

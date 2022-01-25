@@ -1,6 +1,7 @@
 <?php
 
 use App\BasicExtra;
+use App\Models\Unscoped\Product;
 use App\Page;
 
 if (! function_exists('setEnvironmentValue')) {
@@ -278,11 +279,14 @@ if (!function_exists('cartLength')) {
 if (!function_exists('cartTotal')) {
     function cartTotal()
     {
-        $total = 0;
-        if (session()->has('cart') && !empty(session()->get('cart'))) {
-            $cart = session()->get('cart');
-            foreach ($cart as $key => $cartItem) {
-                $total += (float)$cartItem['price'] * (float)$cartItem['qty'];
+        $total          = 0;
+        if (session()->has('cart') && !empty(session()->get('cart')))
+        {
+            $cart       = session()->get('cart');
+            foreach ($cart as $key => $cartItem)
+            {
+                $product    = Product::find($key);
+                $total     += (float)$product->price * (float)$cartItem['qty'];
             }
         }
 

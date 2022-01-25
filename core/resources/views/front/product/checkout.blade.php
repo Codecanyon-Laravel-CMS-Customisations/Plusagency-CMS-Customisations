@@ -69,7 +69,7 @@
                             <div class="row">
                                 <div class="col-md-12 mb-4">
                                     <div class="field-label">{{__('Country')}} *</div>
-                                    <div class="field-input">
+                                    {{-- <div class="field-input">
                                         @php
                                             $bcountry = '';
                                             if(empty(old())) {
@@ -81,6 +81,36 @@
                                             }
                                         @endphp
                                         <input type="text" name="billing_country" value="{{$bcountry}}">
+                                    </div> --}}
+                                    <div class="ml-auto d-lg-flex justify-content-xl-end align-items-center form-group">
+                                        @php
+                                            $countries          = App\Models\Country::all()->unique('name');
+                                            $countries_options  = '';
+                                        @endphp
+
+                                        <select name="billing_country" class="form-control js-select selectpicker dropdown-select mb-3 mb-md-0" data-style="border px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true" data-live-search="true">
+                                            @foreach ($countries as $country)
+                                                @php
+                                                    $user_country       = session('geo_data_user_country');
+                                                    $country_id         = $country->id;
+
+                                                    $country_id_crypt   = encrypt($country->id);
+                                                    $route              = route('changeCountry', $country_id_crypt);
+                                                    $wc_selected        = $country_id == $user_country ? 'selected' : '';
+                                                    $wc_value           = $country->name.'  ( '.$country->native_name.' )';
+
+                                                    if (!empty(old('billing_country')))
+                                                    {
+                                                        $wc_selected    = $wc_value == old('billing_country', '') ? 'selected' : '';
+                                                    }
+
+                                                    $countries_options .= "<option data-link=\"$route\" data-value=\"$country->id\" value=\"$wc_value\" $wc_selected>$wc_value</option>";
+
+                                                @endphp
+                                                {{-- <option value="{{ $country->id }}" @if ($country->id == session('geo_data_user_country')) selected @endif>{{ "$country->name ($country->native_name)" }}</option> --}}
+                                            @endforeach
+                                            {!! $countries_options !!}
+                                        </select>
                                     </div>
                                     @error('billing_country')
                                         <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
@@ -212,8 +242,8 @@
                         <div class="row">
                             <div class="col-md-12 mb-4">
                                 <div class="field-label">{{__('Country')}} *</div>
-                                <div class="field-input">
-                                    @php
+                                <div class="field-input form-group">
+                                    {{-- @php
                                         $scountry = '';
                                         if(empty(old())) {
                                             if (Auth::check()) {
@@ -223,7 +253,32 @@
                                             $scountry = old('shpping_country');
                                         }
                                     @endphp
-                                    <input type="text" name="shpping_country" value="{{$scountry}}">
+                                    <input type="text" name="shpping_country" value="{{$scountry}}"> --}}
+                                    <div class="ml-auto d-lg-flex justify-content-xl-end align-items-center">
+                                        @php
+                                            $countries          = App\Models\Country::all()->unique('name');
+                                            $countries_options  = '';
+                                        @endphp
+
+                                        <select name="shpping_country" class="form-control changeCountry js-select selectpicker dropdown-select mb-3 mb-md-0" data-style="border px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true" data-live-search="true">
+                                            @foreach ($countries as $country)
+                                                @php
+                                                    $user_country       = session('geo_data_user_country');
+                                                    $country_id         = $country->id;
+
+                                                    $country_id_crypt   = encrypt($country->id);
+                                                    $route              = route('changeCountry', $country_id_crypt);
+                                                    $wc_selected        = $country_id == $user_country ? 'selected' : '';
+                                                    $wc_value           = $country->name.'  ( '.$country->native_name.' )';
+
+                                                    $countries_options .= "<option data-link=\"$route\" data-value=\"$country->id\" $wc_selected>$wc_value</option>";
+
+                                                @endphp
+                                                {{-- <option value="{{ $country->id }}" @if ($country->id == session('geo_data_user_country')) selected @endif>{{ "$country->name ($country->native_name)" }}</option> --}}
+                                            @endforeach
+                                            {!! $countries_options !!}
+                                        </select>
+                                    </div>
                                 </div>
                                 @error('shpping_country')
                                     <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
@@ -378,7 +433,10 @@
                                                 <p><small>{{convertUtf8($charge->text)}}</small></p>
                                             </td>
                                             <td>
-                                                {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} <span>{{ pesa($charge->charge) }}</span> {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}
+                                                {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
+                                                {{ ship_to_india() ? "₹" : "$" }}
+                                                <span>{{ pesa($charge->charge) }}</span>
+                                                {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -428,7 +486,13 @@
                                         <td class="qty">
                                             <input class="quantity-spinner" disabled type="text" value="{{$item['qty']}}" name="quantity">
                                         </td>
-                                        <td class="price">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}{{ pesa($item['qty'] * $item['price']) }}{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</td>
+                                        <td class="price">
+                                            {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
+                                            {{ $product->symbol }}
+                                            {{-- {{ pesa($item['qty'] * $item['price']) }} --}}
+                                            {{ pesa($item['qty'] * $product->price) }}
+                                            {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
+                                        </td>
                                     </tr>
                                     @endforeach
                                     @else
@@ -451,23 +515,35 @@
                                 <ul class="cart-total-table">
                                     <li class="clearfix">
                                         <span class="col col-title">{{__('Cart Total')}}</span>
-                                        <span class="col">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}<span data="{{ pesa(cartTotal()) }}" class="subtotal">{{ pesa(cartTotal()) }}</span>{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
+                                        <span class="col">
+                                            {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
+                                            {{ ship_to_india() ? "₹" : "$" }}
+                                            <span data="{{ pesa(cartTotal()) }}" class="subtotal">
+                                                {{ pesa(cartTotal()) }}
+                                            </span>
+                                            {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
+                                        </span>
                                     </li>
                                     <li class="clearfix">
                                         <span class="col col-title">{{ __('Discount') }}
                                              <span class="text-success">(<i class="fas fa-minus"></i>)</span></span>
                                         <span class="col">
-                                            {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}<span data="{{ pesa($discount) }}">{{ pesa($discount) }}</span>
-                                            {{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}
+                                            {{-- {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }} --}}
+                                            {{ ship_to_india() ? "₹" : "$" }}
+                                            <span data="{{ pesa($discount) }}">{{ pesa($discount) }}</span>
+                                            {{-- {{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }} --}}
                                         </span>
 
                                     </li>
                                     <li class="clearfix">
                                         <span class="col col-title">{{ __('Subtotal') }}</span>
                                         <span class="col">
-                                        {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}<span
-                                            data="{{ pesa(cartSubTotal()) }}" class="subtotal"
-                                            id="subtotal">{{ pesa(cartSubTotal()) }}</span>{{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}
+                                            {{-- {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }} --}}
+                                            {{ ship_to_india() ? "₹" : "$" }}
+                                            <span data="{{ pesa(cartSubTotal()) }}" class="subtotal" id="subtotal">
+                                                {{ pesa(cartSubTotal()) }}
+                                            </span>
+                                            {{-- {{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }} --}}
                                         </span>
                                     </li>
 
@@ -479,7 +555,14 @@
                                         <li class="clearfix">
                                             <span class="col col-title">{{__('Shipping Charge')}}
                                                 <span class="text-danger">(<i class="fas fa-plus"></i>)</span></span>
-                                            <span class="col">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}<span data="{{ pesa($scharge) }}" class="shipping">{{ pesa($scharge) }}</span>{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
+                                            <span class="col">
+                                                {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
+                                                {{ ship_to_india() ? "₹" : "$" }}
+                                                <span data="{{ pesa($scharge) }}" class="shipping">
+                                                    {{ pesa($scharge) }}
+                                                </span>
+                                                {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
+                                            </span>
                                         </li>
                                     @else
                                         @php
@@ -493,15 +576,25 @@
                                             <span class="text-danger">(<i class="fas fa-plus"></i>)</span>
                                         </span>
                                         <span class="col">
-                                            {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}<span
-                                            data-tax="{{ str_replace(',', '', pesa(tax())) }}" id="tax">{{ pesa(tax()) }}</span>{{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}
+                                            {{-- {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }} --}}
+                                            {{ ship_to_india() ? "₹" : "$" }}
+                                            <span data-tax="{{ str_replace(',', '', pesa(tax())) }}" id="tax">
+                                                {{ pesa(tax()) }}
+                                            </span>
+                                            {{-- {{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }} --}}
                                         </span>
                                     </li>
 
                                     <li class="clearfix">
                                         <span class="col col-title">{{__('Order Total')}}</span>
                                         <span class="col">
-                                            {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}}<span data="{{ pesa(cartSubTotal() + $scharge + tax()) }}" class="grandTotal">{{ pesa(cartSubTotal() + $scharge + tax()) }}</span>{{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
+                                            {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
+                                            {{ ship_to_india() ? "₹" : "$" }}
+                                            <span data="{{ pesa(cartSubTotal() + $scharge + tax()) }}" class="grandTotal">
+                                                {{ pesa(cartSubTotal() + $scharge + tax()) }}
+                                            </span>
+                                            {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
+                                        </span>
                                     </li>
 
 

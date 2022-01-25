@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Front\ProductController;
+use App\Models\Country;
 use App\Models\Unscoped\Product;
 use Illuminate\Support\Facades\Route;
 use App\Permalink;
@@ -29,7 +30,16 @@ Route::get('test/{slug?}', function ($slug = '') {
     // return App\Models\Unscoped\Product::query()
     // ->where('slug', $slug)->get();
     // return abort(404);
-    return Product::all()->last();
+    // return Str::slug('Meta: _wcj_price_by_country_regular_price_local_1');
+    $product    = Product::query()->where('current_price', '>', '7')->get()->last();
+
+    return [
+        'ccr'   => $product->currency,
+        'pr1'   => $product->price,
+        // 'cty'   => Country::find(session('geo_data_user_country')),
+        'ses'   => session()->all(),
+        'pr2'   => $product,
+    ];
 });
 
 Route::fallback(function () {

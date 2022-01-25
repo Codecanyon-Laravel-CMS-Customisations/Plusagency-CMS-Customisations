@@ -83,7 +83,8 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                             <div class="input-group-prepend border-right mr-0 d-none d-xl-block">
                                 <select
                                     class="custom-select pr-7 pl-4 rounded-right-0 height-5 shadow-none border-0 text-dark bg-gray-200"
-                                    id="category_id">
+                                    id="category_id"
+                                    style="max-width: 150px;">
                                     <option selected>All Categories</option>
                                     @php
                                         $active_category = request()->has('category_id') ? request('category_id') : '';

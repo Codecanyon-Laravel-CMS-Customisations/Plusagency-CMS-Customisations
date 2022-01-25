@@ -82,85 +82,25 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                 </ul>
                 <ul class="topbar__nav--right nav justify-content-center">
                     <li class="nav-item">
-                        <div class="position-relative h-100">
-                            <a id="basicDropdownHoverInvoker9"
-                                class="d-flex align-items-center h-100 dropdown-nav-link p-2 dropdown-toggle nav-link link-black-100"
-                                href="javascript:;" role="button" aria-controls="basicDropdownHover9"
-                                aria-haspopup="true" aria-expanded="false" data-unfold-event="hover"
-                                data-unfold-target="#basicDropdownHover9" data-unfold-type="css-animation"
-                                data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true"
-                                data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
-                                @php
-                                    $world_currencies       = App\Models\Country::with('currencies')->whereHas('currencies')->where('status', true)->get()->sortBy('name', 0, false);
-                                    // $countries              = App\Models\Country::all()->sortBy('name', 0, false);
-                                    // $currencies             = App\Models\Currency::with('conversion')->whereHas('conversion')->orderBy('name', 'asc');
+                        <a href="javascript:;" class="nav-link py-2 px-3 text-dark d-flex align-items-center">
+                            <i class="glph-icon flaticon-pin mr-2 font-size-3"></i>
+                            @php
+                                $countries                  = App\Models\Country::get()
+                                    ->sortBy('name', 0, false);
+                                    $country                = $countries->last();
 
-                                    $counter                = 0;
-                                    $cc_options_1           = '';
-                                    $countries_options      = '';
+                                    try
+                                    {
+                                        $country    = $countries->where('id', session('geo_data_user_country'))->last();
+                                    }
+                                    catch (\exception $e)
+                                    {
+                                        //throw $th;
+                                    }
 
                                 @endphp
-                                @foreach ($world_currencies as $world_currency)
-                                    @php
-
-                                        //get only active currencies + countries
-                                        $session_wc         = session('geo_data_user_country');
-                                        $wc_id              = $world_currency->id;
-                                        if ($session_wc    != $wc_id) continue;
-
-                                        foreach ($world_currency->currencies as $pc)
-                                        {
-                                            if (empty(session('geo_data_user_currency')))
-                                            {
-                                                session(['geo_data_user_currency' => $pc->id]);
-                                            }
-
-                                            $cc_id          = $pc->id;
-                                            $cc_value       = trim($pc->symbol) != trim($pc->acronym) ? $pc->symbol.' '.$pc->acronym : ''.$pc->acronym;
-
-
-                                            if ($cc_id      == session('geo_data_user_currency'))
-                                            {
-                                                echo "$cc_value";
-                                            }
-                                        }
-                                        $counter++;
-                                    @endphp
-                                @endforeach
-                                 <i class=""></i>
-                            </a>
-                            <div id="basicDropdownHover9" class="dropdown-menu dropdown-unfold right-0 left-auto"
-                                aria-labelledby="basicDropdownHoverInvoker9">
-                                @foreach ($world_currencies as $world_currency)
-                                    @php
-                                        $session_wc         = session('geo_data_user_country');
-                                        $cc_options         = '';
-                                        // $wc_id              = $world_currency->id;
-                                        $wc_id              = !empty($world_currency->id) ? $world_currency->id : $world_currencies->last()->id;
-                                        if ($session_wc     != $wc_id) continue;
-
-                                        $wc_e_id            = encrypt($world_currency->id);
-                                        $route              = route('changeCountry', $wc_e_id);
-                                        $wc_selected        = $wc_id == $session_wc ? 'selected' : '';
-                                        $wc_value           = $world_currency->name.'  ( '.$world_currency->alpha_2_code.' )';
-
-                                        foreach ($world_currency->currencies as $pc)
-                                        {
-                                            $cc_id          = $pc->id;
-                                            $cc_e_id        = encrypt($pc->id);
-                                            $cc_route       = route('changeCurrency', ['hash' => $cc_e_id, 'country' => $world_currency->id]);
-                                            $cc_value       = trim($pc->symbol) != trim($pc->acronym) ? $pc->symbol.' '.$pc->acronym : ''.$pc->acronym;
-
-                                            if ($cc_id      != session('geo_data_user_currency'))
-                                            {
-                                                echo "<a class='dropdown-item a-c-t-i-v-e' href='$cc_route'>$cc_value</a>";
-                                            }
-                                        }
-                                        $counter++;
-                                    @endphp
-                                @endforeach
-                            </div>
-                        </div>
+                            {{ "$country->name ( $country->native_name )" }}
+                        </a>
                     </li>
                     <li class="nav-item">
                         <div class="position-relative h-100">
@@ -213,7 +153,7 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                 <div class="input-group-prepend z-index-2 d-none d-xl-block">
                                     <select
                                         class="d-none d-lg-block custom-select pr-7 pl-4 rounded-0 height-5 shadow-none text-dark"
-                                        id="category_id">
+                                        id="category_id" style="max-width: 150px;">
                                         <option selected>All Categories</option>
                                         @php
                                             $active_category = request()->has('category_id') ? request('category_id') : '';

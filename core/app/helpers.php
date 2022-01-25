@@ -1,11 +1,13 @@
 <?php
 
+use App\Produc;
+use App\BasicExtra;
 use App\BasicExtended;
+use App\Models\Country;
 use App\Models\Currency;
+use Illuminate\Support\Str;
 use App\Models\CurrencyConversion;
 use App\Models\GeoIP\ClientGeoData;
-use App\BasicExtra;
-use App\Produc;
 
 if (! function_exists('angel_auto_convert_currency'))
 {
@@ -177,5 +179,27 @@ if (! function_exists('angel_product_price'))
         {
             return $currency;
         }
+    }
+}
+
+if(! function_exists('ship_to_india'))
+{
+    function ship_to_india()
+    {
+        try
+        {
+            $country = Country::find(session('geo_data_user_country'));
+
+            if(Str::slug($country->name) == Str::slug('India'))
+            {
+                return true;
+            }
+            return false;
+        }
+        catch(\Exception $exception)
+        {
+            return false;
+        }
+        return false;
     }
 }

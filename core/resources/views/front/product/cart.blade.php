@@ -76,7 +76,12 @@
                         }
                         @endphp
                         <li><strong>{{__('Total Items')}}:</strong> <strong class="cart-item-view">{{$cart ? $countitem : 0}}</strong></li>
-                        <li><strong>{{__('Cart Total')}} :</strong>  <strong class="cart-total-view">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} {{ pesa($cartTotal) }} {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</strong></li>
+                        <li><strong>{{__('Cart Total')}} :</strong>  <strong class="cart-total-view">
+                            {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
+                            {{ ship_to_india() ? "₹" : "$" }}
+                            {{ pesa($cartTotal) }}
+                            {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
+                        </strong></li>
                     </ul>
                 @endif
                 <div class="table-outer">
@@ -129,8 +134,24 @@
                                         @endif
                                     </div>
                                 </td>
-                                <td class="price cart_price">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} <span>{{ isset($pvariation) ? angel_auto_convert_currency($pvariation->current_price, $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }}</span> {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</td>
-                                <td class="sub-total">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} <span>{{ isset($pvariation) ? angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) }}</span> {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</td>
+                                <td class="price cart_price">
+                                    {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
+                                    {{ $product->symbol }}
+                                    <span>
+                                        {{-- {{ isset($pvariation) ? angel_auto_convert_currency($pvariation->current_price, $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }} --}}
+                                        {{ number_format(!empty($product->price) ? $product->price : '0.00', 0) }}
+                                    </span>
+                                    {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
+                                </td>
+                                <td class="sub-total">
+                                    {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
+                                    {{ $product->symbol }}
+                                    <span>
+                                        {{-- {{ isset($pvariation) ? angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) }} --}}
+                                        {{ number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) }}
+                                    </span>
+                                    {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
+                                </td>
                                 <td>
                                     <div class="remove">
                                         <div class="checkbox">

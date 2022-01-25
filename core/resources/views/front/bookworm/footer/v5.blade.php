@@ -106,7 +106,11 @@
                             @endforeach
                         </select>
                         @php
-                            $world_currencies       = App\Models\Country::with('currencies')->whereHas('currencies')->where('status', true)->get()->sortBy('name', 0, false);
+                            $world_currencies       = App\Models\Country::with('currencies')
+                            // ->whereHas('currencies')
+                            // ->where('status', true)
+                            ->get()
+                            ->sortBy('name', 0, false);
                             // $countries              = App\Models\Country::all()->sortBy('name', 0, false);
                             // $currencies             = App\Models\Currency::with('conversion')->whereHas('conversion')->orderBy('name', 'asc');
 
@@ -126,7 +130,7 @@
                                 $wc_e_id            = encrypt($world_currency->id);
                                 $route              = route('changeCountry', $wc_e_id);
                                 $wc_selected        = $wc_id == $session_wc ? 'selected' : '';
-                                $wc_value           = $world_currency->name.'  ( '.$world_currency->alpha_2_code.' )';
+                                $wc_value           = $world_currency->name.'  ( '.$world_currency->native_name.' )';
 
                                 foreach ($world_currency->currencies as $pc)
                                 {
@@ -155,7 +159,7 @@
                                 $wc_e_id            = encrypt($world_currency->id);
                                 $route              = route('changeCountry', $wc_e_id);
                                 $wc_selected        = $wc_id == $session_wc ? 'selected' : '';
-                                $wc_value           = $world_currency->name.'  ( '.$world_currency->alpha_2_code.' )';
+                                $wc_value           = $world_currency->name.'  ( '.$world_currency->native_name.' )';
 
                                 foreach ($world_currency->currencies as $pc)
                                 {
@@ -174,40 +178,27 @@
                                 $counter++;
                             @endphp
                         @endforeach
-                        <select class="changeCountry js-select selectpicker dropdown-select ml-lg-4 mb-3 mb-md-0" data-style-not="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true">
+                        <select class="changeCountry js-select selectpicker dropdown-select ml-lg-4 mb-3 mb-md-0" data-style-not="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true" data-live-search="true">
                             {!! $countries_options !!}
-                        </select>
-                        <select class="changeCurrency js-select selectpicker dropdown-select ml-md-3" data-style-not="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-width="fit" data-dropdown-align-right="true">
-                            {!! $cc_options_1 !!}
                         </select>
                         <script>
                             var tgtLang     = $('.changeLanguage');
                             var tgtCountry  = $('.changeCountry');
-                            var tgtCurrency = $('.changeCurrency');
 
-                            tgtLang.on('change', function () {
+                            tgtCountry.on('hidden.bs.select', function (e) {
+                                window.location.assign($(e.target).find('option:selected').attr('data-link'));
+                            });
+                            tgtLang.on('hidden.bs.select', function (e) {
                                 changeLanguageMethod();
                             });
-                            tgtCountry.on('change', function () {
-                                changeCountryMethod();
-                            });
-                            tgtCurrency.on('change', function () {
-                                changeCurrencyMethod();
-                            });
+
 
                             function changeLanguageMethod() {
                                 window.location.assign(tgtLang.find('option:selected').attr('data-link'));
                             }
                             function changeCountryMethod() {
                                 tgtCountry.selectpicker('refresh');
-                                tgtCurrency.selectpicker('refresh');
-                                tgtCurrency.html(tgtCountry.find('option:selected').attr('data-cc'));
-                                // window.location.assign(tgtCountry.find('option:selected').attr('data-link'));
-                                tgtCountry.selectpicker('refresh');
-                                tgtCurrency.selectpicker('refresh');
-                            }
-                            function changeCurrencyMethod() {
-                                window.location.assign(tgtCurrency.find('option:selected').attr('data-link'));
+                                window.location.assign(tgtCountry.find('option:selected').attr('data-link'));
                             }
                         </script>
                     </div>
