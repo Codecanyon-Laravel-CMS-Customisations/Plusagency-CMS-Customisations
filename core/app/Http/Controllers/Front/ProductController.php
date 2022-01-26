@@ -274,11 +274,29 @@ class ProductController extends Controller
             if ($product->type != 'digital') {
                 if(!empty($cart) && array_key_exists($id, $cart)){
                     if($product->stock < $cart[$id]['qty'] + $qty){
-                        return response()->json(['error' => 'Out of Stock']);
+                        if(request()->expectsJson())
+                        {
+                            return response()->json(['error' => 'Out of Stock']);
+                        }
+                        else
+                        {
+                            session()->flash('error', 'Out of Stock');
+                            session()->flash('danger', 'Out of Stock');
+                            return redirect()->back();
+                        }
                     }
                 }else{
                     if($product->stock < $qty){
-                        return response()->json(['error' => 'Out of Stock']);
+                        if(request()->expectsJson())
+                        {
+                            return response()->json(['error' => 'Out of Stock']);
+                        }
+                        else
+                        {
+                            session()->flash('error', 'Out of Stock');
+                            session()->flash('danger', 'Out of Stock');
+                            return redirect()->back();
+                        }
                     }
                 }
             }
@@ -301,7 +319,16 @@ class ProductController extends Controller
                 ];
 
                 Session::put('cart', $cart);
-                return response()->json(['message' => 'Product added to cart successfully!']);
+                if(request()->expectsJson())
+                {
+                    return response()->json(['message' => 'Product added to cart successfully!']);
+                }
+                else
+                {
+                    session()->flash('message', 'Product added to cart successfully!');
+                    session()->flash('success', 'Product added to cart successfully!');
+                    return redirect()->back();
+                }
             }
 
 
@@ -309,7 +336,16 @@ class ProductController extends Controller
             if (isset($cart[$id])) {
                 $cart[$id]['qty'] +=  $qty;
                 Session::put('cart', $cart);
-                return response()->json(['message' => 'Product added to cart successfully!']);
+                if(request()->expectsJson())
+                {
+                    return response()->json(['message' => 'Product added to cart successfully!']);
+                }
+                else
+                {
+                    session()->flash('message', 'Product added to cart successfully!');
+                    session()->flash('success', 'Product added to cart successfully!');
+                    return redirect()->back();
+                }
             }
 
             // if item not exist in cart then add to cart with quantity = 1
@@ -331,11 +367,29 @@ class ProductController extends Controller
             if ($product->type != 'digital') {
                 if(!empty($cart) && array_key_exists($id, $cart)){
                     if($product->stock < $cart[$id]['qty'] + 1){
-                        return response()->json(['error' => 'Out of Stock']);
+                        if(request()->expectsJson())
+                        {
+                            return response()->json(['error' => 'Out of Stock']);
+                        }
+                        else
+                        {
+                            session()->flash('error', 'Out of Stock');
+                            session()->flash('danger', 'Out of Stock');
+                            return redirect()->back();
+                        }
                     }
                 }else{
                     if($product->stock < 1){
-                        return response()->json(['error' => 'Out of Stock']);
+                        if(request()->expectsJson())
+                        {
+                            return response()->json(['error' => 'Out of Stock']);
+                        }
+                        else
+                        {
+                            session()->flash('error', 'Out of Stock');
+                            session()->flash('danger', 'Out of Stock');
+                            return redirect()->back();
+                        }
                     }
                 }
             }
@@ -356,7 +410,16 @@ class ProductController extends Controller
                 ];
 
                 Session::put('cart', $cart);
-                return response()->json(['message' => 'Product added to cart successfully!']);
+                if(request()->expectsJson())
+                {
+                    return response()->json(['message' => 'Product added to cart successfully!']);
+                }
+                else
+                {
+                    session()->flash('message', 'Product added to cart successfully!');
+                    session()->flash('success', 'Product added to cart successfully!');
+                    return redirect()->back();
+                }
             }
 
             // if selected product is digital , then check if the product is already in the cart
@@ -371,7 +434,16 @@ class ProductController extends Controller
             if (isset($cart[$id])) {
                 $cart[$id]['qty']++;
                 Session::put('cart', $cart);
-                return response()->json(['message' => 'Product added to cart successfully!']);
+                if(request()->expectsJson())
+                {
+                    return response()->json(['message' => 'Product added to cart successfully!']);
+                }
+                else
+                {
+                    session()->flash('message', 'Product added to cart successfully!');
+                    session()->flash('success', 'Product added to cart successfully!');
+                    return redirect()->back();
+                }
             }
 
             // if item not exist in cart then add to cart with quantity = 1
@@ -385,7 +457,16 @@ class ProductController extends Controller
         }
 
         Session::put('cart', $cart);
-        return response()->json(['message' => 'Product added to cart successfully!']);
+        if(request()->expectsJson())
+        {
+            return response()->json(['message' => 'Product added to cart successfully!']);
+        }
+        else
+        {
+            session()->flash('message', 'Product added to cart successfully!');
+            session()->flash('success', 'Product added to cart successfully!');
+            return redirect()->back();
+        }
     }
 
 

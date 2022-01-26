@@ -176,7 +176,7 @@ $bex->base_currency_text_position = strtolower($bex_user_currency->text_position
                                                 </div>
                                                 @if ($bex->catalog_mode == 0)
                                                     <div class="product__hover d-flex align-items-center">
-                                                        <a data-href="{{ route('add.cart', $product->id) }}"
+                                                        <a href="{{ route('add.cart', $product->id) }}" data-href="{{ route('add.cart', $product->id) }}"
                                                             class="text-uppercase text-dark h-dark font-weight-medium mr-auto"
                                                             data-toggle="tooltip" data-placement="right" title=""
                                                             data-original-title="ADD TO CART">
