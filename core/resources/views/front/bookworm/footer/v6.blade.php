@@ -178,7 +178,7 @@
                                 $wc_e_id            = encrypt($world_currency->id);
                                 $route              = route('changeCountry', $wc_e_id);
                                 $wc_selected        = $wc_id == $session_wc ? 'selected' : '';
-                                $wc_value           = $world_currency->name.'  ( '.$world_currency->native_name.' )';
+                                $wc_value           = $world_currency->name;//.'  ( '.$world_currency->native_name.' )';
 
                                 foreach ($world_currency->currencies as $pc)
                                 {
@@ -197,7 +197,7 @@
                                 $counter++;
                             @endphp
                         @endforeach
-                        <select class="changeCountry js-select selectpicker dropdown-select ml-lg-4 mb-3 mb-md-0" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true" data-live-search="true">
+                        <select class="changeCountry js-select selectpicker dropdown-select ml-lg-4 mb-3 mb-md-0" data-size="5" data-style="text-white-60 bg-secondary-gray-800 px-4 py-2 rounded-lg height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true" data-live-search="true">
                             {!! $countries_options !!}
                         </select>
                         <script>
