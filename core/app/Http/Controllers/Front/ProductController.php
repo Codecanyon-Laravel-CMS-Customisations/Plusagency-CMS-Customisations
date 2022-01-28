@@ -261,9 +261,7 @@ class ProductController extends Controller
 
     public function addToCart($id)
     {
-
         $cart = Session::get('cart');
-
         if (strpos($id, ',,,') == true) {
             $data = explode(',,,', $id);
             $id = $data[0];
@@ -1042,5 +1040,9 @@ class ProductController extends Controller
     public function make_abs_url(string $link, $needle = "href")
     {
         return str_replace("$needle=\"", "$needle=\"$this->forms_url/static_files/", $link);
+    }
+    public function wishlist(){
+        $wish = Session::get('wish');
+        dd($wish);
     }
 }

@@ -410,7 +410,8 @@ class ProductController extends Controller
             'title' => $request->title,
             'value' => $request->value,
             'type' => $request->type,
-            'thumbnail' => $thumbnail
+            'thumbnail' => $thumbnail,
+            'description'=>$request->description,
         ] );
         $product->save();
 
@@ -424,18 +425,18 @@ class ProductController extends Controller
         if( ! $request->input('is_variation') ) {
             $rules = [
                 'slider' => 'required',
-                'title' => [
-                    'required',
-                    'max:255',
-                    function ($attribute, $value, $fail) use ($slug, $productId) {
-                        $products = Product::all();
-                        foreach ($products as $key => $product) {
-                            if ($product->id != $productId && strtolower($slug) == strtolower($product->slug)) {
-                                $fail('The title field must be unique.');
-                            }
-                        }
-                    }
-                ],
+//                'title' => [
+//                    'required',
+//                    'max:255',
+//                    function ($attribute, $value, $fail) use ($slug, $productId) {
+//                        $products = Product::all();
+//                        foreach ($products as $key => $product) {
+//                            if ($product->id != $productId && strtolower($slug) == strtolower($product->slug)) {
+//                                $fail('The title field must be unique.');
+//                            }
+//                        }
+//                    }
+//                ],
                 'category_id' => 'required',
                 'status' => 'required'
             ];
