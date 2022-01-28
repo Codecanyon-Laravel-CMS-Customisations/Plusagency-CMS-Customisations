@@ -1106,7 +1106,7 @@ class ProductController extends Controller
                     ]
                 ];
 
-                session()->put('cart', $wish);
+                session()->put('wishlist', $wish);
 //                return response()->json(['message' => 'Product added to cart successfully!']);
                 return redirect()->back();
             }

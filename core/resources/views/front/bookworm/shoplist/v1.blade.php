@@ -203,7 +203,7 @@
                                                             class="mr-1 h-p-bg btn btn-outline-primary border-0">
                                                             <i class="flaticon-switch"></i>
                                                         </a>
-                                                        <a href="{{url("wishlist/$product->id")}}" class="h-p-bg btn btn-outline-primary border-0">
+                                                        <a href="{{url("wishlist/$product->id")}}" class="h-p-bg btn btn-outline-primary border-0" title="Add to Wishlist">
                                                             <i class="flaticon-heart"></i>
                                                         </a>
                                                     </div>
