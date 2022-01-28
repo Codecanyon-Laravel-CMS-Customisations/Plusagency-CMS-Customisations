@@ -1041,8 +1041,143 @@ class ProductController extends Controller
     {
         return str_replace("$needle=\"", "$needle=\"$this->forms_url/static_files/", $link);
     }
-    public function wishlist(){
-        $wish = Session::get('wish');
-        dd($wish);//
+    public function wishlist(Request $request){
+        $product = Product::findOrFail($request->id);
+        $wish[1] = [
+            'name'=>$product->title,
+            'qty'=>1,
+            'price'=>$product->current_price,
+            'photo'=>$product->featuredimage,
+            'type'=>$product->type,
+        ];
+        $request->session()->put('wishlist',$wish);
+        $id = $request->id;
+        if (strpos($id, ',,,') == true) {
+            $data = explode(',,,', $id);
+            $id = $data[0];
+            $qty = $data[1];
+
+            $product = Product::findOrFail($id);
+
+            if ($product->type != 'digital') {
+                if(!empty($cart) && array_key_exists($id, $cart)){
+                    if($product->stock < $cart[$id]['qty'] + $qty){
+                        return response()->json(['error' => 'Out of Stock']);
+                    }
+                }else{
+                    if($product->stock < $qty){
+                        return response()->json(['error' => 'Out of Stock']);
+                    }
+                }
+            }
+
+            if (!$product) {
+                abort(404);
+            }
+            $wish = Session::get('wishlist');
+            // if wishlist is empty then this the first product
+            if (!$wish) {
+
+                $wish = [
+                    $id => [
+                        "name" => $product->title,
+                        "qty" => $qty,
+                        "price" => $product->current_price,
+                        "photo" => $product->feature_image,
+                        "type" => $product->type
+                    ]
+                ];
+
+                Session::put('cart', $wish);
+//                return response()->json(['message' => 'Product added to cart successfully!']);
+                return redirect()->back();
+            }
+
+
+            // if cart not empty then check if this product exist then increment quantity
+            if (isset($wish[$id])) {
+                $wish[$id]['qty'] +=  $qty;
+                Session::put('wishlist', $cart);
+//                return response()->json(['message' => 'Product added to cart successfully!']);
+                return redirect()->back();
+            }
+
+            // if item not exist in cart then add to cart with quantity = 1
+            $wish[$id] = [
+                "name" => $product->title,
+                "qty" => $qty,
+                "price" => $product->current_price,
+                "photo" => $product->feature_image,
+                "type" => $product->type
+            ];
+        }
+        else {
+
+            $id = $id;
+            $product = Product::findOrFail($id);
+            if (!$product) {
+                abort(404);
+            }
+
+            if ($product->type != 'digital') {
+                if(!empty($cart) && array_key_exists($id, $cart)){
+                    if($product->stock < $cart[$id]['qty'] + 1){
+                        return response()->json(['error' => 'Out of Stock']);
+                    }
+                }else{
+                    if($product->stock < 1){
+                        return response()->json(['error' => 'Out of Stock']);
+                    }
+                }
+            }
+
+
+            $wish = Session::get('wishlist');
+            // if cart is empty then this the first product
+            if (!$wish) {
+
+                $wish = [
+                    $id => [
+                        "name" => $product->title,
+                        "qty" => 1,
+                        "price" => $product->current_price,
+                        "photo" => $product->feature_image,
+                        "type" => $product->type
+                    ]
+                ];
+
+                Session::put('wishlist', $wish);
+//                return response()->json(['message' => 'Product added to cart successfully!']);
+                return redirect()->back();
+            }
+
+            // if selected product is digital , then check if the product is already in the cart
+            // digital product can only be added once in cart
+            // if ($product->type == 'digital') {
+            //     if (is_array($cart) && array_key_exists($id, $cart)) {
+            //         return response()->json(['error' => 'Already added to cart!']);
+            //     }
+            // }
+
+            // if cart not empty then check if this product exist then increment quantity
+            if (isset($wish[$id])) {
+                $wish[$id]['qty']++;
+                Session::put('wishlist', $cart);
+//                return response()->json(['message' => 'Product added to cart successfully!']);
+                return redirect()->back();
+            }
+
+            // if item not exist in cart then add to cart with quantity = 1
+            $wish[$id] = [
+                "name" => $product->title,
+                "qty" => 1,
+                "price" => $product->current_price,
+                "photo" => $product->feature_image,
+                "type" => $product->type
+            ];
+        }
+        Session::put('wishlist', $wish);
+//        return response()->json(['message' => 'Product added to cart successfully!']);
+        return redirect()->back();
     }
 }

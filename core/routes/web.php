@@ -172,6 +172,9 @@ Route::group(['middleware' => 'setlang'], function () {
     Route::get('/checkout/{slug}', 'Front\ProductController@Prdouctcheckout')->name('front.product.checkout');
     Route::post('/coupon', 'Front\ProductController@coupon')->name('front.coupon');
 
+
+    Route::get('/wishlist','Front\ProductController@wishlist')->name('wishlist');
+
     // Product Categories
     Route::get('/product-categories', 'Front\ProductController@product_categories')->name('front.product-categories');
 

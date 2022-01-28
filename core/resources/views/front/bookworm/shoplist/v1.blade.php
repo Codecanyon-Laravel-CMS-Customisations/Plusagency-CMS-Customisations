@@ -186,20 +186,23 @@
                                                 @if ($bex->catalog_mode == 0)
                                                     <div class="product__hover d-flex align-items-center">
                                                         <a href="{{ route('add.cart', $product->id) }}" data-href="{{ route('add.cart', $product->id) }}"
-                                                            class="text-uppercase text-dark h-dark font-weight-medium mr-auto"
-                                                            data-toggle="tooltip" data-placement="right" title=""
-                                                            data-original-title="ADD TO CART">
+                                                            class="text-uppercase text-dark h-dark font-weight-medium mr-auto">
                                                             <span class="product__add-to-cart">ADD TO CART</span>
                                                             <span class="product__add-to-cart-icon font-size-4"><i
                                                                     class="flaticon-icon-126515"></i></span>
                                                         </a>
+                                                        <form method="get" action="{{url('wishlist/')}}" class="h-p-bg btn btn-outline-primary border-0"
+                                                            title="Add to Wishlist">
+                                                            <input type="hidden" name="id" value="{{$product->id}}">
+                                                            <button type="submit" style="background: transparent; border-color: transparent;">
+                                                                <i class="flaticon-heart"></i>
+                                                            </button>
+                                                        </form>
                                                         <a href="{{ route('front.product.checkout', $product->slug) }}"
+                                                           title="Checkout"
                                                             class="mr-1 h-p-bg btn btn-outline-primary border-0">
                                                             <i class="flaticon-switch"></i>
                                                         </a>
-                                                        {{-- <a href="../shop/single-product-v1.html" class="h-p-bg btn btn-outline-primary border-0">
-                                                            <i class="flaticon-heart"></i>
-                                                        </a> --}}
                                                     </div>
                                                 @endif
                                             </div>
