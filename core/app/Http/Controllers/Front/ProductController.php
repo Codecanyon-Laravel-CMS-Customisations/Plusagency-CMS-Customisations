@@ -1062,11 +1062,29 @@ class ProductController extends Controller
             if ($product->type != 'digital') {
                 if(!empty($cart) && array_key_exists($id, $cart)){
                     if($product->stock < $cart[$id]['qty'] + $qty){
-                        return response()->json(['error' => 'Out of Stock']);
+                        if(request()->expectsJson())
+                        {
+                            return response()->json(['error' => 'Out of Stock']);
+                        }
+                        else
+                        {
+                            session()->flash('error', 'Out of Stock');
+                            session()->flash('danger', 'Out of Stock');
+                            return redirect()->back();
+                        }
                     }
                 }else{
                     if($product->stock < $qty){
-                        return response()->json(['error' => 'Out of Stock']);
+                        if(request()->expectsJson())
+                        {
+                            return response()->json(['error' => 'Out of Stock']);
+                        }
+                        else
+                        {
+                            session()->flash('error', 'Out of Stock');
+                            session()->flash('danger', 'Out of Stock');
+                            return redirect()->back();
+                        }
                     }
                 }
             }
@@ -1122,11 +1140,29 @@ class ProductController extends Controller
             if ($product->type != 'digital') {
                 if(!empty($cart) && array_key_exists($id, $cart)){
                     if($product->stock < $cart[$id]['qty'] + 1){
-                        return response()->json(['error' => 'Out of Stock']);
+                        if(request()->expectsJson())
+                        {
+                            return response()->json(['error' => 'Out of Stock']);
+                        }
+                        else
+                        {
+                            session()->flash('error', 'Out of Stock');
+                            session()->flash('danger', 'Out of Stock');
+                            return redirect()->back();
+                        }
                     }
                 }else{
                     if($product->stock < 1){
-                        return response()->json(['error' => 'Out of Stock']);
+                        if(request()->expectsJson())
+                        {
+                            return response()->json(['error' => 'Out of Stock']);
+                        }
+                        else
+                        {
+                            session()->flash('error', 'Out of Stock');
+                            session()->flash('danger', 'Out of Stock');
+                            return redirect()->back();
+                        }
                     }
                 }
             }
