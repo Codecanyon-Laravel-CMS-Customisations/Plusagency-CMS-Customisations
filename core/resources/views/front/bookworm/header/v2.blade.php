@@ -229,10 +229,13 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                     @if (trim($header_v2_button_text) != '')
                         <div class="secondary-navigation">
                             <ul class="nav">
-                                <li class="nav-item"><a href="javascript:;" data-href="{{ route('feedback') }}"
-                                        class="nav-link link-black-100 mx-2 px-0 py-3 font-size-2 font-weight-medium"
-                                        data-toggle="modal"
-                                        data-target="#headerProductInquiryModal">{{ $header_v2_button_text }}</a></li>
+{{--                                <li class="nav-item"><a href="javascript:;" data-href="{{ route('feedback') }}"--}}
+{{--                                        class="nav-link link-black-100 mx-2 px-0 py-3 font-size-2 font-weight-medium"--}}
+{{--                                        data-toggle="modal"--}}
+{{--                                        data-target="#headerProductInquiryModal">{{ $header_v2_button_text }}</a></li>--}}
+                                <li class="nav-item">
+                                    <a class="nav-link link-black-100 mx-2 px-0 py-3 font-size-2 font-weight-medium" href="https://form.angelbookhouse.com/app/form?id=6xxTDw">{{$header_v2_button_text}}</a>
+                                </li>
                                 {{-- <li class="nav-item"><a href="#" class="nav-link link-black-100 mx-2 px-0 py-3 font-size-2 font-weight-medium">Best Seller</a></li>
                                 <li class="nav-item"><a href="#" class="nav-link link-black-100 mx-2 px-0 py-3 font-size-2 font-weight-medium">Trending Books</a></li>
                                 <li class="nav-item"><a href="#" class="nav-link link-black-100 mx-2 px-0 py-3 font-size-2 font-weight-medium">Gift Cards</a></li> --}}
@@ -376,11 +379,5 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
     </div>
 
 </header>
-@if (auth()->check())
-    <script>
-        setTimeout(function(){
-            window.open("https://form.angelbookhouse.com/app/form?id=2lyEsw","_blank");
-        }, 1);
-    </script>
-@endif
+
 @include('front.bookworm.header.aside')
