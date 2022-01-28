@@ -179,7 +179,7 @@ class ProductController extends Controller
             $currentLang = Language::where('is_default', 1)->first();
         }
 
-        Session::put('link', url()->current());
+        session()->put('link', url()->current());
         $data['product']    = Product::where('slug', $slug)->where('language_id',$currentLang->id)->first();
         $data['categories'] = Pcategory::where('status', 1)->where('language_id',$currentLang->id)->get();
 
@@ -218,8 +218,8 @@ class ProductController extends Controller
             $currentLang = Language::where('is_default', 1)->first();
         }
 
-        if (Session::has('cart')) {
-            $cart = Session::get('cart');
+        if (session()->has('cart')) {
+            $cart = session()->get('cart');
         } else {
             $cart = null;
         }
@@ -261,7 +261,7 @@ class ProductController extends Controller
 
     public function addToCart($id)
     {
-        $cart = Session::get('cart');
+        $cart = session()->get('cart');
         if (strpos($id, ',,,') == true) {
             $data = explode(',,,', $id);
             $id = $data[0];
@@ -302,7 +302,7 @@ class ProductController extends Controller
             if (!$product) {
                 abort(404);
             }
-            $cart = Session::get('cart');
+            $cart = session()->get('cart');
             // if cart is empty then this the first product
             if (!$cart) {
 
@@ -316,7 +316,7 @@ class ProductController extends Controller
                     ]
                 ];
 
-                Session::put('cart', $cart);
+                session()->put('cart', $cart);
                 if(request()->expectsJson())
                 {
                     return response()->json(['message' => 'Product added to cart successfully!']);
@@ -333,7 +333,7 @@ class ProductController extends Controller
             // if cart not empty then check if this product exist then increment quantity
             if (isset($cart[$id])) {
                 $cart[$id]['qty'] +=  $qty;
-                Session::put('cart', $cart);
+                session()->put('cart', $cart);
                 if(request()->expectsJson())
                 {
                     return response()->json(['message' => 'Product added to cart successfully!']);
@@ -393,7 +393,7 @@ class ProductController extends Controller
             }
 
 
-            $cart = Session::get('cart');
+            $cart = session()->get('cart');
             // if cart is empty then this the first product
             if (!$cart) {
 
@@ -407,7 +407,7 @@ class ProductController extends Controller
                     ]
                 ];
 
-                Session::put('cart', $cart);
+                session()->put('cart', $cart);
                 if(request()->expectsJson())
                 {
                     return response()->json(['message' => 'Product added to cart successfully!']);
@@ -431,7 +431,7 @@ class ProductController extends Controller
             // if cart not empty then check if this product exist then increment quantity
             if (isset($cart[$id])) {
                 $cart[$id]['qty']++;
-                Session::put('cart', $cart);
+                session()->put('cart', $cart);
                 if(request()->expectsJson())
                 {
                     return response()->json(['message' => 'Product added to cart successfully!']);
@@ -454,7 +454,7 @@ class ProductController extends Controller
             ];
         }
 
-        Session::put('cart', $cart);
+        session()->put('cart', $cart);
         if(request()->expectsJson())
         {
             return response()->json(['message' => 'Product added to cart successfully!']);
@@ -470,8 +470,8 @@ class ProductController extends Controller
 
     public function updatecart(Request $request)
     {
-        if (Session::has('cart')) {
-            $cart = Session::get('cart');
+        if (session()->has('cart')) {
+            $cart = session()->get('cart');
             foreach ($request->product_id as $key => $id) {
                 $product = Product::findOrFail($id);
                 if ($product->type != 'digital') {
@@ -481,7 +481,7 @@ class ProductController extends Controller
                 }
                 if (isset($cart[$id])) {
                     $cart[$id]['qty'] =  $request->qty[$key];
-                    Session::put('cart', $cart);
+                    session()->put('cart', $cart);
                 }
             }
         }
@@ -501,10 +501,10 @@ class ProductController extends Controller
     public function cartitemremove($id)
     {
         if ($id) {
-            $cart = Session::get('cart');
+            $cart = session()->get('cart');
             if (isset($cart[$id])) {
                 unset($cart[$id]);
-                Session::put('cart', $cart);
+                session()->put('cart', $cart);
             }
 
             $total = 0;
@@ -531,21 +531,21 @@ class ProductController extends Controller
         if(!Auth::check()) {
             if ($bex->product_guest_checkout == 1) {
                 if($request->type != 'guest') {
-                    Session::put('link', route('front.checkout'));
+                    session()->put('link', route('front.checkout'));
                     return redirect(route('user.login', ['redirected' => 'checkout']));
                 } elseif (containsDigitalItemsInCart()) {
-                    Session::put('link', route('front.checkout'));
+                    session()->put('link', route('front.checkout'));
                     return redirect(route('user.login', ['redirected' => 'checkout']));
                 }
             } elseif ($bex->product_guest_checkout == 0) {
-                Session::put('link', route('front.checkout'));
+                session()->put('link', route('front.checkout'));
                 return redirect(route('user.login', ['redirected' => 'checkout']));
             }
         }
 
 
-        if (!Session::get('cart')) {
-            Session::flash('error', 'Your cart is empty.');
+        if (!session()->get('cart')) {
+            session()->flash('error', 'Your cart is empty.');
             return back();
         }
 
@@ -555,8 +555,8 @@ class ProductController extends Controller
             $currentLang = Language::where('is_default', 1)->first();
         }
 
-        if (Session::has('cart')) {
-            $data['cart'] = Session::get('cart');
+        if (session()->has('cart')) {
+            $data['cart'] = session()->get('cart');
         } else {
             $data['cart'] = null;
         }
@@ -606,12 +606,12 @@ class ProductController extends Controller
         }
 
 
-        $cart = Session::get('cart');
+        $cart = session()->get('cart');
         $id = $product->id;
         // if cart is empty then this the first product
         if (!($cart)) {
             if($product->type != 'digital' && $product->stock <  $qty){
-                Session::flash('error','Out of stock');
+                session()->flash('error','Out of stock');
                 return back();
             }
 
@@ -625,9 +625,9 @@ class ProductController extends Controller
                 ]
             ];
 
-            Session::put('cart', $cart);
+            session()->put('cart', $cart);
             if (!Auth::user()) {
-                Session::put('link', url()->current());
+                session()->put('link', url()->current());
                 return redirect(route('user.login'));
             }
             return redirect(route('front.checkout'));
@@ -638,22 +638,22 @@ class ProductController extends Controller
         if (isset($cart[$id])) {
 
             if($product->type != 'digital' && $product->stock < $cart[$id]['qty'] + $qty){
-                Session::flash('error','Out of stock');
+                session()->flash('error','Out of stock');
                 return back();
             }
             $qt = $cart[$id]['qty'];
             $cart[$id]['qty'] = $qt + $qty;
 
-            Session::put('cart', $cart);
+            session()->put('cart', $cart);
                 if (!Auth::user()) {
-                Session::put('link', url()->current());
+                session()->put('link', url()->current());
                 return redirect(route('user.login'));
             }
             return redirect(route('front.checkout'));
         }
 
         if($product->type != 'digital' && $product->stock <  $qty){
-            Session::flash('error','Out of stock');
+            session()->flash('error','Out of stock');
             return back();
         }
 
@@ -665,12 +665,12 @@ class ProductController extends Controller
             "photo" => $product->feature_image,
             'type' => $product->type
         ];
-        Session::put('cart', $cart);
+        session()->put('cart', $cart);
 
 
 
         if (!Auth::user()) {
-            Session::put('link', url()->current());
+            session()->put('link', url()->current());
             return redirect(route('user.login'));
         }
         return redirect(route('front.checkout'));
@@ -1074,7 +1074,7 @@ class ProductController extends Controller
             if (!$product) {
                 abort(404);
             }
-            $wish = Session::get('wishlist');
+            $wish = session()->get('wishlist');
             // if wishlist is empty then this the first product
             if (!$wish) {
 
@@ -1088,7 +1088,7 @@ class ProductController extends Controller
                     ]
                 ];
 
-                Session::put('cart', $wish);
+                session()->put('cart', $wish);
 //                return response()->json(['message' => 'Product added to cart successfully!']);
                 return redirect()->back();
             }
@@ -1097,7 +1097,7 @@ class ProductController extends Controller
             // if cart not empty then check if this product exist then increment quantity
             if (isset($wish[$id])) {
                 $wish[$id]['qty'] +=  $qty;
-                Session::put('wishlist', $cart);
+                session()->put('wishlist', $cart);
 //                return response()->json(['message' => 'Product added to cart successfully!']);
                 return redirect()->back();
             }
@@ -1132,7 +1132,7 @@ class ProductController extends Controller
             }
 
 
-            $wish = Session::get('wishlist');
+            $wish = session()->get('wishlist');
             // if cart is empty then this the first product
             if (!$wish) {
 
@@ -1146,9 +1146,17 @@ class ProductController extends Controller
                     ]
                 ];
 
-                Session::put('wishlist', $wish);
-//                return response()->json(['message' => 'Product added to cart successfully!']);
-                return redirect()->back();
+                session()->put('wishlist', $wish);
+                if(request()->expectsJson())
+                {
+                    return response()->json(['message' => 'Product added to wishlist successfully!']);
+                }
+                else
+                {
+                    session()->flash('message', 'Product added to wishlist successfully!');
+                    session()->flash('success', 'Product added to wishlist successfully!');
+                    return redirect()->back();
+                }
             }
 
             // if selected product is digital , then check if the product is already in the cart
@@ -1162,9 +1170,17 @@ class ProductController extends Controller
             // if cart not empty then check if this product exist then increment quantity
             if (isset($wish[$id])) {
                 $wish[$id]['qty']++;
-                Session::put('wishlist', $cart);
-//                return response()->json(['message' => 'Product added to cart successfully!']);
-                return redirect()->back();
+                session()->put('wishlist', $cart);
+                if(request()->expectsJson())
+                {
+                    return response()->json(['message' => 'Product added to wishlist successfully!']);
+                }
+                else
+                {
+                    session()->flash('message', 'Product added to wishlist successfully!');
+                    session()->flash('success', 'Product added to wishlist successfully!');
+                    return redirect()->back();
+                }
             }
 
             // if item not exist in cart then add to cart with quantity = 1
@@ -1176,8 +1192,16 @@ class ProductController extends Controller
                 "type" => $product->type
             ];
         }
-        Session::put('wishlist', $wish);
-//        return response()->json(['message' => 'Product added to cart successfully!']);
-        return redirect()->back();
+        session()->put('wishlist', $wish);
+        if(request()->expectsJson())
+        {
+            return response()->json(['message' => 'Product added to wishlist successfully!']);
+        }
+        else
+        {
+            session()->flash('message', 'Product added to wishlist successfully!');
+            session()->flash('success', 'Product added to wishlist successfully!');
+            return redirect()->back();
+        }
     }
 }
