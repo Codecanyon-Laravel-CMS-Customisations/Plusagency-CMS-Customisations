@@ -1041,7 +1041,8 @@ class ProductController extends Controller
     {
         return str_replace("$needle=\"", "$needle=\"$this->forms_url/static_files/", $link);
     }
-    public function wishlist(Request $request, $id) {
+    public function wishlist(Request $request, $id)
+    {
         $product = Product::findOrFail($request->id);
         $wish[1] = [
             'name'=>$product->title,
