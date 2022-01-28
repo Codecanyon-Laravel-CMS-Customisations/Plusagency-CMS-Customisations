@@ -8,19 +8,19 @@
 // echo json_encode($bex);
 // return;
 
-$geo_data_base_currency = angel_get_base_currency_id(); //App\Models\Currency::find(81);
-$geo_data_user_currency = angel_get_user_currency_id(); //App\Models\Currency::find(23);
+//$geo_data_base_currency = angel_get_base_currency_id(); //App\Models\Currency::find(81);
+//$geo_data_user_currency = angel_get_user_currency_id(); //App\Models\Currency::find(23);
 
 // dd( $geo_data_base_currency);
 // echo json_encode( $geo_data_base_currency);return;
 // $bc_id      = App\Models\Currency::query()->where('name', App\BasicExtra::first()->base_currency_text)->orderBy('id', 'desc')->first();
 // echo json_encode($bc_id);//        return $bc_id->id;
 
-$bex_user_currency = App\Models\Currency::find($geo_data_user_currency);
-$bex->base_currency_symbol = $bex_user_currency->symbol;
-$bex->base_currency_symbol_position = strtolower($bex_user_currency->symbol_position) == 'l' ? 'left' : 'right';
-$bex->base_currency_text = $bex_user_currency->name;
-$bex->base_currency_text_position = strtolower($bex_user_currency->text_position) == 'l' ? 'left' : 'right';
+//$bex_user_currency = App\Models\Currency::find($geo_data_user_currency);
+//$bex->base_currency_symbol = $bex_user_currency->symbol;
+//$bex->base_currency_symbol_position = strtolower($bex_user_currency->symbol_position) == 'l' ? 'left' : 'right';
+//$bex->base_currency_text = $bex_user_currency->name;
+//$bex->base_currency_text_position = strtolower($bex_user_currency->text_position) == 'l' ? 'left' : 'right';
 
 // echo json_encode($bex);return;
 // echo json_encode(session()->all());return;
