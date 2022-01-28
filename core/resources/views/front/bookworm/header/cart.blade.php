@@ -19,12 +19,12 @@
     // echo json_encode($bc_id);//        return $bc_id->id;
 
 
-    $bex_user_currency                  = App\Models\Currency::find($geo_data_user_currency);
+   /* $bex_user_currency                  = App\Models\Currency::find($geo_data_user_currency);
     $bex->base_currency_symbol          = !empty($bex_user_currency) ? $bex_user_currency->symbol : '$';
     $bex->base_currency_symbol_position = strtolower(!empty($bex_user_currency) ? $bex_user_currency->symbol_position : 'l') == 'l'?  'left' : 'right';
     $bex->base_currency_text            = !empty($bex_user_currency) ? $bex_user_currency->name : 'USD';
     $bex->base_currency_text_position   = strtolower(!empty($bex_user_currency) ? $bex_user_currency->text_position : 'l') == 'l'?  'left' : 'right';
-
+*/
     // echo json_encode($bex);return;
     // echo json_encode(session()->all());return;
 
