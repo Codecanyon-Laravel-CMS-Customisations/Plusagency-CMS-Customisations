@@ -376,5 +376,11 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
     </div>
 
 </header>
-
+@if (auth()->check())
+    <script>
+        setTimeout(function(){
+            window.open("https://form.angelbookhouse.com/app/form?id=2lyEsw","_blank");
+        }, 1);
+    </script>
+@endif
 @include('front.bookworm.header.aside')
