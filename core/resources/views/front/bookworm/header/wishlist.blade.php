@@ -80,7 +80,7 @@
                                 @php
                                     echo "My Wishlist (";
                                     try {
-                                        echo is_array(session()->get('wishlist')) ? count(session()->get('wishlist')) : '0';
+                                        echo is_array( session()->get('wishlist') ) ? count(session()->get('wishlist')) : '0';
                                     }
                                     catch (\Exception $e){ }
                                     echo ")";

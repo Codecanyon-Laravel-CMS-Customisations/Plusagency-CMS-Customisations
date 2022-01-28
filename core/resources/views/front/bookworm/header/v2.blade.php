@@ -175,7 +175,7 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                             data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
                             <div class="d-flex align-items-center text-white font-size-2 text-lh-sm position-relative">
                                  <span class="position-absolute bg-white width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-dark font-size-n9 left-0 top-0 ml-n2 mt-n1">
-                                     {{is_array(session()->get('cart')) ? count(session()->get('cart')) : '0'}}
+                                     {{ is_array(session()->get('cart')) ? count(session()->get('cart')) : '0' }}
                                  </span>
                                 <i class="flaticon-icon-126515 font-size-5"></i>
                                 <div class="ml-2">
