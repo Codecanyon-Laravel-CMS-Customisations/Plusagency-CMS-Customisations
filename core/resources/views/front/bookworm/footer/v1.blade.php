@@ -219,7 +219,6 @@
                                 changeLanguageMethod();
                             });
 
-
                             function changeLanguageMethod() {
                                 window.location.assign(tgtLang.find('option:selected').attr('data-link'));
                             }
