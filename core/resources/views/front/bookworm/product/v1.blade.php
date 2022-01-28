@@ -1,4 +1,4 @@
-{-- @section('breadcrumb-title')
+{{-- @section('breadcrumb-title')
 Product Details
 @endsection --}}
 @section('breadcrumb-links')
