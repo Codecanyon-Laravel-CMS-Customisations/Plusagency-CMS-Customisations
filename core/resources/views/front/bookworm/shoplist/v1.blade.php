@@ -232,7 +232,7 @@
                                                         <div class="text-uppercase font-size-1 mb-1 text-truncate">
                                                             <a href="/products?search=&category_id={{ $product->category->id }}&type=new">{{ $product->category->name }}</a>
                                                         </div>
-                                                        {{-- <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 crop-text-2 h-dark"><a href="{{route('front.product.details',$product->slug)}}" tabindex="0">{{strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title}}</a></h2> --}}
+                                                        {{-- - <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 crop-text-2 h-dark"><a href="{{route('front.product.details',$product->slug)}}" tabindex="0">{{strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title}}</a></h2> --}}
                                                         <h2
                                                             class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 crop-text-2 h-dark">
                                                             <a href="{{ route('front.product.details', $product->slug) }}"

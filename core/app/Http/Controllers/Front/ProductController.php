@@ -1043,6 +1043,6 @@ class ProductController extends Controller
     }
     public function wishlist(){
         $wish = Session::get('wish');
-        dd($wish);
+        dd($wish);//
     }
 }

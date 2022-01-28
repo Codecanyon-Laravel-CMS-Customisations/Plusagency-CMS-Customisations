@@ -426,7 +426,7 @@ class ProductController extends Controller
             $rules = [
                 'slider' => 'required',
 //                'title' => [
-//                    'required',
+//                    'required', //
 //                    'max:255',
 //                    function ($attribute, $value, $fail) use ($slug, $productId) {
 //                        $products = Product::all();
