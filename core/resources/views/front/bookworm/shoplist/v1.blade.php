@@ -1,31 +1,3 @@
-@php
-    // $bex->base_currency_symbol          = "AI";
-    // $bex->base_currency_symbol_position = strtolower("Left");
-    // $bex->base_currency_text            = "United States Dollar";
-    // $bex->base_currency_text_position   = strtolower("Left");
-    // $bex->base_currency_rate            = "1.00";
-
-    // echo json_encode($bex);
-    // return;
-
-    //$geo_data_base_currency = angel_get_base_currency_id(); //App\Models\Currency::find(81);
-    //$geo_data_user_currency = angel_get_user_currency_id(); //App\Models\Currency::find(23);
-
-    // dd( $geo_data_base_currency);
-    // echo json_encode( $geo_data_base_currency);return;
-    // $bc_id      = App\Models\Currency::query()->where('name', App\BasicExtra::first()->base_currency_text)->orderBy('id', 'desc')->first();
-    // echo json_encode($bc_id);//        return $bc_id->id;
-
-    //$bex_user_currency = App\Models\Currency::find($geo_data_user_currency);
-    //$bex->base_currency_symbol = $bex_user_currency->symbol;
-    //$bex->base_currency_symbol_position = strtolower($bex_user_currency->symbol_position) == 'l' ? 'left' : 'right';
-    //$bex->base_currency_text = $bex_user_currency->name;
-    //$bex->base_currency_text_position = strtolower($bex_user_currency->text_position) == 'l' ? 'left' : 'right';
-
-    // echo json_encode($bex);return;
-    // echo json_encode(session()->all());return;
-
-@endphp
 <div class="page-header border-bottom mb-8">
     <div class="container">
         <div class="d-md-flex justify-content-between align-items-center py-4">
@@ -143,11 +115,12 @@
                                             <div
                                                 class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                 <div class="woocommerce-loop-product__thumbnail">
-                                                    <a href="{{ route('front.product.details', $product->slug) }}"
-                                                       class="d-block"><img
+                                                    <a href="{{ route('front.product.details', $product->slug) }}" class="d-block">
+                                                        <img loading="lazy"
                                                             src="{{ trim($product->feature_image) }}"
                                                             class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"
-                                                            alt="image-description" width="150"></a>
+                                                            alt="image-description" width="150">
+                                                    </a>
                                                 </div>
                                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                     <div class="text-uppercase font-size-1 mb-1 text-truncate">
@@ -223,8 +196,8 @@
                                                     class="woocommerce-LoopProduct-link woocommerce-loop-product__link row position-relative">
                                                     <div
                                                         class="col-md-auto woocommerce-loop-product__thumbnail mb-3 mb-md-0">
-                                                        <a href="{{ route('front.product.details', $product->slug) }}"
-                                                           class="d-block"><img
+                                                        <a href="{{ route('front.product.details', $product->slug) }}" class="d-block">
+                                                            <img loading="lazy"
                                                                 src="{{ trim($product->feature_image) }}"
                                                                 class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"
                                                                 alt="image-description" width="150"></a>
