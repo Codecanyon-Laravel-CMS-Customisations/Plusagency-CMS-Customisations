@@ -1,29 +1,29 @@
 @php
-// $bex->base_currency_symbol          = "AI";
-// $bex->base_currency_symbol_position = strtolower("Left");
-// $bex->base_currency_text            = "United States Dollar";
-// $bex->base_currency_text_position   = strtolower("Left");
-// $bex->base_currency_rate            = "1.00";
+    // $bex->base_currency_symbol          = "AI";
+    // $bex->base_currency_symbol_position = strtolower("Left");
+    // $bex->base_currency_text            = "United States Dollar";
+    // $bex->base_currency_text_position   = strtolower("Left");
+    // $bex->base_currency_rate            = "1.00";
 
-// echo json_encode($bex);
-// return;
+    // echo json_encode($bex);
+    // return;
 
-//$geo_data_base_currency = angel_get_base_currency_id(); //App\Models\Currency::find(81);
-//$geo_data_user_currency = angel_get_user_currency_id(); //App\Models\Currency::find(23);
+    //$geo_data_base_currency = angel_get_base_currency_id(); //App\Models\Currency::find(81);
+    //$geo_data_user_currency = angel_get_user_currency_id(); //App\Models\Currency::find(23);
 
-// dd( $geo_data_base_currency);
-// echo json_encode( $geo_data_base_currency);return;
-// $bc_id      = App\Models\Currency::query()->where('name', App\BasicExtra::first()->base_currency_text)->orderBy('id', 'desc')->first();
-// echo json_encode($bc_id);//        return $bc_id->id;
+    // dd( $geo_data_base_currency);
+    // echo json_encode( $geo_data_base_currency);return;
+    // $bc_id      = App\Models\Currency::query()->where('name', App\BasicExtra::first()->base_currency_text)->orderBy('id', 'desc')->first();
+    // echo json_encode($bc_id);//        return $bc_id->id;
 
-//$bex_user_currency = App\Models\Currency::find($geo_data_user_currency);
-//$bex->base_currency_symbol = $bex_user_currency->symbol;
-//$bex->base_currency_symbol_position = strtolower($bex_user_currency->symbol_position) == 'l' ? 'left' : 'right';
-//$bex->base_currency_text = $bex_user_currency->name;
-//$bex->base_currency_text_position = strtolower($bex_user_currency->text_position) == 'l' ? 'left' : 'right';
+    //$bex_user_currency = App\Models\Currency::find($geo_data_user_currency);
+    //$bex->base_currency_symbol = $bex_user_currency->symbol;
+    //$bex->base_currency_symbol_position = strtolower($bex_user_currency->symbol_position) == 'l' ? 'left' : 'right';
+    //$bex->base_currency_text = $bex_user_currency->name;
+    //$bex->base_currency_text_position = strtolower($bex_user_currency->text_position) == 'l' ? 'left' : 'right';
 
-// echo json_encode($bex);return;
-// echo json_encode(session()->all());return;
+    // echo json_encode($bex);return;
+    // echo json_encode(session()->all());return;
 
 @endphp
 <div class="page-header border-bottom mb-8">
@@ -79,49 +79,49 @@
                                 role="tablist">
                                 <li class="nav-item border">
                                     <a class="nav-link p-0 height-38 width-38 justify-content-center d-flex align-items-center active"
-                                        id="pills-one-example1-tab" data-toggle="pill" href="#pills-one-example1"
-                                        role="tab" aria-controls="pills-one-example1" aria-selected="true">
+                                       id="pills-one-example1-tab" data-toggle="pill" href="#pills-one-example1"
+                                       role="tab" aria-controls="pills-one-example1" aria-selected="true">
                                         <svg xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="17px" height="17px">
+                                             xmlns:xlink="http://www.w3.org/1999/xlink" width="17px" height="17px">
                                             <path fill-rule="evenodd" fill="rgb(25, 17, 11)"
-                                                d="M-0.000,0.000 L3.000,0.000 L3.000,3.000 L-0.000,3.000 L-0.000,0.000 Z" />
+                                                  d="M-0.000,0.000 L3.000,0.000 L3.000,3.000 L-0.000,3.000 L-0.000,0.000 Z"/>
                                             <path fill-rule="evenodd" fill="rgb(25, 17, 11)"
-                                                d="M7.000,0.000 L10.000,0.000 L10.000,3.000 L7.000,3.000 L7.000,0.000 Z" />
+                                                  d="M7.000,0.000 L10.000,0.000 L10.000,3.000 L7.000,3.000 L7.000,0.000 Z"/>
                                             <path fill-rule="evenodd" fill="rgb(25, 17, 11)"
-                                                d="M14.000,0.000 L17.000,0.000 L17.000,3.000 L14.000,3.000 L14.000,0.000 Z" />
+                                                  d="M14.000,0.000 L17.000,0.000 L17.000,3.000 L14.000,3.000 L14.000,0.000 Z"/>
                                             <path fill-rule="evenodd" fill="rgb(25, 17, 11)"
-                                                d="M-0.000,7.000 L3.000,7.000 L3.000,10.000 L-0.000,10.000 L-0.000,7.000 Z" />
+                                                  d="M-0.000,7.000 L3.000,7.000 L3.000,10.000 L-0.000,10.000 L-0.000,7.000 Z"/>
                                             <path fill-rule="evenodd" fill="rgb(25, 17, 11)"
-                                                d="M7.000,7.000 L10.000,7.000 L10.000,10.000 L7.000,10.000 L7.000,7.000 Z" />
+                                                  d="M7.000,7.000 L10.000,7.000 L10.000,10.000 L7.000,10.000 L7.000,7.000 Z"/>
                                             <path fill-rule="evenodd" fill="rgb(25, 17, 11)"
-                                                d="M14.000,7.000 L17.000,7.000 L17.000,10.000 L14.000,10.000 L14.000,7.000 Z" />
+                                                  d="M14.000,7.000 L17.000,7.000 L17.000,10.000 L14.000,10.000 L14.000,7.000 Z"/>
                                             <path fill-rule="evenodd" fill="rgb(25, 17, 11)"
-                                                d="M-0.000,14.000 L3.000,14.000 L3.000,17.000 L-0.000,17.000 L-0.000,14.000 Z" />
+                                                  d="M-0.000,14.000 L3.000,14.000 L3.000,17.000 L-0.000,17.000 L-0.000,14.000 Z"/>
                                             <path fill-rule="evenodd" fill="rgb(25, 17, 11)"
-                                                d="M7.000,14.000 L10.000,14.000 L10.000,17.000 L7.000,17.000 L7.000,14.000 Z" />
+                                                  d="M7.000,14.000 L10.000,14.000 L10.000,17.000 L7.000,17.000 L7.000,14.000 Z"/>
                                             <path fill-rule="evenodd" fill="rgb(25, 17, 11)"
-                                                d="M14.000,14.000 L17.000,14.000 L17.000,17.000 L14.000,17.000 L14.000,14.000 Z" />
+                                                  d="M14.000,14.000 L17.000,14.000 L17.000,17.000 L14.000,17.000 L14.000,14.000 Z"/>
                                         </svg>
                                     </a>
                                 </li>
                                 <li class="nav-item border">
                                     <a class="nav-link p-0 height-38 width-38 justify-content-center d-flex align-items-center"
-                                        id="pills-two-example1-tab" data-toggle="pill" href="#pills-two-example1"
-                                        role="tab" aria-controls="pills-two-example1" aria-selected="false">
+                                       id="pills-two-example1-tab" data-toggle="pill" href="#pills-two-example1"
+                                       role="tab" aria-controls="pills-two-example1" aria-selected="false">
                                         <svg xmlns="http://www.w3.org/2000/svg"
-                                            xmlns:xlink="http://www.w3.org/1999/xlink" width="23px" height="17px">
+                                             xmlns:xlink="http://www.w3.org/1999/xlink" width="23px" height="17px">
                                             <path fill-rule="evenodd" fill="rgb(25, 17, 11)"
-                                                d="M-0.000,0.000 L3.000,0.000 L3.000,3.000 L-0.000,3.000 L-0.000,0.000 Z" />
+                                                  d="M-0.000,0.000 L3.000,0.000 L3.000,3.000 L-0.000,3.000 L-0.000,0.000 Z"/>
                                             <path fill-rule="evenodd" fill="rgb(25, 17, 11)"
-                                                d="M7.000,0.000 L23.000,0.000 L23.000,3.000 L7.000,3.000 L7.000,0.000 Z" />
+                                                  d="M7.000,0.000 L23.000,0.000 L23.000,3.000 L7.000,3.000 L7.000,0.000 Z"/>
                                             <path fill-rule="evenodd" fill="rgb(25, 17, 11)"
-                                                d="M-0.000,7.000 L3.000,7.000 L3.000,10.000 L-0.000,10.000 L-0.000,7.000 Z" />
+                                                  d="M-0.000,7.000 L3.000,7.000 L3.000,10.000 L-0.000,10.000 L-0.000,7.000 Z"/>
                                             <path fill-rule="evenodd" fill="rgb(25, 17, 11)"
-                                                d="M7.000,7.000 L23.000,7.000 L23.000,10.000 L7.000,10.000 L7.000,7.000 Z" />
+                                                  d="M7.000,7.000 L23.000,7.000 L23.000,10.000 L7.000,10.000 L7.000,7.000 Z"/>
                                             <path fill-rule="evenodd" fill="rgb(25, 17, 11)"
-                                                d="M-0.000,14.000 L3.000,14.000 L3.000,17.000 L-0.000,17.000 L-0.000,14.000 Z" />
+                                                  d="M-0.000,14.000 L3.000,14.000 L3.000,17.000 L-0.000,17.000 L-0.000,14.000 Z"/>
                                             <path fill-rule="evenodd" fill="rgb(25, 17, 11)"
-                                                d="M7.000,14.000 L23.000,14.000 L23.000,17.000 L7.000,17.000 L7.000,14.000 Z" />
+                                                  d="M7.000,14.000 L23.000,14.000 L23.000,17.000 L7.000,17.000 L7.000,14.000 Z"/>
                                         </svg>
                                     </a>
                                 </li>
@@ -133,7 +133,7 @@
                     <!-- Tab Content -->
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-one-example1" role="tabpanel"
-                            aria-labelledby="pills-one-example1-tab">
+                             aria-labelledby="pills-one-example1-tab">
                             <!-- Mockup Block -->
                             <ul
                                 class="products list-unstyled row no-gutters row-cols-2 row-cols-lg-3 row-cols-wd-4 border-top border-left mb-6">
@@ -144,14 +144,14 @@
                                                 class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                 <div class="woocommerce-loop-product__thumbnail">
                                                     <a href="{{ route('front.product.details', $product->slug) }}"
-                                                        class="d-block"><img
+                                                       class="d-block"><img
                                                             src="{{ trim($product->feature_image) }}"
                                                             class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"
                                                             alt="image-description" width="150"></a>
                                                 </div>
                                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                     <div class="text-uppercase font-size-1 mb-1 text-truncate">
-{{--                                                        <a href="/products?search=&category_id={{ $product->category->id }}&type=new">{{ $product->category->name }}</a>--}}
+                                                        {{--                                                        <a href="/products?search=&category_id={{ $product->category->id }}&type=new">{{ $product->category->name }}</a>--}}
                                                         <a href="/products?search=&category_id={{ $product->category->id }}&type=new">
                                                             @php
                                                                 try
@@ -185,18 +185,21 @@
                                                 </div>
                                                 @if ($bex->catalog_mode == 0)
                                                     <div class="product__hover d-flex align-items-center">
-                                                        <a href="{{ route('add.cart', $product->id) }}" data-href="{{ route('add.cart', $product->id) }}"
-                                                            class="text-uppercase text-dark h-dark font-weight-medium mr-auto">
+                                                        <a href="{{ route('add.cart', $product->id) }}"
+                                                           data-href="{{ route('add.cart', $product->id) }}"
+                                                           class="text-uppercase text-dark h-dark font-weight-medium mr-auto">
                                                             <span class="product__add-to-cart">ADD TO CART</span>
                                                             <span class="product__add-to-cart-icon font-size-4"><i
                                                                     class="flaticon-icon-126515"></i></span>
                                                         </a>
                                                         <a href="{{ route('front.product.checkout', $product->slug) }}"
                                                            title="Checkout"
-                                                            class="mr-1 h-p-bg btn btn-outline-primary border-0">
+                                                           class="mr-1 h-p-bg btn btn-outline-primary border-0">
                                                             <i class="flaticon-switch"></i>
                                                         </a>
-                                                        <a href="{{ url("wishlist/$product->id") }}" class="h-p-bg btn btn-outline-primary border-0" title="Add to Wishlist">
+                                                        <a href="{{ url("wishlist/$product->id") }}"
+                                                           class="h-p-bg btn btn-outline-primary border-0"
+                                                           title="Add to Wishlist">
                                                             <i class="flaticon-heart"></i>
                                                         </a>
                                                     </div>
@@ -209,7 +212,7 @@
                             <!-- End Mockup Block -->
                         </div>
                         <div class="tab-pane fade" id="pills-two-example1" role="tabpanel"
-                            aria-labelledby="pills-two-example1-tab">
+                             aria-labelledby="pills-two-example1-tab">
                             <!-- Mockup Block -->
                             @if ($products->count() > 0)
                                 <ul class="products list-unstyled mb-6">
@@ -221,7 +224,7 @@
                                                     <div
                                                         class="col-md-auto woocommerce-loop-product__thumbnail mb-3 mb-md-0">
                                                         <a href="{{ route('front.product.details', $product->slug) }}"
-                                                            class="d-block"><img
+                                                           class="d-block"><img
                                                                 src="{{ trim($product->feature_image) }}"
                                                                 class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"
                                                                 alt="image-description" width="150"></a>
@@ -235,7 +238,7 @@
                                                         <h2
                                                             class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 crop-text-2 h-dark">
                                                             <a href="{{ route('front.product.details', $product->slug) }}"
-                                                                tabindex="0">{{ $product->title }}</a></h2>
+                                                               tabindex="0">{{ $product->title }}</a></h2>
                                                         {{-- <div class="font-size-2  mb-2 text-truncate"><a href="../others/authors-single.html" class="text-gray-700">Jay Shetty</a></div> --}}
                                                         {{-- <p class="font-size-2 mb-2 crop-text-2">{!! nl2br($product->summary) !!}</p> --}}
                                                         <p class="font-size-2 mb-2 crop-text-2">{!! str_replace('\n', '', nl2br($product->summary, false)) !!}
@@ -248,15 +251,15 @@
                                                     </div>
                                                     <div class="col-md-auto d-flex align-items-center">
                                                         <a data-href="{{ route('add.cart', $product->id) }}"
-                                                            class="text-uppercase text-dark h-dark font-weight-medium mr-4"
-                                                            data-toggle="tooltip" data-placement="right" title=""
-                                                            data-original-title="ADD TO CART">
+                                                           class="text-uppercase text-dark h-dark font-weight-medium mr-4"
+                                                           data-toggle="tooltip" data-placement="right" title=""
+                                                           data-original-title="ADD TO CART">
                                                             <span class="product__add-to-cart">ADD TO CART</span>
                                                             <span class="product__add-to-cart-icon font-size-4"><i
                                                                     class="flaticon-icon-126515"></i></span>
                                                         </a>
                                                         <a href="{{ route('front.product.checkout', $product->slug) }}"
-                                                            class="mr-1 h-p-bg btn btn-outline-primary border-0">
+                                                           class="mr-1 h-p-bg btn btn-outline-primary border-0">
                                                             <i class="flaticon-switch"></i>
                                                         </a>
                                                         {{-- <a href="../shop/single-product-v1.html" class="h-p-bg btn btn-outline-primary border-0">
@@ -268,8 +271,8 @@
                                         </li>
                                     @endforeach
                                 </ul>
-                            @endif
-                            <!-- End Mockup Block -->
+                        @endif
+                        <!-- End Mockup Block -->
                         </div>
                     </div>
                     <!-- End Tab Content -->
@@ -287,43 +290,30 @@
             <div id="secondary" class="sidebar widget-area order-1 col-md-4" role="complementary">
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <div id="widgetAccordion">
                     <div id="woocommerce_product_categories-2"
-                        class="widget p-4d875 border woocommerce widget_product_categories">
+                         class="widget p-4d875 border woocommerce widget_product_categories">
                         <div id="widgetHeadingOne" class="widget-head">
                             <a class="d-flex align-items-center justify-content-between text-dark" href="#"
-                                data-toggle="collapse" data-target="#widgetCollapseOne" aria-expanded="true"
-                                aria-controls="widgetCollapseOne">
+                               data-toggle="collapse" data-target="#widgetCollapseOne" aria-expanded="true"
+                               aria-controls="widgetCollapseOne">
                                 <h3 class="widget-title mb-0 font-weight-medium font-size-3">
                                     <small><strong class="text-uppercase">categories</strong></small>
                                 </h3>
                                 <svg class="mins" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="2px">
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="2px">
                                     <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                        d="M0.000,-0.000 L15.000,-0.000 L15.000,2.000 L0.000,2.000 L0.000,-0.000 Z" />
+                                          d="M0.000,-0.000 L15.000,-0.000 L15.000,2.000 L0.000,2.000 L0.000,-0.000 Z"/>
                                 </svg>
                                 <svg class="plus" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="15px">
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="15px">
                                     <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                        d="M15.000,8.000 L9.000,8.000 L9.000,15.000 L7.000,15.000 L7.000,8.000 L0.000,8.000 L0.000,6.000 L7.000,6.000 L7.000,-0.000 L9.000,-0.000 L9.000,6.000 L15.000,6.000 L15.000,8.000 Z" />
+                                          d="M15.000,8.000 L9.000,8.000 L9.000,15.000 L7.000,15.000 L7.000,8.000 L0.000,8.000 L0.000,6.000 L7.000,6.000 L7.000,-0.000 L9.000,-0.000 L9.000,6.000 L15.000,6.000 L15.000,8.000 Z"/>
                                 </svg>
                             </a>
                         </div>
                         <div id="widgetCollapseOne" class="mt-3 widget-content collapse show"
-                            aria-labelledby="widgetHeadingOne" data-parent="#widgetAccordion">
+                             aria-labelledby="widgetHeadingOne" data-parent="#widgetAccordion">
                             <ul class="product-categories">
                                 @foreach ($categories->where('menu_level', 1)->where('name', '!=', 'Default Category')->sortBy('name', 0, false) as $category)
                                     <li
@@ -339,25 +329,25 @@
                     <div id="Authors" class="widget widget_search widget_author p-4d875 border">
                         <div id="widgetHeading21" class="widget-head">
                             <a class="d-flex align-items-center justify-content-between text-dark" href="#"
-                                data-toggle="collapse" data-target="#widgetCollapse21" aria-expanded="true"
-                                aria-controls="widgetCollapse21">
+                               data-toggle="collapse" data-target="#widgetCollapse21" aria-expanded="true"
+                               aria-controls="widgetCollapse21">
                                 <h3 class="widget-title mb-0 font-weight-medium font-size-3">
                                     <small><strong class="text-uppercase">Author</strong></small>
                                 </h3>
                                 <svg class="mins" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="2px">
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="2px">
                                     <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                        d="M0.000,-0.000 L15.000,-0.000 L15.000,2.000 L0.000,2.000 L0.000,-0.000 Z" />
+                                          d="M0.000,-0.000 L15.000,-0.000 L15.000,2.000 L0.000,2.000 L0.000,-0.000 Z"/>
                                 </svg>
                                 <svg class="plus" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="15px">
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="15px">
                                     <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                        d="M15.000,8.000 L9.000,8.000 L9.000,15.000 L7.000,15.000 L7.000,8.000 L0.000,8.000 L0.000,6.000 L7.000,6.000 L7.000,-0.000 L9.000,-0.000 L9.000,6.000 L15.000,6.000 L15.000,8.000 Z" />
+                                          d="M15.000,8.000 L9.000,8.000 L9.000,15.000 L7.000,15.000 L7.000,8.000 L0.000,8.000 L0.000,6.000 L7.000,6.000 L7.000,-0.000 L9.000,-0.000 L9.000,6.000 L15.000,6.000 L15.000,8.000 Z"/>
                                 </svg>
                             </a>
                         </div>
                         <div id="widgetCollapse21" class="mt-4 widget-content collapse show"
-                            aria-labelledby="widgetHeading21" data-parent="#widgetAccordion">
+                             aria-labelledby="widgetHeading21" data-parent="#widgetAccordion">
                             <form class="form-inline my-2 overflow-hidden">
                                 <div class="input-group flex-nowrap w-100">
                                     <div class="input-group-prepend">
@@ -369,7 +359,8 @@
                                         type="search" placeholder="Search" aria-label="Search">
                                 </div>
                                 <button class="btn btn-outline-success my-2 my-sm-0 sr-only"
-                                    type="submit">Search</button>
+                                        type="submit">Search
+                                </button>
                             </form>
                             <ul class="product-categories">
                                 <li class="cat-item cat-item-9 cat-parent">
@@ -394,23 +385,23 @@
                     <div id="Language" class="widget p-4d875 border">
                         <div id="widgetHeading22" class="widget-head">
                             <a class="d-flex align-items-center justify-content-between text-dark" href="#"
-                                data-toggle="collapse" data-target="#widgetCollapse22" aria-expanded="true"
-                                aria-controls="widgetCollapse22">
+                               data-toggle="collapse" data-target="#widgetCollapse22" aria-expanded="true"
+                               aria-controls="widgetCollapse22">
                                 <h3 class="widget-title mb-0 font-weight-medium font-size-3">Language</h3>
                                 <svg class="mins" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="2px">
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="2px">
                                     <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                        d="M0.000,-0.000 L15.000,-0.000 L15.000,2.000 L0.000,2.000 L0.000,-0.000 Z" />
+                                          d="M0.000,-0.000 L15.000,-0.000 L15.000,2.000 L0.000,2.000 L0.000,-0.000 Z"/>
                                 </svg>
                                 <svg class="plus" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="15px">
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="15px">
                                     <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                        d="M15.000,8.000 L9.000,8.000 L9.000,15.000 L7.000,15.000 L7.000,8.000 L0.000,8.000 L0.000,6.000 L7.000,6.000 L7.000,-0.000 L9.000,-0.000 L9.000,6.000 L15.000,6.000 L15.000,8.000 Z" />
+                                          d="M15.000,8.000 L9.000,8.000 L9.000,15.000 L7.000,15.000 L7.000,8.000 L0.000,8.000 L0.000,6.000 L7.000,6.000 L7.000,-0.000 L9.000,-0.000 L9.000,6.000 L15.000,6.000 L15.000,8.000 Z"/>
                                 </svg>
                             </a>
                         </div>
                         <div id="widgetCollapse22" class="mt-4 widget-content collapse show"
-                            aria-labelledby="widgetHeading22" data-parent="#widgetAccordion">
+                             aria-labelledby="widgetHeading22" data-parent="#widgetAccordion">
                             <ul class="product-categories">
                                 <li class="custom-control custom-checkbox mb-2 pb-2">
                                     <input type="checkbox" class="custom-control-input" id="brandEnglish">
@@ -438,29 +429,31 @@
                     <div id="woocommerce_price_filter-2" class="widget p-4d875 border woocommerce widget_price_filter">
                         <div id="widgetHeadingTwo" class="widget-head">
                             <a class="d-flex align-items-center justify-content-between text-dark" href="#"
-                                data-toggle="collapse" data-target="#widgetCollapseTwo" aria-expanded="true"
-                                aria-controls="widgetCollapseTwo">
+                               data-toggle="collapse" data-target="#widgetCollapseTwo" aria-expanded="true"
+                               aria-controls="widgetCollapseTwo">
                                 <h3 class="widget-title mb-0 font-weight-medium font-size-3">Filter by price</h3>
                                 <svg class="mins" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="2px">
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="2px">
                                     <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                        d="M0.000,-0.000 L15.000,-0.000 L15.000,2.000 L0.000,2.000 L0.000,-0.000 Z" />
+                                          d="M0.000,-0.000 L15.000,-0.000 L15.000,2.000 L0.000,2.000 L0.000,-0.000 Z"/>
                                 </svg>
                                 <svg class="plus" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="15px">
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="15px">
                                     <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                        d="M15.000,8.000 L9.000,8.000 L9.000,15.000 L7.000,15.000 L7.000,8.000 L0.000,8.000 L0.000,6.000 L7.000,6.000 L7.000,-0.000 L9.000,-0.000 L9.000,6.000 L15.000,6.000 L15.000,8.000 Z" />
+                                          d="M15.000,8.000 L9.000,8.000 L9.000,15.000 L7.000,15.000 L7.000,8.000 L0.000,8.000 L0.000,6.000 L7.000,6.000 L7.000,-0.000 L9.000,-0.000 L9.000,6.000 L15.000,6.000 L15.000,8.000 Z"/>
                                 </svg>
                             </a>
                         </div>
                         <div id="widgetCollapseTwo" class="mt-4 widget-content collapse show"
-                            aria-labelledby="widgetHeadingTwo" data-parent="#widgetAccordion">
+                             aria-labelledby="widgetHeadingTwo" data-parent="#widgetAccordion">
                             <form method="get" action="https://themes.woocommerce.com/storefront/shop/">
                                 <div class="price_slider_wrapper">
-                                    <div class="price_slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"
+                                    <div
+                                        class="price_slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"
                                         style="">
                                         <div class="ui-slider-range ui-widget-header ui-corner-all"
-                                            style="left: 0%; width: 100%;"></div><span
+                                             style="left: 0%; width: 100%;"></div>
+                                        <span
                                             class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"
                                             style="left: 0%;"></span><span
                                             class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"
@@ -468,9 +461,9 @@
                                     </div>
                                     <div class="price_slider_amount">
                                         <input type="text" id="min_price" name="min_price" value="2" data-min="2"
-                                            placeholder="Min price" style="display: none;">
+                                               placeholder="Min price" style="display: none;">
                                         <input type="text" id="max_price" name="max_price" value="1495" data-max="1495"
-                                            placeholder="Max price" style="display: none;">
+                                               placeholder="Max price" style="display: none;">
                                         <button type="submit" class="button d-none">Filter</button>
                                         <div class="mx-auto price_label mt-2" style="">
                                             Price: <span class="from">£2</span> — <span
@@ -484,23 +477,23 @@
                     <div id="Review" class="widget p-4d875 border">
                         <div id="widgetHeading24" class="widget-head">
                             <a class="d-flex align-items-center justify-content-between text-dark" href="#"
-                                data-toggle="collapse" data-target="#widgetCollapse24" aria-expanded="true"
-                                aria-controls="widgetCollapse24">
+                               data-toggle="collapse" data-target="#widgetCollapse24" aria-expanded="true"
+                               aria-controls="widgetCollapse24">
                                 <h3 class="widget-title mb-0 font-weight-medium font-size-3">By Review</h3>
                                 <svg class="mins" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="2px">
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="2px">
                                     <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                        d="M0.000,-0.000 L15.000,-0.000 L15.000,2.000 L0.000,2.000 L0.000,-0.000 Z" />
+                                          d="M0.000,-0.000 L15.000,-0.000 L15.000,2.000 L0.000,2.000 L0.000,-0.000 Z"/>
                                 </svg>
                                 <svg class="plus" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="15px">
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="15px">
                                     <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                        d="M15.000,8.000 L9.000,8.000 L9.000,15.000 L7.000,15.000 L7.000,8.000 L0.000,8.000 L0.000,6.000 L7.000,6.000 L7.000,-0.000 L9.000,-0.000 L9.000,6.000 L15.000,6.000 L15.000,8.000 Z" />
+                                          d="M15.000,8.000 L9.000,8.000 L9.000,15.000 L7.000,15.000 L7.000,8.000 L0.000,8.000 L0.000,6.000 L7.000,6.000 L7.000,-0.000 L9.000,-0.000 L9.000,6.000 L15.000,6.000 L15.000,8.000 Z"/>
                                 </svg>
                             </a>
                         </div>
                         <div id="widgetCollapse24" class="mt-4 widget-content collapse show"
-                            aria-labelledby="widgetHeading24" data-parent="#widgetAccordion">
+                             aria-labelledby="widgetHeading24" data-parent="#widgetAccordion">
                             <div
                                 class="form-group d-flex align-items-center justify-content-between font-size-1 text-lh-md text-secondary mb-2 pb-1">
                                 <div class="custom-control custom-checkbox">
@@ -586,53 +579,32 @@
                 </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <div id="widgetAccordion11111">
                     <div id="woocommerce_product_categories-2"
-                        class="widget p-4d875 border woocommerce widget_product_categories">
+                         class="widget p-4d875 border woocommerce widget_product_categories">
                         <div id="widgetHeadingOne" class="widget-head">
                             <a class="d-flex align-items-center justify-content-between text-dark" href="#"
-                                data-toggle="collapse" data-target="#widgetCollapseOne" aria-expanded="true"
-                                aria-controls="widgetCollapseOne">
+                               data-toggle="collapse" data-target="#widgetCollapseOne" aria-expanded="true"
+                               aria-controls="widgetCollapseOne">
 
                                 <h3 class="widget-title mb-0 font-weight-medium font-size-3">Categories</h3>
 
                                 <svg class="mins" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="2px">
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="2px">
                                     <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                        d="M0.000,-0.000 L15.000,-0.000 L15.000,2.000 L0.000,2.000 L0.000,-0.000 Z" />
+                                          d="M0.000,-0.000 L15.000,-0.000 L15.000,2.000 L0.000,2.000 L0.000,-0.000 Z"/>
                                 </svg>
 
                                 <svg class="plus" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="15px">
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="15px">
                                     <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                        d="M15.000,8.000 L9.000,8.000 L9.000,15.000 L7.000,15.000 L7.000,8.000 L0.000,8.000 L0.000,6.000 L7.000,6.000 L7.000,-0.000 L9.000,-0.000 L9.000,6.000 L15.000,6.000 L15.000,8.000 Z" />
+                                          d="M15.000,8.000 L9.000,8.000 L9.000,15.000 L7.000,15.000 L7.000,8.000 L0.000,8.000 L0.000,6.000 L7.000,6.000 L7.000,-0.000 L9.000,-0.000 L9.000,6.000 L15.000,6.000 L15.000,8.000 Z"/>
                                 </svg>
                             </a>
                         </div>
 
                         <div id="widgetCollapseOne" class="mt-3 widget-content collapse show"
-                            aria-labelledby="widgetHeadingOne" data-parent="#widgetAccordion">
+                             aria-labelledby="widgetHeadingOne" data-parent="#widgetAccordion">
                             <ul class="product-categories">
                                 @foreach ($categories->where('menu_level', 2)->where('name', '!=', 'Default Category')->sortBy('name', 0, false)
     as $category)
@@ -649,31 +621,31 @@
                     <div id="woocommerce_price_filter-2" class="widget p-4d875 border woocommerce widget_price_filter">
                         <div id="widgetHeadingTwo" class="widget-head">
                             <a class="d-flex align-items-center justify-content-between text-dark" href="#"
-                                data-toggle="collapse" data-target="#widgetCollapseTwo" aria-expanded="true"
-                                aria-controls="widgetCollapseTwo">
+                               data-toggle="collapse" data-target="#widgetCollapseTwo" aria-expanded="true"
+                               aria-controls="widgetCollapseTwo">
 
                                 <h3 class="widget-title mb-0 font-weight-medium font-size-3">Filter by price</h3>
 
                                 <svg class="mins" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="2px">
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="2px">
                                     <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                        d="M0.000,-0.000 L15.000,-0.000 L15.000,2.000 L0.000,2.000 L0.000,-0.000 Z" />
+                                          d="M0.000,-0.000 L15.000,-0.000 L15.000,2.000 L0.000,2.000 L0.000,-0.000 Z"/>
                                 </svg>
 
                                 <svg class="plus" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="15px">
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="15px">
                                     <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                        d="M15.000,8.000 L9.000,8.000 L9.000,15.000 L7.000,15.000 L7.000,8.000 L0.000,8.000 L0.000,6.000 L7.000,6.000 L7.000,-0.000 L9.000,-0.000 L9.000,6.000 L15.000,6.000 L15.000,8.000 Z" />
+                                          d="M15.000,8.000 L9.000,8.000 L9.000,15.000 L7.000,15.000 L7.000,8.000 L0.000,8.000 L0.000,6.000 L7.000,6.000 L7.000,-0.000 L9.000,-0.000 L9.000,6.000 L15.000,6.000 L15.000,8.000 Z"/>
                                 </svg>
                             </a>
                         </div>
 
                         <div id="widgetCollapseTwo" class="mt-4 widget-content collapse show"
-                            aria-labelledby="widgetHeadingTwo" data-parent="#widgetAccordion">
+                             aria-labelledby="widgetHeadingTwo" data-parent="#widgetAccordion">
                             <form action="#">
                                 <div id="slider-range"></div>
                                 <span>{{ __('Price') }}: </span>
-                                <input type="text" name="text" id="amount" />
+                                <input type="text" name="text" id="amount"/>
                                 <button class="btn mt-2 filter-button" type="button">{{ __('Filter') }}</button>
                             </form>
                         </div>
@@ -682,60 +654,64 @@
                     <div id="Review" class="widget p-4d875 border">
                         <div id="widgetHeading24" class="widget-head">
                             <a class="d-flex align-items-center justify-content-between text-dark" href="#"
-                                data-toggle="collapse" data-target="#widgetCollapse24" aria-expanded="true"
-                                aria-controls="widgetCollapse24">
+                               data-toggle="collapse" data-target="#widgetCollapse24" aria-expanded="true"
+                               aria-controls="widgetCollapse24">
 
                                 <h3 class="widget-title mb-0 font-weight-medium font-size-3">By Review</h3>
 
                                 <svg class="mins" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="2px">
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="2px">
                                     <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                        d="M0.000,-0.000 L15.000,-0.000 L15.000,2.000 L0.000,2.000 L0.000,-0.000 Z" />
+                                          d="M0.000,-0.000 L15.000,-0.000 L15.000,2.000 L0.000,2.000 L0.000,-0.000 Z"/>
                                 </svg>
 
                                 <svg class="plus" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="15px">
+                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="15px">
                                     <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                        d="M15.000,8.000 L9.000,8.000 L9.000,15.000 L7.000,15.000 L7.000,8.000 L0.000,8.000 L0.000,6.000 L7.000,6.000 L7.000,-0.000 L9.000,-0.000 L9.000,6.000 L15.000,6.000 L15.000,8.000 Z" />
+                                          d="M15.000,8.000 L9.000,8.000 L9.000,15.000 L7.000,15.000 L7.000,8.000 L0.000,8.000 L0.000,6.000 L7.000,6.000 L7.000,-0.000 L9.000,-0.000 L9.000,6.000 L15.000,6.000 L15.000,8.000 Z"/>
                                 </svg>
                             </a>
                         </div>
 
                         <div id="widgetCollapse24" class="mt-4 widget-content collapse show"
-                            aria-labelledby="widgetHeading24" data-parent="#widgetAccordion">
+                             aria-labelledby="widgetHeading24" data-parent="#widgetAccordion">
                             <ul class="checkbox_common checkbox_style2">
                                 <li>
                                     <input type="radio" class="review_val" name="review_value"
-                                        {{ request()->input('review') == '' ? 'checked' : '' }} id="checkbox4"
-                                        value="">
+                                           {{ request()->input('review') == '' ? 'checked' : '' }} id="checkbox4"
+                                           value="">
                                     <label for="checkbox4"><span></span> {{ __('Show All') }}</label>
                                 </li>
 
                                 <li>
                                     <input type="radio" class="review_val" name="review_value" id="checkbox5"
-                                        value="4" {{ request()->input('review') == 4 ? 'checked' : '' }} id="checkbox4"
-                                        value="all">
+                                           value="4"
+                                           {{ request()->input('review') == 4 ? 'checked' : '' }} id="checkbox4"
+                                           value="all">
                                     <label for="checkbox5"><span></span>4 {{ __('Star and higher') }}</label>
                                 </li>
 
                                 <li>
                                     <input type="radio" class="review_val" name="review_value" id="checkbox6"
-                                        value="3" {{ request()->input('review') == 3 ? 'checked' : '' }} id="checkbox4"
-                                        value="all">
+                                           value="3"
+                                           {{ request()->input('review') == 3 ? 'checked' : '' }} id="checkbox4"
+                                           value="all">
                                     <label for="checkbox6"><span></span>3 {{ __('Star and higher') }}</label>
                                 </li>
 
                                 <li>
                                     <input type="radio" class="review_val" name="review_value" id="checkbox7"
-                                        value="2" {{ request()->input('review') == 2 ? 'checked' : '' }} id="checkbox4"
-                                        value="all">
+                                           value="2"
+                                           {{ request()->input('review') == 2 ? 'checked' : '' }} id="checkbox4"
+                                           value="all">
                                     <label for="checkbox7"><span></span>2 {{ __('Star and higher') }}</label>
                                 </li>
 
                                 <li>
                                     <input type="radio" class="review_val" name="review_value" id="checkbox8"
-                                        value="1" {{ request()->input('review') == 1 ? 'checked' : '' }} id="checkbox4"
-                                        value="all">
+                                           value="1"
+                                           {{ request()->input('review') == 1 ? 'checked' : '' }} id="checkbox4"
+                                           value="all">
                                     <label for="checkbox8"><span></span>1 {{ __('Star and higher') }}</label>
                                 </li>
                             </ul>

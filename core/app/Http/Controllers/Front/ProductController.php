@@ -498,7 +498,7 @@ class ProductController extends Controller
     }
 
 
-    public function cartitemremove($id)
+    public function cartitemremove(Request $request, $id)
     {
         if ($id) {
             $cart = session()->get('cart');
@@ -515,7 +515,15 @@ class ProductController extends Controller
             }
             $total = round($total, 2);
 
-            return response()->json(['message' => 'Product removed successfully', 'count' => $count, 'total' => $total]);
+            if ($request->expectsJson())
+            {
+                return response()->json(['message' => 'Product removed successfully', 'count' => $count, 'total' => $total]);
+            }
+            session()->flash('count', $count);
+            session()->flash('total', $total);
+            session()->flash('message', 'Product removed successfully');
+            session()->flash('success', 'Product removed successfully');
+            return redirect()->back();
         }
     }
 
@@ -1041,28 +1049,21 @@ class ProductController extends Controller
     {
         return str_replace("$needle=\"", "$needle=\"$this->forms_url/static_files/", $link);
     }
-    public function wishlist(Request $request, $id)
+
+    public function addToWishlist(Product $product)
     {
-        $product = Product::findOrFail($request->id);
-        $wish[1] = [
-            'name'=>$product->title,
-            'qty'=>1,
-            'price'=>$product->current_price,
-            'photo'=>$product->featuredimage,
-            'type'=>$product->type,
-        ];
-        $request->session()->put('wishlist',$wish);
-        $id = $request->id;
+        $id         = $product->id;
+        $wishlist = session()->get('wishlist');
         if (strpos($id, ',,,') == true) {
             $data = explode(',,,', $id);
             $id = $data[0];
             $qty = $data[1];
 
-            $product = Product::findOrFail($id);
+            //$product = Product::findOrFail($id);
 
             if ($product->type != 'digital') {
-                if(!empty($cart) && array_key_exists($id, $cart)){
-                    if($product->stock < $cart[$id]['qty'] + $qty){
+                if(!empty($wishlist) && array_key_exists($id, $wishlist)){
+                    if($product->stock < $wishlist[$id]['qty'] + $qty){
                         if(request()->expectsJson())
                         {
                             return response()->json(['error' => 'Out of Stock']);
@@ -1093,11 +1094,11 @@ class ProductController extends Controller
             if (!$product) {
                 abort(404);
             }
-            $wish = session()->get('wishlist');
+            $wishlist = session()->get('wishlist');
             // if wishlist is empty then this the first product
-            if (!$wish) {
+            if (!$wishlist) {
 
-                $wish = [
+                $wishlist = [
                     $id => [
                         "name" => $product->title,
                         "qty" => $qty,
@@ -1107,40 +1108,55 @@ class ProductController extends Controller
                     ]
                 ];
 
-                session()->put('wishlist', $wish);
-//                return response()->json(['message' => 'Product added to cart successfully!']);
-                return redirect()->back();
+                session()->put('wishlist', $wishlist);
+                if(request()->expectsJson())
+                {
+                    return response()->json(['message' => 'Product added to wishlist successfully!']);
+                }
+                else
+                {
+                    session()->flash('message', 'Product added to wishlist successfully!');
+                    session()->flash('success', 'Product added to wishlist successfully!');
+                    return redirect()->back();
+                }
             }
 
 
-            // if cart not empty then check if this product exist then increment quantity
-            if (isset($wish[$id])) {
-                $wish[$id]['qty'] +=  $qty;
-                session()->put('wishlist', $cart);
-//                return response()->json(['message' => 'Product added to cart successfully!']);
-                return redirect()->back();
+            // if wishlist not empty then check if this product exist then increment quantity
+            if (isset($wishlist[$id])) {
+                $wishlist[$id]['qty'] +=  $qty;
+                session()->put('wishlist', $wishlist);
+                if(request()->expectsJson())
+                {
+                    return response()->json(['message' => 'Product added to wishlist successfully!']);
+                }
+                else
+                {
+                    session()->flash('message', 'Product added to wishlist successfully!');
+                    session()->flash('success', 'Product added to wishlist successfully!');
+                    return redirect()->back();
+                }
             }
 
-            // if item not exist in cart then add to cart with quantity = 1
-            $wish[$id] = [
+            // if item not exist in wishlist then add to wishlist with quantity = 1
+            $wishlist[$id] = [
                 "name" => $product->title,
                 "qty" => $qty,
                 "price" => $product->current_price,
                 "photo" => $product->feature_image,
                 "type" => $product->type
             ];
-        }
-        else {
+        } else {
 
             $id = $id;
-            $product = Product::findOrFail($id);
+            //$product = Product::findOrFail($id);
             if (!$product) {
                 abort(404);
             }
 
             if ($product->type != 'digital') {
-                if(!empty($cart) && array_key_exists($id, $cart)){
-                    if($product->stock < $cart[$id]['qty'] + 1){
+                if(!empty($wishlist) && array_key_exists($id, $wishlist)){
+                    if($product->stock < $wishlist[$id]['qty'] + 1){
                         if(request()->expectsJson())
                         {
                             return response()->json(['error' => 'Out of Stock']);
@@ -1169,11 +1185,11 @@ class ProductController extends Controller
             }
 
 
-            $wish = session()->get('wishlist');
-            // if cart is empty then this the first product
-            if (!$wish) {
+            $wishlist = session()->get('wishlist');
+            // if wishlist is empty then this the first product
+            if (!$wishlist) {
 
-                $wish = [
+                $wishlist = [
                     $id => [
                         "name" => $product->title,
                         "qty" => 1,
@@ -1183,7 +1199,7 @@ class ProductController extends Controller
                     ]
                 ];
 
-                session()->put('wishlist', $wish);
+                session()->put('wishlist', $wishlist);
                 if(request()->expectsJson())
                 {
                     return response()->json(['message' => 'Product added to wishlist successfully!']);
@@ -1196,18 +1212,18 @@ class ProductController extends Controller
                 }
             }
 
-            // if selected product is digital , then check if the product is already in the cart
-            // digital product can only be added once in cart
+            // if selected product is digital , then check if the product is already in the wishlist
+            // digital product can only be added once in wishlist
             // if ($product->type == 'digital') {
-            //     if (is_array($cart) && array_key_exists($id, $cart)) {
-            //         return response()->json(['error' => 'Already added to cart!']);
+            //     if (is_array($wishlist) && array_key_exists($id, $wishlist)) {
+            //         return response()->json(['error' => 'Already added to wishlist!']);
             //     }
             // }
 
-            // if cart not empty then check if this product exist then increment quantity
-            if (isset($wish[$id])) {
-                $wish[$id]['qty']++;
-                session()->put('wishlist', $cart);
+            // if wishlist not empty then check if this product exist then increment quantity
+            if (isset($wishlist[$id])) {
+                $wishlist[$id]['qty']++;
+                session()->put('wishlist', $wishlist);
                 if(request()->expectsJson())
                 {
                     return response()->json(['message' => 'Product added to wishlist successfully!']);
@@ -1220,8 +1236,8 @@ class ProductController extends Controller
                 }
             }
 
-            // if item not exist in cart then add to cart with quantity = 1
-            $wish[$id] = [
+            // if item not exist in wishlist then add to wishlist with quantity = 1
+            $wishlist[$id] = [
                 "name" => $product->title,
                 "qty" => 1,
                 "price" => $product->current_price,
@@ -1229,7 +1245,8 @@ class ProductController extends Controller
                 "type" => $product->type
             ];
         }
-        session()->put('wishlist', $wish);
+
+        session()->put('wishlist', $wishlist);
         if(request()->expectsJson())
         {
             return response()->json(['message' => 'Product added to wishlist successfully!']);
@@ -1238,6 +1255,35 @@ class ProductController extends Controller
         {
             session()->flash('message', 'Product added to wishlist successfully!');
             session()->flash('success', 'Product added to wishlist successfully!');
+            return redirect()->back();
+        }
+    }
+    public function wishlistItemRemove(Request $request, Product $product)
+    {
+        $id     = $product->id;
+        if ($id) {
+            $wishlist = session()->get('wishlist');
+            if (isset($wishlist[$id])) {
+                unset($wishlist[$id]);
+                session()->put('wishlist', $wishlist);
+            }
+
+            $total = 0;
+            $count = 0;
+            foreach ($wishlist as $i) {
+                $total += $i['price'] * $i['qty'];
+                $count += $i['qty'];
+            }
+            $total = round($total, 2);
+
+            if ($request->expectsJson())
+            {
+                return response()->json(['message' => 'Product removed successfully', 'count' => $count, 'total' => $total]);
+            }
+            session()->flash('count', $count);
+            session()->flash('total', $total);
+            session()->flash('message', 'Product removed successfully');
+            session()->flash('success', 'Product removed successfully');
             return redirect()->back();
         }
     }

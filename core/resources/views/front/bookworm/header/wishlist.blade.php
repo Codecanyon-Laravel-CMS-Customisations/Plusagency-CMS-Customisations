@@ -1,4 +1,4 @@
-<aside id="sidebarContent2" class="u-sidebar u-sidebar__xl" aria-labelledby="sidebarNavToggler2">
+<aside id="sidebarContent-wishlist" class="u-sidebar u-sidebar__lg u-unfold--css-animation u-unfold--hidden" aria-labelledby="sidebarNavToggler-wishlist">
     <div class="u-sidebar__scroller js-scrollbar">
         <div class="u-sidebar__container">
             <div class="u-header-sidebar__footer-offset">
@@ -50,41 +50,37 @@
                             </h2>
                         </header>
                         <!-- End Title -->
-                        @php
-                            try{
-                                foreach ($wishlist as $wish)
-        {
-                        @endphp
-                        <div class="px-4 py-5 px-md-6 border-bottom">
-                            <div class="media">
-                                <a target="_blank" href="{{route('front.product.details',$wish['name'])}}" class="d-block"><img src="@if($wish['photo']!=null){{$wish['photo']}}@else{{asset('https://via.placeholder.com/150')}}@endif" class="img-fluid" alt="image-description" width="150"></a>
-                                <div class="media-body ml-4d875">
-                                    <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                        <a href="#" class="text-dark">{{convertUtf8($wish['name'])}}</a>
-                                    </h2>
-                                    <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
-                                            <span class="woocommerce-Price-amount amount">
-                                                <div class="product-quantity d-flex mb-35" id="quantity">
-                                                <button type="button" id="sub" class="sub">-</button>
-                                                <input type="text" class="cart_qty" id="1" value="{{$wish['qty']}}" />
-                                                <button type="button" id="add" class="add">+</button>
-                                                <input type="hidden" value="{{$wish['name']}}" class="product_id">
-                                                </div>
-                                            </span>
+                        @if(is_array( session()->get('wishlist') ) && count( session()->get('wishlist') ) >= 1)
+                            @foreach ( session()->get('wishlist') as $id => $wish)
+                                @php
+                                    $product = App\Product::find($id);
+                                    if(is_null($product)) continue;
+                                @endphp
+                                <div class="px-4 py-5 px-md-6 border-bottom">
+                                    <div class="media">
+                                        <a target="_blank" href="{{route('front.product.details', $product->slug)}}" class="d-block"><img src="@if($wish['photo']!=null){{$wish['photo']}}@else{{asset('https://via.placeholder.com/150')}}@endif" class="img-fluid" alt="image-description" width="150"></a>
+                                        <div class="media-body ml-4d875">
+                                            <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                <a href="{{route('front.product.details', $product->slug)}}" class="text-dark">{{convertUtf8($wish['name'])}}</a>
+                                            </h2>
+                                            <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
+                                                    <span class="woocommerce-Price-amount amount">
+                                                        <div class="product-quantity d-flex mb-35" id="quantity">
+                                                        <button type="button" id="sub" class="sub">-</button>
+                                                        <input type="text" class="cart_qty" id="1" value="{{$wish['qty']}}" />
+                                                        <button type="button" id="add" class="add">+</button>
+                                                        <input type="hidden" value="{{$wish['name']}}" class="product_id">
+                                                        </div>
+                                                    </span>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3 ml-3">
+                                            <a href="{{ route('wishlist.item.remove', $product->id) }}" class="text-dark"><i class="fas fa-times"></i></a>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="mt-3 ml-3">
-                                    <a href="#" class="text-dark"><i class="fas fa-times"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        @php
-                            }
-                        }catch (Exception $e){
-
-                        }
-                        @endphp
-
+                            @endforeach
+                        @endif
                     </div>
                 </div>
                 <!-- End Content -->

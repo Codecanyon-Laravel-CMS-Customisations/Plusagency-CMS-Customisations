@@ -1,53 +1,53 @@
 @php
-if (Session::has('cart')) {
-    $cart = Session::get('cart');
-} else {
-    $cart = null;
-}
-$productmenus = \App\Menu::where('language_id', $lang->id)->where('is_product', 1);
-
-$names = [];
-if ($productmenus->count() > 0) {
-    $productmenus = $productmenus->first()->menus;
-    $productmenus = json_decode($productmenus, true);
-    foreach ($productmenus as $key => $value) {
-        $names[] = $value['text'];
+    if (Session::has('cart')) {
+        $cart = Session::get('cart');
+    } else {
+        $cart = null;
     }
-} else {
-    $productmenus = [];
-}
-$categories1 = \App\Pcategory::whereIn('name', $names)
-    ->where('language_id', $lang->id)
-    ->where('status', 1)
-    ->with('childs')
-    ->where('menu_level', '1')
-    ->get();
-$megaMenuIds = \App\Megamenu::where('type', 'product_categories')
-    ->where('language_id', $lang->id)
-    ->where('category', 1)
-    ->first();
-$ids = [];
-$ids2 = [];
-$indexes2 = [];
-if (!empty($megaMenuIds)) {
-    if (!empty($megaMenuIds->subcat)) {
-        foreach (json_decode($megaMenuIds->subcat, true) as $key => $value) {
-            foreach ($value as $value2) {
-                $ids[] = $value2;
+    $productmenus = \App\Menu::where('language_id', $lang->id)->where('is_product', 1);
+
+    $names = [];
+    if ($productmenus->count() > 0) {
+        $productmenus = $productmenus->first()->menus;
+        $productmenus = json_decode($productmenus, true);
+        foreach ($productmenus as $key => $value) {
+            $names[] = $value['text'];
+        }
+    } else {
+        $productmenus = [];
+    }
+    $categories1 = \App\Pcategory::whereIn('name', $names)
+        ->where('language_id', $lang->id)
+        ->where('status', 1)
+        ->with('childs')
+        ->where('menu_level', '1')
+        ->get();
+    $megaMenuIds = \App\Megamenu::where('type', 'product_categories')
+        ->where('language_id', $lang->id)
+        ->where('category', 1)
+        ->first();
+    $ids = [];
+    $ids2 = [];
+    $indexes2 = [];
+    if (!empty($megaMenuIds)) {
+        if (!empty($megaMenuIds->subcat)) {
+            foreach (json_decode($megaMenuIds->subcat, true) as $key => $value) {
+                foreach ($value as $value2) {
+                    $ids[] = $value2;
+                }
+            }
+        }
+
+        if (!empty($megaMenuIds->menus)) {
+            foreach (json_decode($megaMenuIds->menus, true) as $key2 => $value2) {
+                $indexes2[] = $key2;
+                foreach ($value2 as $value3) {
+                    $ids2[] = $value3;
+                }
             }
         }
     }
-
-    if (!empty($megaMenuIds->menus)) {
-        foreach (json_decode($megaMenuIds->menus, true) as $key2 => $value2) {
-            $indexes2[] = $key2;
-            foreach ($value2 as $value3) {
-                $ids2[] = $value3;
-            }
-        }
-    }
-}
-$products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
+    $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
 @endphp
 <header id="site-header" class="site-header__v7">
     <div class="topbar d-none d-md-block bg-punch-light">
@@ -67,7 +67,7 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                     @if (trim($header_v2_button_text) != '')
                         <li class="nav-item">
                             <a href="javascript:;" data-href="{{ route('feedback') }}" data-toggle="modal"
-                            data-target="#headerProductInquiryModal" href="#" class="nav-link text-dark">
+                               data-target="#headerProductInquiryModal" href="#" class="nav-link text-dark">
                                 <i class="font-size-3 glph-icon flaticon-question mr-2"></i>
                                 {{ $header_v2_button_text }}
                             </a>
@@ -98,7 +98,7 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                         //throw $th;
                                     }
 
-                                @endphp
+                            @endphp
                             {{ "$country->name ( $country->native_name )" }}
                         </a>
                     </li>
@@ -115,21 +115,23 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                 }
                             @endphp
                             <a id="basicDropdownHoverInvoker19"
-                                class="d-flex align-items-center h-100 dropdown-nav-link p-2 dropdown-toggle nav-link link-black-100"
-                                href="javascript:;" role="button" aria-controls="basicDropdownHover19"
-                                aria-haspopup="true" aria-expanded="false" data-unfold-event="hover"
-                                data-unfold-target="#basicDropdownHover19" data-unfold-type="css-animation"
-                                data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true"
-                                data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                               class="d-flex align-items-center h-100 dropdown-nav-link p-2 dropdown-toggle nav-link link-black-100"
+                               href="javascript:;" role="button" aria-controls="basicDropdownHover19"
+                               aria-haspopup="true" aria-expanded="false" data-unfold-event="hover"
+                               data-unfold-target="#basicDropdownHover19" data-unfold-type="css-animation"
+                               data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true"
+                               data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
                                 @foreach($languages as $language)
                                     @if($language->code == session('lang')) {{ $language->name }} @endif
                                 @endforeach
-                                 <i class=""></i>
+                                <i class=""></i>
                             </a>
                             <div id="basicDropdownHover19" class="dropdown-menu dropdown-unfold right-0 left-auto"
-                                aria-labelledby="basicDropdownHoverInvoker19">
+                                 aria-labelledby="basicDropdownHoverInvoker19">
                                 @foreach($languages as $language)
-                                    <a class="dropdown-item @if($language->code == session('lang')) active @endif" href="{{ route('changeLanguage', $language->code) }}">{{ $language->name }}</a>
+                                    <a class="dropdown-item @if($language->code == session('lang')) active @endif"
+                                       href="{{ route('changeLanguage', $language->code) }}">{{ $language->name }}
+                                    </a>
                                 @endforeach
                             </div>
                         </div>
@@ -165,16 +167,17 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                                 ->get();
                                         @endphp
                                         @foreach ($search_categories as $search_category)
-                                            <option @if ($active_category == $search_category->id) selected @endif value="{{ $search_category->id }}">
+                                            <option @if ($active_category == $search_category->id) selected
+                                                    @endif value="{{ $search_category->id }}">
                                                 {{ $search_category->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <input type="text" class="form-control border-right-0 px-3"
-                                    placeholder="Search for books by keyword"
-                                    aria-label="Amount (to the nearest dollar)" id="search"
-                                    onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`;"
-                                    value="{{ isset($_GET['search']) ? $_GET['search'] : '' }}">
+                                       placeholder="Search for books by keyword"
+                                       aria-label="Amount (to the nearest dollar)" id="search"
+                                       onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`;"
+                                       value="{{ isset($_GET['search']) ? $_GET['search'] : '' }}">
                                 <div class="input-group-append border-left">
                                     <button class="btn btn-dark btn-search px-3 rounded-0 py-2" type="button"><i
                                             class="mx-1 glph-icon flaticon-loupe "
@@ -184,24 +187,31 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                             </div>
                         </div>
                     </div>
+
                     <ul class="nav align-self-center d-none d-md-flex">
                         <li class="nav-item">
-                            <a href="#" class="nav-link text-dark">
-                                <i class="glph-icon flaticon-heart font-size-4"></i>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <!-- Account Sidebar Toggle Button -->
-                            <a id="sidebarNavToggler" href="javascript:;" role="button"
-                                class="nav-link text-dark target-of-invoker-has-unfolds" aria-controls="sidebarContent"
-                                aria-haspopup="true" aria-expanded="false" data-unfold-event="click"
-                                data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent"
-                                data-unfold-type="css-animation" data-unfold-overlay="{
+                            <!-- Wishlist Sidebar Toggle Button -->
+                            <a id="sidebarNavToggler-wishlist" href="javascript:;" role="button"
+                               class="nav-link text-dark target-of-invoker-has-unfolds" aria-controls="sidebarContent-wishlist"
+                               aria-haspopup="true" aria-expanded="false" data-unfold-event="click"
+                               data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent-wishlist"
+                               data-unfold-type="css-animation" data-unfold-overlay="{
                                     &quot;className&quot;: &quot;u-sidebar-bg-overlay&quot;,
                                     &quot;background&quot;: &quot;rgba(0, 0, 0, .7)&quot;,
                                     &quot;animationSpeed&quot;: 500
                                 }" data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight"
-                                data-unfold-duration="500" style="z-index: auto;">
+                               data-unfold-duration="500" style="z-index: auto;">
+                                <i class="glph-icon flaticon-heart font-size-4"></i>
+                            </a>
+                            <!-- End Wishlist Sidebar Toggle Button -->
+                        </li>
+                        <li class="nav-item">
+                            <!-- Account Sidebar Toggle Button -->
+                            <a id="sidebarNavToggler-account" href="javascript:;" role="button" class="nav-link text-dark" aria-controls="sidebarContent" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent" data-unfold-type="css-animation" data-unfold-overlay='{
+                                        "className": "u-sidebar-bg-overlay",
+                                        "background": "rgba(0, 0, 0, .7)",
+                                        "animationSpeed": 500
+                                    }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
                                 <i class="glph-icon flaticon-user font-size-4"></i>
                             </a>
                             <!-- End Account Sidebar Toggle Button -->
@@ -209,16 +219,16 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                         <li class="nav-item">
                             <!-- Cart Sidebar Toggle Button -->
                             <a id="sidebarNavToggler1" href="javascript:;" role="button"
-                                class="nav-link pr-0 text-dark position-relative target-of-invoker-has-unfolds"
-                                aria-controls="sidebarContent1" aria-haspopup="true" aria-expanded="false"
-                                data-unfold-event="click" data-unfold-hide-on-scroll="false"
-                                data-unfold-target="#sidebarContent1" data-unfold-type="css-animation"
-                                data-unfold-overlay="{
+                               class="nav-link pr-0 text-dark position-relative target-of-invoker-has-unfolds"
+                               aria-controls="sidebarContent1" aria-haspopup="true" aria-expanded="false"
+                               data-unfold-event="click" data-unfold-hide-on-scroll="false"
+                               data-unfold-target="#sidebarContent1" data-unfold-type="css-animation"
+                               data-unfold-overlay="{
                                     &quot;className&quot;: &quot;u-sidebar-bg-overlay&quot;,
                                     &quot;background&quot;: &quot;rgba(0, 0, 0, .7)&quot;,
                                     &quot;animationSpeed&quot;: 500
                                 }" data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight"
-                                data-unfold-duration="500">
+                               data-unfold-duration="500">
                                 {{-- <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0">3</span> --}}
                                 <i class="glph-icon flaticon-icon-126515 font-size-4"></i>
                                 {{-- <span class="d-none d-xl-inline h6 mb-0 ml-1">$40.93</span> --}}
@@ -236,18 +246,18 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                     <div class="offcanvas-toggler align-self-center mr-md-8 d-flex d-md-block">
                         {{-- <!-- Account Sidebar Toggle Button --> --}}
                         <a id="sidebarNavToggler" class="cat-menu" href="javascript:;" role="button"
-                            aria-controls="sidebarContent" aria-haspopup="true" aria-expanded="false"
-                            data-unfold-event="click" data-unfold-hide-on-scroll="false"
-                            data-unfold-target="#sidebar001Content" data-unfold-type="css-animation"
-                            data-unfold-animation-in="fadeInLeft" data-unfold-animation-out="fadeOutLeft"
-                            data-unfold-duration="500">
+                           aria-controls="sidebarContent" aria-haspopup="true" aria-expanded="false"
+                           data-unfold-event="click" data-unfold-hide-on-scroll="false"
+                           data-unfold-target="#sidebar001Content" data-unfold-type="css-animation"
+                           data-unfold-animation-in="fadeInLeft" data-unfold-animation-out="fadeOutLeft"
+                           data-unfold-duration="500">
                             <svg width="20px" height="18px">
                                 <path fill-rule="evenodd" fill="rgb(255, 255, 255)"
-                                    d="M-0.000,-0.000 L20.000,-0.000 L20.000,2.000 L-0.000,2.000 L-0.000,-0.000 Z" />
+                                      d="M-0.000,-0.000 L20.000,-0.000 L20.000,2.000 L-0.000,2.000 L-0.000,-0.000 Z"/>
                                 <path fill-rule="evenodd" fill="rgb(255, 255, 255)"
-                                    d="M-0.000,8.000 L15.000,8.000 L15.000,10.000 L-0.000,10.000 L-0.000,8.000 Z" />
+                                      d="M-0.000,8.000 L15.000,8.000 L15.000,10.000 L-0.000,10.000 L-0.000,8.000 Z"/>
                                 <path fill-rule="evenodd" fill="rgb(255, 255, 255)"
-                                    d="M-0.000,16.000 L20.000,16.000 L20.000,18.000 L-0.000,18.000 L-0.000,16.000 Z" />
+                                      d="M-0.000,16.000 L20.000,16.000 L20.000,18.000 L-0.000,18.000 L-0.000,16.000 Z"/>
                             </svg>
                         </a>
                         {{-- <!-- End Account Sidebar Toggle Button --> --}}
@@ -255,15 +265,15 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                             <li class="nav-item">
                                 <!-- Account Sidebar Toggle Button - Mobile -->
                                 <a id="sidebarNavToggler9" href="javascript:;" role="button"
-                                    class="px-2 nav-link h-primary" aria-controls="sidebarContent9" aria-haspopup="true"
-                                    aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false"
-                                    data-unfold-target="#sidebarContent9" data-unfold-type="css-animation"
-                                    data-unfold-overlay='{
+                                   class="px-2 nav-link h-primary" aria-controls="sidebarContent9" aria-haspopup="true"
+                                   aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false"
+                                   data-unfold-target="#sidebarContent9" data-unfold-type="css-animation"
+                                   data-unfold-overlay='{
                                         "className": "u-sidebar-bg-overlay",
                                         "background": "rgba(0, 0, 0, .7)",
                                         "animationSpeed": 500
                                     }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight"
-                                    data-unfold-duration="500">
+                                   data-unfold-duration="500">
                                     <i class="glph-icon flaticon-user"></i>
                                 </a>
                                 <!-- End Account Sidebar Toggle Button - Mobile -->
@@ -354,59 +364,59 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
     <div class="row">
         <div class="col-12">
             <div class="modal fade" id="headerProductInquiryModal" tabindex="-1"
-                aria-labelledby="headerProductInquiryModalLabel" aria-hidden="true">
+                 aria-labelledby="headerProductInquiryModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title ml-auto" id="productInquiryModalLabel">Books Inquiry & Info</h5>
                             <button style="font-weight: bolder;font-size: 2rem;" type="button" class="close"
-                                data-dismiss="modal" aria-label="Close">
+                                    data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <form action="{{ route('product.inquiries.bulk-inquiry') }}" class="contact-form"
-                                method="POST">
+                                  method="POST">
                                 @csrf
                                 <div class="form-group">
                                     <label for="headerProductsSelect">{{ __('Book(s) Selector') }}</label>
                                     <select id="headerProductsSelect" name="products[]" class="form-control select2"
-                                        multiple="multiple"
-                                        data-placeholder="{{ __('Select/Type Name, Author or ISBN') }}"
-                                        aria-describedby="productsHelp" style="width: 100%"></select>
+                                            multiple="multiple"
+                                            data-placeholder="{{ __('Select/Type Name, Author or ISBN') }}"
+                                            aria-describedby="productsHelp" style="width: 100%"></select>
                                     @if ($errors->has('products'))
                                         <small id="productsHelp"
-                                            class="form-text text-danger">{{ $errors->first('products') }}</small>
+                                               class="form-text text-danger">{{ $errors->first('products') }}</small>
                                     @endif
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <input class="form-control" name="name" type="text"
-                                                placeholder="{{ __('Name') }}" required>
+                                                   placeholder="{{ __('Name') }}" required>
                                             @if ($errors->has('name'))
                                                 <small id="nameHelp"
-                                                    class="form-text text-danger">{{ $errors->first('name') }}</small>
+                                                       class="form-text text-danger">{{ $errors->first('name') }}</small>
                                             @endif
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <input class="form-control" name="whatsapp_number" type="text"
-                                                placeholder="{{ __('Whatsapp Number') }}" required>
+                                                   placeholder="{{ __('Whatsapp Number') }}" required>
                                             @if ($errors->has('whatsapp_number'))
                                                 <small id="whatsappNumberHelp"
-                                                    class="form-text text-danger">{{ $errors->first('whatsapp_number') }}</small>
+                                                       class="form-text text-danger">{{ $errors->first('whatsapp_number') }}</small>
                                             @endif
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <input class="form-control" name="email" type="email"
-                                                placeholder="{{ __('Email') }}" required>
+                                                   placeholder="{{ __('Email') }}" required>
                                             @if ($errors->has('email'))
                                                 <small id="emailHelp"
-                                                    class="form-text text-danger">{{ $errors->first('email') }}</small>
+                                                       class="form-text text-danger">{{ $errors->first('email') }}</small>
                                             @endif
                                         </div>
                                     </div>
@@ -417,42 +427,42 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                         <div class="form-check-inline">
                                             <label class="form-check-label" for="radioCom1">
                                                 <input type="radio" class="form-check-input" id="radioCom1"
-                                                    name="preferred_communication" value="Whatsapp" checked>
+                                                       name="preferred_communication" value="Whatsapp" checked>
                                                 Whatsapp
                                             </label>
                                         </div>
                                         <div class="form-check-inline">
                                             <label class="form-check-label" for="radioCom2">
                                                 <input type="radio" class="form-check-input" id="radioCom2"
-                                                    name="preferred_communication" value="Email"> Email
+                                                       name="preferred_communication" value="Email"> Email
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <input name="subject" class="form-control" type="text"
-                                                placeholder="{{ __('Subject') }}" required
-                                                value="{{ old('subject', 'Inquiry of a number of products') }}">
+                                                   placeholder="{{ __('Subject') }}" required
+                                                   value="{{ old('subject', 'Inquiry of a number of products') }}">
                                             @if ($errors->has('subject'))
                                                 <small id="subjectHelp"
-                                                    class="form-text text-danger">{{ $errors->first('subject') }}</small>
+                                                       class="form-text text-danger">{{ $errors->first('subject') }}</small>
                                             @endif
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <textarea name="message" class="form-control" id="comment" cols="30"
-                                                rows="10" placeholder="{{ __('Type your message') }}"
-                                                required></textarea>
+                                                      rows="10" placeholder="{{ __('Type your message') }}"
+                                                      required></textarea>
                                             @if ($errors->has('message'))
                                                 <small id="messageHelp"
-                                                    class="form-text text-danger">{{ $errors->first('message') }}</small>
+                                                       class="form-text text-danger">{{ $errors->first('message') }}</small>
                                             @endif
                                         </div>
                                     </div>
                                     @if ($bs->is_recaptcha == 1)
                                         <style>
-                                            .captcha-col>div {
+                                            .captcha-col > div {
                                                 display: inline-block;
                                             }
 
@@ -474,8 +484,8 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                         <div class="modal-footer" style="display: flex;align-self: center;">
                             {{-- <button type="button" class="btn btn-secondary py-3" data-dismiss="modal">Close</button> --}}
                             <button type="button"
-                                class="btn btn-dark submit-button border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link"
-                                style="color: #fff">{{ __('Submit') }}</button>
+                                    class="btn btn-dark submit-button border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link"
+                                    style="color: #fff">{{ __('Submit') }}</button>
                             {{-- <input class="py-3" type="submit" value="{{__('Submit')}}"> --}}
                         </div>
                     </div>

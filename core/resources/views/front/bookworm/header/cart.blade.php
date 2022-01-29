@@ -1,35 +1,3 @@
-@php
-    // $bex->base_currency_symbol          = "AI";
-    // $bex->base_currency_symbol_position = strtolower("Left");
-    // $bex->base_currency_text            = "United States Dollar";
-    // $bex->base_currency_text_position   = strtolower("Left");
-    // $bex->base_currency_rate            = "1.00";
-
-
-
-    // echo json_encode($bex);
-    // return;
-
-    $geo_data_base_currency             = angel_get_base_currency_id();//App\Models\Currency::find(81);
-    $geo_data_user_currency             = angel_get_user_currency_id();//App\Models\Currency::find(23);
-
-    // dd( $geo_data_base_currency);
-    // echo json_encode( $geo_data_base_currency);return;
-    // $bc_id      = App\Models\Currency::query()->where('name', App\BasicExtra::first()->base_currency_text)->orderBy('id', 'desc')->first();
-    // echo json_encode($bc_id);//        return $bc_id->id;
-
-
-   /* $bex_user_currency                  = App\Models\Currency::find($geo_data_user_currency);
-    $bex->base_currency_symbol          = !empty($bex_user_currency) ? $bex_user_currency->symbol : '$';
-    $bex->base_currency_symbol_position = strtolower(!empty($bex_user_currency) ? $bex_user_currency->symbol_position : 'l') == 'l'?  'left' : 'right';
-    $bex->base_currency_text            = !empty($bex_user_currency) ? $bex_user_currency->name : 'USD';
-    $bex->base_currency_text_position   = strtolower(!empty($bex_user_currency) ? $bex_user_currency->text_position : 'l') == 'l'?  'left' : 'right';
-*/
-    // echo json_encode($bex);return;
-    // echo json_encode(session()->all());return;
-
-@endphp
-<!-- Cart Sidebar Navigation -->
 <aside id="sidebarContent1" class="u-sidebar u-sidebar__xl" aria-labelledby="sidebarNavToggler1">
     <div class="u-sidebar__scroller js-scrollbar">
         <div class="u-sidebar__container">
@@ -79,11 +47,11 @@
                             @endphp
                             <div class="px-4 py-5 px-md-6 border-bottom">
                                 <div class="media">
-                                    <a target="_blank" href="{{route('front.product.details',$product->slug)}}" class="d-block"><img src="{{asset('assets/front/img/product/featured/'.$product->feature_image)}}" class="img-fluid" alt="image-description" width="150"></a>
+                                    <a target="_blank" href="{{route('front.product.details',$product->slug)}}" class="d-block"><img src="@if($item['photo']!=null){{$item['photo']}}@else{{asset('https://via.placeholder.com/150')}}@endif" class="img-fluid" alt="image-description" width="150"></a>
                                     <div class="media-body ml-4d875">
                                         {{-- <div class="text-primary text-uppercase font-size-1 mb-1 text-truncate"><a href="#">Hard Cover</a></div> --}}
                                         <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                            <a href="#" class="text-dark">{{convertUtf8($item['name'])}}</a>
+                                            <a href="{{route('front.product.details', $product->slug)}}" class="text-dark">{{convertUtf8($item['name'])}}</a>
                                         </h2>
                                         {{-- <div class="font-size-2 mb-1 text-truncate"><a href="#" class="text-gray-700">Robert Iger</a></div> --}}
                                         <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
@@ -95,11 +63,14 @@
                                                 <input type="hidden" value="{{$id}}" class="product_id">
                                                 </div>
                                             </span>
-                                            <span class="woocommerce-Price-amount amount d-inline-block ml-3">{{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} <span>{{ isset($pvariation) && is_object($pvariation) ? angel_auto_convert_currency($pvariation->current_price, $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }}</span> {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}}</span>
+                                            <span class="woocommerce-Price-amount amount d-inline-block ml-3">
+                                                {{ $product->symbol }}
+                                                <span> {{ number_format($product->price, 0) }}</span>
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="mt-3 ml-3">
-                                        <a href="#" class="text-dark"><i class="fas fa-times"></i></a>
+                                        <a href="{{ route('cart.item.remove', $product->id) }}" class="text-dark"><i class="fas fa-times"></i></a>
                                     </div>
                                 </div>
                             </div>
