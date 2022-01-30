@@ -613,6 +613,8 @@
             'top': '0px'
         });
     </script>
+
+    <script type="text/javascript" src="{{ asset('assets/front/js/product.js') }}"></script>
     @yield('scripts')
 </body>
 

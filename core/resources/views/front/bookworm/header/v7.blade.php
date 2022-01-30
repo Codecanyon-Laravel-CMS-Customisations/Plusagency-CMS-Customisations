@@ -252,12 +252,9 @@
                            data-unfold-animation-in="fadeInLeft" data-unfold-animation-out="fadeOutLeft"
                            data-unfold-duration="500">
                             <svg width="20px" height="18px">
-                                <path fill-rule="evenodd" fill="rgb(255, 255, 255)"
-                                      d="M-0.000,-0.000 L20.000,-0.000 L20.000,2.000 L-0.000,2.000 L-0.000,-0.000 Z"/>
-                                <path fill-rule="evenodd" fill="rgb(255, 255, 255)"
-                                      d="M-0.000,8.000 L15.000,8.000 L15.000,10.000 L-0.000,10.000 L-0.000,8.000 Z"/>
-                                <path fill-rule="evenodd" fill="rgb(255, 255, 255)"
-                                      d="M-0.000,16.000 L20.000,16.000 L20.000,18.000 L-0.000,18.000 L-0.000,16.000 Z"/>
+                                <path fill-rule="evenodd" fill="rgb(0, 0, 0)" d="M-0.000,-0.000 L20.000,-0.000 L20.000,2.000 L-0.000,2.000 L-0.000,-0.000 Z" />
+                                <path fill-rule="evenodd" fill="rgb(0, 0, 0)" d="M-0.000,8.000 L15.000,8.000 L15.000,10.000 L-0.000,10.000 L-0.000,8.000 Z" />
+                                <path fill-rule="evenodd" fill="rgb(0, 0, 0)" d="M-0.000,16.000 L20.000,16.000 L20.000,18.000 L-0.000,18.000 L-0.000,16.000 Z" />
                             </svg>
                         </a>
                         {{-- <!-- End Account Sidebar Toggle Button --> --}}
@@ -282,78 +279,6 @@
                     </div>
 
                     <div class="site-navigation mr-auto d-none d-xl-block">
-                        {{-- <ul class="nav d-none"> --}}
-                        {{-- @foreach (json_decode($menus, true) as $link) --}}
-                        {{-- @php --}}
-                        {{-- $href = getHref($link); --}}
-                        {{-- @endphp --}}
-
-                        {{-- @if (strpos($link['type'], '-megamenu') !== false) --}}
-                        {{-- @includeIf('front.bookworm.partials.mega-menu') --}}
-
-                        {{-- @else --}}
-
-                        {{-- @if (!array_key_exists('children', $link)) --}}
-                        {{--  --}}{{-- - Level1 links which doesn't have dropdown menus - --}}
-                        {{-- <!--TODO add dynamic actve class--> --}}
-                        {{-- <li class="nav-item"><a href="{{ $href }}" target="{{ $link["target"] }}"class="nav-link link-black-100 mx-4 px-0 py-5 font-weight-medium border-bottom border-primary border-width-2">{{ $link["text"] }}</a></li> --}}
-
-                        {{-- @else --}}
-                        {{-- <li class="nav-item dropdown"> --}}
-                        {{-- <a id="{{ \Str::slug($link['text']) }}DropdownInvoker" href="{{ $href }}" target="{{ $link['target'] }}" class="dropdown-toggle nav-link link-black-100 mx-4 px-0 py-5 font-weight-medium d-flex align-items-center" --}}
-                        {{-- aria-haspopup="true" --}}
-                        {{-- aria-expanded="false" --}}
-                        {{-- data-unfold-event="hover" --}}
-                        {{-- data-unfold-target="#{{ \Str::slug($link['text']) }}DropdownMenu" --}}
-                        {{-- data-unfold-type="css-animation" --}}
-                        {{-- data-unfold-duration="200" --}}
-                        {{-- data-unfold-delay="50" --}}
-                        {{-- data-unfold-hide-on-scroll="true" --}}
-                        {{-- data-unfold-animation-in="slideInUp" --}}
-                        {{-- data-unfold-animation-out="fadeOut"> --}}
-                        {{-- {{ $link['text'] }} --}}
-                        {{-- </a> --}}
-                        {{-- <ul id="{{ \Str::slug($link['text']) }}DropdownMenu" class="dropdown-unfold dropdown-menu font-size-2 rounded-0 border-gray-900" aria-labelledby="{{ \Str::slug($link['text']) }}DropdownInvoker"> --}}
-                        {{--  --}}{{-- START: 2nd level links --}}
-                        {{-- @foreach ($link['children'] as $level2) --}}
-                        {{-- @php --}}
-                        {{-- $l2Href = getHref($level2); --}}
-                        {{-- @endphp --}}
-
-                        {{-- <li @if (array_key_exists('children', $level2)) class="submenus" @endif> --}}
-
-
-                        {{--  --}}{{-- START: 3rd Level links --}}
-                        {{-- @if (array_key_exists('children', $level2)) --}}
-                        {{-- <li class="position-relative"> --}}
-                        {{-- <a id="{{ \Str::slug($level2['text']) }}DropdownsubmenuoneInvoker" href="#" class="dropdown-toggle dropdown-item dropdown-item__sub-menu link-black-100 d-flex align-items-center justify-content-between" aria-haspopup="true" aria-expanded="false" data-unfold-event="hover" data-unfold-target="#{{ \Str::slug($level2['text']) }}DropdownsubMenuone" data-unfold-type="css-animation" data-unfold-duration="200" data-unfold-delay="100" data-unfold-hide-on-scroll="true" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">{{ $level2['text'] }} --}}
-                        {{-- </a> --}}
-                        {{-- <ul id="{{ \Str::slug($level2['text']) }}DropdownsubMenuone" class="dropdown-unfold dropdown-menu dropdown-sub-menu font-size-2 rounded-0 border-gray-900 u-unfold--css-animation u-unfold--hidden u-unfold--reverse-y" aria-labelledby="{{ \Str::slug($level2['text']) }}DropdownsubmenuoneInvoker" style="animation-duration: 200ms;"> --}}
-                        {{-- @foreach ($level2['children'] as $level3) --}}
-                        {{-- @php --}}
-                        {{-- $l3Href = getHref($level3); --}}
-                        {{-- @endphp --}}
-                        {{-- <li> --}}
-                        {{-- <a href="{{$l3Href}}" target="{{$level3["target"]}}" class="dropdown-item link-black-100">{{ $level3['text'] }}</a></li> --}}
-                        {{-- @endforeach --}}
-                        {{-- </ul> --}}
-                        {{-- </li> --}}
-                        {{-- @else --}}
-                        {{-- <a href="{{$l2Href}}" target="{{$level2["target"]}}" class="dropdown-item link-black-100">{{ $level2['text'] }}</a> --}}
-                        {{-- @endif --}}
-                        {{--  --}}{{-- END: 3rd Level links --}}
-
-                        {{-- </li> --}}
-                        {{-- @endforeach --}}
-                        {{--  --}}{{-- END: 2nd level links --}}
-                        {{-- </ul> --}}
-                        {{-- </li> --}}
-                        {{-- @endif --}}
-
-                        {{-- @endif --}}
-
-                        {{-- @endforeach --}}
-                        {{-- </ul> --}}
                         @includeIf('front.bookworm.chemistry.molecules.front_main_nav_strip')
                     </div>
                 </div>

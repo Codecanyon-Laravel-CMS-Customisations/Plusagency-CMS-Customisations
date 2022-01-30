@@ -703,7 +703,6 @@ if (isset($_GET['variation'])) {
     <script type="text/javascript" src="{{ asset('assets/front/magiczoomplus-trial/magiczoomplus/magiczoomplus.js') }}"></script>
     {{-- <script type="text/javascript" src="{{ asset('assets/front/magnifier/lib/blowup.js') }}"></script> --}}
     {{-- <script type="text/javascript" src="{{ asset('assets/front/js/slick.min.js') }}"></script> --}}
-    <script type="text/javascript" src="{{ asset('assets/front/js/product.js') }}"></script>
     <script>
         $('.image-popup').magnificPopup({
             type: 'image',

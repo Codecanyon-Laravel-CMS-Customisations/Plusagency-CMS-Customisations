@@ -1,4 +1,4 @@
-<aside id="sidebarContent1" class="u-sidebar u-sidebar__xl" aria-labelledby="sidebarNavToggler1">
+<aside id="sidebarContent1" class="u-sidebar u-sidebar__xl cart-sidebar" aria-labelledby="sidebarNavToggler1">
     <div class="u-sidebar__scroller js-scrollbar">
         <div class="u-sidebar__container">
             <div class="u-header-sidebar__footer-offset">
@@ -53,8 +53,8 @@
                                         <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
                                             <a href="{{route('front.product.details', $product->slug)}}" class="text-dark">{{convertUtf8($item['name'])}}</a>
                                         </h2>
-                                        {{-- <div class="font-size-2 mb-1 text-truncate"><a href="#" class="text-gray-700">Robert Iger</a></div> --}}
-                                        <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
+                                        <form class="cart d-block" method="post" enctype="multipart/form-data">
+                                            <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
                                             <span class="woocommerce-Price-amount amount">
                                                 <div class="product-quantity d-flex mb-35" id="quantity">
                                                 <button type="button" id="sub" class="sub">-</button>
@@ -63,11 +63,16 @@
                                                 <input type="hidden" value="{{$id}}" class="product_id">
                                                 </div>
                                             </span>
-                                            <span class="woocommerce-Price-amount amount d-inline-block ml-3">
+                                                <span class="woocommerce-Price-amount amount d-inline-block ml-3">
                                                 {{ $product->symbol }}
                                                 <span> {{ number_format($product->price, 0) }}</span>
                                             </span>
-                                        </div>
+                                            </div>
+                                            <br/>
+                                            <a data-href="{{ route('add.cart', $product->id) }}"
+                                               class="btn btn-sm btn-dark border-0 rounded-0 py-2 px-5 single_add_to_cart_button button alt cart-btn cart-sidebar-link my-1"
+                                               style="color: #fff">Update cart</a>
+                                        </form>
                                     </div>
                                     <div class="mt-3 ml-3">
                                         <a href="{{ route('cart.item.remove', $product->id) }}" class="text-dark"><i class="fas fa-times"></i></a>
@@ -93,4 +98,28 @@
         </div>
     </div>
 </aside>
+<script>
+    !function(t) {
+        "use strict";
+        jQuery(document).ready(function(t) {
+            t(".cart-sidebar .cart-sidebar-link").click(function() {
+                let e = t(this).attr("data-href");
+                console.log(e);
+                let a = t(".cart-amount").val();
+                a > 1 ? t.get(e + ",,," + a, function(e) {
+                    e.message ? (toastr.success(e.message),
+                        t(".cart-amount").val(1),
+                        t("#cartIconWrapper").load(location.href + " #cartIconWrapper")) : (toastr.error(e.error),
+                        t(".cart-amount").val(1),
+                        t("#cartIconWrapper").load(location.href + " #cartIconWrapper"))
+                }) : t.get(e, function(e) {
+                    e.message ? (toastr.success(e.message),
+                        t("#cartIconWrapper").load(location.href + " #cartIconWrapper")) : (toastr.error(e.error),
+                        t("#cartIconWrapper").load(location.href + " #cartIconWrapper"))
+                })
+            })
+        })
+    }(jQuery);
+
+</script>
 <!-- End Cart Sidebar Navigation -->

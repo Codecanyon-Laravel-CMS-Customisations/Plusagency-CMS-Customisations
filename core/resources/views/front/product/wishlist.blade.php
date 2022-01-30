@@ -1,45 +1,8 @@
 @extends("front.$version.layout")
-@php
-    // $bex->base_currency_symbol          = "AI";
-    // $bex->base_currency_symbol_position = strtolower("Left");
-    // $bex->base_currency_text            = "United States Dollar";
-    // $bex->base_currency_text_position   = strtolower("Left");
-    // $bex->base_currency_rate            = "1.00";
-
-
-
-    // echo json_encode($bex);
-    // return;
-
-    $geo_data_base_currency             = angel_get_base_currency_id();//App\Models\Currency::find(81);
-    $geo_data_user_currency             = angel_get_user_currency_id();//App\Models\Currency::find(23);
-
-    // dd( $geo_data_base_currency);
-    // echo json_encode( $geo_data_base_currency);return;
-    // $bc_id      = App\Models\Currency::query()->where('name', App\BasicExtra::first()->base_currency_text)->orderBy('id', 'desc')->first();
-    // echo json_encode($bc_id);//        return $bc_id->id;
-
-
-    $bex_user_currency                  = App\Models\Currency::find($geo_data_user_currency);
-    $bex->base_currency_symbol          = $bex_user_currency->symbol;
-    $bex->base_currency_symbol_position = strtolower($bex_user_currency->symbol_position) == 'l'?  'left' : 'right';
-    $bex->base_currency_text            = $bex_user_currency->name;
-    $bex->base_currency_text_position   = strtolower($bex_user_currency->text_position) == 'l'?  'left' : 'right';
-
-    // echo json_encode($bex);return;
-    // echo json_encode(session()->all());return;
-
-
-
-    function pesa($money)
-    {
-        return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_price, angel_get_base_currency_id(), angel_get_user_currency_id()) : angel_auto_convert_currency($money, angel_get_base_currency_id(), angel_get_user_currency_id());
-    }
-@endphp
 
 @section('pagename')
  -
- {{__('Cart')}}
+ {{__('Wishlist')}}
 @endsection
 
 @section('meta-keywords', "$be->cart_meta_keywords")
@@ -51,8 +14,8 @@
 @endsection
 
 
-@section('breadcrumb-title', convertUtf8($be->cart_title))
-@section('breadcrumb-subtitle', convertUtf8($be->cart_subtitle))
+@section('breadcrumb-title', convertUtf8("Wishlist"))
+@section('breadcrumb-subtitle', convertUtf8("my wishlist items"))
 @section('breadcrumb-link', __('Cart'))
 
 @section('content')
@@ -63,29 +26,29 @@
     <div class="container">
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                @if($cart != null)
+                @if($wishlist != null)
                     <ul class="total-item-info">
                         @php
-                            $cartTotal = 0;
+                            $wishlistTotal = 0;
                             $countitem = 0;
-                            if($cart){
-                            foreach($cart as $p){
-                                $cartTotal += $p['price'] * $p['qty'];
+                            if($wishlist){
+                            foreach($wishlist as $p){
+                                $wishlistTotal += $p['price'] * $p['qty'];
                                 $countitem += $p['qty'];
                             }
                         }
                         @endphp
-                        <li><strong>{{__('Total Items')}}:</strong> <strong class="cart-item-view">{{$cart ? $countitem : 0}}</strong></li>
-                        <li><strong>{{__('Cart Total')}} :</strong>  <strong class="cart-total-view">
+                        <li><strong>{{__('Total Items')}}:</strong> <strong class="cart-item-view">{{$wishlist ? $countitem : 0}}</strong></li>
+                        <li><strong>{{__('Wishlist Total')}} :</strong>  <strong class="cart-total-view">
                             {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
                             {{ ship_to_india() ? "₹" : "$" }}
-                            {{ pesa($cartTotal) }}
+                            {{ trim($wishlistTotal) }}
                             {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
                         </strong></li>
                     </ul>
                 @endif
                 <div class="table-outer">
-                    @if($cart != null)
+                    @if($wishlist != null)
                     <table class="cart-table">
                         <thead class="cart-header">
                             <tr>
@@ -100,7 +63,7 @@
                         </thead>
                         <tbody>
 
-                            @foreach ($cart as $id => $item)
+                            @foreach ($wishlist as $id => $item)
                             @php
                                 $product = App\Product::findOrFail($id);
                             @endphp
@@ -124,10 +87,10 @@
                                 <td class="unit-price">
                                     <div class="available-info">
                                         @if ($product->type == 'digital')
-                                            <span class="icon fa fa-check thm-bg-clr"></span>{{__('Item(s)')}}<br>{{__('Avilable Now')}}
+                                            <span class="icon fa fa-check thm-bg-clr"></span>{{__('Item(s)')}}<br>{{__('Available Now')}}
                                         @else
                                             @if($product->stock >= $item['qty'])
-                                                <span class="icon fa fa-check thm-bg-clr"></span>{{__('Item(s)')}}<br>{{__('Avilable Now')}}
+                                                <span class="icon fa fa-check thm-bg-clr"></span>{{__('Item(s)')}}<br>{{__('Available Now')}}
                                             @else
                                                 <span class="icon fa fa-times thm-bg-rmv"></span>{{__('Item(s)')}}<br>{{__('Out Of Stock')}}
                                             @endif
@@ -135,22 +98,16 @@
                                     </div>
                                 </td>
                                 <td class="price cart_price">
-                                    {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
                                     {{ $product->symbol }}
                                     <span>
-                                        {{-- {{ isset($pvariation) ? angel_auto_convert_currency($pvariation->current_price, $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }} --}}
                                         {{ number_format(!empty($product->price) ? $product->price : '0.00', 0) }}
                                     </span>
-                                    {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
                                 </td>
                                 <td class="sub-total">
-                                    {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
                                     {{ $product->symbol }}
                                     <span>
-                                        {{-- {{ isset($pvariation) ? angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) }} --}}
                                         {{ number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) }}
                                     </span>
-                                    {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
                                 </td>
                                 <td>
                                     <div class="remove">
@@ -166,20 +123,20 @@
                     </table>
                     @else
                         <div class="bg-light py-5 text-center">
-                            <h3 class="text-uppercase">{{__('Cart is empty!')}}</h3>
+                            <h3 class="text-uppercase">{{__('Wishlist is empty!')}}</h3>
                         </div>
                     @endif
                 </div>
             </div>
         </div>
-        @if ($cart != null)
+        @if ($wishlist != null)
             <div class="row cart-middle">
                 <div class="col-lg-6 offset-lg-6 col-sm-12">
                     <div class="update-cart float-right d-inline-block ml-4">
-                        <a class="proceed-checkout-btn" href="{{route('front.checkout')}}" type="button"><span>{{__('Checkout')}}</span></a>
+                        <a class="proceed-checkout-btn" href="{{route('wishlist.to.cart')}}" type="button"><span>{{__('Add to Cart')}}</span></a>
                     </div>
                     <div class="update-cart float-right d-inline-block">
-                        <button class="main-btn main-btn-2" id="cartUpdate" data-href="{{route('cart.update')}}" type="button"><span>{{__('Update Cart')}}</span></button>
+                        <button class="main-btn main-btn-2" id="cartUpdate" data-href="{{route('wishlist.update')}}" type="button"><span>{{__('Update Wishlist')}}</span></button>
                     </div>
                 </div>
             </div>

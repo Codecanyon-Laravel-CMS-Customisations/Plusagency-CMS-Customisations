@@ -174,7 +174,10 @@ Route::group(['middleware' => 'setlang'], function () {
 
 
 //    Route::get('/wishlist','Front\ProductController@wishlist')->name('wishlist');
-    Route::get('/wishlist/{product}','Front\ProductController@addToWishlist')->name('wishlist.item.remove');
+    Route::get('/wishlist','Front\ProductController@wishlist')->name('front.wishlist');
+    Route::post('/wishlist/update', 'Front\ProductController@updateWishlist')->name('wishlist.update');
+    Route::get('/wishlist-to-cart','Front\ProductController@addWishlistToCart')->name('wishlist.to.cart');
+    Route::get('/add-to-wishlist/{product}/{quantity?}','Front\ProductController@addToWishlist')->name('wishlist.item.add');
     Route::get('/wishlist/item/remove/{product}', 'Front\ProductController@wishlistItemRemove')->name('wishlist.item.remove');
 
     // Product Categories

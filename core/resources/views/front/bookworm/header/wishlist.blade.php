@@ -1,4 +1,4 @@
-<aside id="sidebarContent-wishlist" class="u-sidebar u-sidebar__lg u-unfold--css-animation u-unfold--hidden" aria-labelledby="sidebarNavToggler-wishlist">
+<aside id="sidebarContent-wishlist" class="u-sidebar u-sidebar__lg u-unfold--css-animation u-unfold--hidden wishlist-sidebar" aria-labelledby="sidebarNavToggler-wishlist">
     <div class="u-sidebar__scroller js-scrollbar">
         <div class="u-sidebar__container">
             <div class="u-header-sidebar__footer-offset">
@@ -63,16 +63,26 @@
                                             <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
                                                 <a href="{{route('front.product.details', $product->slug)}}" class="text-dark">{{convertUtf8($wish['name'])}}</a>
                                             </h2>
-                                            <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
-                                                    <span class="woocommerce-Price-amount amount">
-                                                        <div class="product-quantity d-flex mb-35" id="quantity">
-                                                        <button type="button" id="sub" class="sub">-</button>
-                                                        <input type="text" class="cart_qty" id="1" value="{{$wish['qty']}}" />
-                                                        <button type="button" id="add" class="add">+</button>
-                                                        <input type="hidden" value="{{$wish['name']}}" class="product_id">
-                                                        </div>
-                                                    </span>
-                                            </div>
+                                            <form class="cart d-block" method="post" enctype="multipart/form-data">
+                                                <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
+                                            <span class="woocommerce-Price-amount amount">
+                                                <div class="product-quantity d-flex mb-35" id="quantity">
+                                                <button type="button" id="sub" class="sub">-</button>
+                                                <input type="text" class="cart_qty" id="1" value="{{$wish['qty']}}" />
+                                                <button type="button" id="add" class="add">+</button>
+                                                <input type="hidden" value="{{$id}}" class="product_id">
+                                                </div>
+                                            </span>
+                                                    <span class="woocommerce-Price-amount amount d-inline-block ml-3">
+                                                {{ $product->symbol }}
+                                                <span> {{ number_format($product->price, 0) }}</span>
+                                            </span>
+                                                </div>
+                                                <br/>
+                                                <a data-href="{{ route('wishlist.item.add', $product->id) }}"
+                                                   class="btn btn-sm btn-dark border-0 rounded-0 py-2 px-5 single_add_to_cart_button button alt cart-btn wishlist-sidebar-link my-1"
+                                                   style="color: #fff">Update wishlist</a>
+                                            </form>
                                         </div>
                                         <div class="mt-3 ml-3">
                                             <a href="{{ route('wishlist.item.remove', $product->id) }}" class="text-dark"><i class="fas fa-times"></i></a>
@@ -81,6 +91,11 @@
                                 </div>
                             @endforeach
                         @endif
+                        <div class="px-4 mb-8 px-md-6 d-flex justify-content-around pb-2 pt-4">
+                            <a href="{{route('wishlist.to.cart')}}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4">Add To Cart</a>
+                            <a href="{{route('front.wishlist')}}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4">View Wishlist</a>
+                            {{-- <button type="submit" class="btn btn-block py-4 rounded-0 btn-dark">Checkout</button> --}}
+                        </div>
                     </div>
                 </div>
                 <!-- End Content -->
@@ -88,28 +103,18 @@
         </div>
     </div>
 </aside>
-{{--@foreach ($wishlist as $wish)--}}
-{{--    <div class="px-4 py-5 px-md-6 border-bottom">--}}
-{{--        <div class="media">--}}
-{{--            <a target="_blank" href="{{route('front.product.details',$wish['name'])}}" class="d-block"><img src="@if($wish['photo']!=null){{$wish['photo']}}@else{{asset('https://via.placeholder.com/150')}}@endif" class="img-fluid" alt="image-description" width="150"></a>--}}
-{{--            <div class="media-body ml-4d875">--}}
-{{--                <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">--}}
-{{--                    <a href="#" class="text-dark">{{convertUtf8($wish['name'])}}</a>--}}
-{{--                </h2>--}}
-{{--                <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">--}}
-{{--                                            <span class="woocommerce-Price-amount amount">--}}
-{{--                                                <div class="product-quantity d-flex mb-35" id="quantity">--}}
-{{--                                                <button type="button" id="sub" class="sub">-</button>--}}
-{{--                                                <input type="text" class="cart_qty" id="1" value="{{$wish['qty']}}" />--}}
-{{--                                                <button type="button" id="add" class="add">+</button>--}}
-{{--                                                <input type="hidden" value="{{$wish['name']}}" class="product_id">--}}
-{{--                                                </div>--}}
-{{--                                            </span>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            <div class="mt-3 ml-3">--}}
-{{--                <a href="#" class="text-dark"><i class="fas fa-times"></i></a>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--@endforeach--}}
+<script>
+    !function(t) {
+        "use strict";
+        jQuery(document).ready(function(t) {
+            t(".wishlist-sidebar .wishlist-sidebar-link").click(function() {
+                let e = t(this).attr("data-href")+'/'+t(this).parents('form').find('.cart_qty').val();
+                console.log(e);
+                t.get(e, function(e) {
+                    e.message ? (toastr.success(e.message)) : (toastr.error(e.error))
+                })
+            })
+        })
+    }(jQuery);
+
+</script>

@@ -1,17 +1,6 @@
-<div class="page-header border-bottom mb-8">
-    <div class="container">
-        <div class="d-md-flex justify-content-between align-items-center py-4">
-            <h1 class="page-title font-size-3 font-weight-medium m-0 text-lh-lg">Shop</h1>
-            <p class="woocommerce-breadcrumb font-size-2">
-                {{ convertUtf8($be->product_subtitle) }}
-            </p>
-        </div>
-    </div>
-</div>
-
 <div class="site-content space-bottom-3" id="content">
-    <div class="container">
-        <div class="row">
+    <div class="container pt-5">
+        <div class="row pt-5">
             @if ($products->count() > 0)
                 <div id="primary" class="content-area order-2 col-md-8">
                     <div
@@ -119,7 +108,7 @@
                                                         <img loading="lazy"
                                                             src="{{ trim($product->feature_image) }}"
                                                             class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"
-                                                            alt="image-description" width="150">
+                                                            alt="{{ "Product Image" }}" width="150">
                                                     </a>
                                                 </div>
                                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
@@ -170,7 +159,7 @@
                                                            class="mr-1 h-p-bg btn btn-outline-primary border-0">
                                                             <i class="flaticon-switch"></i>
                                                         </a>
-                                                        <a href="{{ url("wishlist/$product->id") }}"
+                                                        <a href="{{ route("wishlist.item.add", $product->id) }}"
                                                            class="h-p-bg btn btn-outline-primary border-0"
                                                            title="Add to Wishlist">
                                                             <i class="flaticon-heart"></i>
@@ -200,7 +189,7 @@
                                                             <img loading="lazy"
                                                                 src="{{ trim($product->feature_image) }}"
                                                                 class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"
-                                                                alt="image-description" width="150"></a>
+                                                                alt="{{ "Product Image" }}" width="150"></a>
                                                     </div>
                                                     <div
                                                         class="col-md woocommerce-loop-product__body product__body pt-3 bg-white mb-3 mb-md-0">
@@ -299,6 +288,7 @@
                             </ul>
                         </div>
                     </div>
+                    {{--
                     <div id="Authors" class="widget widget_search widget_author p-4d875 border">
                         <div id="widgetHeading21" class="widget-head">
                             <a class="d-flex align-items-center justify-content-between text-dark" href="#"
@@ -355,6 +345,8 @@
                             </ul>
                         </div>
                     </div>
+                    --}}
+                    {{--
                     <div id="Language" class="widget p-4d875 border">
                         <div id="widgetHeading22" class="widget-head">
                             <a class="d-flex align-items-center justify-content-between text-dark" href="#"
@@ -399,6 +391,7 @@
                             </ul>
                         </div>
                     </div>
+                    --}}
                     <div id="woocommerce_price_filter-2" class="widget p-4d875 border woocommerce widget_price_filter">
                         <div id="widgetHeadingTwo" class="widget-head">
                             <a class="d-flex align-items-center justify-content-between text-dark" href="#"
@@ -419,16 +412,16 @@
                         </div>
                         <div id="widgetCollapseTwo" class="mt-4 widget-content collapse show"
                              aria-labelledby="widgetHeadingTwo" data-parent="#widgetAccordion">
-                            <form method="get" action="https://themes.woocommerce.com/storefront/shop/">
+                            <form method="get" action="#">
                                 <div class="price_slider_wrapper">
                                     <div
                                         class="price_slider ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"
                                         style="">
-                                        <div class="ui-slider-range ui-widget-header ui-corner-all"
-                                             style="left: 0%; width: 100%;"></div>
+                                        <div class="ui-slider-range ui-widget-header ui-corner-all" style="left: 0%; width: 100%;"></div>
                                         <span
                                             class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"
-                                            style="left: 0%;"></span><span
+                                            style="left: 0%;"></span>
+                                        <span
                                             class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"
                                             style="left: 98%;"></span>
                                     </div>
@@ -439,8 +432,8 @@
                                                placeholder="Max price" style="display: none;">
                                         <button type="submit" class="button d-none">Filter</button>
                                         <div class="mx-auto price_label mt-2" style="">
-                                            Price: <span class="from">£2</span> — <span
-                                                class="to">£1,495</span>
+                                            Price: <span class="from">{{ ship_to_india() ? "₹" : "$" }}2</span> — <span
+                                                class="to">{{ ship_to_india() ? "₹" : "$" }}1,495</span>
                                         </div>
                                     </div>
                                 </div>
@@ -472,7 +465,7 @@
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="rating5">
                                     <label class="custom-control-label" for="rating5">
-                                        <span class="d-block text-yellow-darker mt-plus-3">
+                                        <span class="d-block text-yellow-darker mt-plus-3 pt-1">
                                             <span class="fas fa-star font-size-2 mr-1"></span>
                                             <span class="fas fa-star font-size-2 mr-1"></span>
                                             <span class="fas fa-star font-size-2 mr-1"></span>
@@ -481,14 +474,14 @@
                                         </span>
                                     </label>
                                 </div>
-                                <small class="font-size-2 text-gray-600">24</small>
+                                <small class="font-size-2 text-gray-600">{{ \App\Models\Unscoped\Product::query()->where('rating', '>=', 4)->where('rating', '<=', 5)->count() }}</small>
                             </div>
                             <div
                                 class="form-group d-flex align-items-center justify-content-between font-size-1 text-lh-md text-secondary mb-2 pb-1">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="rating4">
                                     <label class="custom-control-label" for="rating4">
-                                        <span class="d-block text-yellow-darker mt-plus-3">
+                                        <span class="d-block text-yellow-darker mt-plus-3 pt-1">
                                             <span class="fas fa-star font-size-2 mr-1"></span>
                                             <span class="fas fa-star font-size-2 mr-1"></span>
                                             <span class="fas fa-star font-size-2 mr-1"></span>
@@ -497,14 +490,14 @@
                                         </span>
                                     </label>
                                 </div>
-                                <small class="font-size-2 text-gray-600">15</small>
+                                <small class="font-size-2 text-gray-600">{{ \App\Models\Unscoped\Product::query()->where('rating', '>=', 4)->where('rating', '<=', 5)->count() }}</small>
                             </div>
                             <div
                                 class="form-group d-flex align-items-center justify-content-between font-size-1 text-lh-md text-secondary mb-2 pb-1">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="rating3">
                                     <label class="custom-control-label" for="rating3">
-                                        <span class="d-block text-yellow-darker mt-plus-3">
+                                        <span class="d-block text-yellow-darker mt-plus-3 pt-1">
                                             <span class="fas fa-star font-size-2 mr-1"></span>
                                             <span class="fas fa-star font-size-2 mr-1"></span>
                                             <span class="fas fa-star font-size-2 mr-1"></span>
@@ -513,14 +506,14 @@
                                         </span>
                                     </label>
                                 </div>
-                                <small class="font-size-2 text-gray-600">43</small>
+                                <small class="font-size-2 text-gray-600">{{ \App\Models\Unscoped\Product::query()->where('rating', '>=', 3)->where('rating', '<', 4)->count() }}</small>
                             </div>
                             <div
                                 class="form-group d-flex align-items-center justify-content-between font-size-1 text-lh-md text-secondary mb-2 pb-1">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="rating2">
                                     <label class="custom-control-label" for="rating2">
-                                        <span class="d-block text-yellow-darker mt-plus-3">
+                                        <span class="d-block text-yellow-darker mt-plus-3 pt-1">
                                             <span class="fas fa-star font-size-2 mr-1"></span>
                                             <span class="fas fa-star font-size-2 mr-1"></span>
                                             <span class="far fa-star font-size-2 mr-1"></span>
@@ -529,15 +522,31 @@
                                         </span>
                                     </label>
                                 </div>
-                                <small class="font-size-2 text-gray-600">78</small>
+                                <small class="font-size-2 text-gray-600">{{ \App\Models\Unscoped\Product::query()->where('rating', '>=', 2)->where('rating', '<', 3)->count() }}</small>
+                            </div>
+                            <div
+                                class="form-group d-flex align-items-center justify-content-between font-size-1 text-lh-md text-secondary mb-2 pb-1">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="rating1">
+                                    <label class="custom-control-label" for="rating1">
+                                        <span class="d-block text-yellow-darker mt-plus-3 pt-1">
+                                            <span class="fas fa-star font-size-2 mr-1"></span>
+                                            <span class="far fa-star font-size-2 mr-1"></span>
+                                            <span class="far fa-star font-size-2 mr-1"></span>
+                                            <span class="far fa-star font-size-2 mr-1"></span>
+                                            <span class="far fa-star font-size-2"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                                <small class="font-size-2 text-gray-600">{{ \App\Models\Unscoped\Product::query()->where('rating', '>=', 1)->where('rating', '<', 2)->count('rating') }}</small>
                             </div>
                             <div
                                 class="form-group d-flex align-items-center justify-content-between font-size-1 text-lh-md text-secondary mb-0">
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="rating1">
-                                    <label class="custom-control-label" for="rating1">
-                                        <span class="d-block text-yellow-darker mt-plus-3">
-                                            <span class="fas fa-star font-size-2 mr-1"></span>
+                                    <input type="checkbox" class="custom-control-input" id="rating0">
+                                    <label class="custom-control-label" for="rating0">
+                                        <span class="d-block text-yellow-darker mt-plus-3 pt-1">
+                                            <span class="far fa-star font-size-2 mr-1"></span>
                                             <span class="far fa-star font-size-2 mr-1"></span>
                                             <span class="far fa-star font-size-2 mr-1"></span>
                                             <span class="far fa-star font-size-2 mr-1"></span>
@@ -545,152 +554,10 @@
                                         </span>
                                     </label>
                                 </div>
-                                <small class="font-size-2 text-gray-600">21</small>
+                                <small class="font-size-2 text-gray-600">{{ \App\Models\Unscoped\Product::query()->where('rating', '>=', 0)->where('rating', '<', 1)->count('rating') }}</small>
                             </div>
                         </div>
                     </div>
-                </div>
-
-
-                <div id="widgetAccordion11111">
-                    <div id="woocommerce_product_categories-2"
-                         class="widget p-4d875 border woocommerce widget_product_categories">
-                        <div id="widgetHeadingOne" class="widget-head">
-                            <a class="d-flex align-items-center justify-content-between text-dark" href="#"
-                               data-toggle="collapse" data-target="#widgetCollapseOne" aria-expanded="true"
-                               aria-controls="widgetCollapseOne">
-
-                                <h3 class="widget-title mb-0 font-weight-medium font-size-3">Categories</h3>
-
-                                <svg class="mins" xmlns="http://www.w3.org/2000/svg"
-                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="2px">
-                                    <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                          d="M0.000,-0.000 L15.000,-0.000 L15.000,2.000 L0.000,2.000 L0.000,-0.000 Z"/>
-                                </svg>
-
-                                <svg class="plus" xmlns="http://www.w3.org/2000/svg"
-                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="15px">
-                                    <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                          d="M15.000,8.000 L9.000,8.000 L9.000,15.000 L7.000,15.000 L7.000,8.000 L0.000,8.000 L0.000,6.000 L7.000,6.000 L7.000,-0.000 L9.000,-0.000 L9.000,6.000 L15.000,6.000 L15.000,8.000 Z"/>
-                                </svg>
-                            </a>
-                        </div>
-
-                        <div id="widgetCollapseOne" class="mt-3 widget-content collapse show"
-                             aria-labelledby="widgetHeadingOne" data-parent="#widgetAccordion">
-                            <ul class="product-categories">
-                                @foreach ($categories->where('menu_level', 2)->where('name', '!=', 'Default Category')->sortBy('name', 0, false)
-    as $category)
-                                    <li
-                                        class="cat-item cat-item-12 {{ request()->input('category_id') == $category->id ? 'active-search' : '' }}">
-                                        <a
-                                            href="/products?search=&category_id={{ $category->id }}&type=new">{{ convertUtf8($category->name) }}</a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div id="woocommerce_price_filter-2" class="widget p-4d875 border woocommerce widget_price_filter">
-                        <div id="widgetHeadingTwo" class="widget-head">
-                            <a class="d-flex align-items-center justify-content-between text-dark" href="#"
-                               data-toggle="collapse" data-target="#widgetCollapseTwo" aria-expanded="true"
-                               aria-controls="widgetCollapseTwo">
-
-                                <h3 class="widget-title mb-0 font-weight-medium font-size-3">Filter by price</h3>
-
-                                <svg class="mins" xmlns="http://www.w3.org/2000/svg"
-                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="2px">
-                                    <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                          d="M0.000,-0.000 L15.000,-0.000 L15.000,2.000 L0.000,2.000 L0.000,-0.000 Z"/>
-                                </svg>
-
-                                <svg class="plus" xmlns="http://www.w3.org/2000/svg"
-                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="15px">
-                                    <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                          d="M15.000,8.000 L9.000,8.000 L9.000,15.000 L7.000,15.000 L7.000,8.000 L0.000,8.000 L0.000,6.000 L7.000,6.000 L7.000,-0.000 L9.000,-0.000 L9.000,6.000 L15.000,6.000 L15.000,8.000 Z"/>
-                                </svg>
-                            </a>
-                        </div>
-
-                        <div id="widgetCollapseTwo" class="mt-4 widget-content collapse show"
-                             aria-labelledby="widgetHeadingTwo" data-parent="#widgetAccordion">
-                            <form action="#">
-                                <div id="slider-range"></div>
-                                <span>{{ __('Price') }}: </span>
-                                <input type="text" name="text" id="amount"/>
-                                <button class="btn mt-2 filter-button" type="button">{{ __('Filter') }}</button>
-                            </form>
-                        </div>
-                    </div>
-
-                    <div id="Review" class="widget p-4d875 border">
-                        <div id="widgetHeading24" class="widget-head">
-                            <a class="d-flex align-items-center justify-content-between text-dark" href="#"
-                               data-toggle="collapse" data-target="#widgetCollapse24" aria-expanded="true"
-                               aria-controls="widgetCollapse24">
-
-                                <h3 class="widget-title mb-0 font-weight-medium font-size-3">By Review</h3>
-
-                                <svg class="mins" xmlns="http://www.w3.org/2000/svg"
-                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="2px">
-                                    <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                          d="M0.000,-0.000 L15.000,-0.000 L15.000,2.000 L0.000,2.000 L0.000,-0.000 Z"/>
-                                </svg>
-
-                                <svg class="plus" xmlns="http://www.w3.org/2000/svg"
-                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="15px" height="15px">
-                                    <path fill-rule="evenodd" fill="rgb(22, 22, 25)"
-                                          d="M15.000,8.000 L9.000,8.000 L9.000,15.000 L7.000,15.000 L7.000,8.000 L0.000,8.000 L0.000,6.000 L7.000,6.000 L7.000,-0.000 L9.000,-0.000 L9.000,6.000 L15.000,6.000 L15.000,8.000 Z"/>
-                                </svg>
-                            </a>
-                        </div>
-
-                        <div id="widgetCollapse24" class="mt-4 widget-content collapse show"
-                             aria-labelledby="widgetHeading24" data-parent="#widgetAccordion">
-                            <ul class="checkbox_common checkbox_style2">
-                                <li>
-                                    <input type="radio" class="review_val" name="review_value"
-                                           {{ request()->input('review') == '' ? 'checked' : '' }} id="checkbox4"
-                                           value="">
-                                    <label for="checkbox4"><span></span> {{ __('Show All') }}</label>
-                                </li>
-
-                                <li>
-                                    <input type="radio" class="review_val" name="review_value" id="checkbox5"
-                                           value="4"
-                                           {{ request()->input('review') == 4 ? 'checked' : '' }} id="checkbox4"
-                                           value="all">
-                                    <label for="checkbox5"><span></span>4 {{ __('Star and higher') }}</label>
-                                </li>
-
-                                <li>
-                                    <input type="radio" class="review_val" name="review_value" id="checkbox6"
-                                           value="3"
-                                           {{ request()->input('review') == 3 ? 'checked' : '' }} id="checkbox4"
-                                           value="all">
-                                    <label for="checkbox6"><span></span>3 {{ __('Star and higher') }}</label>
-                                </li>
-
-                                <li>
-                                    <input type="radio" class="review_val" name="review_value" id="checkbox7"
-                                           value="2"
-                                           {{ request()->input('review') == 2 ? 'checked' : '' }} id="checkbox4"
-                                           value="all">
-                                    <label for="checkbox7"><span></span>2 {{ __('Star and higher') }}</label>
-                                </li>
-
-                                <li>
-                                    <input type="radio" class="review_val" name="review_value" id="checkbox8"
-                                           value="1"
-                                           {{ request()->input('review') == 1 ? 'checked' : '' }} id="checkbox4"
-                                           value="all">
-                                    <label for="checkbox8"><span></span>1 {{ __('Star and higher') }}</label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
