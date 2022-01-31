@@ -113,19 +113,54 @@
                                                                                     <div class="row">
                                                                                         <div class="col-lg-4">
                                                                                             <div class="form-group">
-                                                                                                <label>Attribute **</label>
-                                                                                                <select name="attribute" class="form-control">
-                                                                                                    <option @if ($color_set)
-                                                                                                            data-color="{{ trim(str_replace('!important', '', $color_set->value)) }}"
-                                                                                                            @endif
-                                                                                                            data-important="@if(isset($element['important_default'])) {{ trim($element['important_default']) }} @endif"
-                                                                                                            value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Text Color @endif</option>
-                                                                                                    <option @if ($background_set)
-                                                                                                            data-color="{{ trim(str_replace('!important', '', $background_set->value)) }}"
-                                                                                                            @endif
-                                                                                                            data-important="@if(isset($element['important_default'])) {{ trim($element['important_default']) }} @endif"
-                                                                                                            value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else background-color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Background Color @endif</option>
-                                                                                                </select>
+                                                                                                <label>Attribute ** </label>
+                                                                                                @if ($element['attr_default'] == $element['attr_hover'])
+                                                                                                    <input type="text" name="attribute" class="form-control"
+                                                                                                        @php
+                                                                                                            $data_color         = '';
+                                                                                                            $data_important     = '';
+                                                                                                            $data_value         = 'color';
+                                                                                                            $data_title         = 'Color';
+
+                                                                                                            if($color_set)
+                                                                                                            {
+                                                                                                                $data_color     = trim(str_replace('!important', '', $color_set->value));
+                                                                                                            }
+                                                                                                            elseif($background_set)
+                                                                                                            {
+                                                                                                                $data_color     = trim(str_replace('!important', '', $background_set->value));
+                                                                                                            }
+                                                                                                            if(isset($element['important_default']))
+                                                                                                            {
+                                                                                                                $data_important = trim($element['important_default']);
+                                                                                                            }
+                                                                                                            if(isset($element['attr_config']))
+                                                                                                            {
+                                                                                                                $data_value     = trim($element['attr_config']);
+                                                                                                                $data_title     = trim(Illuminate\Support\Str::title(str_replace("-", " ", $data_value)));
+                                                                                                            }
+                                                                                                        @endphp
+                                                                                                        data-color="{{$data_color}}"
+                                                                                                        data-important="{{$data_important}}"
+                                                                                                        value="{{$data_value}}"
+                                                                                                        title="{{$data_title}}"
+                                                                                                        readonly
+                                                                                                        disabled
+                                                                                                    >
+                                                                                                @else
+                                                                                                    <select name="attribute" class="form-control">
+                                                                                                        <option @if ($color_set)
+                                                                                                                data-color="{{ trim(str_replace('!important', '', $color_set->value)) }}"
+                                                                                                                @endif
+                                                                                                                data-important="@if(isset($element['important_default'])) {{ trim($element['important_default']) }} @endif"
+                                                                                                                value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Text Color @endif</option>
+                                                                                                        <option @if ($background_set)
+                                                                                                                data-color="{{ trim(str_replace('!important', '', $background_set->value)) }}"
+                                                                                                                @endif
+                                                                                                                data-important="@if(isset($element['important_default'])) {{ trim($element['important_default']) }} @endif"
+                                                                                                                value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else background-color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Background Color @endif</option>
+                                                                                                    </select>
+                                                                                                @endif
                                                                                                 @if (Session::get('data') == 0)
                                                                                                     @if ($errors->has('attribute'))
                                                                                                         <p class="mb-0 text-danger">{{$errors->first('attribute')}}</p>
@@ -160,14 +195,41 @@
                                                                                         <div class="col-lg-4">
                                                                                             <div class="form-group">
                                                                                                 <label>Attribute **</label>
-                                                                                                <select name="attribute" class="form-control">
-                                                                                                    <option
-                                                                                                        data-important="@if(isset($element['important_default'])) {{ trim($element['important_default']) }} @endif"
-                                                                                                        value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Text Color @endif </option>
-                                                                                                    <option
-                                                                                                        data-important="@if(isset($element['important_default'])) {{ trim($element['important_default']) }} @endif"
-                                                                                                        value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else background-color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Background Color @endif </option>
-                                                                                                </select>
+                                                                                                @if ($element['attr_default'] == $element['attr_hover'])
+                                                                                                    <input type="text" name="attribute" class="form-control"
+                                                                                                        @php
+                                                                                                            $data_color         = '';
+                                                                                                            $data_important     = '';
+                                                                                                            $data_value         = 'color';
+                                                                                                            $data_title         = 'Color';
+
+                                                                                                            if(isset($element['important_default']))
+                                                                                                            {
+                                                                                                                $data_important = trim($element['important_default']);
+                                                                                                            }
+                                                                                                            if(isset($element['attr_config']))
+                                                                                                            {
+                                                                                                                $data_value     = trim($element['attr_config']);
+                                                                                                                $data_title     = trim(Illuminate\Support\Str::title(str_replace("-", " ", $data_value)));
+                                                                                                            }
+                                                                                                        @endphp
+                                                                                                        data-color="{{$data_color}}"
+                                                                                                        data-important="{{trim($data_important)}}"
+                                                                                                        value="{{$data_value}}"
+                                                                                                        title="{{$data_title}}"
+                                                                                                        readonly
+                                                                                                        disabled
+                                                                                                    >
+                                                                                                @else
+                                                                                                    <select name="attribute" class="form-control">
+                                                                                                        <option
+                                                                                                            data-important="@if(isset($element['important_default'])) {{ trim($element['important_default']) }} @endif"
+                                                                                                            value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Text Color @endif </option>
+                                                                                                        <option
+                                                                                                            data-important="@if(isset($element['important_default'])) {{ trim($element['important_default']) }} @endif"
+                                                                                                            value="@if(isset($element['attr_config'])) {{ $element['attr_config'] }} @else background-color @endif">@if(isset($element['attr_config'])) {{ Illuminate\Support\Str::title(str_replace("-", " ", $element['attr_config'])) }} @else Background Color @endif </option>
+                                                                                                    </select>
+                                                                                                @endif
                                                                                                 @if (Session::get('data') == 0)
                                                                                                     @if ($errors->has('attribute'))
                                                                                                         <p class="mb-0 text-danger">{{$errors->first('attribute')}}</p>
@@ -559,10 +621,11 @@
 
 
 
-            var data    = {
-                "color"     : $(this).find('input[name="color"]').val()+' '+$(this).find('select[name="attribute"]').find('option:selected').attr('data-important'),
+            var d_important = $(this).find('input[name="attribute"]').length < 1 ? $(this).find('select[name="attribute"]').find('option:selected').attr('data-important') : $(this).find('input[name="attribute"]').attr('data-important');
+            var data        = {
+                "color"     : $(this).find('input[name="color"]').val()+' '+d_important,
                 "element"   : $(this).find('input[name="element"]').val(),
-                "attribute" : $(this).find('select[name="attribute"]').find('option:selected').val(),
+                "attribute" : $(this).find('input[name="attribute"]').length < 1 ? $(this).find('select[name="attribute"]').find('option:selected').val() : $(this).find('input[name="attribute"]').val(),
             };
             $.ajax({
                 type: "POST",
@@ -570,6 +633,7 @@
                 data: data,
                 dataType: 'json',
                 success: function (response) {
+                    $(this).find('input[name="attribute"]').attr('data-color', data.color);
                     $(this).find('select[name="attribute"]').find('option:selected').attr('data-color', data.color);
                 }
             });
@@ -588,7 +652,7 @@
             for (let index = 0; index < forms.length; index++) {
                 var thisForm    = $('.color-presets').find('form:eq('+index+')');
                 var colorDiv    = thisForm.closest('form').find('input[name="color"]');
-                var colorSwatch = thisForm.find('option:selected').attr('data-color');
+                var colorSwatch = thisForm.find('input[name="attribute"]').length < 1 ? thisForm.find('option:selected').attr('data-color') : thisForm.find('input[name="attribute"]').attr('data-color');
 
                 if(colorSwatch == undefined) colorSwatch = "f1f1f1";
 
@@ -634,10 +698,11 @@
             $('.save-all-presets').html(progress);
 
             var url     = "{{ route('admin.colorSettings.presets') }}";
-            var data    = {
-                "color"     : f1.find('input[name="color"]').val(),
+            var d_important = f1.find('input[name="attribute"]').length < 1 ? f1.find('select[name="attribute"]').find('option:selected').attr('data-important') : f1.find('input[name="attribute"]').attr('data-important');
+            var data        = {
+                "color"     : f1.find('input[name="color"]').val()+' '+d_important,
                 "element"   : f1.find('input[name="element"]').val(),
-                "attribute" : f1.find('select[name="attribute"]').find('option:selected').val(),
+                "attribute" : f1.find('input[name="attribute"]').length < 1 ? f1.find('select[name="attribute"]').find('option:selected').val() : f1.find('input[name="attribute"]').val(),
             };
 
             $.ajax({
