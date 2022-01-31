@@ -720,6 +720,5 @@
         $("#hard_options").html($("#hard_options option").sort(function (a, b) {
             return a.text == b.text ? 0 : a.text < b.text ? -1 : 1
         })).prepend('<option value="" disabled selected>Please choose an element</option>');
-
     </script>
 @endsection
