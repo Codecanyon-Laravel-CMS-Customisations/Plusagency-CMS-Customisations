@@ -22,6 +22,7 @@ use App\Models\EasyForm;
 use App\BasicSetting as BS;
 use App\BasicExtended as BE;
 use Illuminate\Http\Request;
+use App\Models\SettingMagicZoom;
 use PHPMailer\PHPMailer\PHPMailer;
 use App\Http\Controllers\Controller;
 use Symfony\Component\DomCrawler\Crawler;
@@ -197,6 +198,7 @@ class ProductController extends Controller
         $data['payload']    = $this->getForm();
 
         $data['version']    = $version;
+        $data['mzoom']      = SettingMagicZoom::query()->where('id', '>=', 1)->orderBy('id', 'desc')->first();
 
         if($be->theme_version == 'bookworm') {
             return view('front.bookworm.product', $data);

@@ -723,10 +723,7 @@ if (isset($_GET['variation'])) {
     <script type="text/javascript">
         var mzMobileOptions = {};
         var mzOptions       = {};
-        @php
-            $model          = App\Models\SettingMagicZoom::query()->where('id', '>=', 1)->orderBy('id', 'desc')->first();
-        @endphp
-        @if(!$model)
+        @if(!$mzoom)
             mzOptions = {
                 zoomMode: "magnifier",
                 onZoomReady: function() {
@@ -754,7 +751,7 @@ if (isset($_GET['variation'])) {
         @else
             mzOptions = {
                 @php
-                    $arr_d  = json_decode($model->desktop_options, true);
+                    $arr_d  = json_decode($mzoom->desktop_options, true);
                     foreach($arr_d as $key => $value)
                     {
                         echo "$key: \"$value\",\n";
@@ -781,7 +778,7 @@ if (isset($_GET['variation'])) {
             };
             var mzMobileOptions = {
                 @php
-                    $arr_m  = json_decode($model->mobile_options, true);
+                    $arr_m  = json_decode($mzoom->mobile_options, true);
                     $c      = count($arr_m);
                     $i      = 0;
                     foreach($arr_m as $key => $value)
