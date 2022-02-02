@@ -1001,7 +1001,6 @@ class ComposerStaticInit4691b200bcf447398fddfc6208a77084
         'App\\Http\\Controllers\\Payment\\causes\\PayumoneyController' => __DIR__ . '/../..' . '/app/Http/Controllers/Payment/causes/PayumoneyController.php',
         'App\\Http\\Controllers\\Payment\\causes\\RazorpayController' => __DIR__ . '/../..' . '/app/Http/Controllers/Payment/causes/RazorpayController.php',
         'App\\Http\\Controllers\\Payment\\causes\\StripeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Payment/causes/StripeController.php',
-        'App\\Http\\Controllers\\Payment\\course\\OfflineController' => __DIR__ . '/../..' . '/app/Http/Controllers/Payment/course/OfflineController.php',
         'App\\Http\\Controllers\\Payment\\product\\FlutterWaveController' => __DIR__ . '/../..' . '/app/Http/Controllers/Payment/product/FlutterWaveController.php',
         'App\\Http\\Controllers\\Payment\\product\\InstamojoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Payment/product/InstamojoController.php',
         'App\\Http\\Controllers\\Payment\\product\\MercadopagoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Payment/product/MercadopagoController.php',

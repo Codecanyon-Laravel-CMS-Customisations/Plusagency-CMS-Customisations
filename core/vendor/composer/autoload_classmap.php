@@ -207,7 +207,6 @@ return array(
     'App\\Http\\Controllers\\Payment\\causes\\PayumoneyController' => $baseDir . '/app/Http/Controllers/Payment/causes/PayumoneyController.php',
     'App\\Http\\Controllers\\Payment\\causes\\RazorpayController' => $baseDir . '/app/Http/Controllers/Payment/causes/RazorpayController.php',
     'App\\Http\\Controllers\\Payment\\causes\\StripeController' => $baseDir . '/app/Http/Controllers/Payment/causes/StripeController.php',
-    'App\\Http\\Controllers\\Payment\\course\\OfflineController' => $baseDir . '/app/Http/Controllers/Payment/course/OfflineController.php',
     'App\\Http\\Controllers\\Payment\\product\\FlutterWaveController' => $baseDir . '/app/Http/Controllers/Payment/product/FlutterWaveController.php',
     'App\\Http\\Controllers\\Payment\\product\\InstamojoController' => $baseDir . '/app/Http/Controllers/Payment/product/InstamojoController.php',
     'App\\Http\\Controllers\\Payment\\product\\MercadopagoController' => $baseDir . '/app/Http/Controllers/Payment/product/MercadopagoController.php',
