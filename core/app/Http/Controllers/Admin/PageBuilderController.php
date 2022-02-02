@@ -367,18 +367,17 @@ class PageBuilderController extends Controller
                         <ul class="list-unstyled my-0 row row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-wd-5">';
                             foreach ( $categories->where('is_child', '0') as $category ) {
                                 $category_1 .= '<li class="product-category col mb-4 mb-xl-0">
-                                <a class="nav-link font-weight-medium nav-link-caret" href="/products?search=&category_id='.$category->id.'&type=new">
-                                    <div class="text-center">
-                                        <figure class="mb-0 d-md-block text-primary-indigo">
-                                           <i class="glyph-icon flaticon-gallery font-size-12"></i>
-                                        </figure>
-
-                                        <div class="product-category__body">
-                                            <h3 class="text-truncate font-size-3">'. $category->name .'</h3>
-                                            <span class="tabtext font-size-3 font-weight-medium text-dark">Shop Now</span>
+                                    <a class="nav-link font-weight-medium nav-link-caret" href="/products?search=&category_id='.$category->id.'&type=new">
+                                        <div class="text-center">
+                                            <figure class="mb-0 d-md-block text-primary-indigo">
+                                            <i class="glyph-icon flaticon-gallery font-size-12"></i>
+                                            </figure>
+                                            <div class="product-category__body">
+                                                <h3 class="text-truncate font-size-3">'. $category->name .'</h3>
+                                                <span class="tabtext font-size-3 font-weight-medium text-dark">Shop Now</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
+                                    </a>
                                 </li>';
                             }
 
@@ -534,13 +533,17 @@ class PageBuilderController extends Controller
                         <ul class="list-unstyled my-0 row row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-wd-5">';
                             foreach ( $categories2 as $category ) {
                                 $child_category_1 .= '<li class="product-category col mb-4 mb-xl-0">
-                                    <div class="product-category__inner bg-indigo-light px-6 py-5">
-                                        <div class="product-category__icon font-size-12 text-primary-indigo"><i class="glyph-icon flaticon-gallery"></i></div>
-                                        <div class="product-category__body">
-                                            <h3 class="text-truncate font-size-3">'. $category->name .'</h3>
-                                            <a href="/products?search=&sub_category_id='.$category->id.'&type=new" class="stretched-link text-dark">Shop Now</a>
+                                    <a class="nav-link font-weight-medium nav-link-caret" href="/products?search=&sub_category_id='.$category->id.'&type=new">
+                                        <div class="text-center">
+                                            <figure class="mb-0 d-md-block text-primary-indigo">
+                                            <i class="glyph-icon flaticon-gallery font-size-12"></i>
+                                            </figure>
+                                            <div class="product-category__body">
+                                                <h3 class="text-truncate font-size-3">'. $category->name .'</h3>
+                                                <span class="tabtext font-size-3 font-weight-medium text-dark">Shop Now</span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </a>
                                 </li>';
                             }
 
