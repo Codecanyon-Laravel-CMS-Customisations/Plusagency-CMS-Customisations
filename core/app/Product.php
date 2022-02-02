@@ -121,12 +121,11 @@ class Product extends Model
     }
 
     public function sub_category() {
-        //return $this->hasOne('App\ChidCategory','id','sub_category_id');
-        return $this->hasOne('App\Pcategory','id','sub_category_id');
+        return $this->hasOne('App\Pcategory','id','sub_category_id')->withoutGlobalScope('App\MenuScope');
     }
 
     public function child_category() {
-        return $this->sub_category()->where('is_child', '1');
+        return $this->hasOne('App\Pcategory','id','sub_child_category_id')->withoutGlobalScope('App\MenuScope');
     }
 
     public function product_images() {
@@ -135,5 +134,12 @@ class Product extends Model
 
     public function language() {
         return $this->belongsTo('App\Language');
+    }
+
+    public function linked_sub_category() {
+        return $this->hasOne('App\Pcategory','id','sub_category_id')->withoutGlobalScope('App\MenuScope');
+    }
+    public function linked_child_category() {
+        return $this->hasOne('App\Pcategory','id','sub_child_category_id')->withoutGlobalScope('App\MenuScope');
     }
 }

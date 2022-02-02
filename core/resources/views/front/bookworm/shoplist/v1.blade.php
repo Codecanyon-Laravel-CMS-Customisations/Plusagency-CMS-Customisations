@@ -113,16 +113,11 @@
                                                 </div>
                                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                     <div class="text-uppercase font-size-1 mb-1 text-truncate">
-                                                        {{--                                                        <a href="/products?search=&category_id={{ $product->category->id }}&type=new">{{ $product->category->name }}</a>--}}
-                                                        <a href="/products?search=&category_id={{ $product->category->id }}&type=new">
-                                                            @php
-                                                                try
-                                                                {
-                                                                    echo $product->category->name;
-                                                                }
-                                                                catch (Exception $e){}
-                                                            @endphp
-                                                        </a>
+                                                        @if ($product->linked_sub_category)
+                                                            <a href="/products?search=&sub_category_id={{ $product->linked_sub_category->id }}&type=new">{{ $product->linked_sub_category->name }}</a>
+                                                        @else
+                                                            <a href="/products?search=&category_id={{ $product->category->id }}&type=new">{{ $product->category->name }}</a>
+                                                        @endif
                                                     </div>
                                                     {{-- <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 h-dark"><a href="{{route('front.product.details',$product->slug)}}">{{strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title}}</a></h2> --}}
                                                     <h2
@@ -194,7 +189,11 @@
                                                     <div
                                                         class="col-md woocommerce-loop-product__body product__body pt-3 bg-white mb-3 mb-md-0">
                                                         <div class="text-uppercase font-size-1 mb-1 text-truncate">
+                                                            @if ($product->sub_category)
+                                                                <a href="/products?search=&sub_category_id={{ $product->sub_category->id }}&type=new">{{ $product->sub_category->name }}</a>
+                                                            @else
                                                             <a href="/products?search=&category_id={{ $product->category->id }}&type=new">{{ $product->category->name }}</a>
+                                                            @endif
                                                         </div>
                                                         {{-- - <h2 class="woocommerce-loop-product__title product__title h6 text-lh-md mb-1 crop-text-2 h-dark"><a href="{{route('front.product.details',$product->slug)}}" tabindex="0">{{strlen($product->title) > 40 ? mb_substr($product->title,0,40,'utf-8') . '...' : $product->title}}</a></h2> --}}
                                                         <h2
