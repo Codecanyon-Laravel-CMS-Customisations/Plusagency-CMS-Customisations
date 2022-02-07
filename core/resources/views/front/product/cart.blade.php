@@ -69,8 +69,10 @@
                             $cartTotal = 0;
                             $countitem = 0;
                             if($cart){
-                            foreach($cart as $p){
-                                $cartTotal += $p['price'] * $p['qty'];
+                            foreach($cart as $id => $p)
+                            {
+                                $product    = App\Product::find($id);
+                                $cartTotal += $product->price * $p['qty'];
                                 $countitem += $p['qty'];
                             }
                         }
@@ -109,7 +111,28 @@
                                 <td colspan="2" class="prod-column">
                                     <div class="column-box">
                                         <div class="title pl-0">
-                                            <a target="_blank" href="{{route('front.product.details',$product->slug)}}"><h3 class="prod-title">{{convertUtf8($item['name'])}}</h3></a>
+                                            <a target="_blank" href="{{route('front.product.details',$product->slug)}}" class="d-flex justify-content-start">
+                                                <img src="{{$product->feature_image}}" alt="" style="max-width: 77px">
+                                                <div class="px-2">
+                                                    <h3 class="prod-title">{{convertUtf8($item['name'])}}</h3>
+                                                    @php
+                                                        $isbn = "";
+                                                        try
+                                                        {
+                                                            $payload    = json_decode($product->attributes);
+                                                            foreach ($payload as $attribute)
+                                                            {
+                                                                if($attribute->name == "ISBN") $isbn = explode(',', $attribute->value)[0];
+                                                            }
+                                                        }
+                                                        catch (\Exception $th)
+                                                        {
+                                                            //throw $th;
+                                                        }
+                                                    @endphp
+                                                    <span class="prod-summary">{!! convertUtf8($isbn) !!}</span>
+                                                </div>
+                                            </a>
                                         </div>
                                     </div>
                                 </td>

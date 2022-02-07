@@ -25,6 +25,7 @@ use Illuminate\Http\Request;
 use App\Models\SettingMagicZoom;
 use PHPMailer\PHPMailer\PHPMailer;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 use Symfony\Component\DomCrawler\Crawler;
 
 class ProductController extends Controller
@@ -1118,7 +1119,9 @@ class ProductController extends Controller
             {
                 foreach ($wishlist as $key => $value)
                 {
+                    $req_pids   = array_filter(explode('-', $request->products));
                     $product    = \App\Models\Unscoped\Product::find($key);
+                    if(count($req_pids) >= 1 && !in_array($product->id, $req_pids)) continue;
                     if (session()->has("cart.$key"))
                     {
                         //update quantity
@@ -1130,10 +1133,10 @@ class ProductController extends Controller
                         //create a new entry
                         session()->put("cart.$key", $value);
                     }
-                }
 
-                //clear wishlish
-                session()->forget('wishlist');
+                    //clear wishlish
+                    session()->forget("wishlist.$key");
+                }
             }
             if(request()->expectsJson())
             {

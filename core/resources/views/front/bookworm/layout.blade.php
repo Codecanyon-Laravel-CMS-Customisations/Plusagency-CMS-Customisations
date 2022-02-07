@@ -382,9 +382,8 @@
                     <span class="length">{{ cartLength() }} {{ __('ITEMS') }}</span>
                 </div>
                 <div class="cart-total">
-                    {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }}
+                    {{ ship_to_india() ? "₹" : "$" }}
                     {{ cartTotal() }}
-                    {{ $bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : '' }}
                 </div>
             </a>
         </div>
