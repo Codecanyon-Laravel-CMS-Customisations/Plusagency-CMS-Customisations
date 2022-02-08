@@ -70,20 +70,26 @@ class CountriesController extends Controller
     }
     public function delete(Request $request)
     {
-        $country               = Country::find($request->country_id);
-
-        if($country->delete())
+        try
         {
-            //only make this feature temporary
-            if(date('M/Y') == "Jan/2022")
+            $country               = Country::find($request->country_id);
+
+            if(!empty($country))
             {
-                //delete
-                session()->flash('success', 'country deleted successfully');
+                //only make this feature temporary
+                if(date('M/Y') == "Jan/2022")
+                {
+                    //delete
+                    $country->delete();
+                    session()->flash('success', 'country deleted successfully');
+                    return redirect()->back();
+                }
+                session()->flash('warning', 'Country deletion feature not available at the moment');
                 return redirect()->back();
             }
-            session()->flash('warning', 'Country deletion feature not available at the moment');
-            return redirect()->back();
         }
+        catch(\Exception $exception)
+        {}
 
         //error
         session()->flash('error', 'error deleting country');
