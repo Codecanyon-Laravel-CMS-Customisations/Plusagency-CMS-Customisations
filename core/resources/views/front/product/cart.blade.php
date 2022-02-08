@@ -216,9 +216,11 @@
 
 
 @section('scripts')
-<script>
-    var symbol = "{{$bex->base_currency_symbol}}";
-    var position = "{{$bex->base_currency_symbol_position}}";
+<script>{{--
+    var symbol      = "{ {$bex->base_currency_symbol} }";
+    var position    = "{ {$bex->base_currency_symbol_position} }"; --}}
+    var symbol      = "{{ ship_to_india() ? '₹' : '$' }}";
+    var position    = "{{ 'left' }}";
 </script>
 <script src="{{asset('assets/front/js/jquery.ui.js')}}"></script>
 <script src="{{asset('assets/front/js/cart.js')}}"></script>
