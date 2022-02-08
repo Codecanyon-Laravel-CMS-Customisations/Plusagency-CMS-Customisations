@@ -54,7 +54,7 @@
         <div class="container">
             <div class="topbar__nav d-lg-flex justify-content-between align-items-center font-size-2">
                 <ul class="topbar__nav--left nav ml-lg-n3 justify-content-center">
-                    @php
+                    {{-- @php
                         $header_v2_button_text = 'GIVE US FEEDBACK';
                         try {
                             $lang = App\Language::where('code', request()->has('language', 'en'))->first();
@@ -69,10 +69,10 @@
                             <a href="javascript:;" data-href="{{ route('feedback') }}" data-toggle="modal"
                                data-target="#headerProductInquiryModal" href="#" class="nav-link text-dark">
                                 <i class="font-size-3 glph-icon flaticon-question mr-2"></i>
-                                {{ $header_v2_button_text }}
+                                { { $header_v2_button_text } }
                             </a>
                         </li>
-                    @endif
+                    @endif --}}
                     <li class="nav-item">
                         <a href="tel:{{ $bs->support_phone }}" class="nav-link text-dark">
                             <i class="font-size-3 glph-icon flaticon-phone mr-2"></i>
@@ -215,10 +215,7 @@
                                data-unfold-target="#basicDropdownHover19-7" data-unfold-type="css-animation"
                                data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true"
                                data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
-                               <span class="position-absolute bg-white width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-dark font-size-n9 left-0 top-0 ml-n2 mt-n1">
-                                    {{is_array(session()->get('wishlist')) ? count(session()->get('wishlist')) : '0'}}
-                                </span>
-                                <i class="flaticon-heart font-size-5"></i>
+                               <i class="flaticon-heart font-size-5"></i>
                             </a>
                             <div id="basicDropdownHover19-7" class="dropdown-menu dropdown-unfold right-0 left-auto"
                                  aria-labelledby="basicDropdownHoverInvoker19-7">
@@ -446,6 +443,32 @@
 
                     <div class="site-navigation mr-auto d-none d-xl-block">
                         @includeIf('front.bookworm.chemistry.molecules.front_main_nav_strip')
+                    </div>
+                    <div class="d-none d-md-block ml-md-auto secondary-navigation">
+                        @php
+                            $header_v2_button_text = 'GIVE US FEEDBACK';
+                            try {
+                                $lang = App\Language::where('code', request()->has('language', 'en'))->first();
+                                $settings = $lang->basic_extended;
+
+                                $header_v2_button_text = $settings->header_v2_button_text;
+                            } catch (\Exception $e) {
+                            }
+                        @endphp
+                        @if (trim($header_v2_button_text) != '')
+                            <ul class="nav">
+                                <li class="nav-item">
+                                    <a href="{{ route('feedback') }}"
+                                        data-toggle="modal"
+                                        data-target="#headerProductInquiryModal"
+                                        class="nav-link link-black-100 mx-2 px-0 py-3 font-weight-medium">
+                                        {{ $header_v2_button_text }}
+                                    </a>
+                                </li>
+                                {{-- <li class="nav-item"><a href="#" class="nav-link link-black-100 mx-2 px-0 py-3 font-weight-medium">Best Seller</a></li>
+                                <li class="nav-item"><a href="#" class="nav-link link-black-100 mx-2 px-0 py-3 font-weight-medium">Trending Books</a></li> --}}
+                            </ul>
+                        @endif
                     </div>
                 </div>
             </div>
