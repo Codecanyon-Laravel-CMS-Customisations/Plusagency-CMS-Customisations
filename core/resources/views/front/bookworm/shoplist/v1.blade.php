@@ -114,7 +114,7 @@
                                                 <div class="woocommerce-loop-product__body product__body pt-3 bg-white">
                                                     <div class="text-uppercase font-size-1 mb-1 text-truncate">
                                                         @if ($product->linked_sub_category)
-                                                            <a href="/products?search=&sub_category_id={{ $product->linked_sub_category->id }}&type=new">{{ $product->linked_sub_category->name }}</a>
+                                                            <a href="/products?search=&sc-id={{ $product->linked_sub_category->id }}&type=new">{{ $product->linked_sub_category->name }}</a>
                                                         @else
                                                             <a href="/products?search=&category_id={{ $product->category->id }}&type=new">{{ $product->category->name }}</a>
                                                         @endif
@@ -190,7 +190,7 @@
                                                         class="col-md woocommerce-loop-product__body product__body pt-3 bg-white mb-3 mb-md-0">
                                                         <div class="text-uppercase font-size-1 mb-1 text-truncate">
                                                             @if ($product->sub_category)
-                                                                <a href="/products?search=&sub_category_id={{ $product->sub_category->id }}&type=new">{{ $product->sub_category->name }}</a>
+                                                                <a href="/products?search=&sc-id={{ $product->sub_category->id }}&type=new">{{ $product->sub_category->name }}</a>
                                                             @else
                                                             <a href="/products?search=&category_id={{ $product->category->id }}&type=new">{{ $product->category->name }}</a>
                                                             @endif

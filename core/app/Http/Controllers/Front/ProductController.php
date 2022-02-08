@@ -62,7 +62,7 @@ class ProductController extends Controller
 
     public function product(Request $request)
     {
-        $bex = BasicExtra::first();
+        $bex            = BasicExtra::first();
         $data['colors'] = WebsiteColors::all();
         if ($bex->is_shop == 0) {
             return back();
@@ -81,7 +81,7 @@ class ProductController extends Controller
 
         $data['categories'] = Pcategory::where('status', 1)->where('language_id',$currentLang->id)->get();
 
-        $search = $request->search;
+        $search     = $request->search;
         $minprice = $request->minprice;
         $maxprice = $request->maxprice;
         $category = $request->category_id;
@@ -97,7 +97,8 @@ class ProductController extends Controller
         $review = $request->review;
 
         $data['products'] =
-            Product::has('category')->with('category')->when($category, function ($query, $category) {
+            Product::has('category')->with('category')
+            ->when($category, function ($query, $category) {
                 return $query->where('category_id', $category);
             })
             ->when($request->has('c-id'), function ($query) {
