@@ -172,7 +172,7 @@
 
                                 }
 
-                                $countries_options .= "<option data-link=\"$route\" data-cc=\"$cc_options\" value=\"$wc_e_id\" $wc_selected>$wc_value</option>";
+                                $countries_options .= "<option data-active=\"true\" data-link=\"$route\" data-cc=\"$cc_options\" value=\"$wc_e_id\" $wc_selected>$wc_value</option>";
                                 $counter++;
                             @endphp
                         @endforeach
@@ -201,7 +201,7 @@
 
                                 }
 
-                                $countries_options .= "<option data-link=\"$route\" data-cc=\"$cc_options\" value=\"$wc_e_id\" $wc_selected>$wc_value</option>";
+                                $countries_options .= "<option data-active=\"false\" data-link=\"$route\" data-cc=\"$cc_options\" value=\"$wc_e_id\" $wc_selected>$wc_value</option>";
                                 $counter++;
                             @endphp
                         @endforeach
@@ -213,6 +213,7 @@
                             var tgtCountry  = $('.changeCountry');
 
                             tgtCountry.on('hidden.bs.select', function (e) {
+                                if($(e.target).find('option:selected').attr('data-active') == "true") return;
                                 window.location.assign($(e.target).find('option:selected').attr('data-link'));
                             });
                             tgtLang.on('hidden.bs.select', function (e) {
