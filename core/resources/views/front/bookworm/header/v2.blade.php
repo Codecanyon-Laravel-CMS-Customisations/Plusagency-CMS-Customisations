@@ -184,24 +184,106 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                 </div>
                             </div>
                         </a>
-                            <a id="sidebarNavToggler2" href="javascript:;" role="button"
-                               class="ml-4 d-none d-lg-block target-of-invoker-has-unfolds" aria-controls="sidebarContent2"
-                               aria-haspopup="true" aria-expanded="false" data-unfold-event="click"
-                               data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent2"
-                               data-unfold-type="css-animation" data-unfold-animation-in="fadeInRight"
-                               data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
-                                <div class="d-flex align-items-center text-white font-size-2 text-lh-sm position-relative">
-                                     <span class="position-absolute bg-white width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-dark font-size-n9 left-0 top-0 ml-n2 mt-n1">
-                                         {{is_array(session()->get('wishlist')) ? count(session()->get('wishlist')) : '0'}}
-                                     </span>
-                                    <i class="flaticon-heart font-size-5"></i>
-                                    <div class="ml-2">
-                                        <span class="text-secondary-gray-1080 font-size-1">My Wishlist</span>
-                                        {{-- <div class="">$40.93</div> --}}
-                                    </div>
+                        {{-- <a id="sidebarNavToggler2" href="javascript:;" role="button"
+                            class="ml-4 d-none d-lg-block target-of-invoker-has-unfolds" aria-controls="sidebarContent2"
+                            aria-haspopup="true" aria-expanded="false" data-unfold-event="click"
+                            data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent2"
+                            data-unfold-type="css-animation" data-unfold-animation-in="fadeInRight"
+                            data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
+                            <div class="d-flex align-items-center text-white font-size-2 text-lh-sm position-relative">
+                                <span class="position-absolute bg-white width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-dark font-size-n9 left-0 top-0 ml-n2 mt-n1">
+                                    {{is_array(session()->get('wishlist')) ? count(session()->get('wishlist')) : '0'}}
+                                </span>
+                                <i class="flaticon-heart font-size-5"></i>
+                                <div class="ml-2">
+                                    <span class="text-secondary-gray-1080 font-size-1">My Wishlist</span>
+                                    {{-- <div class="">$40.93</div> --} }
                                 </div>
-                            </a>
+                            </div>
+                        </a> --}}
                         <!-- End Cart Sidebar Toggle Button -->
+                        <style>
+                            #basicDropdownHoverInvoker19-7::after {
+                                display: none;
+                            }
+                        </style>
+                        <a id="basicDropdownHoverInvoker19-7"
+                           class="d-flex align-items-center h-100 dropdown-nav-link p-2 dropdown-toggle nav-link link-black-100"
+                           href="javascript:;" role="button" aria-controls="basicDropdownHover19-7"
+                           aria-haspopup="true" aria-expanded="false" data-unfold-event="click"
+                           data-unfold-target="#basicDropdownHover19-7" data-unfold-type="css-animation"
+                           data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true"
+                           data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                            <span class="position-absolute bg-white width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-dark font-size-n9 left-0 top-0 ml-n2 mt-n1">
+                                {{is_array(session()->get('wishlist')) ? count(session()->get('wishlist')) : '0'}}
+                            </span>
+                            <i class="flaticon-heart font-size-5"></i>
+                            <div class="ml-2">
+                                <span class="text-secondary-gray-1080 font-size-1">My Wishlist</span>
+                                {{-- <div class="">$40.93</div> --}}
+                            </div>
+                        </a>
+                        <div id="basicDropdownHover19-7" class="dropdown-menu dropdown-unfold right-0 left-auto"
+                             aria-labelledby="basicDropdownHoverInvoker19-7">
+                            <!-- Title -->
+                            <header class="border-bottom px-4 px-md-6 py-4">
+                                <h5 class="font-size-5 h5 mb-0 d-flex align-items-center">
+                                    @php
+                                        echo "My Wishlist (";
+                                        try {
+                                            echo is_array( session()->get('wishlist') ) ? count(session()->get('wishlist')) : '0';
+                                        }
+                                        catch (\Exception $e){ }
+                                        echo ")";
+                                    @endphp
+                                </h5>
+                            </header>
+                            <!-- End Title -->
+                            @if(is_array( session()->get('wishlist') ) && count( session()->get('wishlist') ) >= 1)
+                                @php
+                                    $wish2cart      = route('wishlist.to.cart')."?products=";
+                                @endphp
+                                @foreach ( session()->get('wishlist') as $id1 => $wish1)
+                                    @php
+                                        $product1   = App\Product::find($id1);
+                                        if(is_null($product1)) continue;
+                                        $wish2cart .= "$product1->id";
+                                        if (!$loop->last)
+                                        {
+                                            $wish2cart .= "-";
+                                        }
+                                    @endphp
+                                    <div class="px-1 py-2 px-md-3 border-bottom">
+                                        <div class="media">
+                                            <a target="_blank" href="{{route('front.product.details', $product1->slug)}}" class="d-block">
+                                                <img src="@if($wish1['photo']!=null){{$wish1['photo']}}@else{{asset('https://via.placeholder.com/55')}}@endif" class="img-fluid" alt="image-description" width="55">
+                                            </a>
+                                            <div class="media-body ml-1">
+                                                <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                    <a href="{{route('front.product.details', $product1->slug)}}" class="text-dark">{{convertUtf8($wish1['name'])}}</a>
+                                                </h6>
+                                                <div class="cart d-block" >
+                                                    <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
+                                                        <span class="woocommerce-Price-amount amount d-inline-block ml-3">
+                                                            {{ $product1->symbol }}
+                                                            <span> {{ number_format($product1->price, 0) }}</span>
+                                                        </span>
+                                                        <div class="mt-0 ml-auto">
+                                                            <a href="{{ route('wishlist.item.remove', $product1->id) }}" class="text-dark"><i class="fas fa-times"></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+                            <div class="px-4 mb-8 px-md-6 d-flex justify-content-around pb-2 pt-4">
+                                <a href="{{ isset($wish2cart) ? $wish2cart : 'javascript:;' }}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4">Add To Cart</a>
+                                <a href="{{route('front.wishlist')}}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4">View Wishlist</a>
+                            </div>
+                        </div>
+                        <!-- End Wishlist Sidebar Toggle Button -->
                     </div>
                 </div>
             </div>
