@@ -214,10 +214,11 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                            data-unfold-target="#basicDropdownHover19-7" data-unfold-type="css-animation"
                            data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true"
                            data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
-                            <span class="position-absolute bg-white width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-dark font-size-n9 left-0 top-0 ml-n2 mt-n1">
+                            <span class="position-absolute bg-white width-16 height-16 rounded-circle d-none d-md-flex align-items-center justify-content-center text-dark font-size-n9 left-0 top-0 ml-n2 mt-n1">
                                 {{is_array(session()->get('wishlist')) ? count(session()->get('wishlist')) : '0'}}
                             </span>
-                            <i class="flaticon-heart font-size-5"></i>
+                            <i class="flaticon-heart font-size-5 d-none d-md-block"></i>
+                            <i class="flaticon-heart font-size-4 pl-2 d-block d-md-none"></i>
                             <div class="ml-2">
                                 <span class="text-secondary-gray-1080 font-size-1">My Wishlist</span>
                                 {{-- <div class="">$40.93</div> --}}
@@ -268,7 +269,7 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
                                                             {{ $product1->symbol }}
                                                             <span> {{ number_format($product1->price, 0) }}</span>
                                                         </span>
-                                                        <div class="mt-0 ml-auto">
+                                                        <div class="mt-0 ml-auto pr-2">
                                                             <a href="{{ route('wishlist.item.remove', $product1->id) }}" class="text-dark"><i class="fas fa-times"></i></a>
                                                         </div>
                                                     </div>
