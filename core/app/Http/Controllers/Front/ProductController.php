@@ -475,6 +475,7 @@ class ProductController extends Controller
     public function updatecart(Request $request)
     {
         if (session()->has('cart')) {
+            $line_items = array();
             $cart = session()->get('cart');
             foreach ($request->product_id as $key => $id) {
                 $product = Product::findOrFail($id);
@@ -489,16 +490,18 @@ class ProductController extends Controller
                 }
             }
         }
-        $total = 0;
+        $total = cartTotal();
         $count = 0;
+        $flag = 0;
         foreach ($cart as $i) {
-            $total += $i['price'] * $i['qty'];
             $count += $i['qty'];
+            $line_items[] = array('price' => $request->cartprice[$flag] * $i['qty'], 'qty' => $i['qty'], 'product_id' => $request->product_id[$flag]);
+            $flag++;
         }
 
         $total = round($total, 2);
 
-        return response()->json(['message' => 'Cart Update Successfully.', 'total' => $total, 'count' => $count]);
+        return response()->json(['message' => 'Cart Update Successfully.', 'total' => $total, 'count' => $count, 'line_items' => $line_items, 'currency' => (ship_to_india() ? "₹" : "$")]);
     }
 
 

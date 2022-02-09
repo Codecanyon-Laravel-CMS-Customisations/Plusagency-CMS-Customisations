@@ -81,7 +81,8 @@
                         <li><strong>{{__('Cart Total')}} :</strong>  <strong class="cart-total-view">
                             {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
                             {{ ship_to_india() ? "₹" : "$" }}
-                            {{ pesa($cartTotal) }}
+{{--                            {{ pesa($cartTotal) }}--}}
+                                {{ cartTotal() }}
                             {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
                         </strong></li>
                     </ul>

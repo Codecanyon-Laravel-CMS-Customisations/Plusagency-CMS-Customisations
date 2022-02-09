@@ -504,6 +504,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        <a href="/cart" class="checkout__back-to-cart-link">Back to Cart</a>
                     </div>
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                         <div class="cart-total">

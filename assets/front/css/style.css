@@ -3719,3 +3719,6 @@ a#cartIcon span.length {
 .partner-carousel img {
     width: 100% !important;
 }
+.checkout__back-to-cart-link {
+    float: right;
+}
