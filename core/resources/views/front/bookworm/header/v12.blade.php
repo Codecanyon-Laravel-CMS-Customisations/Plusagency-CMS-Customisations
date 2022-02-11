@@ -290,129 +290,169 @@ $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
     <div class="row">
         <div class="col-12">
             <div class="modal fade" id="headerProductInquiryModal" tabindex="-1"
-                aria-labelledby="headerProductInquiryModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                 aria-labelledby="headerProductInquiryModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg--- modal-xl modal-dialog-centered modal-dialog-scrollable---naaah">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title ml-auto" id="productInquiryModalLabel">Books Inquiry & Info</h5>
-                            <button style="font-weight: bolder;font-size: 2rem;" type="button" class="close"
-                                data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form action="{{ route('product.inquiries.bulk-inquiry') }}" class="contact-form"
-                                method="POST">
-                                @csrf
-                                <div class="form-group">
-                                    <label for="headerProductsSelect">{{ __('Book(s) Selector') }}</label>
-                                    <select id="headerProductsSelect" name="products[]" class="form-control select2"
-                                        multiple="multiple"
-                                        data-placeholder="{{ __('Select/Type Name, Author or ISBN') }}"
-                                        aria-describedby="productsHelp" style="width: 100%"></select>
-                                    @if ($errors->has('products'))
-                                        <small id="productsHelp"
-                                            class="form-text text-danger">{{ $errors->first('products') }}</small>
-                                    @endif
-                                </div>
+                        <div class="modal-body p-0">
+                            <div class="container-fluid">
                                 <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <input class="form-control" name="name" type="text"
-                                                placeholder="{{ __('Name') }}" required>
-                                            @if ($errors->has('name'))
-                                                <small id="nameHelp"
-                                                    class="form-text text-danger">{{ $errors->first('name') }}</small>
-                                            @endif
+                                    <div class="col-lg-5 py-2 pl-3 pr-2 d-none d-lg-block" style="background-repeat:no-repeat;background-size:cover;background-image: url('https://img.freepik.com/free-photo/abstract-blur-defocused-bookshelf-library_1203-9640.jpg?w=740');background-position:top">
+                                        <div class="d-flex align-content-center flex-wrap bd-highlight mb-3" style="min-height: 77vh">
+                                            <div
+                                                style="background-color: #00000050;font-weight: bolder;border-radius: 7px;"
+                                                class="p-2 w-100">
+                                                <h3
+                                                    style="text-shadow: 0px 1px 7px black;color: white;font-weight: bolder;"
+                                                    class="modal-title m-0"
+                                                    id="productInquiryModalLabel">Books Inquiry & Info</h3>
+                                            </div>
+                                            <div class="p-2 bd-highlight">
+                                                <p
+                                                    class="py-5 d-none"
+                                                    style="color: black;text-shadow: 1px 1px 7px black;text-align: justify;">
+                                                    Give us a call or drop by anytime, we endeavour to answer all enquiries within 24 hours on business days.
+                                                </p>
+                                            </div>
+                                            <div class="p-2 mt-5 pt-5 bd-highlight">
+                                                <div class="key-icon-box icon-default icon-left cont-left py-2">
+                                                    <i class="fas fa-phone-volume d-inline-block px-2"></i>
+                                                    <h5 class="service-heading d-inline-block"><a href="tel:{{ $bs->support_phone }}">{{ $bs->support_phone }}</a></h5>
+                                                </div>
+                                                <div class="key-icon-box icon-default icon-left cont-left py-2">
+                                                    <i class="fas fa-envelope-open-text d-inline-block px-2"></i>
+                                                    <h5 class="service-heading d-inline-block"><a href="mailto:{{ $bs->support_email }}">{{ $bs->support_email }}</a></h5>
+                                                </div>
+                                            </div>
+                                            <div class="p-2">
+                                                <button type="button"
+                                                    class="btn btn-dark submit-button border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link"
+                                                    style="color: #fff">{{ __('Submit') }}
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input class="form-control" name="whatsapp_number" type="text"
-                                                placeholder="{{ __('Whatsapp Number') }}" required>
-                                            @if ($errors->has('whatsapp_number'))
-                                                <small id="whatsappNumberHelp"
-                                                    class="form-text text-danger">{{ $errors->first('whatsapp_number') }}</small>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <input class="form-control" name="email" type="email"
-                                                placeholder="{{ __('Email') }}" required>
-                                            @if ($errors->has('email'))
-                                                <small id="emailHelp"
-                                                    class="form-text text-danger">{{ $errors->first('email') }}</small>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12 pt-2 pb-4">
-                                        <div class="form-check-inline">
-                                            <label class="form-check-label">Preferred Communication: </label>
-                                        </div>
-                                        <div class="form-check-inline">
-                                            <label class="form-check-label" for="radioCom1">
-                                                <input type="radio" class="form-check-input" id="radioCom1"
-                                                    name="preferred_communication" value="Whatsapp" checked>
-                                                Whatsapp
-                                            </label>
-                                        </div>
-                                        <div class="form-check-inline">
-                                            <label class="form-check-label" for="radioCom2">
-                                                <input type="radio" class="form-check-input" id="radioCom2"
-                                                    name="preferred_communication" value="Email"> Email
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <input name="subject" class="form-control" type="text"
-                                                placeholder="{{ __('Subject') }}" required
-                                                value="{{ old('subject', 'Inquiry of a number of products') }}">
-                                            @if ($errors->has('subject'))
-                                                <small id="subjectHelp"
-                                                    class="form-text text-danger">{{ $errors->first('subject') }}</small>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <textarea name="message" class="form-control" id="comment" cols="30"
-                                                rows="10" placeholder="{{ __('Type your message') }}"
-                                                required></textarea>
-                                            @if ($errors->has('message'))
-                                                <small id="messageHelp"
-                                                    class="form-text text-danger">{{ $errors->first('message') }}</small>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    @if ($bs->is_recaptcha == 1)
-                                        <style>
-                                            .captcha-col>div {
-                                                display: inline-block;
-                                            }
+                                    <div
+                                        class="col-sm-12 col-lg-7 p-2"
+                                        style="max-height: 77vh;overflow: hidden;overflow-y: scroll;">
+                                        <button type="button" class="close"
+                                        style="background-color: white;font-weight: bolder;font-size: 1.7rem;color: #000000;width: 35px;height: 35px;border-radius: 50%;opacity: .9;box-shadow: 0px 0px 7px #000000;"
+                                        data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <form action="{{ route('product.inquiries.bulk-inquiry') }}" class="contact-form pt-5 mt-5"
+                                              method="POST">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="headerProductsSelect">{{ __('Book(s) Selector') }}</label>
+                                                <select id="headerProductsSelect" name="products[]" class="form-control select2"
+                                                        multiple="multiple"
+                                                        data-placeholder="{{ __('Select/Type Name, Author or ISBN') }}"
+                                                        aria-describedby="productsHelp" style="width: 100%"></select>
+                                                @if ($errors->has('products'))
+                                                    <small id="productsHelp"
+                                                           class="form-text text-danger">{{ $errors->first('products') }}</small>
+                                                @endif
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <input class="form-control" name="name" type="text"
+                                                               placeholder="{{ __('Name') }}" required>
+                                                        @if ($errors->has('name'))
+                                                            <small id="nameHelp"
+                                                                   class="form-text text-danger">{{ $errors->first('name') }}</small>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <input class="form-control" name="whatsapp_number" type="text"
+                                                               placeholder="{{ __('Whatsapp Number') }}" required>
+                                                        @if ($errors->has('whatsapp_number'))
+                                                            <small id="whatsappNumberHelp"
+                                                                   class="form-text text-danger">{{ $errors->first('whatsapp_number') }}</small>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <input class="form-control" name="email" type="email"
+                                                               placeholder="{{ __('Email') }}" required>
+                                                        @if ($errors->has('email'))
+                                                            <small id="emailHelp"
+                                                                   class="form-text text-danger">{{ $errors->first('email') }}</small>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 pt-2 pb-4">
+                                                    <div class="form-check-inline">
+                                                        <label class="form-check-label">Preferred Communication: </label>
+                                                    </div>
+                                                    <div class="form-check-inline">
+                                                        <label class="form-check-label" for="radioCom1">
+                                                            <input type="radio" class="form-check-input" id="radioCom1"
+                                                                   name="preferred_communication" value="Whatsapp" checked>
+                                                            Whatsapp
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check-inline">
+                                                        <label class="form-check-label" for="radioCom2">
+                                                            <input type="radio" class="form-check-input" id="radioCom2"
+                                                                   name="preferred_communication" value="Email"> Email
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <input name="subject" class="form-control" type="text"
+                                                               placeholder="{{ __('Subject') }}" required
+                                                               value="{{ old('subject', 'Inquiry of a number of products') }}">
+                                                        @if ($errors->has('subject'))
+                                                            <small id="subjectHelp"
+                                                                   class="form-text text-danger">{{ $errors->first('subject') }}</small>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <textarea name="message" class="form-control" id="comment" cols="30"
+                                                                  rows="10" placeholder="{{ __('Type your message') }}"
+                                                                  required></textarea>
+                                                        @if ($errors->has('message'))
+                                                            <small id="messageHelp"
+                                                                   class="form-text text-danger">{{ $errors->first('message') }}</small>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                @if ($bs->is_recaptcha == 1)
+                                                    <style>
+                                                        .captcha-col > div {
+                                                            display: inline-block;
+                                                        }
 
-                                        </style>
-                                        <div class="col-md-12 my-2 text-center captcha-col">
-                                            {!! NoCaptcha::renderJs() !!}
-                                            {!! NoCaptcha::display() !!}
-                                            @if ($errors->has('g-recaptcha-response'))
-                                                @php
-                                                    $errmsg = $errors->first('g-recaptcha-response');
-                                                @endphp
-                                                <p class="text-danger mb-0">{{ __("$errmsg") }}</p>
-                                            @endif
+                                                    </style>
+                                                    <div class="col-md-12 my-2 text-center captcha-col">
+                                                        {!! NoCaptcha::renderJs() !!}
+                                                        {!! NoCaptcha::display() !!}
+                                                        @if ($errors->has('g-recaptcha-response'))
+                                                            @php
+                                                                $errmsg = $errors->first('g-recaptcha-response');
+                                                            @endphp
+                                                            <p class="text-danger mb-0">{{ __("$errmsg") }}</p>
+                                                        @endif
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </form>
+                                        <div class="px-0 text-center w-100 py-2  d-block d-lg-none">
+                                            <button type="button"
+                                                class="btn btn-dark submit-button border-0 rounded-0 p-3 ml-auto mr-auto min-width-250 single_add_to_cart_button button alt cart-btn cart-link"
+                                                style="color: #fff">{{ __('Submit') }}
+                                            </button>
                                         </div>
-                                    @endif
+                                    </div>
                                 </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer" style="display: flex;align-self: center;">
-                            {{-- <button type="button" class="btn btn-secondary py-3" data-dismiss="modal">Close</button> --}}
-                            <button type="button"
-                                class="btn btn-dark submit-button border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link"
-                                style="color: #fff">{{ __('Submit') }}</button>
-                            {{-- <input class="py-3" type="submit" value="{{__('Submit')}}"> --}}
+                            </div>
                         </div>
                     </div>
                 </div>
