@@ -375,9 +375,9 @@
                                 <!-- Wishlist Sidebar Toggle Button -->
                                 <a id="basicDropdownHoverInvoker19-8{{$rand_id}}"
                                    class="d-flex align-items-center h-100 dropdown-nav-link p-2 dropdown-toggle nav-link link-black-100"
-                                   href="javascript:;" role="button" aria-controls="basicDropdownHover19-8{{$rand_id}}"
+                                   href="javascript:;" role="button" aria-controls="basicDropdownHover19-7{{$rand_id}}"
                                    aria-haspopup="true" aria-expanded="false" data-unfold-event="click"
-                                   data-unfold-target="#basicDropdownHover19-8{{$rand_id}}" data-unfold-type="css-animation"
+                                   data-unfold-target="#basicDropdownHover19-7{{$rand_id}}" data-unfold-type="css-animation"
                                    data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true"
                                    data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
                                     <i class="flaticon-heart"></i>
@@ -470,7 +470,7 @@
                     <div class="site-navigation mr-auto d-none d-xl-block">
                         @includeIf('front.bookworm.chemistry.molecules.front_main_nav_strip')
                     </div>
-                    <div class="d-none d-md-block ml-md-auto secondary-navigation">                        
+                    <div class="d-none d-md-block ml-md-auto secondary-navigation">
                         @if (trim($header_v2_button_text) != '')
                             <ul class="nav">
                                 <li class="nav-item">
