@@ -44,7 +44,7 @@
                 </div>
             </div>
             @if ($sliders_v2->whereIn('slider_category', ['side1', 'side2'])->count() >= 1)
-                <div class="col-md-3 d-none d-md-block">
+                <div class="col-md-3 d-none-----naaaah d-md-block-----naaaah">
                     <div class="banners">
                         @if ($sliders_v2->where('slider_category', 'side1')->count() >= 1)
                             <div class="slider-banner flex-grow-1 mr-md-3 mr-xl-0 bg-gray-200 p-6 mb-4d875 position-relative overflow-hidden abh-hero-slider-v2-s1"
