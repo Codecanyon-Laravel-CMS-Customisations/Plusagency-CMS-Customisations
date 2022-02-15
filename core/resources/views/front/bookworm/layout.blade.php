@@ -375,7 +375,7 @@
     </script>
 
     @if ($bex->is_shop == 1 && $bex->catalog_mode == 0)
-        <div id="cartIconWrapper">
+        <div class="d-none d-md-block" id="cartIconWrapper">
             <a class="d-block" id="cartIcon" href="{{ route('front.cart') }}">
                 <div class="cart-length">
                     <i class="fas fa-cart-plus"></i>
