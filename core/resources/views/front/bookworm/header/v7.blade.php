@@ -49,6 +49,16 @@
     }
     $products = \App\Product::withoutGlobalScope('variation')->where('status', 1);
 @endphp
+@php
+    $header_v2_button_text = 'GIVE US FEEDBACK';
+    try {
+        $lang = App\Language::where('code', request()->has('language', 'en'))->first();
+        $settings = $lang->basic_extended;
+
+        $header_v2_button_text = $settings->header_v2_button_text;
+    } catch (\Exception $e) {
+    }
+@endphp
 <header id="site-header" class="site-header__v7">
     <div class="topbar d-none d-md-block bg-punch-light">
         <div class="container">
@@ -337,21 +347,37 @@
                         </a>
                         {{-- <!-- End Account Sidebar Toggle Button --> --}}
                         <ul class="nav d-md-none ml-auto">
+                            @php
+                                $rand_id = rand(77, 777);
+                            @endphp
+                            <style>
+                                #basicDropdownHoverInvoker19-7{{$rand_id}}::after ,
+                                #basicDropdownHoverInvoker19-8{{$rand_id}}::after {
+                                    display: none;
+                                }
+                            </style>
+
+                            @if (trim($header_v2_button_text) != '')
+                                <li class="nav-item">
+                                    <!-- Inquiry form Toggle Button -->
+                                    <a id="basicDropdownHoverInvoker19-7{{$rand_id}}"
+                                        href="{{ route('feedback') }}"
+                                        data-toggle="modal"
+                                        data-target=".headerProductInquiryModal"
+
+                                        class="d-block  h-100 dropdown-nav-link p-2  nav-link link-black-100">
+                                        {{ $header_v2_button_text }}
+                                    </a>
+                                    <!-- End Inquiry form Toggle Button -->
+                                </li>
+                            @endif
                             <li class="nav-item">
                                 <!-- Wishlist Sidebar Toggle Button -->
-                                @php
-                                    $rand_id = rand(77, 777);
-                                @endphp
-                                <style>
-                                    #basicDropdownHoverInvoker19-7{{$rand_id}}::after {
-                                        display: none;
-                                    }
-                                </style>
-                                <a id="basicDropdownHoverInvoker19-7{{$rand_id}}"
+                                <a id="basicDropdownHoverInvoker19-8{{$rand_id}}"
                                    class="d-flex align-items-center h-100 dropdown-nav-link p-2 dropdown-toggle nav-link link-black-100"
-                                   href="javascript:;" role="button" aria-controls="basicDropdownHover19-7{{$rand_id}}"
+                                   href="javascript:;" role="button" aria-controls="basicDropdownHover19-8{{$rand_id}}"
                                    aria-haspopup="true" aria-expanded="false" data-unfold-event="click"
-                                   data-unfold-target="#basicDropdownHover19-7{{$rand_id}}" data-unfold-type="css-animation"
+                                   data-unfold-target="#basicDropdownHover19-8{{$rand_id}}" data-unfold-type="css-animation"
                                    data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true"
                                    data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
                                     <i class="flaticon-heart"></i>
@@ -444,17 +470,7 @@
                     <div class="site-navigation mr-auto d-none d-xl-block">
                         @includeIf('front.bookworm.chemistry.molecules.front_main_nav_strip')
                     </div>
-                    <div class="d-none d-md-block ml-md-auto secondary-navigation">
-                        @php
-                            $header_v2_button_text = 'GIVE US FEEDBACK';
-                            try {
-                                $lang = App\Language::where('code', request()->has('language', 'en'))->first();
-                                $settings = $lang->basic_extended;
-
-                                $header_v2_button_text = $settings->header_v2_button_text;
-                            } catch (\Exception $e) {
-                            }
-                        @endphp
+                    <div class="d-none d-md-block ml-md-auto secondary-navigation">                        
                         @if (trim($header_v2_button_text) != '')
                             <ul class="nav">
                                 <li class="nav-item">
@@ -477,7 +493,7 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="modal fade" id="headerProductInquiryModal" tabindex="-1"
+            <div class="modal fade headerProductInquiryModal" id="headerProductInquiryModal" tabindex="-1"
                  aria-labelledby="headerProductInquiryModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg--- modal-xl modal-dialog-centered modal-dialog-scrollable---naaah">
                     <div class="modal-content">

@@ -950,7 +950,7 @@ CREATE TABLE `client_geo_data` (
 --
 ALTER TABLE `client_geo_data`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `client_geo_data_ip_unique` (`ip`),
+  ADD KEY `client_geo_data_ip_unique` (`ip`),
   ADD KEY `client_geo_data_country_id_index` (`country_id`),
   ADD KEY `client_geo_data_currency_id_index` (`currency_id`),
   ADD KEY `user_id` (`user_id`);
