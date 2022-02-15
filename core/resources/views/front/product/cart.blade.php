@@ -59,7 +59,7 @@
 
 <!--====== SHOPPING CART PART START ======-->
 
-<section class="cart-area">
+<section class="cart-area pt-sm-5">
     <div class="container">
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -88,105 +88,184 @@
                 @endif
                 <div class="table-outer">
                     @if($cart != null)
-                    <table class="cart-table">
-                        <thead class="cart-header">
-                            <tr>
-                                <th class="prod-column">{{__('Products')}}</th>
-                                <th class="hide-column"></th>
-                                <th>{{__('Quantity')}}</th>
-                                <th class="availability">{{__('Availability')}}</th>
-                                <th class="price">{{__('Price')}}</th>
-                                <th>{{__('Total')}}</th>
-                                <th>{{__('Remove')}}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                        <table class="cart-table d-none d-md-block">
+                            <thead class="cart-header">
+                                <tr>
+                                    <th class="prod-column">{{__('Products')}}</th>
+                                    <th class="hide-column"></th>
+                                    <th>{{__('Quantity')}}</th>
+                                    <th class="availability">{{__('Availability')}}</th>
+                                    <th class="price">{{__('Price')}}</th>
+                                    <th>{{__('Total')}}</th>
+                                    <th>{{__('Remove')}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                            @foreach ($cart as $id => $item)
-                            @php
-                                $product = App\Product::findOrFail($id);
-                            @endphp
-                            <tr class="remove{{$id}}">
+                                @foreach ($cart as $id => $item)
+                                @php
+                                    $product = App\Product::findOrFail($id);
+                                @endphp
+                                <tr class="remove{{$id}}">
 
-                                <td colspan="2" class="prod-column">
-                                    <div class="column-box">
-                                        <div class="title pl-0">
-                                            <a target="_blank" href="{{route('front.product.details',$product->slug)}}" class="d-flex justify-content-start">
-                                                <img src="{{$product->feature_image}}" alt="" style="max-width: 77px">
-                                                <div class="px-2">
-                                                    <h3 class="prod-title">{{convertUtf8($item['name'])}}</h3>
-                                                    @php
-                                                        $isbn = "";
-                                                        try
-                                                        {
-                                                            $payload    = json_decode($product->attributes);
-                                                            foreach ($payload as $attribute)
+                                    <td colspan="2" class="prod-column">
+                                        <div class="column-box">
+                                            <div class="title pl-0">
+                                                <a target="_blank" href="{{route('front.product.details',$product->slug)}}" class="d-flex justify-content-start">
+                                                    <img src="{{$product->feature_image}}" alt="" style="max-width: 77px">
+                                                    <div class="px-2">
+                                                        <h3 class="prod-title">{{convertUtf8($item['name'])}}</h3>
+                                                        @php
+                                                            $isbn = "";
+                                                            try
                                                             {
-                                                                if($attribute->name == "ISBN") $isbn = explode(',', $attribute->value)[0];
+                                                                $payload    = json_decode($product->attributes);
+                                                                foreach ($payload as $attribute)
+                                                                {
+                                                                    if($attribute->name == "ISBN") $isbn = explode(',', $attribute->value)[0];
+                                                                }
                                                             }
-                                                        }
-                                                        catch (\Exception $th)
-                                                        {
-                                                            //throw $th;
-                                                        }
-                                                    @endphp
-                                                    <span class="prod-summary">{!! convertUtf8($isbn) !!}</span>
-                                                </div>
-                                            </a>
+                                                            catch (\Exception $th)
+                                                            {
+                                                                //throw $th;
+                                                            }
+                                                        @endphp
+                                                        <span class="prod-summary">{!! convertUtf8($isbn) !!}</span>
+                                                    </div>
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td class="qty">
-                                    <div class="product-quantity d-flex mb-35" id="quantity">
-                                        <button type="button" id="sub" class="sub">-</button>
-                                        <input type="text" class="cart_qty" id="1" value="{{$item['qty']}}" />
-                                        <button type="button" id="add" class="add">+</button>
-                                    </div>
-                                </td>
-                                <input type="hidden" value="{{$id}}" class="product_id">
-                                <td class="unit-price">
-                                    <div class="available-info">
-                                        @if ($product->type == 'digital')
-                                            <span class="icon fa fa-check thm-bg-clr"></span>{{__('Item(s)')}}<br>{{__('Avilable Now')}}
-                                        @else
-                                            @if($product->stock >= $item['qty'])
+                                    </td>
+                                    <td class="qty">
+                                        <div class="product-quantity d-flex mb-35" id="quantity">
+                                            <button type="button" id="sub" class="sub">-</button>
+                                            <input type="text" class="cart_qty" id="1" value="{{$item['qty']}}" />
+                                            <button type="button" id="add" class="add">+</button>
+                                        </div>
+                                    </td>
+                                    <input type="hidden" value="{{$id}}" class="product_id">
+                                    <td class="unit-price">
+                                        <div class="available-info">
+                                            @if ($product->type == 'digital')
                                                 <span class="icon fa fa-check thm-bg-clr"></span>{{__('Item(s)')}}<br>{{__('Avilable Now')}}
                                             @else
-                                                <span class="icon fa fa-times thm-bg-rmv"></span>{{__('Item(s)')}}<br>{{__('Out Of Stock')}}
+                                                @if($product->stock >= $item['qty'])
+                                                    <span class="icon fa fa-check thm-bg-clr"></span>{{__('Item(s)')}}<br>{{__('Avilable Now')}}
+                                                @else
+                                                    <span class="icon fa fa-times thm-bg-rmv"></span>{{__('Item(s)')}}<br>{{__('Out Of Stock')}}
+                                                @endif
                                             @endif
-                                        @endif
-                                    </div>
-                                </td>
-                                <td class="price cart_price">
-                                    {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
-                                    {{ $product->symbol }}
-                                    <span>
-                                        {{-- {{ isset($pvariation) ? angel_auto_convert_currency($pvariation->current_price, $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }} --}}
-                                        {{ number_format(!empty($product->price) ? $product->price : '0.00', 0) }}
-                                    </span>
-                                    {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
-                                </td>
-                                <td class="sub-total">
-                                    {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
-                                    {{ $product->symbol }}
-                                    <span>
-                                        {{-- {{ isset($pvariation) ? angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) }} --}}
-                                        {{ number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) }}
-                                    </span>
-                                    {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
-                                </td>
-                                <td>
-                                    <div class="remove">
-                                        <div class="checkbox">
-                                        <span class="fas fa-times item-remove" rel="{{$id}}" data-href="{{route('cart.item.remove',$id)}}"></span>
+                                        </div>
+                                    </td>
+                                    <td class="price cart_price">
+                                        {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
+                                        {{ $product->symbol }}
+                                        <span>
+                                            {{-- {{ isset($pvariation) ? angel_auto_convert_currency($pvariation->current_price, $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }} --}}
+                                            {{ number_format(!empty($product->price) ? $product->price : '0.00', 0) }}
+                                        </span>
+                                        {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
+                                    </td>
+                                    <td class="sub-total">
+                                        {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
+                                        {{ $product->symbol }}
+                                        <span>
+                                            {{-- {{ isset($pvariation) ? angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) }} --}}
+                                            {{ number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) }}
+                                        </span>
+                                        {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
+                                    </td>
+                                    <td>
+                                        <div class="remove">
+                                            <div class="checkbox">
+                                            <span class="fas fa-times item-remove" rel="{{$id}}" data-href="{{route('cart.item.remove',$id)}}"></span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+
+                            </tbody>
+                        </table>
+                        <div class="row d-block d-md-none">
+                            @foreach ($cart as $id => $item)
+                                @php
+                                    $product = App\Product::findOrFail($id);
+                                @endphp
+                                <div class="col-12 remove{{$id}}">
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <div class="row no-gutters">
+                                                <div class="col-12 pb-2">
+                                                    <a
+                                                        href="{{route('front.product.details',$product->slug)}}"
+                                                        target="_blank" rel="noopener noreferrer">
+                                                        <img
+                                                            style="max-width: 4.5rem;height:auto;position: relative;float: left;"
+                                                            src="{{$product->feature_image}}"
+                                                            alt="..."
+                                                        >
+                                                    </a>
+                                                    <a
+                                                        href="{{route('front.product.details',$product->slug)}}"
+                                                        target="_blank" rel="noopener noreferrer">
+                                                        <div class="pl-2" style="margin-left: 4.5rem;">
+                                                            <h6
+                                                                style="text-overflow: ellipsis;word-wrap: break-word;overflow: hidden;max-height: 2.4em;line-height: 1.2em;"
+                                                                class="card-title mb-1">
+                                                                {{convertUtf8($item['name'])}}
+                                                            </h6>
+                                                            @php
+                                                                $isbn = "";
+                                                                try
+                                                                {
+                                                                    $payload    = json_decode($product->attributes);
+                                                                    foreach ($payload as $attribute)
+                                                                    {
+                                                                        if($attribute->name == "ISBN") $isbn = explode(',', $attribute->value)[0];
+                                                                    }
+                                                                }
+                                                                catch (\Exception $th)
+                                                                {
+                                                                    //throw $th;
+                                                                }
+                                                            @endphp
+                                                            <p
+                                                                style="font-size: .7rem;"
+                                                                class="card-text prod-summary text-muted mb-0">
+                                                                {!! convertUtf8("ISBN : $isbn") !!}
+                                                            </p>
+                                                            <p class="card-text pt-1">
+                                                                <strong style="font-size: 1.5em;font-weight: 300;">
+                                                                    {{ $product->symbol }}
+                                                                    <span>{{ number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) }}</span>
+                                                                </strong>
+                                                                <small class="text-muted pl-2">( {{ $product->symbol }}{{ number_format(!empty($product->price) ? $product->price : '0.00', 0) }} x {{ $item['qty'] }} )</small>
+                                                            </p>
+                                                        </div>
+                                                    </a>
+                                                    <input type="hidden" value="{{$id}}" class="product_id">
+                                                </div>
+                                                <div class="col-12 d-flex justify-content-between">
+                                                    <div class="remove pt-2">
+                                                        <div class="checkbox btn btn-sm btn-danger" style="cursor: pointer">
+                                                            <span class="fas fa-trash item-remove" rel="{{$id}}" data-href="{{route('cart.item.remove',$id)}}"> REMOVE</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="qty">
+                                                        <div class="product-quantity d-flex mb-35" id="quantity">
+                                                            <button type="button" id="sub" class="sub">-</button>
+                                                            <input type="text" class="cart_qty" id="1" value="{{$item['qty']}}" />
+                                                            <button type="button" id="add" class="add">+</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </td>
-                            </tr>
+                                </div>
                             @endforeach
-
-                        </tbody>
-                    </table>
+                        </div>
                     @else
                         <div class="bg-light py-5 text-center">
                             <h3 class="text-uppercase">{{__('Cart is empty!')}}</h3>
