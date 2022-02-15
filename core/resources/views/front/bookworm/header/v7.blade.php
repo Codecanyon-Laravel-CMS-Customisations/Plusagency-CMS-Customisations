@@ -59,6 +59,30 @@
     } catch (\Exception $e) {
     }
 @endphp
+@if(isset($cart) && $cart != null)
+    @php
+        $cartTotal = 0;
+        $countitem = 0;
+        if($cart){
+        foreach($cart as $p){
+            $cartTotal += $p['price'] * $p['qty'];
+            $countitem += $p['qty'];
+        }
+    }
+    @endphp
+@endif
+@if(isset($wish) && $wish != null)
+    @php
+        $cartTotal = 0;
+        $countitem = 0;
+        if($wish){
+        foreach($wish as $p){
+            $cartTotal += $p['price'] * $p['qty'];
+            $countitem += $p['qty'];
+        }
+    }
+    @endphp
+@endif
 <header id="site-header" class="site-header__v7">
     <div class="topbar d-none d-md-block bg-punch-light">
         <div class="container">
@@ -199,39 +223,35 @@
                     </div>
 
                     <ul class="nav align-self-center d-none d-md-flex">
-                        <li class="nav-item">
-                            <!-- Wishlist Sidebar Toggle Button -->
-                            {{-- <a id="sidebarNavToggler-wishlist" href="javascript:;" role="button"
-                               class="nav-link text-dark target-of-invoker-has-unfolds" aria-controls="sidebarContent-wishlist"
-                               aria-haspopup="true" aria-expanded="false" data-unfold-event="click"
-                               data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent-wishlist"
-                               data-unfold-type="css-animation" data-unfold-overlay="{
-                                    &quot;className&quot;: &quot;u-sidebar-bg-overlay&quot;,
-                                    &quot;background&quot;: &quot;rgba(0, 0, 0, .7)&quot;,
-                                    &quot;animationSpeed&quot;: 500
-                                }" data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight"
-                               data-unfold-duration="500" style="z-index: auto;">
-                                <i class="glph-icon flaticon-heart font-size-4"></i>
-                            </a> --}}
-                            <style>
-                                #basicDropdownHoverInvoker19-7::after {
-                                    display: none;
-                                }
-                            </style>
-                            <a id="basicDropdownHoverInvoker19-7"
-                               class="d-flex align-items-center h-100 dropdown-nav-link p-2 dropdown-toggle nav-link link-black-100"
-                               href="javascript:;" role="button" aria-controls="basicDropdownHover19-7"
-                               aria-haspopup="true" aria-expanded="false" data-unfold-event="click"
-                               data-unfold-target="#basicDropdownHover19-7" data-unfold-type="css-animation"
-                               data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true"
-                               data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
-                               <i class="flaticon-heart font-size-5"></i>
+                        <style>
+                            #basicDropdownHoverInvoker19-7::after {
+                                display: none;
+                            }
+                        </style>
+                        <li class="nav-item px-2">
+                            <a
+                                id="basicDropdownHoverInvoker19-7"
+                                href="javascript:;" role="button"
+                                class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-7"
+                                aria-haspopup="true" aria-expanded="false" data-unfold-event="click"
+                                data-unfold-target="#basicDropdownHover19-7" data-unfold-type="css-animation"
+                                data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false"
+                                data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                                <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0">
+                                    @php
+                                        try {
+                                            echo is_array( session()->get('wishlist') ) ? count(session()->get('wishlist')) : '0';
+                                        }
+                                        catch (\Exception $e){ }
+                                    @endphp
+                                </span>
+                                <i class="flaticon-heart font-size-5"></i>
                             </a>
                             <div id="basicDropdownHover19-7" class="dropdown-menu dropdown-unfold right-0 left-auto"
                                  aria-labelledby="basicDropdownHoverInvoker19-7">
                                 <!-- Title -->
                                 <header class="border-bottom px-4 px-md-6 py-4">
-                                    <h5 class="font-size-5 h5 mb-0 d-flex align-items-center">
+                                    <h6 class="font-size-5 h6 mb-0 d-flex align-items-center">
                                         @php
                                             echo "My Wishlist (";
                                             try {
@@ -240,7 +260,7 @@
                                             catch (\Exception $e){ }
                                             echo ")";
                                         @endphp
-                                    </h5>
+                                    </h6>
                                 </header>
                                 <!-- End Title -->
                                 @if(is_array( session()->get('wishlist') ) && count( session()->get('wishlist') ) >= 1)
@@ -272,7 +292,7 @@
                                                                 {{ $product1->symbol }}
                                                                 <span> {{ number_format($product1->price, 0) }}</span>
                                                             </span>
-                                                            <div class="mt-0 ml-auto">
+                                                            <div class="mt-0 ml-auto pr-2">
                                                                 <a href="{{ route('wishlist.item.remove', $product1->id) }}" class="text-dark"><i class="fas fa-times"></i></a>
                                                             </div>
                                                         </div>
@@ -282,46 +302,43 @@
                                         </div>
                                     @endforeach
                                 @endif
-                                <div class="px-4 mb-8 px-md-6 d-flex justify-content-around pb-2 pt-4">
+                                <div class="px-4 mb-4 px-md-6 d-flex justify-content-around pb-2 pt-4">
                                     <a href="{{ isset($wish2cart) ? $wish2cart : 'javascript:;' }}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4">Add To Cart</a>
                                     <a href="{{route('front.wishlist')}}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4">View Wishlist</a>
                                     {{-- <button type="submit" class="btn btn-block py-4 rounded-0 btn-dark">Checkout</button> --}}
                                 </div>
-
-
-
                             </div>
-                            <!-- End Wishlist Sidebar Toggle Button -->
                         </li>
-                        <li class="nav-item">
-                            <!-- Account Sidebar Toggle Button -->
-                            <a id="sidebarNavToggler-account" href="javascript:;" role="button" class="nav-link text-dark" aria-controls="sidebarContent" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent" data-unfold-type="css-animation" data-unfold-overlay='{
+                        <li class="nav-item px-2">
+                            <a  id="sidebarNavToggler1-desktop" href="javascript:;" role="button"
+                                class="nav-link pr-0 text-dark position-relative"
+                                aria-controls="sidebarContent1" aria-haspopup="true" aria-expanded="false"
+                                data-unfold-event="click" data-unfold-hide-on-scroll="false"
+                                data-unfold-target="#sidebarContent1" data-unfold-type="css-animation"
+                                data-unfold-overlay='{
+                                                                    "className": "u-sidebar-bg-overlay",
+                                                                    "background": "rgba(0, 0, 0, .7)",
+                                                                    "animationSpeed": 500
+                                                                }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
+                                <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
+                                <i class="glph-icon flaticon-icon-126515 font-size-5"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item px-2">
+                            {{-- <!-- Account Sidebar Toggle Button - Mobile --> --}}
+                            <a  id="sidebarNavToggler9" href="javascript:;" role="button"
+                                class="px-2 nav-link h-primary" aria-controls="sidebarContent9" aria-haspopup="true"
+                                aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false"
+                                data-unfold-target="#sidebarContent9" data-unfold-type="css-animation"
+                                data-unfold-overlay='{
                                         "className": "u-sidebar-bg-overlay",
                                         "background": "rgba(0, 0, 0, .7)",
                                         "animationSpeed": 500
-                                    }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
-                                <i class="glph-icon flaticon-user font-size-4"></i>
+                                    }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight"
+                                data-unfold-duration="500">
+                                <i class="glph-icon flaticon-user font-size-5"></i>
                             </a>
-                            <!-- End Account Sidebar Toggle Button -->
-                        </li>
-                        <li class="nav-item">
-                            <!-- Cart Sidebar Toggle Button -->
-                            <a id="sidebarNavToggler1" href="javascript:;" role="button"
-                               class="nav-link pr-0 text-dark position-relative target-of-invoker-has-unfolds"
-                               aria-controls="sidebarContent1" aria-haspopup="true" aria-expanded="false"
-                               data-unfold-event="click" data-unfold-hide-on-scroll="false"
-                               data-unfold-target="#sidebarContent1" data-unfold-type="css-animation"
-                               data-unfold-overlay="{
-                                    &quot;className&quot;: &quot;u-sidebar-bg-overlay&quot;,
-                                    &quot;background&quot;: &quot;rgba(0, 0, 0, .7)&quot;,
-                                    &quot;animationSpeed&quot;: 500
-                                }" data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight"
-                               data-unfold-duration="500">
-                                {{-- <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0">3</span> --}}
-                                <i class="glph-icon flaticon-icon-126515 font-size-4"></i>
-                                {{-- <span class="d-none d-xl-inline h6 mb-0 ml-1">$40.93</span> --}}
-                            </a>
-                            <!-- End Cart Sidebar Toggle Button -->
+                            {{-- <!-- End Account Sidebar Toggle Button - Mobile --> --}}
                         </li>
                     </ul>
                 </div>
@@ -372,15 +389,23 @@
                                 </li>
                             @endif
                             <li class="nav-item">
-                                <!-- Wishlist Sidebar Toggle Button -->
-                                <a id="basicDropdownHoverInvoker19-8{{$rand_id}}"
-                                   class="d-flex align-items-center h-100 dropdown-nav-link p-2 dropdown-toggle nav-link link-black-100"
-                                   href="javascript:;" role="button" aria-controls="basicDropdownHover19-7{{$rand_id}}"
-                                   aria-haspopup="true" aria-expanded="false" data-unfold-event="click"
-                                   data-unfold-target="#basicDropdownHover19-7{{$rand_id}}" data-unfold-type="css-animation"
-                                   data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="true"
-                                   data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
-                                    <i class="flaticon-heart"></i>
+                                <a
+                                    id="basicDropdownHoverInvoker19-8{{$rand_id}}"
+                                    href="javascript:;" role="button"
+                                    class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-7{{$rand_id}}"
+                                    aria-haspopup="true" aria-expanded="false" data-unfold-event="click"
+                                    data-unfold-target="#basicDropdownHover19-7{{$rand_id}}" data-unfold-type="css-animation"
+                                    data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false"
+                                    data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                                    <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0">
+                                        @php
+                                            try {
+                                                echo is_array( session()->get('wishlist') ) ? count(session()->get('wishlist')) : '0';
+                                            }
+                                            catch (\Exception $e){ }
+                                        @endphp
+                                    </span>
+                                    <i class="flaticon-heart font-size-4-----naaah"></i>
                                 </a>
                                 <div id="basicDropdownHover19-7{{$rand_id}}" class="dropdown-menu dropdown-unfold right-0 left-auto"
                                      aria-labelledby="basicDropdownHoverInvoker19-7{{$rand_id}}">
@@ -437,32 +462,40 @@
                                             </div>
                                         @endforeach
                                     @endif
-                                    <div class="px-4 mb-8 px-md-6 d-flex justify-content-around pb-2 pt-4">
+                                    <div class="px-4 mb-4 px-md-6 d-flex justify-content-around pb-2 pt-4">
                                         <a href="{{ isset($wish2cart) ? $wish2cart : 'javascript:;' }}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4">Add To Cart</a>
                                         <a href="{{route('front.wishlist')}}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4">View Wishlist</a>
                                         {{-- <button type="submit" class="btn btn-block py-4 rounded-0 btn-dark">Checkout</button> --}}
                                     </div>
-
-
-
                                 </div>
-                                <!-- End Wishlist Sidebar Toggle Button -->
                             </li>
                             <li class="nav-item">
-                                <!-- Account Sidebar Toggle Button - Mobile -->
-                                <a id="sidebarNavToggler9" href="javascript:;" role="button"
-                                   class="px-2 nav-link h-primary" aria-controls="sidebarContent9" aria-haspopup="true"
-                                   aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false"
-                                   data-unfold-target="#sidebarContent9" data-unfold-type="css-animation"
-                                   data-unfold-overlay='{
-                                        "className": "u-sidebar-bg-overlay",
-                                        "background": "rgba(0, 0, 0, .7)",
-                                        "animationSpeed": 500
-                                    }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight"
-                                   data-unfold-duration="500">
+                                <a id="sidebarNavToggler1" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="sidebarContent1" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent1" data-unfold-type="css-animation" data-unfold-overlay='{
+                                                                        "className": "u-sidebar-bg-overlay",
+                                                                        "background": "rgba(0, 0, 0, .7)",
+                                                                        "animationSpeed": 500
+                                                                    }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
+                                    <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
+                                    <i class="glph-icon flaticon-icon-126515 font-size-4-----naaah"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                {{-- <!-- Account Sidebar Toggle Button - Mobile --> --}}
+                                <a
+                                    {{-- style="padding-left: 15px !important;bottom: -5px !important;position: relative;" --}}
+                                    id="sidebarNavToggler9" href="javascript:;" role="button"
+                                    class="px-2 nav-link h-primary" aria-controls="sidebarContent9" aria-haspopup="true"
+                                    aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false"
+                                    data-unfold-target="#sidebarContent9" data-unfold-type="css-animation"
+                                    data-unfold-overlay='{
+                                            "className": "u-sidebar-bg-overlay",
+                                            "background": "rgba(0, 0, 0, .7)",
+                                            "animationSpeed": 500
+                                        }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight"
+                                    data-unfold-duration="500">
                                     <i class="glph-icon flaticon-user"></i>
                                 </a>
-                                <!-- End Account Sidebar Toggle Button - Mobile -->
+                                {{-- <!-- End Account Sidebar Toggle Button - Mobile --> --}}
                             </li>
                         </ul>
                     </div>

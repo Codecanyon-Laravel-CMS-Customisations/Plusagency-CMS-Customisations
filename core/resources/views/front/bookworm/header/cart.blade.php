@@ -24,20 +24,20 @@
                 <div class="u-sidebar__body">
                     <div class="u-sidebar__content u-header-sidebar__content">
                         @if(isset($cart) && $cart != null)
-                        @php
-                            $cartTotal = 0;
-                            $countitem = 0;
-                            if($cart){
-                            foreach($cart as $p){
-                                $cartTotal += $p['price'] * $p['qty'];
-                                $countitem += $p['qty'];
+                            @php
+                                $cartTotal = 0;
+                                $countitem = 0;
+                                if($cart){
+                                foreach($cart as $p){
+                                    $cartTotal += $p['price'] * $p['qty'];
+                                    $countitem += $p['qty'];
+                                }
                             }
-                        }
-                        @endphp
+                            @endphp
                         @endif
                         <!-- Title -->
                         <header class="border-bottom px-4 px-md-6 py-4">
-                            <h2 class="font-size-3 mb-0 d-flex align-items-center"><i class="flaticon-icon-126515 mr-3 font-size-5"></i>Your shopping bag ({{ isset($cart) && $cart ? $countitem : 0 }})</h2>
+                            <h2 class="font-size-3 mb-0 d-flex align-items-center"><i class="flaticon-icon-126515 mr-3 font-size-5"></i>Your cart ({{ isset($cart) && $cart ? $countitem : 0 }})</h2>
                         </header>
                         <!-- End Title -->
                         @if(isset($cart) && $cart != null)
