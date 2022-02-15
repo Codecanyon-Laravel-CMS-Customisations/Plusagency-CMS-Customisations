@@ -484,7 +484,7 @@
                                     </div>
                                 </div>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item px-2">
                                 <a id="sidebarNavToggler1" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="sidebarContent1" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent1" data-unfold-type="css-animation" data-unfold-overlay='{
                                                                         "className": "u-sidebar-bg-overlay",
                                                                         "background": "rgba(0, 0, 0, .7)",
