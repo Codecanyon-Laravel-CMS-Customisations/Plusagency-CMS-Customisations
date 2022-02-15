@@ -1199,6 +1199,7 @@ id="course"
 @elseif(request()->path() == 'admin/preloader') active
 @elseif(request()->path() == 'admin/basicinfo') active
 @elseif(request()->path() == 'admin/easy-forms') active
+@elseif(request()->path() == 'admin/custom-mobile-header-hyperlinks') active
 @elseif(request()->path() == 'admin/magic-zoom') active
 @elseif(request()->path() == 'admin/support') active
 @elseif(request()->path() == 'admin/social') active
@@ -1236,6 +1237,7 @@ id="course"
 @elseif(request()->path() == 'admin/preloader') show
 @elseif(request()->path() == 'admin/basicinfo') show
 @elseif(request()->path() == 'admin/easy-forms') show
+@elseif(request()->path() == 'admin/custom-mobile-header-hyperlinks') show
 @elseif(request()->path() == 'admin/magic-zoom') show
 @elseif(request()->path() == 'admin/support') show
 @elseif(request()->path() == 'admin/social') show
@@ -1277,6 +1279,11 @@ id="course"
     <li class="@if(request()->path() == 'admin/easy-forms') active @endif">
         <a href="{{route('admin.easy-forms')}}">
             <span class="sub-item">E-Forms Settings</span>
+        </a>
+    </li>
+    <li class="@if(request()->path() == 'admin/custom-mobile-header-hyperlinks') active @endif">
+        <a href="{{route('admin.custom-mobile-header-buttons.index')}}">
+            <span class="sub-item">Custom Header Buttons Settings</span>
         </a>
     </li>
 {{--    <li class="@if(request()->path() == 'admin/basicinfo') active @endif">--}}

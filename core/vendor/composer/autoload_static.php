@@ -1070,6 +1070,7 @@ class ComposerStaticInit4691b200bcf447398fddfc6208a77084
         'App\\Models\\CurrencyConversion' => __DIR__ . '/../..' . '/app/Models/CurrencyConversion.php',
         'App\\Models\\EasyForm' => __DIR__ . '/../..' . '/app/Models/EasyForm.php',
         'App\\Models\\GeoIP\\ClientGeoData' => __DIR__ . '/../..' . '/app/Models/GeoIP/ClientGeoData.php',
+        'App\\Models\\MobileHeaderCustomButton' => __DIR__ . '/../..' . '/app/Models/MobileHeaderCustomButton.php',
         'App\\Models\\SettingMagicZoom' => __DIR__ . '/../..' . '/app/Models/SettingMagicZoom.php',
         'App\\Models\\SliderV2' => __DIR__ . '/../..' . '/app/Models/SliderV2.php',
         'App\\Models\\Unscoped\\Pcategory' => __DIR__ . '/../..' . '/app/Models/Unscoped/Pcategory.php',

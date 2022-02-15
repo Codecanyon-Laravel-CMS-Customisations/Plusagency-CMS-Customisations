@@ -529,6 +529,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin', 'checkstatus',
         Route::get('/easy-forms', 'Admin\EasyFormsController@easyForms')->name('admin.easy-forms');
         Route::post('/easy-forms', 'Admin\EasyFormsController@updateEasyForms')->name('admin.easy-forms.update');
 
+        // Admin Custom Mobile Header Buttons Routes
+        Route::get('/custom-mobile-header-hyperlinks', 'Admin\CustomMobileHeaderButtonsController@index')->name('admin.custom-mobile-header-buttons.index');
+        Route::post('/custom-mobile-header-hyperlinks', 'Admin\CustomMobileHeaderButtonsController@store')->name('admin.custom-mobile-header-buttons.store');
+        Route::patch('/custom-mobile-header-hyperlinks', 'Admin\CustomMobileHeaderButtonsController@update')->name('admin.custom-mobile-header-buttons.update');
+        Route::post('/custom-mobile-header-hyperlinks/{MobileHeaderCustomButton}/toggle-activate', 'Admin\CustomMobileHeaderButtonsController@toggle_activate')->name('admin.custom-mobile-header-buttons.toggle_activate');
+        Route::delete('/custom-mobile-header-hyperlinks/{link}', 'Admin\CustomMobileHeaderButtonsController@delete')->name('admin.custom-mobile-header-buttons.delete');
+
         // Admin Magic-Zoom Routes
         Route::get('/magic-zoom', 'Admin\MagicZoomController@MagicZoom')->name('admin.magic-zoom');
         Route::post('/magic-zoom', 'Admin\MagicZoomController@updateMagicZoom')->name('admin.magic-zoom.update');

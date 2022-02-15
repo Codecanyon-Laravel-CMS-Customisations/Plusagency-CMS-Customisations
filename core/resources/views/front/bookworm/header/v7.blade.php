@@ -221,7 +221,22 @@
                             </div>
                         </div>
                     </div>
-
+                    @php
+                        $custom_buttons = \App\Models\MobileHeaderCustomButton::all()->where('status', true)->sortBy('link_rank', 0, false);
+                    @endphp
+                    @if ($custom_buttons->count() >= 1)
+                        <ul class="nav align-self-center d-flex d-md-none custom-header-button-wrapper">
+                            @foreach ($custom_buttons as $custom_button)
+                                <li class="nav-item px-2 custom-header-button">
+                                    <a  @if(str_contains($custom_button->link_target, 'blank')) target="_blank" @endif
+                                        href="{{ $custom_button->link_url }}" role="button"
+                                        class="nav-link pr-0 text-dark position-relative">
+                                        <span>{!! $custom_button->link_text !!}</span>
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif
                     <ul class="nav align-self-center d-none d-md-flex">
                         <style>
                             #basicDropdownHoverInvoker19-7::after {

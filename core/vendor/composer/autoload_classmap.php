@@ -276,6 +276,7 @@ return array(
     'App\\Models\\CurrencyConversion' => $baseDir . '/app/Models/CurrencyConversion.php',
     'App\\Models\\EasyForm' => $baseDir . '/app/Models/EasyForm.php',
     'App\\Models\\GeoIP\\ClientGeoData' => $baseDir . '/app/Models/GeoIP/ClientGeoData.php',
+    'App\\Models\\MobileHeaderCustomButton' => $baseDir . '/app/Models/MobileHeaderCustomButton.php',
     'App\\Models\\SettingMagicZoom' => $baseDir . '/app/Models/SettingMagicZoom.php',
     'App\\Models\\SliderV2' => $baseDir . '/app/Models/SliderV2.php',
     'App\\Models\\Unscoped\\Pcategory' => $baseDir . '/app/Models/Unscoped/Pcategory.php',
