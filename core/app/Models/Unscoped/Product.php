@@ -72,6 +72,15 @@ class Product extends Model
         return !empty($this->current_price_international) ? "$" : "₹";
     }
 
+    public function getInCountryAttribute()
+    {
+        if(product_in_location($this->id))
+        {
+            return true;
+        }
+        return false;
+    }
+
     public function getTitleAttribute($title)
     {
         return trim(nl2br(html_entity_decode($title, ENT_QUOTES)));

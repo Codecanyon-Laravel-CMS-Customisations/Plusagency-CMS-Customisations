@@ -1077,7 +1077,44 @@ ALTER TABLE `slider_v2_s`
 ALTER TABLE `slider_v2_s`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
   
-  
+ 
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mobile_header_custom_buttons`
+--
+
+CREATE TABLE `mobile_header_custom_buttons` (
+  `id` bigint UNSIGNED NOT NULL,
+  `language_id` bigint UNSIGNED DEFAULT NULL,
+  `link_text` text COLLATE utf8mb4_unicode_ci COMMENT 'can support html content',
+  `link_url` text COLLATE utf8mb4_unicode_ci COMMENT 'where the hyperlink redirects to',
+  `link_target` text COLLATE utf8mb4_unicode_ci COMMENT 'if = ''_blank'' open in new window',
+  `description` text COLLATE utf8mb4_unicode_ci COMMENT 'more info to where the link leads to',
+  `link_rank` int DEFAULT NULL COMMENT 'help in ordering links on the web page',
+  `status` tinyint(1) DEFAULT '1' COMMENT 'only show active links',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+--
+-- Indexes for table `mobile_header_custom_buttons`
+--
+ALTER TABLE `mobile_header_custom_buttons`
+  ADD PRIMARY KEY (`id`); 
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `mobile_header_custom_buttons`
+--
+ALTER TABLE `mobile_header_custom_buttons`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+COMMIT;
   
   
   

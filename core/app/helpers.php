@@ -1,8 +1,7 @@
 <?php
 
-use App\Produc;
+use App\Product;
 use App\BasicExtra;
-use App\BasicExtended;
 use App\Models\Country;
 use App\Models\Currency;
 use Illuminate\Support\Str;
@@ -222,6 +221,36 @@ if(! function_exists('is_mobile'))
                 return true;
             }
             return false;
+
+        }
+        catch (\Exception $exception)
+        {
+            return false;
+        }
+    }
+}
+
+
+
+/**
+ * Product in location
+ */
+if(! function_exists('product_in_location'))
+{
+    function product_in_location(Product $product)
+    {
+        try
+        {
+            if(ship_to_india())
+            {
+                if(trim($product->current_price) == '') return false;
+                return true;
+            }
+            else
+            {
+                if(trim($product->current_price_international) == '') return false;
+                return true;
+            }
 
         }
         catch (\Exception $exception)

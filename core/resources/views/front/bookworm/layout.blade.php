@@ -87,6 +87,8 @@
     @endif
     <!-- jquery js -->
     <script src="{{ asset('assets/front/js/jquery-3.3.1.min.js') }}"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
+    <script> const observer = lozad();observer.observe(); </script>
 
     @if ($bs->is_appzi == 1)
         <!-- Start of Appzi Feedback Script -->

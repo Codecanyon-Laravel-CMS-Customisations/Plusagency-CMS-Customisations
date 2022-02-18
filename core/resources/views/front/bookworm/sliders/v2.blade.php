@@ -33,7 +33,7 @@
                                             @endif
                                         </div>
                                         <div data-scs-animation-in="fadeInUp" data-scs-animation-delay="600">
-                                            <img loading="lazy" src="{{ asset('assets/front/img/sliders/' . $slider->image) }}" class="img-fluid"
+                                            <img src="{{ asset('assets/front/img/sliders/' . $slider->image) }}" class="img-fluid lozad"
                                                 alt="{{ $slider->title }}">
                                         </div>
                                     </div>
@@ -56,7 +56,7 @@
                                     </h2>
                                 </div>
                                 <img src="{{ asset('assets/front/img/sliders/' . $sliders_v2->where('slider_category', 'side1')->first()->image) }}"
-                                    class="img-fluid position-absolute bottom-n60 right-n60" alt="$slider->image">
+                                    class="img-fluid position-absolute bottom-n60 right-n60 lozad" alt="$slider->image">
                             </div>
                         @endif
                         @if ($sliders_v2->where('slider_category', 'side2')->count() >= 1)
@@ -69,7 +69,7 @@
                                     </h2>
                                 </div>
                                 <img src="{{ asset('assets/front/img/sliders/' . $sliders_v2->where('slider_category', 'side2')->first()->image) }}"
-                                    class="img-fluid position-absolute bottom-0 right-n60" alt="$slider->image">
+                                    class="img-fluid position-absolute bottom-0 right-n60 lozad" alt="$slider->image">
                             </div>
                         @endif
                     </div>

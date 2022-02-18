@@ -491,8 +491,9 @@ class ProductController extends Controller
         }
         $total = 0;
         $count = 0;
-        foreach ($cart as $i) {
-            $total += $i['price'] * $i['qty'];
+        foreach ($cart as $key => $i) {
+            $product    = Product::findOrFail($key);
+            $total += $product->price * $i['qty'];
             $count += $i['qty'];
         }
 
@@ -1102,8 +1103,9 @@ class ProductController extends Controller
         }
         $total = 0;
         $count = 0;
-        foreach ($wishlist as $i) {
-            $total += $i['price'] * $i['qty'];
+        foreach ($wishlist as $key => $i) {
+            $product    = Product::findOrFail($key);
+            $total += $product->price * $i['qty'];
             $count += $i['qty'];
         }
 
