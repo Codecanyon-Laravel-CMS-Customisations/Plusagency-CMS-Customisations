@@ -225,17 +225,34 @@
                         $custom_buttons = \App\Models\MobileHeaderCustomButton::all()->where('status', true)->sortBy('link_rank', 0, false);
                     @endphp
                     @if ($custom_buttons->count() >= 1)
-                        <ul class="nav align-self-center d-flex d-md-none custom-header-button-wrapper">
+                        <style>
+                            .button-70 {
+                            background-image: linear-gradient(#0dccea, #0d70ea);
+                            border: 0;
+                            border-radius: 4px;
+                            /* box-shadow: rgba(0, 0, 0, .3) 0 5px 15px; */
+                            color: #fff !important;
+                            cursor: pointer;
+                            font-family: Montserrat,sans-serif;
+                            font-size: .9em;
+                            margin: 5px;
+                            padding: 5px 15px;
+                            text-align: center;
+                            user-select: none;
+                            -webkit-user-select: none;
+                            touch-action: manipulation;}
+                        </style>
+                        <div class="nav---- text-center d-flex d-md-none custom-header-button-wrapper">
                             @foreach ($custom_buttons as $custom_button)
-                                <li class="nav-item px-2 custom-header-button">
+                                <div class="nav-item--- px-1 custom-header-button">
                                     <a  @if(str_contains($custom_button->link_target, 'blank')) target="_blank" @endif
                                         href="{{ $custom_button->link_url }}" role="button"
-                                        class="nav-link pr-0 text-dark position-relative">
+                                        class="nav-link-- px-2 button-70">
                                         <span>{!! $custom_button->link_text !!}</span>
                                     </a>
-                                </li>
+                                </div>
                             @endforeach
-                        </ul>
+                        </div>
                     @endif
                     <ul class="nav align-self-center d-none d-md-flex">
                         <style>
@@ -365,7 +382,7 @@
                 <div class="d-md-flex position-relative">
                     <div class="offcanvas-toggler align-self-center mr-md-8 d-flex d-md-block">
                         {{-- <!-- Account Sidebar Toggle Button --> --}}
-                        <a id="sidebarNavToggler" class="cat-menu" href="javascript:;" role="button"
+                        <a id="sidebarNavToggler" class="cat-menu pt-2" href="javascript:;" role="button"
                            aria-controls="sidebarContent" aria-haspopup="true" aria-expanded="false"
                            data-unfold-event="click" data-unfold-hide-on-scroll="false"
                            data-unfold-target="#sidebar001Content" data-unfold-type="css-animation"
