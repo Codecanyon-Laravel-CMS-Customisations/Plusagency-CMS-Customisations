@@ -437,7 +437,7 @@
                                             catch (\Exception $e){ }
                                         @endphp
                                     </span>
-                                    <i class="flaticon-heart font-size-4-----naaah"></i>
+                                    <i class="flaticon-heart font-size-4"></i>
                                 </a>
                                 <div id="basicDropdownHover19-7{{$rand_id}}" class="dropdown-menu dropdown-unfold right-0 left-auto"
                                      aria-labelledby="basicDropdownHoverInvoker19-7{{$rand_id}}">
@@ -508,7 +508,7 @@
                                                                         "animationSpeed": 500
                                                                     }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
                                     <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
-                                    <i class="glph-icon flaticon-icon-126515 font-size-4-----naaah"></i>
+                                    <i class="glph-icon flaticon-icon-126515 font-size-4"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -525,7 +525,7 @@
                                             "animationSpeed": 500
                                         }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight"
                                     data-unfold-duration="500">
-                                    <i class="glph-icon flaticon-user"></i>
+                                    <i class="glph-icon flaticon-user font-size-4"></i>
                                 </a>
                                 {{-- <!-- End Account Sidebar Toggle Button - Mobile --> --}}
                             </li>
