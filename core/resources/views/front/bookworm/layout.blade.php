@@ -394,12 +394,6 @@
     <!--====== PRELOADER PART START ======-->
     <!--====== PRELOADER PART ENDS ======-->
 
-    {{-- WhatsApp Chat Button --}}
-    {{-- <div id="WAButton"></div>
-
-<!--Scroll-up-->
-<a id="scroll_up" ><i class="fas fa-angle-up"></i></a> --}}
-
 
     {{-- Cookie alert dialog start --}}
     @if ($be->cookie_alert_status == 1)

@@ -242,12 +242,12 @@
                             -webkit-user-select: none;
                             touch-action: manipulation;}
                         </style>
-                        <div class="nav---- text-center d-flex d-md-none custom-header-button-wrapper">
+                        <div class="nav text-center d-flex d-md-none custom-header-button-wrapper">
                             @foreach ($custom_buttons as $custom_button)
-                                <div class="nav-item--- px-1 custom-header-button">
-                                    <a  @if(str_contains($custom_button->link_target, 'blank')) target="_blank" @endif
+                                <div class="nav-item px-1 custom-header-button">
+                                    <a @if(str_contains($custom_button->link_target, 'blank')) target="_blank" @endif
                                         href="{{ $custom_button->link_url }}" role="button"
-                                        class="nav-link-- px-2 button-70">
+                                        class="btn btn-secondary btn-sm">
                                         <span>{!! $custom_button->link_text !!}</span>
                                     </a>
                                 </div>
