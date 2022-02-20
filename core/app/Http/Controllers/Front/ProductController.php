@@ -104,6 +104,9 @@ class ProductController extends Controller
             ->when($request->has('c-id'), function ($query) {
                 return trim(request('c-id')) == '' ? $query : $query->where('category_id', request('c-id'));
             })
+            ->when($request->has('sub_category_id'), function ($query) {
+                return trim(request('sub_category_id')) == '' ? $query : $query->where('sub_category_id', request('sub_category_id'));
+            })
             ->when($request->has('sc-id'), function ($query) {
                 return trim(request('sc-id')) == '' ? $query : $query->where('sub_category_id', request('sc-id'));
             })
