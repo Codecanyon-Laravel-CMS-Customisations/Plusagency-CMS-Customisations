@@ -54,9 +54,10 @@ function getCurrentC3(App\Models\Unscoped\Pcategory $pcategory)
 
 
 
-<aside id="main-nav" style="display:none">
+{{-- <aside id="main-nav" style="display:none"> --}}
+<aside id="main-nav" class="u-sidebar u-sidebar--left" aria-labelledby="sidebarNavToggler----254">
     <div class="sidebar-nav-header">
-        <h2 class="font-size-3 mb-0">SHOP BY CATEGORY</h2>
+        <h2 class="font-size-3 mb-0">SHOP BY CATEGORY ***</h2>
     </div>
     <ul class="">
         @foreach ($c1->get() as $cat1)

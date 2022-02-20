@@ -225,23 +225,6 @@
                         $custom_buttons = \App\Models\MobileHeaderCustomButton::all()->where('status', true)->sortBy('link_rank', 0, false);
                     @endphp
                     @if ($custom_buttons->count() >= 1)
-                        <style>
-                            .button-70 {
-                            background-image: linear-gradient(#0dccea, #0d70ea);
-                            border: 0;
-                            border-radius: 4px;
-                            /* box-shadow: rgba(0, 0, 0, .3) 0 5px 15px; */
-                            color: #fff !important;
-                            cursor: pointer;
-                            font-family: Montserrat,sans-serif;
-                            font-size: .9em;
-                            margin: 5px;
-                            padding: 5px 15px;
-                            text-align: center;
-                            user-select: none;
-                            -webkit-user-select: none;
-                            touch-action: manipulation;}
-                        </style>
                         <div class="nav text-center d-flex d-md-none custom-header-button-wrapper">
                             @foreach ($custom_buttons as $custom_button)
                                 <div class="nav-item px-1 custom-header-button">
@@ -254,6 +237,128 @@
                             @endforeach
                         </div>
                     @endif
+
+                    <ul class="nav d-md-none ml-auto">
+                        @php
+                            $rand_id = rand(77, 777);
+                        @endphp
+                        <style>
+                            #basicDropdownHoverInvoker19-7{{$rand_id}}::after ,
+                            #basicDropdownHoverInvoker19-8{{$rand_id}}::after {
+                                display: none;
+                            }
+                        </style>
+                        <li class="nav-item">
+                            <a
+                                id="basicDropdownHoverInvoker19-8{{$rand_id}}"
+                                href="javascript:;" role="button"
+                                class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-7{{$rand_id}}"
+                                aria-haspopup="true" aria-expanded="false" data-unfold-event="click"
+                                data-unfold-target="#basicDropdownHover19-7{{$rand_id}}" data-unfold-type="css-animation"
+                                data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false"
+                                data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                                <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0">
+                                    @php
+                                        try {
+                                            echo is_array( session()->get('wishlist') ) ? count(session()->get('wishlist')) : '0';
+                                        }
+                                        catch (\Exception $e){ }
+                                    @endphp
+                                </span>
+                                <i class="flaticon-heart font-size-4"></i>
+                            </a>
+                            <div id="basicDropdownHover19-7{{$rand_id}}" class="dropdown-menu dropdown-unfold right-0 left-auto"
+                                 aria-labelledby="basicDropdownHoverInvoker19-7{{$rand_id}}">
+                                <!-- Title -->
+                                <header class="border-bottom px-4 px-md-6 py-4">
+                                    <h6 class="font-size-5 h6 mb-0 d-flex align-items-center">
+                                        @php
+                                            echo "My Wishlist (";
+                                            try {
+                                                echo is_array( session()->get('wishlist') ) ? count(session()->get('wishlist')) : '0';
+                                            }
+                                            catch (\Exception $e){ }
+                                            echo ")";
+                                        @endphp
+                                    </h6>
+                                </header>
+                                <!-- End Title -->
+                                @if(is_array( session()->get('wishlist') ) && count( session()->get('wishlist') ) >= 1)
+                                    @php
+                                        $wish2cart      = route('wishlist.to.cart')."?products=";
+                                    @endphp
+                                    @foreach ( session()->get('wishlist') as $id1 => $wish1)
+                                        @php
+                                            $product1   = App\Product::find($id1);
+                                            if(is_null($product1)) continue;
+                                            $wish2cart .= "$product1->id";
+                                            if (!$loop->last)
+                                            {
+                                                $wish2cart .= "-";
+                                            }
+                                        @endphp
+                                        <div class="px-1 py-2 px-md-3 border-bottom">
+                                            <div class="media">
+                                                <a target="_blank" href="{{route('front.product.details', $product1->slug)}}" class="d-block">
+                                                    <img src="@if($wish1['photo']!=null){{$wish1['photo']}}@else{{asset('https://via.placeholder.com/55')}}@endif" class="img-fluid" alt="image-description" width="55">
+                                                </a>
+                                                <div class="media-body ml-1">
+                                                    <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                        <a href="{{route('front.product.details', $product1->slug)}}" class="text-dark">{{convertUtf8($wish1['name'])}}</a>
+                                                    </h6>
+                                                    <div class="cart d-block" >
+                                                        <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
+                                                            <span class="woocommerce-Price-amount amount d-inline-block ml-3">
+                                                                {{ $product1->symbol }}
+                                                                <span> {{ number_format($product1->price, 0) }}</span>
+                                                            </span>
+                                                            <div class="mt-0 ml-auto pr-2">
+                                                                <a href="{{ route('wishlist.item.remove', $product1->id) }}" class="text-dark"><i class="fas fa-times"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @endif
+                                <div class="px-4 mb-4 px-md-6 d-flex justify-content-around pb-2 pt-4">
+                                    <a href="{{ isset($wish2cart) ? $wish2cart : 'javascript:;' }}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4">Add To Cart</a>
+                                    <a href="{{route('front.wishlist')}}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4">View Wishlist</a>
+                                    {{-- <button type="submit" class="btn btn-block py-4 rounded-0 btn-dark">Checkout</button> --}}
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a id="sidebarNavToggler1" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="sidebarContent1" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent1" data-unfold-type="css-animation" data-unfold-overlay='{
+                                                                    "className": "u-sidebar-bg-overlay",
+                                                                    "background": "rgba(0, 0, 0, .7)",
+                                                                    "animationSpeed": 500
+                                                                }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
+                                <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
+                                <i class="glph-icon flaticon-icon-126515 font-size-4"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            {{-- <!-- Account Sidebar Toggle Button - Mobile --> --}}
+                            <a
+                                {{-- style="padding-left: 15px !important;bottom: -5px !important;position: relative;" --}}
+                                id="sidebarNavToggler9" href="javascript:;" role="button"
+                                class="px-2 nav-link h-primary" aria-controls="sidebarContent9" aria-haspopup="true"
+                                aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false"
+                                data-unfold-target="#sidebarContent9" data-unfold-type="css-animation"
+                                data-unfold-overlay='{
+                                        "className": "u-sidebar-bg-overlay",
+                                        "background": "rgba(0, 0, 0, .7)",
+                                        "animationSpeed": 500
+                                    }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight"
+                                data-unfold-duration="500">
+                                <i class="glph-icon flaticon-user font-size-4"></i>
+                            </a>
+                            {{-- <!-- End Account Sidebar Toggle Button - Mobile --> --}}
+                        </li>
+                    </ul>
+
                     <ul class="nav align-self-center d-none d-md-flex">
                         <style>
                             #basicDropdownHoverInvoker19-7::after {
@@ -405,7 +510,6 @@
                                     display: none;
                                 }
                             </style>
-
                             @if (trim($header_v2_button_text) != '')
                                 <li class="nav-item">
                                     <!-- Inquiry form Toggle Button -->
@@ -420,7 +524,7 @@
                                     <!-- End Inquiry form Toggle Button -->
                                 </li>
                             @endif
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a
                                     id="basicDropdownHoverInvoker19-8{{$rand_id}}"
                                     href="javascript:;" role="button"
@@ -497,7 +601,7 @@
                                     <div class="px-4 mb-4 px-md-6 d-flex justify-content-around pb-2 pt-4">
                                         <a href="{{ isset($wish2cart) ? $wish2cart : 'javascript:;' }}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4">Add To Cart</a>
                                         <a href="{{route('front.wishlist')}}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4">View Wishlist</a>
-                                        {{-- <button type="submit" class="btn btn-block py-4 rounded-0 btn-dark">Checkout</button> --}}
+                                        {{-- <button type="submit" class="btn btn-block py-4 rounded-0 btn-dark">Checkout</button> --} }
                                     </div>
                                 </div>
                             </li>
@@ -514,7 +618,8 @@
                             <li class="nav-item">
                                 {{-- <!-- Account Sidebar Toggle Button - Mobile --> --}}
                                 <a
-                                    {{-- style="padding-left: 15px !important;bottom: -5px !important;position: relative;" --}}
+                                    {{-- style="padding-left: 15px !important;bottom: -5px !important;position: relative;" --}
+                                }
                                     id="sidebarNavToggler9" href="javascript:;" role="button"
                                     class="px-2 nav-link h-primary" aria-controls="sidebarContent9" aria-haspopup="true"
                                     aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false"
@@ -527,8 +632,8 @@
                                     data-unfold-duration="500">
                                     <i class="glph-icon flaticon-user font-size-4"></i>
                                 </a>
-                                {{-- <!-- End Account Sidebar Toggle Button - Mobile --> --}}
-                            </li>
+                                {{-- <!-- End Account Sidebar Toggle Button - Mobile --> --} }
+                            </li> --}}
                         </ul>
                     </div>
 
