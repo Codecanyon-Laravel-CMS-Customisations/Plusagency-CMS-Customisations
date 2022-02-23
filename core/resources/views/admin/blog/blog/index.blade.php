@@ -151,12 +151,8 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                 </div>
             </div>
         </div>
-
+        </div>
     </div>
-</div>
-
-</div>
-</div>
 </div>
 <!-- Create Blog Modal -->
 <div

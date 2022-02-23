@@ -227,7 +227,7 @@
                     @if ($custom_buttons->count() >= 1)
                         <div class="nav text-center d-flex d-md-none custom-header-button-wrapper">
                             @foreach ($custom_buttons as $custom_button)
-                                <div class="nav-item px-1 custom-header-button">
+                                <div class="nav-item px-1 my-1 custom-header-button">
                                     <a @if(str_contains($custom_button->link_target, 'blank')) target="_blank" @endif
                                         href="{{ $custom_button->link_url }}" role="button"
                                         class="btn btn-secondary btn-sm">
