@@ -126,4 +126,74 @@
         })
 
     </script>
+
+    <script src="https://unpkg.com/shufflejs@5"></script>
+
+    <script>
+        var Shuffle = window.Shuffle;
+
+        class Demo {
+            constructor(element) {
+                this.element = element;
+                this.shuffle = new Shuffle(element, {
+                    itemSelector: '.searchable-filter-item',
+                    //sizer: element.querySelector('.my-sizer-element'),
+                });
+
+                // Log events.
+                this.addShuffleEventListeners();
+                this._activeFilters = [];
+                this.addSearchFilter();
+            }
+
+            /**
+             * Shuffle uses the CustomEvent constructor to dispatch events. You can listen
+             * for them like you normally would (with jQuery for example).
+             */
+            addShuffleEventListeners() {
+                this.shuffle.on(Shuffle.EventType.LAYOUT, (data) => {
+                    // console.log('layout. data:', data);
+                });
+                this.shuffle.on(Shuffle.EventType.REMOVED, (data) => {
+                    // console.log('removed. data:', data);
+                });
+            }
+
+            // Advanced filtering
+            addSearchFilter() {
+                const searchInput = document.querySelector('.js-shuffle-search');
+                if (!searchInput) {
+                    return;
+                }
+                searchInput.addEventListener('keyup', this._handleSearchKeyup.bind(this));
+            }
+
+            /**
+             * Filter the shuffle instance by items with a title that matches the search input.
+             * @param {Event} evt Event object.
+             */
+            _handleSearchKeyup(evt) {
+                const searchText = evt.target.value.toLowerCase();
+                this.shuffle.filter((element, shuffle) => {
+                    // If there is a current filter applied, ignore elements that don't match it.
+                    if (shuffle.group !== Shuffle.ALL_ITEMS) {
+                        // Get the item's groups.
+                        const groups = JSON.parse(element.getAttribute('data-groups'));
+                        const isElementInCurrentGroup = groups.indexOf(shuffle.group) !== -1;
+                        // Only search elements in the current group
+                        if (!isElementInCurrentGroup) {
+                            return false;
+                        }
+                    }
+                    const titleElement = element.querySelector('.product__title');
+                    const titleText = titleElement.textContent.toLowerCase().trim();
+                    return titleText.indexOf(searchText) !== -1;
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.demo = new Demo(document.getElementById('searchable-filter-items-grid'));
+        });
+    </script>
 @endsection

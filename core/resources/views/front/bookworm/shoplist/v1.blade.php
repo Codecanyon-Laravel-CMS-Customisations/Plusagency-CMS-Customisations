@@ -3,11 +3,15 @@
         <div class="row pt-5">
             @if ($products->count() > 0)
                 <div id="primary" class="content-area order-2 col-md-8">
-                    <div
-                        class="shop-control-bar d-lg-flex justify-content-end align-items-center mb-5 text-center text-md-left">
+                    <div  class="shop-control-bar d-lg-flex justify-content-end align-items-center mb-5 mt-5 mt-md-0 text-center text-md-left">
                         {{-- <div class="shop-control-bar__left mb-4 m-lg-0">
                             <p class="woocommerce-result-count m-0">Showing 1–12 of 126 results</p>
                         </div> --}}
+                        <div class="shop-control-bar__right d-flex align-items-start justify-content-start">
+                            <div class="form-group mb-lg-1" style="margin-bottom: -40px;">
+                                <input type="text" name="filter" id="filter" class="form-control js-shuffle-search p-1" style="height: 40px;">
+                            </div>
+                        </div>
                         <div class="shop-control-bar__right d-flex align-items-center justify-content-end">
                             {{-- <form class="woocommerce-ordering mb-4 m-md-0" method="get">
                                 <!-- Select -->
@@ -96,10 +100,9 @@
                         <div class="tab-pane fade show active" id="pills-one-example1" role="tabpanel"
                              aria-labelledby="pills-one-example1-tab">
                             <!-- Mockup Block -->
-                            <ul
-                                class="products list-unstyled row no-gutters row-cols-2 row-cols-lg-3 row-cols-wd-4 border-top border-left mb-6">
+                            <ul id="searchable-filter-items-grid" class="products list-unstyled row no-gutters row-cols-2 row-cols-lg-3 row-cols-wd-4 border-top border-left mb-6">
                                 @foreach ($products as $product)
-                                    <li class="product col">
+                                    <li class="product col searchable-filter-item">
                                         <div class="product__inner overflow-hidden p-3 p-md-4d875">
                                             <div
                                                 class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
