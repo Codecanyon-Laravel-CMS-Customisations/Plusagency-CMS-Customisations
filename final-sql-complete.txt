@@ -137,6 +137,19 @@ CREATE TABLE `website_colors` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Indexes for table `website_colors`
+--
+ALTER TABLE `website_colors`
+  ADD PRIMARY KEY (`id`);
+
+
+--
+-- AUTO_INCREMENT for table `website_colors`
+--
+ALTER TABLE `website_colors`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
 
 
 --
