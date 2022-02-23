@@ -102,6 +102,14 @@ class WebsiteColors extends Model
                     "important_hover"       => " !important",
                 ],
                 [
+                    "section_title"         => "Header Custom Buttons",
+                    "section_description"   => "This color settings will affect the header custom buttons theming",
+                    "attr_default"          => ".custom-header-button-wrapper .custom-header-button > :is(a, *)",
+                    "attr_hover"            => ".custom-header-button-wrapper .custom-header-button > :is(a, *):hover",
+                    "important_default"     => " !important",
+                    "important_hover"       => " !important",
+                ],
+                [
                     "section_title"         => "Header Inquiry form button (Mobile)",
                     "section_description"   => "This color settings will affect the product inquiry form trigger button located on (mobile) website headers",
                     "attr_default"          => "#site-header :is(a, button)[data-target='.headerProductInquiryModal']",

@@ -148,6 +148,8 @@ class WebsiteColorsController extends Controller
         $websiteColor->update();
         Session::flash('success', 'Website Colors updated successfully!');
         Session::forget('data');
+
+        dd($websiteColor);
         return response()->json([
             'success' => true
         ], 200);

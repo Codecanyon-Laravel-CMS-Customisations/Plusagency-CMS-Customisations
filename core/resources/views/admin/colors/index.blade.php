@@ -627,6 +627,7 @@
                 "element"   : $(this).find('input[name="element"]').val(),
                 "attribute" : $(this).find('input[name="attribute"]').length < 1 ? $(this).find('select[name="attribute"]').find('option:selected').val() : $(this).find('input[name="attribute"]').val(),
             };
+            console.log(data);//return;
             $.ajax({
                 type: "POST",
                 url: "{{ route('admin.colorSettings.presets') }}",
