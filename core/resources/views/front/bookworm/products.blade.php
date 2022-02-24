@@ -141,7 +141,7 @@
                 });
 
                 // Log events.
-                this.addShuffleEventListeners();
+                // this.addShuffleEventListeners();
                 this._activeFilters = [];
                 this.addSearchFilter();
             }

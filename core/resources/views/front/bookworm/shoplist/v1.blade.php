@@ -108,9 +108,8 @@
                                                 class="woocommerce-LoopProduct-link woocommerce-loop-product__link d-block position-relative">
                                                 <div class="woocommerce-loop-product__thumbnail">
                                                     <a href="{{ route('front.product.details', $product->slug) }}" class="d-block">
-                                                        <img loading="lazy"
-                                                            src="{{ trim($product->feature_image) }}"
-                                                            class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"
+                                                        <img data-src="{{ trim($product->feature_image) }}"
+                                                            class="lazy img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"
                                                             alt="{{ "Product Image" }}" width="150">
                                                     </a>
                                                 </div>
@@ -184,9 +183,8 @@
                                                     <div
                                                         class="col-md-auto woocommerce-loop-product__thumbnail mb-3 mb-md-0">
                                                         <a href="{{ route('front.product.details', $product->slug) }}" class="d-block">
-                                                            <img loading="lazy"
-                                                                src="{{ trim($product->feature_image) }}"
-                                                                class="img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"
+                                                            <img data-src="{{ trim($product->feature_image) }}"
+                                                                class="lazy img-fluid d-block mx-auto attachment-shop_catalog size-shop_catalog wp-post-image img-fluid"
                                                                 alt="{{ "Product Image" }}" width="150"></a>
                                                     </div>
                                                     <div
@@ -442,7 +440,7 @@
                             </form>
                         </div>
                     </div>
-                    <div id="Review" class="widget p-4d875 border">
+                    <div id="Review" class="widget p-4d875 border d-none d-md-block">
                         <div id="widgetHeading24" class="widget-head">
                             <a class="d-flex align-items-center justify-content-between text-dark" href="#"
                                data-toggle="collapse" data-target="#widgetCollapse24" aria-expanded="true"
