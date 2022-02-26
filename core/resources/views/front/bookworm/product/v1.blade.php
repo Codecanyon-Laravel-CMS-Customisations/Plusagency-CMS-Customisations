@@ -208,23 +208,25 @@
                                         <a href="{{ route("wishlist.item.add", $product->id) }}" class="h-primary"><i class="flaticon-heart mr-2"></i> Add to Wishlist</a>
                                     </li>
                                     <li class="mr-6">
-                                        <a href="whatsapp://send?text= {{$bs->website_title. ' - Product - '.  $product->title.' '. route('front.product.details', $product->slug) }}" data-action="share/whatsapp/share" class="h-primary"><i class="flaticon-share mr-2"></i> Share</a>
+                                        <a href="whatsapp://send?text={{$bs->website_title. ' - Product - '.  $product->title.' '. route('front.product.details', $product->slug) }}" data-action="share/whatsapp/share" class="h-primary"><svg style="width:18px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                                                <!--! Font Awesome Pro 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                                <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z" />
+                                            </svg> Whatsapp</a>
+
+                                        <span class="btooltip">
+                                            <span class="ml-3 h-primary" style="color:black !important; " onclick="copyToClipBoard('{{route('front.product.details', $product->slug) }}')" onmouseout="outFunc()">
+                                                <span class="tooltiptext" id="myTooltip">Click to copy</span>
+                                                <svg style="width:16px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                                    <!--! Font Awesome Pro 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
+                                                    <path d="M384 96L384 0h-112c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48H464c26.51 0 48-21.49 48-48V128h-95.1C398.4 128 384 113.6 384 96zM416 0v96h96L416 0zM192 352V128h-144c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48h192c26.51 0 48-21.49 48-48L288 416h-32C220.7 416 192 387.3 192 352z" />
+                                                </svg> Copy link
+                                            </span>
+                                        </span>
                                     </li>
                                 </ul>
                             </div>
                             <script async src="https://static.addtoany.com/menu/page.js"></script>
                         </div>
-
-                        {{-- <div class="px-4 px-xl-7 py-5 d-flex align-items-center">
-                            <ul class="list-unstyled nav">
-                                <li class="mr-6 mb-4 mb-md-0">
-                                    <a href="#" class="h-primary"><i class="flaticon-heart mr-2"></i> Add to Wishlist</a>
-                                </li>
-                                <li class="mr-6">
-                                    <a href="#" class="h-primary"><i class="flaticon-share mr-2"></i> Share</a>
-                                </li>
-                            </ul>
-                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -233,3 +235,55 @@
         </div>
     </main>
 </div>
+<style>
+    .btooltip {
+        position: relative;
+        display: inline-block;
+    }
+
+    .btooltip .tooltiptext {
+        visibility: hidden;
+        width: 180px;
+        color: white;
+        background-color: #555;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 150%;
+        left: 50%;
+        margin-left: -75px;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .btooltip .tooltiptext::after {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -5px;
+        border-width: 5px;
+        border-style: solid;
+        border-color: #555 transparent transparent transparent;
+    }
+
+    .btooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+    }
+</style>
+<script>
+    function copyToClipBoard(link) {
+        navigator.clipboard.writeText(link);
+
+        var tooltip = document.getElementById("myTooltip");
+        tooltip.innerHTML = "Copied: " + link;
+    }
+
+    function outFunc() {
+        var tooltip = document.getElementById("myTooltip");
+        tooltip.innerHTML = "Click to copy";
+    }
+</script>
