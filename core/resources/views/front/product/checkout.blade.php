@@ -45,9 +45,9 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
 @section('meta-description', "$be->checkout_meta_description")
 @section('breadcrumb-links')
 <nav class="woocommerce-breadcrumb font-size-2">
-    <a href='/' class='h-primary'>Home</a>
+    <a href='/' class='h-primary'>{{convertUtf8($be->checkout_title)}}</a>
     <span class='breadcrumb-separator mx-1'><i class='fas fa-angle-right'></i></span>
-    <a href='#' class='h-primary'>Checkout</a>
+    <a href='#' class='h-primary'>{{convertUtf8($be->checkout_subtitle)}}</a>
 </nav>
 @endsection
 
