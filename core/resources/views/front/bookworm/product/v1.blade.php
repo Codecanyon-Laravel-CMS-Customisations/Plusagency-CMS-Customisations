@@ -1,6 +1,3 @@
-{{-- @section('breadcrumb-title')
-Product Details
-@endsection --}}
 @section('breadcrumb-links')
     <nav class="woocommerce-breadcrumb font-size-2">
         @php

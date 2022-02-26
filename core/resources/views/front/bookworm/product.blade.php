@@ -356,12 +356,6 @@ if (isset($_GET['variation'])) {
 
 @endphp
 
-@section('breadcrumb-title', $be->product_details_title)
-@section('breadcrumb-subtitle', strlen($product->title) > 40 ? mb_substr($product->title, 0, 40, 'utf-8') . '...' :
-    $product->title)
-@section('breadcrumb-link', strlen($product->title) > 40 ? mb_substr($product->title, 0, 40, 'utf-8') . '...' :
-    $product->title)
-
 @section('content')
 
 
