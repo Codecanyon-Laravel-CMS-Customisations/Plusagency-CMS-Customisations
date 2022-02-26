@@ -7,6 +7,7 @@ use App\Models\Currency;
 use Illuminate\Support\Str;
 use App\Models\CurrencyConversion;
 use App\Models\GeoIP\ClientGeoData;
+use App\Services\CountryManager;
 
 if (! function_exists('angel_auto_convert_currency'))
 {
@@ -65,7 +66,7 @@ if (! function_exists('angel_get_base_currency_id'))
             }
 
             //get from site settings
-            $bc_id      = Currency::query()->where('name', BasicExtra::first()->base_currency_text)->orderBy('id', 'desc')->first();
+            $bc_id      = Currency::query()->where('acronym', 'INR')->orderBy('id', 'desc')->first();
             return $bc_id->id;
         }
         catch (\Exception $exception)
@@ -90,7 +91,7 @@ if (! function_exists('angel_get_user_currency_id'))
             }
 
             //get from site settings
-            $bc_id      = Currency::query()->where('name', BasicExtra::first()->base_currency_text)->orderBy('id', 'desc')->first();
+            $bc_id      = Currency::query()->where('acronym', 'INR')->orderBy('id', 'desc')->first();
             return $bc_id->id;
         }
         catch (\Exception $exception)
@@ -182,13 +183,12 @@ if (! function_exists('angel_product_price'))
 }
 
 if(! function_exists('ship_to_india'))
-{
+{//Resolve country from IoC container to avoid duplicate requests
     function ship_to_india()
     {
         try
         {
-            $country = Country::find(session('geo_data_user_country'));
-
+            $country = request('user_country');
             if(Str::slug($country->name) == Str::slug('India'))
             {
                 return true;

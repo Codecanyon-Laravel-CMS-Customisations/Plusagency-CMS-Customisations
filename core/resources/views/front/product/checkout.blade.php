@@ -1,63 +1,65 @@
 @extends("front.$version.layout")
 @php
-    // $bex->base_currency_symbol          = "AI";
-    // $bex->base_currency_symbol_position = strtolower("Left");
-    // $bex->base_currency_text            = "United States Dollar";
-    // $bex->base_currency_text_position   = strtolower("Left");
-    // $bex->base_currency_rate            = "1.00";
+// $bex->base_currency_symbol = "AI";
+// $bex->base_currency_symbol_position = strtolower("Left");
+// $bex->base_currency_text = "United States Dollar";
+// $bex->base_currency_text_position = strtolower("Left");
+// $bex->base_currency_rate = "1.00";
 
 
 
-    // echo json_encode($bex);
-    // return;
+// echo json_encode($bex);
+// return;
 
-    $geo_data_base_currency             = angel_get_base_currency_id();//App\Models\Currency::find(81);
-    $geo_data_user_currency             = angel_get_user_currency_id();//App\Models\Currency::find(23);
-
-    // dd( $geo_data_base_currency);
-    // echo json_encode( $geo_data_base_currency);return;
-    // $bc_id      = App\Models\Currency::query()->where('name', App\BasicExtra::first()->base_currency_text)->orderBy('id', 'desc')->first();
-    // echo json_encode($bc_id);//        return $bc_id->id;
-
-
-    $bex_user_currency                  = App\Models\Currency::find($geo_data_user_currency);
-    $bex->base_currency_symbol          = $bex_user_currency->symbol;
-    $bex->base_currency_symbol_position = strtolower($bex_user_currency->symbol_position) == 'l'?  'left' : 'right';
-    $bex->base_currency_text            = $bex_user_currency->name;
-    $bex->base_currency_text_position   = strtolower($bex_user_currency->text_position) == 'l'?  'left' : 'right';
-
-    // echo json_encode($bex);return;
-    // echo json_encode(session()->all());return;
+$geo_data_base_currency = angel_get_base_currency_id();//App\Models\Currency::find(81);
+$geo_data_user_currency = angel_get_user_currency_id();//App\Models\Currency::find(23);
+//dd( [$geo_data_base_currency,$geo_data_user_currency]);
+// echo json_encode( $geo_data_base_currency);return;
+// $bc_id = App\Models\Currency::query()->where('name', App\BasicExtra::first()->base_currency_text)->orderBy('id', 'desc')->first();
+// echo json_encode($bc_id);// return $bc_id->id;
 
 
+$bex_user_currency = App\Models\Currency::find($geo_data_user_currency);
+$bex->base_currency_symbol = $bex_user_currency->symbol;
+$bex->base_currency_symbol_position = strtolower($bex_user_currency->symbol_position) == 'l'? 'left' : 'right';
+$bex->base_currency_text = $bex_user_currency->name;
+$bex->base_currency_text_position = strtolower($bex_user_currency->text_position) == 'l'? 'left' : 'right';
 
-    function pesa($money)
-    {
-        return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_price, angel_get_base_currency_id(), angel_get_user_currency_id()) : angel_auto_convert_currency($money, angel_get_base_currency_id(), angel_get_user_currency_id());
-    }
+// echo json_encode($bex);return;
+// echo json_encode(session()->all());return;
+
+
+
+function pesa($money)
+{
+return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_price, angel_get_base_currency_id(), angel_get_user_currency_id()) : angel_auto_convert_currency($money, angel_get_base_currency_id(), angel_get_user_currency_id());
+}
 @endphp
 
 @section('pagename')
- -
- {{__('Checkout')}}
+-
+{{__('Checkout')}}
 @endsection
 
 @section('meta-keywords', "$be->checkout_meta_keywords")
 @section('meta-description', "$be->checkout_meta_description")
-
-@section('breadcrumb-title', convertUtf8($be->checkout_title))
-@section('breadcrumb-subtitle', convertUtf8($be->checkout_subtitle))
-@section('breadcrumb-link', __('Checkout'))
+@section('breadcrumb-links')
+<nav class="woocommerce-breadcrumb font-size-2">
+    <a href='/' class='h-primary'>{{convertUtf8($be->checkout_title)}}</a>
+    <span class='breadcrumb-separator mx-1'><i class='fas fa-angle-right'></i></span>
+    <a href='#' class='h-primary'>{{convertUtf8($be->checkout_subtitle)}}</a>
+</nav>
+@endsection
 
 @section('content')
 
-    <!--====== CHECKOUT PART START ======-->
-    <section class="checkout-area">
-        <form action="{{route('product.paypal.submit')}}" method="POST" id="payment" enctype="multipart/form-data">
-            @csrf
-            @if(Session::has('stock_error'))
-            <p class="text-danger text-center my-3">{{Session::get('stock_error')}}</p>
-            @endif
+<!--====== CHECKOUT PART START ======-->
+<section class="checkout-area">
+    <form action="{{route('product.paypal.submit')}}" method="POST" id="payment" enctype="multipart/form-data">
+        @csrf
+        @if(Session::has('stock_error'))
+        <p class="text-danger text-center my-3">{{Session::get('stock_error')}}</p>
+        @endif
         <div class="container">
 
             <div class="row">
@@ -66,343 +68,343 @@
                         <div class="shop-title-box">
                             <h3>{{__('Billing Address')}}</h3>
                         </div>
-                            <div class="row">
-                                <div class="col-md-12 mb-4">
-                                    <div class="field-label">{{__('Country')}} *</div>
-                                    {{-- <div class="field-input">
-                                        @php
-                                            $bcountry = '';
-                                            if(empty(old())) {
-                                                if (Auth::check()) {
-                                                    $bcountry = Auth::user()->billing_country;
-                                                }
-                                            } else {
-                                                $bcountry = old('billing_country');
-                                            }
-                                        @endphp
-                                        <input type="text" name="billing_country" value="{{$bcountry}}">
-                                    </div> --}}
-                                    <div class="ml-auto d-lg-flex justify-content-xl-end align-items-center form-group">
-                                        @php
-                                            $countries          = App\Models\Country::all()->unique('name');
-                                            $countries_options  = '';
-                                        @endphp
-
-                                        <select name="billing_country" class="form-control js-select selectpicker dropdown-select mb-3 mb-md-0" data-style="border px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true" data-live-search="true">
-                                            @foreach ($countries as $country)
-                                                @php
-                                                    $user_country       = session('geo_data_user_country');
-                                                    $country_id         = $country->id;
-
-                                                    $country_id_crypt   = encrypt($country->id);
-                                                    $route              = route('changeCountry', $country_id_crypt);
-                                                    $wc_selected        = $country_id == $user_country ? 'selected' : '';
-                                                    $wc_value           = $country->name.'  ( '.$country->native_name.' )';
-
-                                                    if (!empty(old('billing_country')))
-                                                    {
-                                                        $wc_selected    = $wc_value == old('billing_country', '') ? 'selected' : '';
-                                                    }
-
-                                                    $countries_options .= "<option data-link=\"$route\" data-value=\"$country->id\" value=\"$wc_value\" $wc_selected>$wc_value</option>";
-
-                                                @endphp
-                                                {{-- <option value="{{ $country->id }}" @if ($country->id == session('geo_data_user_country')) selected @endif>{{ "$country->name ($country->native_name)" }}</option> --}}
-                                            @endforeach
-                                            {!! $countries_options !!}
-                                        </select>
-                                    </div>
-                                    @error('billing_country')
-                                        <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6 mb-4">
-                                    <div class="field-label">{{__('First Name')}} *</div>
-                                    <div class="field-input">
-                                        @php
-                                            $bfname = '';
-                                            if(empty(old())) {
-                                                if (Auth::check()) {
-                                                    $bfname = Auth::user()->billing_fname;
-                                                }
-                                            } else {
-                                                $bfname = old('billing_fname');
-                                            }
-                                        @endphp
-                                        <input type="text" name="billing_fname" value="{{$bfname}}">
-                                    </div>
-                                    @error('billing_fname')
-                                        <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6 mb-4">
-                                    <div class="field-label">{{__('Last Name')}} *</div>
-                                    <div class="field-input">
-                                        @php
-                                            $blname = '';
-                                            if(empty(old())) {
-                                                if (Auth::check()) {
-                                                    $blname = Auth::user()->billing_lname;
-                                                }
-                                            } else {
-                                                $blname = old('billing_lname');
-                                            }
-                                        @endphp
-                                        <input type="text" name="billing_lname" value="{{$blname}}">
-                                    </div>
-                                    @error('billing_lname')
-                                        <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
-                                    @enderror
-                                </div>
-                                <div class="col-md-12 mb-4">
-                                    <div class="field-label">{{__('Address')}} *</div>
-                                    <div class="field-input">
-                                        @php
-                                            $baddress = '';
-                                            if(empty(old())) {
-                                                if (Auth::check()) {
-                                                    $baddress = Auth::user()->billing_address;
-                                                }
-                                            } else {
-                                                $baddress = old('billing_address');
-                                            }
-                                        @endphp
-                                        <input type="text" name="billing_address" value="{{$baddress}}">
-                                    </div>
-                                    @error('billing_address')
-                                        <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
-                                    @enderror
-                                </div>
-
-                                <div class="col-md-12 mb-4">
-                                    <div class="field-label">{{__('Town / City')}} *</div>
-                                    <div class="field-input">
-                                        @php
-                                            $bcity = '';
-                                            if(empty(old())) {
-                                                if (Auth::check()) {
-                                                    $bcity = Auth::user()->billing_city;
-                                                }
-                                            } else {
-                                                $bcity = old('billing_city');
-                                            }
-                                        @endphp
-                                        <input type="text" name="billing_city" value="{{$bcity}}">
-                                    </div>
-                                    @error('billing_city')
-                                    <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
-                                    @enderror
-                                </div>
-                                <div class="col-md-12 mb-4">
-                                    <div class="field-label">{{__('Contact Email')}} *</div>
-                                    <div class="field-input">
-                                        @php
-                                            $bmail = '';
-                                            if(empty(old())) {
-                                                if (Auth::check()) {
-                                                    $bmail = Auth::user()->billing_email;
-                                                }
-                                            } else {
-                                                $bmail = old('billing_email');
-                                            }
-                                        @endphp
-                                        <input type="text" name="billing_email" value="{{$bmail}}">
-                                    </div>
-                                    @error('billing_email')
-                                    <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
-                                    @enderror
-                                </div>
-                                <div class="col-md-12 mb-4">
-                                    <div class="field-label">{{__('Phone')}} *</div>
-                                    <div class="field-input">
-                                        @php
-                                            $bnumber = '';
-                                            if(empty(old())) {
-                                                if (Auth::check()) {
-                                                    $bnumber = Auth::user()->billing_number;
-                                                }
-                                            } else {
-                                                $bnumber = old('billing_number');
-                                            }
-                                        @endphp
-                                        <input type="text" name="billing_number" value="{{$bnumber}}">
-                                    </div>
-                                    @error('billing_number')
-                                    <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                    <div class="form shipping-info">
-                        <div class="shop-title-box">
-                            <h3>{{__('Shipping Address')}}</h3>
-                        </div>
                         <div class="row">
                             <div class="col-md-12 mb-4">
                                 <div class="field-label">{{__('Country')}} *</div>
-                                <div class="field-input form-group">
-                                    {{-- @php
-                                        $scountry = '';
-                                        if(empty(old())) {
-                                            if (Auth::check()) {
-                                                $scountry = Auth::user()->shpping_country;
-                                            }
-                                        } else {
-                                            $scountry = old('shpping_country');
-                                        }
-                                    @endphp
-                                    <input type="text" name="shpping_country" value="{{$scountry}}"> --}}
-                                    <div class="ml-auto d-lg-flex justify-content-xl-end align-items-center">
-                                        @php
-                                            $countries          = App\Models\Country::all()->unique('name');
-                                            $countries_options  = '';
-                                        @endphp
+                                {{-- <div class="field-input">
+                                            @php
+                                                $bcountry = '';
+                                                if(empty(old())) {
+                                                    if (Auth::check()) {
+                                                        $bcountry = Auth::user()->billing_country;
+                                                    }
+                                                } else {
+                                                    $bcountry = old('billing_country');
+                                                }
+                                            @endphp
+                                            <input type="text" name="billing_country" value="{{$bcountry}}">
+                            </div> --}}
+                            <div class="ml-auto d-lg-flex justify-content-xl-end align-items-center form-group">
+                                @php
+                                $countries = App\Models\Country::all()->unique('name');
+                                $countries_options = '';
+                                @endphp
 
-                                        <select name="shpping_country" class="form-control changeCountry js-select selectpicker dropdown-select mb-3 mb-md-0" data-style="border px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true" data-live-search="true">
-                                            @foreach ($countries as $country)
-                                                @php
-                                                    $user_country       = session('geo_data_user_country');
-                                                    $country_id         = $country->id;
+                                <select name="billing_country" class="form-control js-select selectpicker dropdown-select mb-3 mb-md-0" data-style="border px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true" data-live-search="true">
+                                    @foreach ($countries as $country)
+                                    @php
+                                    $user_country = session('geo_data_user_country');
+                                    $country_id = $country->id;
 
-                                                    $country_id_crypt   = encrypt($country->id);
-                                                    $route              = route('changeCountry', $country_id_crypt);
-                                                    $wc_selected        = $country_id == $user_country ? 'selected' : '';
-                                                    $wc_value           = $country->name.'  ( '.$country->native_name.' )';
+                                    $country_id_crypt = encrypt($country->id);
+                                    $route = route('changeCountry', $country_id_crypt);
+                                    $wc_selected = $country_id == $user_country ? 'selected' : '';
+                                    $wc_value = $country->name.' ( '.$country->native_name.' )';
 
-                                                    $countries_options .= "<option data-link=\"$route\" data-value=\"$country->id\" $wc_selected>$wc_value</option>";
+                                    if (!empty(old('billing_country')))
+                                    {
+                                    $wc_selected = $wc_value == old('billing_country', '') ? 'selected' : '';
+                                    }
 
-                                                @endphp
-                                                {{-- <option value="{{ $country->id }}" @if ($country->id == session('geo_data_user_country')) selected @endif>{{ "$country->name ($country->native_name)" }}</option> --}}
-                                            @endforeach
-                                            {!! $countries_options !!}
-                                        </select>
-                                    </div>
-                                </div>
-                                @error('shpping_country')
-                                    <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
-                                @enderror
-                            </div>
-                            <div class="col-md-6 mb-4">
-                                <div class="field-label">{{__('First Name')}} *</div>
-                                <div class="field-input">
-                                    @php
-                                        $sfname = '';
-                                        if(empty(old())) {
-                                            if (Auth::check()) {
-                                                $sfname = Auth::user()->shpping_fname;
-                                            }
-                                        } else {
-                                            $sfname = old('shpping_fname');
-                                        }
-                                    @endphp
-                                    <input type="text" name="shpping_fname" value="{{$sfname}}">
-                                </div>
-                                @error('shpping_fname')
-                                <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
-                                @enderror
-                            </div>
-                            <div class="col-md-6 mb-4">
-                                <div class="field-label">{{__('Last Name')}} *</div>
-                                <div class="field-input">
-                                    @php
-                                        $slname = '';
-                                        if(empty(old())) {
-                                            if (Auth::check()) {
-                                                $slname = Auth::user()->shpping_lname;
-                                            }
-                                        } else {
-                                            $slname = old('shpping_lname');
-                                        }
-                                    @endphp
-                                    <input type="text" name="shpping_lname" value="{{$slname}}">
-                                </div>
-                                @error('shpping_lname')
-                                <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
-                                @enderror
-                            </div>
-                            <div class="col-md-12 mb-4">
-                                <div class="field-label">{{__('Address')}} *</div>
-                                <div class="field-input">
-                                    @php
-                                        $saddress = '';
-                                        if(empty(old())) {
-                                            if (Auth::check()) {
-                                                $saddress = Auth::user()->shpping_address;
-                                            }
-                                        } else {
-                                            $saddress = old('shpping_address');
-                                        }
-                                    @endphp
-                                    <input type="text" name="shpping_address" value="{{$saddress}}">
-                                </div>
-                                @error('shpping_address')
-                                <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
-                                @enderror
-                            </div>
+                                    $countries_options .= "<option data-link=\"$route\" data-value=\"$country->id\" value=\"$wc_value\" $wc_selected>$wc_value</option>";
 
-                            <div class="col-md-12 mb-4">
-                                <div class="field-label">{{__('Town / City')}} *</div>
-                                <div class="field-input">
-                                    @php
-                                        $scity = '';
-                                        if(empty(old())) {
-                                            if (Auth::check()) {
-                                                $scity = Auth::user()->shpping_city;
-                                            }
-                                        } else {
-                                            $scity = old('shpping_city');
-                                        }
                                     @endphp
-                                    <input type="text" name="shpping_city" value="{{$scity}}">
-                                </div>
-                                @error('shpping_city')
-                                <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
-                                @enderror
+                                    {{-- <option value="{{ $country->id }}" @if ($country->id == session('geo_data_user_country')) selected @endif>{{ "$country->name ($country->native_name)" }}</option> --}}
+                                    @endforeach
+                                    {!! $countries_options !!}
+                                </select>
                             </div>
-                            <div class="col-md-12 mb-4">
-                                <div class="field-label">{{__('Contact Email')}} *</div>
-                                <div class="field-input">
-                                    @php
-                                        $smail = '';
-                                        if(empty(old())) {
-                                            if (Auth::check()) {
-                                                $smail = Auth::user()->shpping_email;
-                                            }
-                                        } else {
-                                            $smail = old('shpping_email');
-                                        }
-                                    @endphp
-                                    <input type="text" name="shpping_email" value="{{$smail}}">
-                                </div>
-                                @error('shpping_email')
-                                <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
-                                @enderror
+                            @error('billing_country')
+                            <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
+                            @enderror
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="field-label">{{__('First Name')}} *</div>
+                            <div class="field-input">
+                                @php
+                                $bfname = '';
+                                if(empty(old())) {
+                                if (Auth::check()) {
+                                $bfname = Auth::user()->billing_fname;
+                                }
+                                } else {
+                                $bfname = old('billing_fname');
+                                }
+                                @endphp
+                                <input type="text" name="billing_fname" value="{{$bfname}}">
                             </div>
-                            <div class="col-md-12 mb-4">
-                                <div class="field-label">{{__('Phone')}} *</div>
-                                <div class="field-input">
-                                    @php
-                                        $snumber = '';
-                                        if(empty(old())) {
-                                            if (Auth::check()) {
-                                                $snumber = Auth::user()->shpping_number;
-                                            }
-                                        } else {
-                                            $snumber = old('shpping_number');
-                                        }
-                                    @endphp
-                                    <input type="text" name="shpping_number" value="{{$snumber}}">
-                                </div>
-                                @error('shpping_number')
-                                <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
-                                @enderror
+                            @error('billing_fname')
+                            <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
+                            @enderror
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="field-label">{{__('Last Name')}} *</div>
+                            <div class="field-input">
+                                @php
+                                $blname = '';
+                                if(empty(old())) {
+                                if (Auth::check()) {
+                                $blname = Auth::user()->billing_lname;
+                                }
+                                } else {
+                                $blname = old('billing_lname');
+                                }
+                                @endphp
+                                <input type="text" name="billing_lname" value="{{$blname}}">
                             </div>
+                            @error('billing_lname')
+                            <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
+                            @enderror
+                        </div>
+                        <div class="col-md-12 mb-4">
+                            <div class="field-label">{{__('Address')}} *</div>
+                            <div class="field-input">
+                                @php
+                                $baddress = '';
+                                if(empty(old())) {
+                                if (Auth::check()) {
+                                $baddress = Auth::user()->billing_address;
+                                }
+                                } else {
+                                $baddress = old('billing_address');
+                                }
+                                @endphp
+                                <input type="text" name="billing_address" value="{{$baddress}}">
+                            </div>
+                            @error('billing_address')
+                            <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-12 mb-4">
+                            <div class="field-label">{{__('Town / City')}} *</div>
+                            <div class="field-input">
+                                @php
+                                $bcity = '';
+                                if(empty(old())) {
+                                if (Auth::check()) {
+                                $bcity = Auth::user()->billing_city;
+                                }
+                                } else {
+                                $bcity = old('billing_city');
+                                }
+                                @endphp
+                                <input type="text" name="billing_city" value="{{$bcity}}">
+                            </div>
+                            @error('billing_city')
+                            <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
+                            @enderror
+                        </div>
+                        <div class="col-md-12 mb-4">
+                            <div class="field-label">{{__('Contact Email')}} *</div>
+                            <div class="field-input">
+                                @php
+                                $bmail = '';
+                                if(empty(old())) {
+                                if (Auth::check()) {
+                                $bmail = Auth::user()->billing_email;
+                                }
+                                } else {
+                                $bmail = old('billing_email');
+                                }
+                                @endphp
+                                <input type="text" name="billing_email" value="{{$bmail}}">
+                            </div>
+                            @error('billing_email')
+                            <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
+                            @enderror
+                        </div>
+                        <div class="col-md-12 mb-4">
+                            <div class="field-label">{{__('Phone')}} *</div>
+                            <div class="field-input">
+                                @php
+                                $bnumber = '';
+                                if(empty(old())) {
+                                if (Auth::check()) {
+                                $bnumber = Auth::user()->billing_number;
+                                }
+                                } else {
+                                $bnumber = old('billing_number');
+                                }
+                                @endphp
+                                <input type="text" name="billing_number" value="{{$bnumber}}">
+                            </div>
+                            @error('billing_number')
+                            <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
+                            @enderror
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                <div class="form shipping-info">
+                    <div class="shop-title-box">
+                        <h3>{{__('Shipping Address')}}</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-4">
+                            <div class="field-label">{{__('Country')}} *</div>
+                            <div class="field-input form-group">
+                                {{-- @php
+                                            $scountry = '';
+                                            if(empty(old())) {
+                                                if (Auth::check()) {
+                                                    $scountry = Auth::user()->shpping_country;
+                                                }
+                                            } else {
+                                                $scountry = old('shpping_country');
+                                            }
+                                        @endphp
+                                        <input type="text" name="shpping_country" value="{{$scountry}}"> --}}
+                                <div class="ml-auto d-lg-flex justify-content-xl-end align-items-center">
+                                    @php
+                                    $countries = App\Models\Country::all()->unique('name');
+                                    $countries_options = '';
+                                    @endphp
+
+                                    <select name="shpping_country" class="form-control changeCountry js-select selectpicker dropdown-select mb-3 mb-md-0" data-style="border px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2" data-dropdown-align-right="true" data-live-search="true">
+                                        @foreach ($countries as $country)
+                                        @php
+                                        $user_country = session('geo_data_user_country');
+                                        $country_id = $country->id;
+
+                                        $country_id_crypt = encrypt($country->id);
+                                        $route = route('changeCountry', $country_id_crypt);
+                                        $wc_selected = $country_id == $user_country ? 'selected' : '';
+                                        $wc_value = $country->name.' ( '.$country->native_name.' )';
+
+                                        $countries_options .= "<option data-link=\"$route\" data-value=\"$country->id\" $wc_selected>$wc_value</option>";
+
+                                        @endphp
+                                        {{-- <option value="{{ $country->id }}" @if ($country->id == session('geo_data_user_country')) selected @endif>{{ "$country->name ($country->native_name)" }}</option> --}}
+                                        @endforeach
+                                        {!! $countries_options !!}
+                                    </select>
+                                </div>
+                            </div>
+                            @error('shpping_country')
+                            <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
+                            @enderror
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="field-label">{{__('First Name')}} *</div>
+                            <div class="field-input">
+                                @php
+                                $sfname = '';
+                                if(empty(old())) {
+                                if (Auth::check()) {
+                                $sfname = Auth::user()->shpping_fname;
+                                }
+                                } else {
+                                $sfname = old('shpping_fname');
+                                }
+                                @endphp
+                                <input type="text" name="shpping_fname" value="{{$sfname}}">
+                            </div>
+                            @error('shpping_fname')
+                            <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
+                            @enderror
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="field-label">{{__('Last Name')}} *</div>
+                            <div class="field-input">
+                                @php
+                                $slname = '';
+                                if(empty(old())) {
+                                if (Auth::check()) {
+                                $slname = Auth::user()->shpping_lname;
+                                }
+                                } else {
+                                $slname = old('shpping_lname');
+                                }
+                                @endphp
+                                <input type="text" name="shpping_lname" value="{{$slname}}">
+                            </div>
+                            @error('shpping_lname')
+                            <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
+                            @enderror
+                        </div>
+                        <div class="col-md-12 mb-4">
+                            <div class="field-label">{{__('Address')}} *</div>
+                            <div class="field-input">
+                                @php
+                                $saddress = '';
+                                if(empty(old())) {
+                                if (Auth::check()) {
+                                $saddress = Auth::user()->shpping_address;
+                                }
+                                } else {
+                                $saddress = old('shpping_address');
+                                }
+                                @endphp
+                                <input type="text" name="shpping_address" value="{{$saddress}}">
+                            </div>
+                            @error('shpping_address')
+                            <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-12 mb-4">
+                            <div class="field-label">{{__('Town / City')}} *</div>
+                            <div class="field-input">
+                                @php
+                                $scity = '';
+                                if(empty(old())) {
+                                if (Auth::check()) {
+                                $scity = Auth::user()->shpping_city;
+                                }
+                                } else {
+                                $scity = old('shpping_city');
+                                }
+                                @endphp
+                                <input type="text" name="shpping_city" value="{{$scity}}">
+                            </div>
+                            @error('shpping_city')
+                            <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
+                            @enderror
+                        </div>
+                        <div class="col-md-12 mb-4">
+                            <div class="field-label">{{__('Contact Email')}} *</div>
+                            <div class="field-input">
+                                @php
+                                $smail = '';
+                                if(empty(old())) {
+                                if (Auth::check()) {
+                                $smail = Auth::user()->shpping_email;
+                                }
+                                } else {
+                                $smail = old('shpping_email');
+                                }
+                                @endphp
+                                <input type="text" name="shpping_email" value="{{$smail}}">
+                            </div>
+                            @error('shpping_email')
+                            <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
+                            @enderror
+                        </div>
+                        <div class="col-md-12 mb-4">
+                            <div class="field-label">{{__('Phone')}} *</div>
+                            <div class="field-input">
+                                @php
+                                $snumber = '';
+                                if(empty(old())) {
+                                if (Auth::check()) {
+                                $snumber = Auth::user()->shpping_number;
+                                }
+                                } else {
+                                $snumber = old('shpping_number');
+                                }
+                                @endphp
+                                <input type="text" name="shpping_number" value="{{$snumber}}">
+                            </div>
+                            @error('shpping_number')
+                            <p class="text-danger mt-2">{{convertUtf8($message)}}</p>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
 
         <div class="bottom">
@@ -424,21 +426,21 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($shippings as $key => $charge)
-                                        <tr>
-                                            <td>
-                                                <input type="radio" {{$key == 0 ? 'checked' : ''}} name="shipping_charge" {{$cart == null ? 'disabled' : ''}} data="{{$charge->charge}}"   class="shipping-charge"  value="{{$charge->id}}">
-                                            </td>
-                                            <td>
-                                                <p class="mb-2"><strong>{{convertUtf8($charge->title)}}</strong></p>
-                                                <p><small>{{convertUtf8($charge->text)}}</small></p>
-                                            </td>
-                                            <td>
-                                                {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
-                                                {{ ship_to_india() ? "₹" : "$" }}
-                                                <span>{{ pesa($charge->charge) }}</span>
-                                                {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td>
+                                            <input type="radio" {{$key == 0 ? 'checked' : ''}} name="shipping_charge" {{$cart == null ? 'disabled' : ''}} data="{{$charge->charge}}" class="shipping-charge" value="{{$charge->id}}">
+                                        </td>
+                                        <td>
+                                            <p class="mb-2"><strong>{{convertUtf8($charge->title)}}</strong></p>
+                                            <p><small>{{convertUtf8($charge->text)}}</small></p>
+                                        </td>
+                                        <td>
+                                            {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
+                                            {{ ship_to_india() ? "₹" : "$" }}
+                                            <span>{{ pesa($charge->charge) }}</span>
+                                            {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
+                                        </td>
+                                    </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -446,7 +448,7 @@
                     </div>
                     @else
                     <div class="col-12">
-                        <input style="visibility: hidden;" type="radio" checked name="shipping_charge" {{$cart == null ? 'disabled' : ''}} data="0"   class="shipping-charge"  value="0">
+                        <input style="visibility: hidden;" type="radio" checked name="shipping_charge" {{$cart == null ? 'disabled' : ''}} data="0" class="shipping-charge" value="0">
                     </div>
                     @endif
                     <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
@@ -465,21 +467,23 @@
                                 </thead>
                                 <tbody>
                                     @php
-                                        $total = 0;
+                                    $total = 0;
                                     @endphp
                                     @if($cart)
                                     @foreach ($cart as $key => $item)
-                                    <input type="hidden" name="product_id[]" value="{{$key}}" >
+                                    <input type="hidden" name="product_id[]" value="{{$key}}">
                                     @php
-                                        $total += $item['price'] * $item['qty'];
-                                        $product = App\Product::findOrFail($key);
+                                    $total += $item['price'] * $item['qty'];
+                                    $product = App\Product::findOrFail($key);
 
                                     @endphp
                                     <tr>
                                         <td colspan="2" class="product-column">
                                             <div class="column-box">
                                                 <div class="product-title">
-                                                    <a target="_blank" href="{{route('front.product.details',$product->slug)}}"><h3 class="prod-title">{{convertUtf8($item['name'])}}</h3></a>
+                                                    <a target="_blank" href="{{route('front.product.details',$product->slug)}}">
+                                                        <h3 class="prod-title">{{convertUtf8($item['name'])}}</h3>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </td>
@@ -497,7 +501,7 @@
                                     @endforeach
                                     @else
                                     <tr class="text-center">
-                                    <td colspan="4">{{__('Cart is empty')}}</td>
+                                        <td colspan="4">{{__('Cart is empty')}}</td>
                                     </tr>
                                     @endif
 
@@ -526,7 +530,7 @@
                                     </li>
                                     <li class="clearfix">
                                         <span class="col col-title">{{ __('Discount') }}
-                                             <span class="text-success">(<i class="fas fa-minus"></i>)</span></span>
+                                            <span class="text-success">(<i class="fas fa-minus"></i>)</span></span>
                                         <span class="col">
                                             {{-- {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : '' }} --}}
                                             {{ ship_to_india() ? "₹" : "$" }}
@@ -549,25 +553,25 @@
 
 
                                     @if (!onlyDigitalItemsInCart() && sizeof($shippings) > 0)
-                                        @php
-                                            $scharge = round($shippings[0]->charge,2);
-                                        @endphp
-                                        <li class="clearfix">
-                                            <span class="col col-title">{{__('Shipping Charge')}}
-                                                <span class="text-danger">(<i class="fas fa-plus"></i>)</span></span>
-                                            <span class="col">
-                                                {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
-                                                {{ ship_to_india() ? "₹" : "$" }}
-                                                <span data="{{ pesa($scharge) }}" class="shipping">
-                                                    {{ pesa($scharge) }}
-                                                </span>
-                                                {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
+                                    @php
+                                    $scharge = round($shippings[0]->charge,2);
+                                    @endphp
+                                    <li class="clearfix">
+                                        <span class="col col-title">{{__('Shipping Charge')}}
+                                            <span class="text-danger">(<i class="fas fa-plus"></i>)</span></span>
+                                        <span class="col">
+                                            {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
+                                            {{ ship_to_india() ? "₹" : "$" }}
+                                            <span data="{{ pesa($scharge) }}" class="shipping">
+                                                {{ pesa($scharge) }}
                                             </span>
-                                        </li>
+                                            {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
+                                        </span>
+                                    </li>
                                     @else
-                                        @php
-                                            $scharge = 0;
-                                        @endphp
+                                    @php
+                                    $scharge = 0;
+                                    @endphp
                                     @endif
 
                                     <li class="clearfix">
@@ -617,7 +621,7 @@
 
 
                                 <div class="placeorder-button text-left">
-                                    <button {{$cart ? '' : 'disabled' }}  class="main-btn" type="submit"><span class="btn-title">{{__('Place Order')}}</span></button>
+                                    <button {{$cart ? '' : 'disabled' }} class="main-btn" type="submit"><span class="btn-title">{{__('Place Order')}}</span></button>
                                 </div>
                             </div>
 
@@ -627,9 +631,9 @@
             </div>
         </div>
     </form>
-    </section>
+</section>
 
-    <!--====== CHECKOUT PART ENDS ======-->
+<!--====== CHECKOUT PART ENDS ======-->
 @endsection
 
 
@@ -638,15 +642,14 @@
 <script src="https://js.paystack.co/v1/inline.js"></script>
 @if (session()->has('unsuccess'))
 <script>
-   toastr["error"]("{{__(session('unsuccess'))}}");
+    toastr["error"]("{{__(session('unsuccess'))}}");
 </script>
 @endif
 <script>
     // apply coupon functionality starts
     function applyCoupon() {
         $.post(
-            "{{route('front.coupon')}}",
-            {
+            "{{route('front.coupon')}}", {
                 coupon: $("input[name='coupon']").val(),
                 _token: document.querySelector('meta[name=csrf-token]').getAttribute('content')
             },
@@ -681,11 +684,11 @@
     });
     // apply coupon functionality ends
 
-    $(document).on('click', '.shipping-charge', function(){
+    $(document).on('click', '.shipping-charge', function() {
         let total = 0;
-        let subtotal  = 0;
-        let grantotal  = 0;
-        let shipping  = 0;
+        let subtotal = 0;
+        let grantotal = 0;
+        let shipping = 0;
 
         subtotal = parseFloat($('.subtotal').attr('data'));
         grantotal = parseFloat($('.grandTotal').attr('data'));
@@ -718,20 +721,20 @@
         $(".gateway-details").addClass("d-none");
         $(".gateway-details input").attr('disabled', true);
 
-        if ($("#tab-"+tabid).length > 0) {
-            $("#tab-"+tabid + " input").removeAttr('disabled');
-            $("#tab-"+tabid).removeClass("d-none");
-            $("#tab-"+tabid).addClass("d-flex");
+        if ($("#tab-" + tabid).length > 0) {
+            $("#tab-" + tabid + " input").removeAttr('disabled');
+            $("#tab-" + tabid).removeClass("d-none");
+            $("#tab-" + tabid).addClass("d-flex");
         }
 
-        if(tabid == 'paystack'){
-            $('#payment').prop('id','paystack');
+        if (tabid == 'paystack') {
+            $('#payment').prop('id', 'paystack');
         }
 
     }
 
     // on gateway change...
-    $(document).on('click','.input-check',function(){
+    $(document).on('click', '.input-check', function() {
         // change form action
         $('#payment').attr('action', $(this).data('action'));
         // show relevant form (if any)
@@ -739,24 +742,24 @@
     });
 
     // after paystack form is submitted
-    $(document).on('submit','#paystack',function(){
+    $(document).on('submit', '#paystack', function() {
         var val = $('#sub').val();
-        if(val == 0){
+        if (val == 0) {
             var total = $(".grandTotal").text();
-            var curr =  "{{$bex->base_currency_text}}";
+            var curr = "{{$bex->base_currency_text}}";
             total = Math.round(total);
             var handler = PaystackPop.setup({
-            key: "{{ $paystack['key']}}",
-            email: "{{ $paystack['email']}}",
-            amount: total * 100,
-            currency: curr,
-            ref: ''+Math.floor((Math.random() * 1000000000) + 1),
-                callback: function(response){
+                key: "{{ $paystack['key']}}",
+                email: "{{ $paystack['email']}}",
+                amount: total * 100,
+                currency: curr,
+                ref: '' + Math.floor((Math.random() * 1000000000) + 1),
+                callback: function(response) {
                     $('#ref_id').val(response.reference);
                     $('#sub').val('1');
                     $('#paystack button[type="submit"]').click();
                 },
-                onClose: function(){
+                onClose: function() {
                     window.location.reload();
                 }
             });
@@ -774,13 +777,13 @@
     var cvcStatus = false;
 
     function validateCard(cn) {
-    cnstatus = Stripe.card.validateCardNumber(cn);
-    if (!cnstatus) {
-        $("#errCard").html('Card number not valid<br>');
-    } else {
-        $("#errCard").html('');
-    }
-    //   btnStatusChange();
+        cnstatus = Stripe.card.validateCardNumber(cn);
+        if (!cnstatus) {
+            $("#errCard").html('Card number not valid<br>');
+        } else {
+            $("#errCard").html('');
+        }
+        //   btnStatusChange();
 
 
     }

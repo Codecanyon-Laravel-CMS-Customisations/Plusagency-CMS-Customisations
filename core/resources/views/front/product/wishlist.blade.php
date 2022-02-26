@@ -1,8 +1,8 @@
 @extends("front.$version.layout")
 
 @section('pagename')
- -
- {{__('Wishlist')}}
+-
+{{__('Wishlist')}}
 @endsection
 
 @section('meta-keywords', "$be->cart_meta_keywords")
@@ -13,11 +13,13 @@
 <link rel="stylesheet" href="{{asset('assets/front/css/jquery-ui.min.css')}}">
 @endsection
 
-
-@section('breadcrumb-title', convertUtf8("Wishlist"))
-@section('breadcrumb-subtitle', convertUtf8("my wishlist items"))
-@section('breadcrumb-link', __('Cart'))
-
+@section('breadcrumb-links')
+<nav class="woocommerce-breadcrumb font-size-2">
+    <a href='/' class='h-primary'>{{convertUtf8("Wishlist")}}</a>
+    <span class='breadcrumb-separator mx-1'><i class='fas fa-angle-right'></i></span>
+    <a href='#' class='h-primary'>{{convertUtf8("My wishlist items")}}</a>
+</nav>
+@endsection
 @section('content')
 
 <!--====== SHOPPING CART PART START ======-->
@@ -27,26 +29,26 @@
         <div class="row">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                 @if($wishlist != null)
-                    <ul class="total-item-info">
-                        @php
-                            $wishlistTotal = 0;
-                            $countitem = 0;
-                            if($wishlist){
-                            foreach($wishlist as $id => $p)
-                            {
-                                $product        = App\Product::find($id);
-                                $wishlistTotal += $product->price * $p['qty'];
-                                $countitem     += $p['qty'];
-                            }
-                        }
-                        @endphp
-                        <li><strong>{{__('Total Items')}}:</strong> <strong class="cart-item-view">{{$wishlist ? $countitem : 0}}</strong></li>
-                        <li>
-                            <strong>{{__('Wishlist Total')}} :</strong>
-                            <span style="font-weight: bolder;">{{ ship_to_india() ? "₹" : "$" }}</span>
-                            <strong class="cart-total-view">{{ trim($wishlistTotal) }}</strong>
-                        </li>
-                    </ul>
+                <ul class="total-item-info">
+                    @php
+                    $wishlistTotal = 0;
+                    $countitem = 0;
+                    if($wishlist){
+                    foreach($wishlist as $id => $p)
+                    {
+                    $product = App\Product::find($id);
+                    $wishlistTotal += $product->price * $p['qty'];
+                    $countitem += $p['qty'];
+                    }
+                    }
+                    @endphp
+                    <li><strong>{{__('Total Items')}}:</strong> <strong class="cart-item-view">{{$wishlist ? $countitem : 0}}</strong></li>
+                    <li>
+                        <strong>{{__('Wishlist Total')}} :</strong>
+                        <span style="font-weight: bolder;">{{ ship_to_india() ? "₹" : "$" }}</span>
+                        <strong class="cart-total-view">{{ trim($wishlistTotal) }}</strong>
+                    </li>
+                </ul>
                 @endif
                 <div class="table-outer">
                     @if($wishlist != null)
@@ -71,7 +73,7 @@
 
                             @foreach ($wishlist as $id => $item)
                             @php
-                                $product = App\Product::findOrFail($id);
+                            $product = App\Product::findOrFail($id);
                             @endphp
                             <tr class="remove{{$id}}">
                                 <td class="p-0" style="width: 50px !important;">
@@ -88,19 +90,19 @@
                                                 <div class="px-2">
                                                     <h3 class="prod-title">{{convertUtf8($item['name'])}}</h3>
                                                     @php
-                                                        $isbn = "";
-                                                        try
-                                                        {
-                                                            $payload    = json_decode($product->attributes);
-                                                            foreach ($payload as $attribute)
-                                                            {
-                                                                if($attribute->name == "ISBN") $isbn = explode(',', $attribute->value)[0];
-                                                            }
-                                                        }
-                                                        catch (\Exception $th)
-                                                        {
-                                                            //throw $th;
-                                                        }
+                                                    $isbn = "";
+                                                    try
+                                                    {
+                                                    $payload = json_decode($product->attributes);
+                                                    foreach ($payload as $attribute)
+                                                    {
+                                                    if($attribute->name == "ISBN") $isbn = explode(',', $attribute->value)[0];
+                                                    }
+                                                    }
+                                                    catch (\Exception $th)
+                                                    {
+                                                    //throw $th;
+                                                    }
                                                     @endphp
                                                     <span class="prod-summary">{!! convertUtf8($isbn) !!}</span>
                                                 </div>
@@ -119,13 +121,13 @@
                                 <td class="unit-price">
                                     <div class="available-info">
                                         @if ($product->type == 'digital')
-                                            <span class="icon fa fa-check thm-bg-clr"></span>{{__('Item(s)')}}<br>{{__('Available Now')}}
+                                        <span class="icon fa fa-check thm-bg-clr"></span>{{__('Item(s)')}}<br>{{__('Available Now')}}
                                         @else
-                                            @if($product->stock >= $item['qty'])
-                                                <span class="icon fa fa-check thm-bg-clr"></span>{{__('Item(s)')}}<br>{{__('Available Now')}}
-                                            @else
-                                                <span class="icon fa fa-times thm-bg-rmv"></span>{{__('Item(s)')}}<br>{{__('Out Of Stock')}}
-                                            @endif
+                                        @if($product->stock >= $item['qty'])
+                                        <span class="icon fa fa-check thm-bg-clr"></span>{{__('Item(s)')}}<br>{{__('Available Now')}}
+                                        @else
+                                        <span class="icon fa fa-times thm-bg-rmv"></span>{{__('Item(s)')}}<br>{{__('Out Of Stock')}}
+                                        @endif
                                         @endif
                                     </div>
                                 </td>
@@ -144,7 +146,7 @@
                                 <td>
                                     <div class="remove">
                                         <div class="checkbox">
-                                        <span class="fas fa-times item-remove" rel="{{$id}}" data-href="{{route('cart.item.remove',$id)}}"></span>
+                                            <span class="fas fa-times item-remove" rel="{{$id}}" data-href="{{route('cart.item.remove',$id)}}"></span>
                                         </div>
                                     </div>
                                 </td>
@@ -154,24 +156,24 @@
                         </tbody>
                     </table>
                     @else
-                        <div class="bg-light py-5 text-center">
-                            <h3 class="text-uppercase">{{__('Wishlist is empty!')}}</h3>
-                        </div>
+                    <div class="bg-light py-5 text-center">
+                        <h3 class="text-uppercase">{{__('Wishlist is empty!')}}</h3>
+                    </div>
                     @endif
                 </div>
             </div>
         </div>
         @if ($wishlist != null)
-            <div class="row cart-middle">
-                <div class="col-lg-6 offset-lg-6 col-sm-12">
-                    <div class="update-cart float-right d-inline-block ml-4">
-                        <a class="proceed-checkout-btn d-none wish2Cart" data-href="{{route('wishlist.to.cart')}}" href="javascript:;" type="button"><span>{{__('Add to Cart')}}</span></a>
-                    </div>
-                    <div class="update-cart float-right d-inline-block">
-                        <button class="main-btn main-btn-2" id="cartUpdate" data-href="{{route('wishlist.update')}}" type="button"><span>{{__('Update Wishlist')}}</span></button>
-                    </div>
+        <div class="row cart-middle">
+            <div class="col-lg-6 offset-lg-6 col-sm-12">
+                <div class="update-cart float-right d-inline-block ml-4">
+                    <a class="proceed-checkout-btn d-none wish2Cart" data-href="{{route('wishlist.to.cart')}}" href="javascript:;" type="button"><span>{{__('Add to Cart')}}</span></a>
+                </div>
+                <div class="update-cart float-right d-inline-block">
+                    <button class="main-btn main-btn-2" id="cartUpdate" data-href="{{route('wishlist.update')}}" type="button"><span>{{__('Update Wishlist')}}</span></button>
                 </div>
             </div>
+        </div>
         @endif
     </div>
 </section>
@@ -183,30 +185,27 @@
 
 @section('scripts')
 <script>
-    var symbol      = "@if(ship_to_india()) ₹ @else $ @endif";
-    var position    = "{{ $bex->base_currency_symbol_position }}";
+    var symbol = "@if(ship_to_india()) ₹ @else $ @endif";
+    var position = "{{ $bex->base_currency_symbol_position }}";
 </script>
 <script>
-    var link        = "";
-    var payload     = "";
+    var link = "";
+    var payload = "";
     let checkWishes = $('.addToCartCheck');
-    let wish2CartBtn= $('.wish2Cart');
+    let wish2CartBtn = $('.wish2Cart');
 
     //master checkbox start
     $(document).ready(function() {
         $('input[type="checkbox"]').click();
     });
-    $(function(){
-        $('.addAllToCartCheck').on("change", function(){
-            if(this.checked)
-            {
-                checkWishes.filter(':not(:checked)').each(function (){
+    $(function() {
+        $('.addAllToCartCheck').on("change", function() {
+            if (this.checked) {
+                checkWishes.filter(':not(:checked)').each(function() {
                     $(this).click();
                 });
-            }
-            else
-            {
-                checkWishes.filter(':checked').each(function (){
+            } else {
+                checkWishes.filter(':checked').each(function() {
                     $(this).click();
                 });
             }
@@ -220,30 +219,25 @@
 
     checkWishes.on('change', function(event) {
         canAddToCart();
-        payload     = "";
-        checkWishes.filter(':checked').each(function ()
-        {
+        payload = "";
+        checkWishes.filter(':checked').each(function() {
             canAddToCart(true);
-            payload+= $(this).val()+"-";
+            payload += $(this).val() + "-";
         });
         //payload     = payload.split('-');
-        link        = wish2CartBtn.attr('data-href')+"?products="+payload;
+        link = wish2CartBtn.attr('data-href') + "?products=" + payload;
         updateLink();
     });
 
-    function canAddToCart(status = false)
-    {
-        if(status == true)
-        {
+    function canAddToCart(status = false) {
+        if (status == true) {
             $('.wish2Cart').attr('class', 'proceed-checkout-btn wish2Cart');
-        }
-        else
-        {
+        } else {
             $('.wish2Cart').attr('class', 'proceed-checkout-btn d-none wish2Cart');
         }
     }
-    function updateLink()
-    {
+
+    function updateLink() {
         wish2CartBtn.attr('href', link);
     }
 </script>

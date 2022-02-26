@@ -47,7 +47,7 @@ class PaypalController extends PaymentController
 
     public function store(Request $request)
     {
-
+        dd('hit');
         // Validation Starts
         if (session()->has('lang')) {
             $currentLang = Language::where('code', session()->get('lang'))->first();

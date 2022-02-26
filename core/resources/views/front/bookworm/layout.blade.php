@@ -211,37 +211,7 @@
     @if (!request()->routeIs('front.index') && !request()->routeIs('front.packageorder.confirmation'))
         <div class="page-header border-bottom">
             <div class="container">
-                @php
-                    $name = app()->view->getSections()['breadcrumb-link'];
-                    // dd($name);
-                    $product = \App\Product::where('title', '=', $name)->first();
-                    if (!empty($product)) {
-                        $main_category = $product->category;
-                        $sub_child_category = \App\Pcategory::find($product->sub_child_category_id);
-                        $sub_category = \App\Pcategory::find($product->sub_category_id);
-                    }
-
-                @endphp
                 <div class="d-md-flex justify-content-between align-items-center py-4">
-                    <h1 class="page-title font-size-3 font-weight-medium m-0 text-lh-lg">@yield('breadcrumb-title')</h1>
-                    {{-- <nav class="woocommerce-breadcrumb font-size-2">
-                        <a href="{{route('front.index')}}" class="h-primary">{{__('Home')}}</a>
-                        <span class="breadcrumb-separator mx-1"><i class="fas fa-angle-right"></i></span>
-                        @if (!empty($main_category))
-                            <span>{{ $main_category->name }}</span>
-                            <span class="breadcrumb-separator mx-1"><i class="fas fa-angle-right"></i></span>
-                        @endif
-                        @if (!empty($sub_category))
-                            @if (!empty($sub_category))
-                            <span>{{ $sub_category->name }}</span>
-                            <span class="breadcrumb-separator mx-1"><i class="fas fa-angle-right"></i></span>
-                            @endif
-                        @endif
-                        @if (!empty($sub_child_category))
-                            <span>{{ $sub_child_category->name }}</span>
-                            <span class="breadcrumb-separator mx-1"><i class="fas fa-angle-right"></i></span>
-                        @endif
-                        @yield('breadcrumb-link') --}}
                     @yield('breadcrumb-links')
                     </nav>
                 </div>
