@@ -205,8 +205,6 @@
             </div>
             @endif
             <div id="secondary" class="sidebar widget-area order-1 col-md-4" role="complementary">
-
-
                 <div id="widgetAccordion">
                     <div id="woocommerce_product_categories-2" class="widget p-4d875 border woocommerce widget_product_categories">
                         <div id="widgetHeadingOne" class="widget-head">
