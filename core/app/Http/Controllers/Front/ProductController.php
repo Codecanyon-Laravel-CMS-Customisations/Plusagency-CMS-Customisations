@@ -69,7 +69,7 @@ class ProductController extends Controller
         }
 
         if (session()->has('lang')) {
-            $currentLang = Language::where('code', session()->get('lang'))->first();
+            $currentLang = app()->make('currentLang');
         } else {
             $currentLang = Language::where('is_default', 1)->first();
         }
@@ -84,8 +84,19 @@ class ProductController extends Controller
         $search     = $request->search;
         $minprice = $request->minprice;
         $maxprice = $request->maxprice;
-        $category = $request->category_id;
-        if(!Pcategory::find($category)) $category = null;
+        $category = request('c-id') ?? request('category_id');
+        $sub_category = request('sc-id');
+        $category_model = Pcategory::find($category);
+        $sub_category_model = Pcategory::find($sub_category);
+        if(!$category_model){
+            $category = null;
+        }else {
+            $data['category'] = $category_model;
+        }
+        if($sub_category_model){
+            $data['sub_category'] = $sub_category_model;
+            $data['category'] = $sub_category_model->parent_category;
+        }
         $tag = $request->tag;
 
         if($request->type){
@@ -154,7 +165,6 @@ class ProductController extends Controller
             }
 
             $data['version'] = $version;
-
 
             if($be->theme_version == 'bookworm') {
                 return view('front.bookworm.products', $data);

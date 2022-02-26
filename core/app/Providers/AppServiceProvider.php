@@ -37,10 +37,15 @@ class AppServiceProvider extends ServiceProvider
 
     $socials = Social::orderBy('serial_number', 'ASC')->get();
     $langs = Language::all();
+    
+    //Reduced average querys from 245 to 190
+    $this->app->singleton('currentLang', function($app){
+      return Language::where('code', session()->get('lang'))->first(); 
+    });
 
     view()->composer('*', function ($view) {
       if (session()->has('lang')) {
-        $currentLang = Language::where('code', session()->get('lang'))->first();
+        $currentLang = $this->app->make('currentLang');
       } else {
         $currentLang = Language::where('is_default', 1)->first();
       }
@@ -55,9 +60,9 @@ class AppServiceProvider extends ServiceProvider
       if (serviceCategory()) {
         $scats = $currentLang->scategories()->where('status', 1)->orderBy('serial_number', 'ASC')->get();
       }
-
-      if (Menu::where('language_id', $currentLang->id)->count() > 0) {
-        $menus = Menu::where('language_id', $currentLang->id)->first()->menus;
+      $menu = Menu::where('language_id', $currentLang->id)->get();
+      if ($menu->count() > 0) {
+        $menus = $menu->first()->menus;
       } else {
         $menus = json_encode([]);
       }
