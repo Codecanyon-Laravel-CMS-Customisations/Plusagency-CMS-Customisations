@@ -576,19 +576,20 @@ class ProductController extends Controller
         } else {
             $data['cart'] = null;
         }
+        $paymentGateways = PaymentGateway::all();
         $data['shippings'] = ShippingCharge::where('language_id',$currentLang->id)->get();
         $data['ogateways'] = $currentLang->offline_gateways()->where('product_checkout_status', 1)->orderBy('serial_number')->get();
-        $data['stripe'] = PaymentGateway::find(14);
-        $data['paypal'] = PaymentGateway::find(15);
-        $data['paystackData'] = PaymentGateway::whereKeyword('paystack')->first();
+        $data['stripe'] = $paymentGateways->where('id',14)->first();
+        $data['paypal'] = $paymentGateways->where('id',15)->first();
+        $data['paystackData'] = $paymentGateways->where('keyword', 'paystack')->first();
         $data['paystack'] = $data['paystackData']->convertAutoData();
-        $data['flutterwave'] = PaymentGateway::find(6);
-        $data['razorpay'] = PaymentGateway::find(9);
-        $data['instamojo'] = PaymentGateway::find(13);
-        $data['paytm'] = PaymentGateway::find(11);
-        $data['mollie'] = PaymentGateway::find(17);
-        $data['mercadopago'] = PaymentGateway::find(19);
-        $data['payumoney'] = PaymentGateway::find(18);
+        $data['flutterwave'] = $paymentGateways->where('id',6)->first();
+        $data['razorpay'] =$paymentGateways->where('id',9)->first();
+        $data['instamojo'] =$paymentGateways->where('id', 13)->first();
+        $data['paytm'] =$paymentGateways->where('id', 11)->first();
+        $data['mollie'] = $paymentGateways->where('id', 17)->first();
+        $data['mercadopago'] = $paymentGateways->where('id', 19)->first();
+        $data['payumoney'] = $paymentGateways->where('id', 18)->first();
         $data['discount'] = session()->has('coupon') && !empty(session()->get('coupon')) ? session()->get('coupon') : 0;
 
         // determining the theme version selected

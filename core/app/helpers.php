@@ -65,7 +65,7 @@ if (! function_exists('angel_get_base_currency_id'))
             }
 
             //get from site settings
-            $bc_id      = Currency::query()->where('name', BasicExtra::first()->base_currency_text)->orderBy('id', 'desc')->first();
+            $bc_id      = Currency::query()->where('acronym', 'INR')->orderBy('id', 'desc')->first();
             return $bc_id->id;
         }
         catch (\Exception $exception)
@@ -90,7 +90,7 @@ if (! function_exists('angel_get_user_currency_id'))
             }
 
             //get from site settings
-            $bc_id      = Currency::query()->where('name', BasicExtra::first()->base_currency_text)->orderBy('id', 'desc')->first();
+            $bc_id      = Currency::query()->where('acronym', 'INR')->orderBy('id', 'desc')->first();
             return $bc_id->id;
         }
         catch (\Exception $exception)
