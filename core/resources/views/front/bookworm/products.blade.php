@@ -35,10 +35,10 @@ $minprice = App\Product::all()->min('price');
     @if(isset($category))
     <span class='breadcrumb-separator mx-1'><i class='fas fa-angle-right'></i></span>
     <a href='/product-categories' class='h-primary'>{{$category->name}}</a>
-        @if(isset($sub_category))
-        <span class='breadcrumb-separator mx-1'><i class='fas fa-angle-right'></i></span>
-        <a href='#' class='h-primary'>{{$sub_category->name}}</a>
-        @endif
+    @if(isset($sub_category))
+    <span class='breadcrumb-separator mx-1'><i class='fas fa-angle-right'></i></span>
+    <a href='#' class='h-primary'>{{$sub_category->name}}</a>
+    @endif
     @endif
 
 </nav>
@@ -146,6 +146,8 @@ $minprice = App\Product::all()->min('price');
 
 <script>
     var Shuffle = window.Shuffle;
+
+    
 
     class Demo {
         constructor(element) {
