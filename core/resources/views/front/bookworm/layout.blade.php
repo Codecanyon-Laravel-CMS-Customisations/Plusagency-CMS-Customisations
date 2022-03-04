@@ -34,16 +34,11 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @yield('styles')
     <style>
-        .toast-message{
-            color:#383838 !important;
-        }
-
         .toast{background-color:#030303 !important;}
         .toast-success{background-color:#51A351 !important;}
         .toast-error{background-color:#BD362F !important;}
         .toast-info{background-color:#2F96B4 !important;}
         .toast-warning{background-color:#F89406 !important;}
-
     </style>
 
     @if ($bs->is_tawkto == 1 || $bex->is_whatsapp == 1)
