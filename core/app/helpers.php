@@ -188,7 +188,7 @@ if(! function_exists('ship_to_india'))
     {
         try
         {
-            $country = request('user_country');
+            $country = app()->make('user_country');
             if(Str::slug($country->name) == Str::slug('India'))
             {
                 return true;
