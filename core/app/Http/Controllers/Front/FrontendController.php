@@ -1268,10 +1268,9 @@ class FrontendController extends Controller
         try
         {
             $c_id   = decrypt($hash);
-
             //get currency conversion
             $country= Country::find($c_id);
-
+            
             session()->put('geo_data_user_country', $c_id);
 
             //update use-geo-data
@@ -1279,10 +1278,14 @@ class FrontendController extends Controller
             {
                 $geodata                = ClientGeoData::query()->where('user_id', auth()->id())->orderBy('id', 'desc')->first();
                 $geodata->country_id    = $c_id;
+
             }
             else
             {
+           
+
                 $client_ip              = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+               
                 $geodata                = ClientGeoData::query()->where('ip', $client_ip)->orderBy('id', 'desc')->first();
                 $geodata->country_id    = $c_id;
             }

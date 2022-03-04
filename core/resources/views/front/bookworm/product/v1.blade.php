@@ -12,9 +12,9 @@
         /*throw $th;*/
         }
         try {
-        $product_category = $product->child_category;
+        $product_category = $product->subcategory;
         $links .= "<span class='breadcrumb-separator mx-1'><i class='fas fa-angle-right'></i></span>
-        <a href='/products?search=&sub-category-id=$product_category->id&type=new' class='h-primary'>$product_category->name</a>";
+        <a href='/products?search=&sub-category-id=$product_category->id&type=new' class='h-primary'>$product_category->name </a>";
         } catch (\Exception $th) {
         /*throw $th;*/
         }
