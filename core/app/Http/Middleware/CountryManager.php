@@ -17,8 +17,9 @@ class CountryManager
      */
     public function handle($request, Closure $next)
     {
-        $request->user_country = Country::find(session('geo_data_user_country'));
-        
+        app()->singleton('user_country', function ($app) {
+            return Country::find(session('geo_data_user_country'));
+        });
         return $next($request);
     }
 }

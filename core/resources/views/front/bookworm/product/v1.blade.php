@@ -62,9 +62,6 @@
                                     <div class="rating" style="width:{{ $product->rating * 20 }}%"></div>
                                 </div>
                                 @endif
-                                {{-- <span class="ml-3">(3,714)</span>
-                                <span class="ml-3 font-weight-medium">By (author)</span>
-                                <span class="ml-2 text-gray-600">Anna Banks</span> --}}
                             </div>
                             @if (!$product->digital && !$product->offline)
                             <p class="price font-size-22 font-weight-medium mb-3">
