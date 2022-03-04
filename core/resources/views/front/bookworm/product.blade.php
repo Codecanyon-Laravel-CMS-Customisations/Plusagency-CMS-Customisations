@@ -358,9 +358,7 @@ if (isset($_GET['variation'])) {
 
 @section('content')
 
-
     <!--====== PRODUCT DETAILS PART START ======-->
-
     @include('front.bookworm.product.'. $be->bookworm_shop_single_version)
 
     <!--====== PRODUCT DETAILS PART ENDS ======-->

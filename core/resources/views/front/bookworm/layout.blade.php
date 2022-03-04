@@ -33,7 +33,18 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/common-style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @yield('styles')
+    <style>
+        .toast-message{
+            color:#383838 !important;
+        }
 
+        .toast{background-color:#030303 !important;}
+        .toast-success{background-color:#51A351 !important;}
+        .toast-error{background-color:#BD362F !important;}
+        .toast-info{background-color:#2F96B4 !important;}
+        .toast-warning{background-color:#F89406 !important;}
+
+    </style>
 
     @if ($bs->is_tawkto == 1 || $bex->is_whatsapp == 1)
         <style>
@@ -157,7 +168,10 @@
             {!! $color->attribute !!}: #{{ $color->value }};
         }
 
-        @endforeach @endif.site-navigation>ul>li ul>li:hover .dropdown-toggle::after {
+        @endforeach 
+        @endif
+        
+        .site-navigation>ul>li ul>li:hover .dropdown-toggle::after {
             transform: rotate(-90deg);
             transition-duration: .5s;
         }
@@ -229,7 +243,6 @@
     <div id="WAButton"></div>
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    {{-- <script src="{{ asset('assets/bookworm/vendor/jquery/dist/jquery.min.js') }}"></script> --}}
     <script src="{{ asset('assets/bookworm/vendor/jquery-migrate/dist/jquery-migrate.min.js') }}"></script>
     <script src="{{ asset('assets/bookworm/vendor/popper.js/dist/umd/popper.min.js') }}"></script>
     <script src="{{ asset('assets/bookworm/vendor/bootstrap/bootstrap.min.js') }}"></script>

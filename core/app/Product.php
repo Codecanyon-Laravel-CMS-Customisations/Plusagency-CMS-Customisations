@@ -129,7 +129,7 @@ class Product extends Model
         return $this->hasOne('App\Pcategory','id','category_id')->withoutGlobalScope('App\MenuScope');
     }
 
-    public function sub_category() {
+    public function subcategory() {
         return $this->hasOne('App\Pcategory','id','sub_category_id')->withoutGlobalScope('App\MenuScope');
     }
 
