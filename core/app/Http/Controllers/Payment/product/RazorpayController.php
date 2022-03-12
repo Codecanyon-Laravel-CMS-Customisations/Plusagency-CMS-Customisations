@@ -45,12 +45,12 @@ class RazorpayController extends PaymentController
         $bex = $currentLang->basic_extra;
         $be = $currentLang->basic_extended;
         $bs = $currentLang->basic_setting;
-
-        if ($bex->base_currency_text != "INR") {
-            return redirect()->back()->with('error', __('Please Select INR Currency For This Payment.'));
+        $userCountry = app()->make('user_country');
+        if ($userCountry->name !== 'India') {
+            $bex->base_currency_text = 'USD';
         }
 
-        if($this->orderValidation($request)) {
+        if ($this->orderValidation($request)) {
             return $this->orderValidation($request);
         }
         // Validation Ends
@@ -86,14 +86,7 @@ class RazorpayController extends PaymentController
         Session::put('order_data', $orderInfo);
         Session::put('order_payment_id', $razorpayOrder['id']);
 
-        $displayAmount = $amount = $orderData['amount'];
-
-        if ($bex->base_currency_text !== 'INR') {
-            $url = "https://api.fixer.io/latest?symbols=$bex->base_currency_text&base=INR";
-            $exchange = json_decode(file_get_contents($url), true);
-
-            $displayAmount = $exchange['rates'][$bex->base_currency_text] * $amount / 100;
-        }
+        $displayAmount = $amount = $orderData['amount'] / 100;
 
         $checkout = 'automatic';
 

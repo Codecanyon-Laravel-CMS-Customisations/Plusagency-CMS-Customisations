@@ -807,25 +807,15 @@ class FrontendController extends Controller
         $request->validate($rules, $messages);
 
         $be =  BE::firstOrFail();
-        $from = $request->email;
         $to = $be->to_mail;
-        $subject = $request->subject;
-        $message = $request->message;
 
         try {
+            Mail::html($request->message, function ($msg) use ($to,$request){
+                $msg->from($request->email)->to($to)->subject($request->subject);
+            });
 
-            $mail = new PHPMailer(true);
-            $mail->setFrom($from, $request->name);
-            $mail->addAddress($to);     // Add a recipient
-
-            // Content
-            $mail->isHTML(true);  // Set email format to HTML
-            $mail->Subject = $subject;
-            $mail->Body    = $message;
-
-            $mail->send();
         } catch (\Exception $e) {
-            // die($e->getMessage());
+            die($e->getMessage());
         }
 
         Session::flash('success', 'Email sent successfully!');
