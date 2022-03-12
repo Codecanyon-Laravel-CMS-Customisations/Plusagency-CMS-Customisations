@@ -25,6 +25,7 @@ use Illuminate\Http\Request;
 use App\Models\SettingMagicZoom;
 use PHPMailer\PHPMailer\PHPMailer;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -879,10 +880,8 @@ class ProductController extends Controller
         $rules = [
             'name'                          => 'required',
             'email'                         => 'required|email',
-            'whatsapp_number'               => 'nullable',
-            'preferred_communication'       => 'nullable',
-            'subject'                       => 'required',
-            'message'                       => 'required'
+            'message'                       => 'required',
+            'products'                       => 'required'
         ];
         if ($bs->is_recaptcha == 1) {
             $rules['g-recaptcha-response'] = 'required|captcha';
@@ -895,7 +894,7 @@ class ProductController extends Controller
         $be             = BE::firstOrFail();
         $from           = $request->email;
         $to             = $be->to_mail;
-        $subject        = $request->subject;
+        $subject        = "Books Enquiry";
         $products       = Product::query()->whereIn('id', $request->products)->get();
         $message        = XSSCleaner::clean($request->message);
 
@@ -936,17 +935,11 @@ class ProductController extends Controller
 
         //send email
         try {
-
-            $mail       = new PHPMailer(true);
-            $mail->setFrom($from, $request->name);
-            $mail->addAddress($to);     // Add a recipient
-
+            $message = $message . $products_string . " <hr/> <small>ticket number <strong>#" . $input['ticket_number'] . "</strong></small>";
             // Content
-            $mail->isHTML(true);  // Set email format to HTML
-            $mail->Subject = $subject;
-            $mail->Body    = $message.$products_string." <hr/> <small>ticket number <strong>#".$input['ticket_number']."</strong></small>";
-
-            $mail->send();
+            Mail::html($message, function ($msg) use ($to, $request,$from,$subject) {
+                $msg->from($from, $request->name)->to($to)->subject($subject);
+            });
         }catch (\Exception $e) { }
 
         $pivot              = [];

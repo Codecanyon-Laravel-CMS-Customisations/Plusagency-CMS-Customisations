@@ -336,16 +336,17 @@ $countitem += $p['qty'];
         <div class="border-bottom py-3 py-md-0">
             <div class="container">
                 <div class="d-flex position-relative">
-                    <div class="offcanvas-toggler align-self-center mr-md-8 d-flex d-md-block">
+                    <div class="offcanvas-toggler d-flex align-self-center mr-md-8 ">
                         <!-- Account Sidebar Toggle Button -->
-                        <a id="sidebarNavToggler" class="cat-menu pt-2 text-dark target-of-invoker-has-unfolds" href="javascript:;" role="button" aria-controls="sidebarContent" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebar001Content" data-unfold-type="css-animation" data-unfold-animation-in="fadeInLeft" data-unfold-animation-out="fadeOutLeft" data-unfold-duration="500">
-                            <svg width="20px" height="18px">
-                                <path fill-rule="evenodd" fill="rgb(0, 0, 0)" d="M-0.000,-0.000 L20.000,-0.000 L20.000,2.000 L-0.000,2.000 L-0.000,-0.000 Z"></path>
-                                <path fill-rule="evenodd" fill="rgb(0, 0, 0)" d="M-0.000,8.000 L15.000,8.000 L15.000,10.000 L-0.000,10.000 L-0.000,8.000 Z"></path>
-                                <path fill-rule="evenodd" fill="rgb(0, 0, 0)" d="M-0.000,16.000 L20.000,16.000 L20.000,18.000 L-0.000,18.000 L-0.000,16.000 Z"></path>
+                        <a id="sidebarNavToggler" style="min-width: 30px !important;" class="cat-menu py-3 text-dark target-of-invoker-has-unfolds" href="javascript:;" role="button" aria-controls="sidebarContent" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebar001Content" data-unfold-type="css-animation" data-unfold-animation-in="fadeInLeft" data-unfold-animation-out="fadeOutLeft" data-unfold-duration="500">
+                            <svg width="20px" height="18px" class="my-auto">
+                                <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,-0.000 L20.000,-0.000 L20.000,2.000 L-0.000,2.000 L-0.000,-0.000 Z"></path>
+                                <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,8.000 L15.000,8.000 L15.000,10.000 L-0.000,10.000 L-0.000,8.000 Z"></path>
+                                <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,16.000 L20.000,16.000 L20.000,18.000 L-0.000,18.000 L-0.000,16.000 Z"></path>
                             </svg>
+                            &nbsp;Menu
                         </a>
-                        {{-- <!-- End Account Sidebar Toggle Button --> --}}
+                        <!-- End Account Sidebar Toggle Button -->
                         <ul class="nav d-lg-none ml-auto">
                             @php
                             $rand_id = rand(77, 777);
@@ -380,6 +381,9 @@ $countitem += $p['qty'];
 
 
                         </ul>
+
+                    </div>
+                    <div class="d-flex align-self-center">
 
                     </div>
                     <!-- Cart Wishlist and User Icon displayed in small screen -->
@@ -530,10 +534,7 @@ $countitem += $p['qty'];
                                                     <h5 class="service-heading d-inline-block"><a href="mailto:{{ $bs->support_email }}">{{ $bs->support_email }}</a></h5>
                                                 </div>
                                             </div>
-                                            <div class="p-2">
-                                                <button type="button" class="btn btn-dark submit-button border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link" style="color: #fff">{{ __('Submit') }}
-                                                </button>
-                                            </div>
+
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-lg-7 p-2" style="max-height: 77vh;overflow: hidden;overflow-y: scroll;">
@@ -544,7 +545,7 @@ $countitem += $p['qty'];
                                             @csrf
                                             <div class="form-group">
                                                 <label for="headerProductsSelect">{{ __('Book(s) Selector') }}</label>
-                                                <select id="headerProductsSelect" name="products[]" class="form-control select2" multiple="multiple" data-placeholder="{{ __('Select/Type Name, Author or ISBN') }}" aria-describedby="productsHelp" style="width: 100%"></select>
+                                                <select id="headerProductsSelect" name="products[]" class="form-control select2" multiple="multiple" data-placeholder="{{ __('Select/Type Name, Author or ISBN') }}" aria-describedby="productsHelp" style="width: 100%" required></select>
                                                 @if ($errors->has('products'))
                                                 <small id="productsHelp" class="form-text text-danger">{{ $errors->first('products') }}</small>
                                                 @endif
@@ -552,21 +553,13 @@ $countitem += $p['qty'];
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <input class="form-control" name="name" type="text" placeholder="{{ __('Name') }}" required>
+                                                        <input class="form-control" name="name" type="text" placeholder="{{ __('Your name') }}" required>
                                                         @if ($errors->has('name'))
                                                         <small id="nameHelp" class="form-text text-danger">{{ $errors->first('name') }}</small>
                                                         @endif
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group">
-                                                        <input class="form-control" name="whatsapp_number" type="text" placeholder="{{ __('Whatsapp Number') }}" required>
-                                                        @if ($errors->has('whatsapp_number'))
-                                                        <small id="whatsappNumberHelp" class="form-text text-danger">{{ $errors->first('whatsapp_number') }}</small>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-12">
                                                     <div class="form-group">
                                                         <input class="form-control" name="email" type="email" placeholder="{{ __('Email') }}" required>
                                                         @if ($errors->has('email'))
@@ -574,37 +567,14 @@ $countitem += $p['qty'];
                                                         @endif
                                                     </div>
                                                 </div>
-                                                <div class="col-md-12 pt-2 pb-4">
-                                                    <div class="form-check-inline">
-                                                        <label class="form-check-label">Preferred Communication: </label>
-                                                    </div>
-                                                    <div class="form-check-inline">
-                                                        <label class="form-check-label" for="radioCom1">
-                                                            <input type="radio" class="form-check-input" id="radioCom1" name="preferred_communication" value="Whatsapp" checked>
-                                                            Whatsapp
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check-inline">
-                                                        <label class="form-check-label" for="radioCom2">
-                                                            <input type="radio" class="form-check-input" id="radioCom2" name="preferred_communication" value="Email"> Email
-                                                        </label>
-                                                    </div>
-                                                </div>
                                                 <div class="col-md-12">
                                                     <div class="form-group">
-                                                        <input name="subject" class="form-control" type="text" placeholder="{{ __('Subject') }}" required value="{{ old('subject', 'Inquiry of a number of products') }}">
-                                                        @if ($errors->has('subject'))
-                                                        <small id="subjectHelp" class="form-text text-danger">{{ $errors->first('subject') }}</small>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <textarea name="message" class="form-control" id="comment" cols="30" rows="10" placeholder="{{ __('Type your message') }}" required></textarea>
+                                                        <textarea name="message" class="form-control" id="comment" cols="30" rows="5" placeholder="{{ __('Type your message') }}" required></textarea>
                                                         @if ($errors->has('message'))
                                                         <small id="messageHelp" class="form-text text-danger">{{ $errors->first('message') }}</small>
                                                         @endif
                                                     </div>
+
                                                 </div>
                                                 @if ($bs->is_recaptcha == 1)
                                                 <style>
@@ -622,7 +592,14 @@ $countitem += $p['qty'];
                                                     <p class="text-danger mb-0">{{ __("$errmsg") }}</p>
                                                     @endif
                                                 </div>
+
                                                 @endif
+                                                <div class="col-md-12">
+                                                    <div class="p-2 text-right">
+                                                        <button type="button" class="btn btn-dark submit-button border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link" style="color: #fff">{{ __('Submit') }}
+                                                        </button>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </form>
                                         <div class="px-0 text-center w-100 py-2  d-block d-lg-none">

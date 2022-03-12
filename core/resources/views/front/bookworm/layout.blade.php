@@ -39,6 +39,7 @@
         .toast-error{background-color:#BD362F !important;}
         .toast-info{background-color:#2F96B4 !important;}
         .toast-warning{background-color:#F89406 !important;}
+        .hc-nav-trigger{min-width:30px !important;}
     </style>
 
     @if ($bs->is_tawkto == 1 || $bex->is_whatsapp == 1)
@@ -135,6 +136,8 @@
         .toast-success {
             background-color: green !important;
         }
+        .hc-nav-trigger{width:160px !important;}
+    </style>
 
     </style>
     @php
