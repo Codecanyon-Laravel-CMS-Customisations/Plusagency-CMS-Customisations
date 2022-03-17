@@ -69,6 +69,13 @@
             transform: none;
             position:unset;
         }
+        .hc-offcanvas-nav .nav-next span::before, .hc-offcanvas-nav .nav-back span::before {
+            border-left-color: #FFF0CE;
+        }
+
+        .hc-offcanvas-nav .nav-next span::before, .hc-offcanvas-nav .nav-back span::before {
+            border-top-color: #FFF0CE;
+        }
 
         #site-header :is(a, button)[data-target='#headerProductInquiryModal'] {
             padding-left: 10px !important;
