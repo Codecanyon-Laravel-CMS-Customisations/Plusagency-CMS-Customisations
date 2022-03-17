@@ -338,7 +338,7 @@ $countitem += $p['qty'];
                 <div class="d-flex position-relative">
                     <div class="offcanvas-toggler d-flex align-self-center mr-md-8 ">
                         <!-- Account Sidebar Toggle Button -->
-                        <a id="sidebarNavToggler" style="min-width: 30px !important;" class="cat-menu py-3 text-dark target-of-invoker-has-unfolds" href="javascript:;" role="button" aria-controls="sidebarContent" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebar001Content" data-unfold-type="css-animation" data-unfold-animation-in="fadeInLeft" data-unfold-animation-out="fadeOutLeft" data-unfold-duration="500">
+                        <a id="sidebarNavToggler" style="min-width: 30px !important; z-index:1" class="cat-menu py-3 text-dark target-of-invoker-has-unfolds" href="javascript:;" role="button" aria-controls="sidebarContent" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebar001Content" data-unfold-type="css-animation" data-unfold-animation-in="fadeInLeft" data-unfold-animation-out="fadeOutLeft" data-unfold-duration="500">
                             <svg width="20px" height="18px" class="my-auto">
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,-0.000 L20.000,-0.000 L20.000,2.000 L-0.000,2.000 L-0.000,-0.000 Z"></path>
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,8.000 L15.000,8.000 L15.000,10.000 L-0.000,10.000 L-0.000,8.000 Z"></path>
@@ -394,7 +394,7 @@ $countitem += $p['qty'];
                             }
                         </style>
                         <li class="nav-item px-2">
-                            <a id="basicDropdownHoverInvoker19-7" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-7" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-7" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                            <a id="basicDropdownHoverInvoker19-7-m" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-7-m" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-7-m" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
                                 <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0">
                                     @php
                                     try {
@@ -405,7 +405,7 @@ $countitem += $p['qty'];
                                 </span>
                                 <i class="flaticon-heart font-size-5"></i>
                             </a>
-                            <div id="basicDropdownHover19-7" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-7">
+                            <div id="basicDropdownHover19-7-m" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-7-m">
                                 <!-- Title -->
                                 <header class="border-bottom px-4 px-md-6 py-4">
                                     <h6 class="font-size-5 h6 mb-0 d-flex align-items-center">

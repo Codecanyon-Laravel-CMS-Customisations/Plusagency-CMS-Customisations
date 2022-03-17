@@ -50,14 +50,11 @@ function getCurrentC3(App\Models\Unscoped\Pcategory $pcategory)
         ->get();
 }
 @endphp
-@include('front.bookworm.header.' . $be->bookworm_header_version )
+@include('front.bookworm.header.' . $be->bookworm_header_version)
 
 
 
 <aside id="main-nav" class="u-sidebar u-sidebar--left" aria-labelledby="sidebarNavToggler----254">
-    <div class="sidebar-nav-header">
-        <h2 class="font-size-3 mb-0">SHOP BY CATEGORY ***</h2>
-    </div>
     <ul class="">
         @foreach ($c1->get() as $cat1)
             <li class="">
@@ -69,8 +66,7 @@ function getCurrentC3(App\Models\Unscoped\Pcategory $pcategory)
                                 <a href="#" data-submenu="cat2-{{ $cat2->id }}">{{ $cat2->name }}</a>
                                 <ul class="">
                                     @foreach (getCurrentC3($cat2) as $cat3)
-                                        <li>
-                                            <a
+                                        <li> <a
                                                 href="/products?search=&scc-id={{ $cat3->id }}&type=new">{{ $cat3->name }}</a>
                                         </li>
                                     @endforeach
@@ -78,8 +74,8 @@ function getCurrentC3(App\Models\Unscoped\Pcategory $pcategory)
                             </li>
                         @else
                             <li>
-                                <a
-                                    href="/products?search=&sc-id={{ $cat2->id }}&type=new" class="h-primary">{{ $cat2->name }}</a>
+                                <a href="/products?search=&sc-id={{ $cat2->id }}&type=new"
+                                    class="h-primary">{{ $cat2->name }}</a>
                             </li>
                         @endif
                     @endforeach
