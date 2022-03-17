@@ -42,25 +42,25 @@ $sliders_v2 = App\Models\SliderV2::where('language_id', $lang->id)->orderBy('id'
             <div class="col-md-3 d-none-----naaaah d-md-block-----naaaah">
                 <div class="banners">
                     @if ($sliders_v2->where('slider_category', 'side1')->count() >= 1)
-                    <div class="slider-banner flex-grow-1 mr-md-3 mr-xl-0 bg-gray-200 p-6 mb-4d875 position-relative overflow-hidden abh-hero-slider-v2-s1" style="height:250px;">
-                        <div class="z-index-2 position-relative">
-                            <h2 class="slider-banner__title font-size-4 text-lh-md">
+                    <div class="slider-banner flex-grow-1 mr-md-3 mr-xl-0 bg-gray-200 mb-4d875 position-relative overflow-hidden abh-hero-slider-v2-s1" style="height:250px;">
+                        <div class="z-index-2 position-absolute" style="top:2em; left:2em;">
+                            <h2 class="slider-banner__title font-size-4 text-lh-md ">
                                 <span class="slider-banner__title--1 d-block font-weight-bold">{{ $sliders_v2->where('slider_category', 'side1')->first()->title }}</span>
                                 <span class="slider-banner__title--2">{{ $sliders_v2->where('slider_category', 'side1')->first()->text }}</span>
                             </h2>
                         </div>
-                        <img data-src="{{ asset('assets/front/img/sliders/' . $sliders_v2->where('slider_category', 'side1')->first()->image) }}" class="lazy img-fluid position-absolute bottom-n60 right-n60" alt="">
+                        <img data-src="{{ asset('assets/front/img/sliders/' . $sliders_v2->where('slider_category', 'side1')->first()->image) }}" class="lazy img-fluid position-absolute w-100" alt="">
                     </div>
                     @endif
                     @if ($sliders_v2->where('slider_category', 'side2')->count() >= 1)
-                    <div class="slider-banner flex-grow-1 ml-md-3 ml-xl-0 bg-gray-200 p-6 position-relative overflow-hidden abh-hero-slider-v2-s2" style="height:250px;">
-                        <div class="z-index-2 position-relative">
+                    <div class="slider-banner flex-grow-1 ml-md-3 ml-xl-0 bg-gray-200 position-relative overflow-hidden abh-hero-slider-v2-s2" style="height:250px;">
+                        <div class="z-index-2 position-absolute" style="top:2em; left:2em;">
                             <h2 class="slider-banner__title font-size-4 text-lh-md">
                                 <span class="slider-banner__title--1 d-block font-weight-bold">{{ $sliders_v2->where('slider_category', 'side2')->first()->title }}</span>
                                 <span class="slider-banner__title--2">{{ $sliders_v2->where('slider_category', 'side2')->first()->text }}</span>
                             </h2>
                         </div>
-                        <img data-src="{{ asset('assets/front/img/sliders/' . $sliders_v2->where('slider_category', 'side2')->first()->image) }}" class="lazy img-fluid position-absolute bottom-0 right-n60" alt="">
+                        <img data-src="{{ asset('assets/front/img/sliders/' . $sliders_v2->where('slider_category', 'side2')->first()->image) }}" class="lazy img-fluid position-absolute w-100" alt="">
                     </div>
                     @endif
                 </div>
