@@ -130,9 +130,9 @@
                                       <div class="form-group mb-4">
                                           <div class="js-form-message js-focus-state">
                                               <label id="usernameLabel1" class="form-label"
-                                                  for="username1">{{ __('Username') }} *</label>
+                                                  for="username2">{{ __('Username') }} *</label>
                                               <input type="text" class="form-control rounded-0 height-4 px-4"
-                                                  name="username" id="username1"
+                                                  name="username" id="username2"
                                                   value="{{ Request::old('username') }}">
                                               @if ($errors->has('username'))
                                                   <p class="text-danger mb-0 mt-2">{{ $errors->first('username') }}
