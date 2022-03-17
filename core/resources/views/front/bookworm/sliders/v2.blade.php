@@ -49,7 +49,7 @@ $sliders_v2 = App\Models\SliderV2::where('language_id', $lang->id)->orderBy('id'
                                 <span class="slider-banner__title--2">{{ $sliders_v2->where('slider_category', 'side1')->first()->text }}</span>
                             </h2>
                         </div>
-                        <img data-src="{{ asset('assets/front/img/sliders/' . $sliders_v2->where('slider_category', 'side1')->first()->image) }}" class="lazy img-fluid position-absolute w-100" alt="">
+                        <img data-src="{{ asset('assets/front/img/sliders/' . $sliders_v2->where('slider_category', 'side1')->first()->image) }}" class="lazy img-fluid position-absolute w-100 h-100" alt="">
                     </div>
                     @endif
                     @if ($sliders_v2->where('slider_category', 'side2')->count() >= 1)
@@ -60,7 +60,7 @@ $sliders_v2 = App\Models\SliderV2::where('language_id', $lang->id)->orderBy('id'
                                 <span class="slider-banner__title--2">{{ $sliders_v2->where('slider_category', 'side2')->first()->text }}</span>
                             </h2>
                         </div>
-                        <img data-src="{{ asset('assets/front/img/sliders/' . $sliders_v2->where('slider_category', 'side2')->first()->image) }}" class="lazy img-fluid position-absolute w-100" alt="">
+                        <img data-src="{{ asset('assets/front/img/sliders/' . $sliders_v2->where('slider_category', 'side2')->first()->image) }}" class="lazy img-fluid position-absolute w-100 h-100" alt="">
                     </div>
                     @endif
                 </div>
