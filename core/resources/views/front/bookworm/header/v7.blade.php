@@ -179,7 +179,7 @@ $countitem += $p['qty'];
                         <div class="form-inline my-2 my-xl-0">
                             <div class="input-group w-100">
                                 <div class="input-group-prepend z-index-2 d-none d-xl-block">
-                                    <select class="d-none d-lg-block custom-select pr-7 pl-4 rounded-0 height-5 shadow-none text-dark" id="category_id" style="max-width: 150px;">
+                                    <select class="d-none d-lg-block custom-select pr-7 pl-4 rounded-0 height-5 shadow-none text-dark" id="category_id" {{-- style="max-width: 150px;" --}}>
                                         <option selected>All Categories</option>
                                         @php
                                         $active_category = request()->has('category_id') ? request('category_id') : '';
@@ -339,7 +339,7 @@ $countitem += $p['qty'];
                     <div class="offcanvas-toggler d-flex align-self-center mr-md-8 ">
                         <!-- Account Sidebar Toggle Button -->
                         <a id="sidebarNavToggler" style="min-width: 30px !important; z-index:1" class="cat-menu py-3 text-dark target-of-invoker-has-unfolds" href="javascript:;" role="button" aria-controls="sidebarContent" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebar001Content" data-unfold-type="css-animation" data-unfold-animation-in="fadeInLeft" data-unfold-animation-out="fadeOutLeft" data-unfold-duration="500">
-                            <svg width="20px" height="18px" class="my-auto">
+                            <svg width="20px" height="18px" class="my-auto mr-2">
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,-0.000 L20.000,-0.000 L20.000,2.000 L-0.000,2.000 L-0.000,-0.000 Z"></path>
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,8.000 L15.000,8.000 L15.000,10.000 L-0.000,10.000 L-0.000,8.000 Z"></path>
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,16.000 L20.000,16.000 L20.000,18.000 L-0.000,18.000 L-0.000,16.000 Z"></path>
@@ -514,7 +514,7 @@ $countitem += $p['qty'];
                         <div class="modal-body p-0">
                             <div class="container-fluid">
                                 <div class="row">
-                                    <div class="col-lg-5 py-2 pl-3 pr-2 d-none d-lg-block" style="background-repeat:no-repeat;background-size:cover;background-image: url('https://img.freepik.com/free-photo/abstract-blur-defocused-bookshelf-library_1203-9640.jpg?w=740');background-position:top">
+                                    {{-- <div class="col-lg-5 py-2 pl-3 pr-2 d-none d-lg-block" style="background-repeat:no-repeat;background-size:cover;background-image: url('https://img.freepik.com/free-photo/abstract-blur-defocused-bookshelf-library_1203-9640.jpg?w=740');background-position:top">
                                         <div class="d-flex align-content-center flex-wrap bd-highlight mb-3" style="min-height: 77vh">
                                             <div style="background-color: #00000050;font-weight: bolder;border-radius: 7px;" class="p-2 w-100">
                                                 <h3 style="text-shadow: 0px 1px 7px black;color: white;font-weight: bolder;" class="modal-title m-0" id="productInquiryModalLabel">Books Inquiry & Info</h3>
@@ -536,8 +536,8 @@ $countitem += $p['qty'];
                                             </div>
 
                                         </div>
-                                    </div>
-                                    <div class="col-sm-12 col-lg-7 p-2" style="max-height: 77vh;overflow: hidden;overflow-y: scroll;">
+                                    </div> --}}
+                                    <div class="col-sm-12 col-lg-12 p-2" style="max-height: 77vh;overflow: hidden;overflow-y: scroll;">
                                         <button type="button" class="close" style="background-color: white;font-weight: bolder;font-size: 1.7rem;color: #000000;width: 35px;height: 35px;border-radius: 50%;opacity: .9;box-shadow: 0px 0px 7px #000000;" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
