@@ -86,7 +86,7 @@ $countitem += $p['qty'];
 <header id="site-header" class="site-header__v7">
     <div class="topbar bg-punch-light">
         <div class="container">
-            <div class="topbar__nav d-lg-flex justify-content-between align-items-center font-size-2">
+            <div class="topbar__nav d-lg-flex justify-content-between align-items-center font-size-2 test1234">
                 <ul class="topbar__nav--left nav ml-lg-n3 justify-content-center">
                     {{-- @php
                         $header_v2_button_text = 'GIVE US FEEDBACK';
@@ -319,11 +319,18 @@ $countitem += $p['qty'];
                         </li>
                         <li class="nav-item px-2">
                             {{-- <!-- Account Sidebar Toggle Button - Mobile --> --}}
-                            <a id="sidebarNavToggler9" href="javascript:;" role="button" class="px-2 nav-link h-primary" aria-controls="sidebarContent9" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent9" data-unfold-type="css-animation" data-unfold-overlay='{
+                            {{-- Commented for using theme's login and register --}}
+                            {{-- <a id="sidebarNavToggler9" href="javascript:;" role="button" class="px-2 nav-link h-primary" aria-controls="sidebarContent9" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent9" data-unfold-type="css-animation" data-unfold-overlay='{
                                         "className": "u-sidebar-bg-overlay",
                                         "background": "rgba(0, 0, 0, .7)",
                                         "animationSpeed": 500
                                     }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
+                                <i class="glph-icon flaticon-user font-size-5"></i>
+                            </a> --}}
+                            {{-- Commented for using theme's login and register --}}
+
+
+                            <a id="sidebarNavToggler9" href="{{ route('user-register') }}">
                                 <i class="glph-icon flaticon-user font-size-5"></i>
                             </a>
                             {{-- <!-- End Account Sidebar Toggle Button - Mobile --> --}}
