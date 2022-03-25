@@ -58,7 +58,7 @@
                                             <span class="woocommerce-Price-amount amount">
                                                 <div class="product-quantity d-flex mb-35" id="quantity">
                                                 <button type="button" id="sub" class="sub">-</button>
-                                                <input type="text" class="cart_qty cart-value" id="1" value="{{$item['qty']}}" />
+                                                <input type="text" class="cart_qty" id="1" value="{{$item['qty']}}" />
                                                 <button type="button" id="add" class="add">+</button>
                                                 <input type="hidden" value="{{$id}}" class="product_id">
                                                 </div>
