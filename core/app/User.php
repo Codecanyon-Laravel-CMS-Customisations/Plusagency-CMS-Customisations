@@ -115,10 +115,16 @@ class User extends Authenticatable
     return $this->hasMany('App\ProductReview');
   }
 
+  // commented previous code
+  // public function tickets()
+  // {
+  //   return $this->hasMany('App\Ticket')
+  //   ->withPivot('user_id', 'email');
+  // }
+
   public function tickets()
   {
-    return $this->hasMany('App\Ticket')
-    ->withPivot('user_id', 'email');
+    return $this->hasMany('App\Ticket');
   }
 
     public function subscription() {
