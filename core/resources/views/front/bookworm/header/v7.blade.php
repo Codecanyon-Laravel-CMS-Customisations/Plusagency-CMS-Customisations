@@ -250,7 +250,10 @@ $countitem += $p['qty'];
                             <div id="basicDropdownHover19-7" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-7">
                                 <!-- Title -->
                                 <header class="border-bottom px-4 px-md-6 py-4">
+                                
+
                                     <h6 class="font-size-5 h6 mb-0 d-flex align-items-center">
+                                        <i class="flaticon-heart font-size-5 mr-2"></i>
                                         @php
                                         echo "My Wishlist (";
                                         try {
@@ -317,7 +320,7 @@ $countitem += $p['qty'];
                                 <i class="glph-icon flaticon-icon-126515 font-size-5"></i>
                             </a>
                         </li>
-                        <li class="nav-item px-2">
+                        <li class="nav-item px-2 mt-2">
                             {{-- <!-- Account Sidebar Toggle Button - Mobile --> --}}
                             {{-- Commented for using theme's login and register --}}
                             {{-- <a id="sidebarNavToggler9" href="javascript:;" role="button" class="px-2 nav-link h-primary" aria-controls="sidebarContent9" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent9" data-unfold-type="css-animation" data-unfold-overlay='{
@@ -330,7 +333,7 @@ $countitem += $p['qty'];
                             {{-- Commented for using theme's login and register --}}
 
 
-                            <a id="sidebarNavToggler9" href="{{ route('user-register') }}">
+                            <a id="sidebarNavToggler9" class="text-dark" href="{{ route('user-register') }}">
                                 <i class="glph-icon flaticon-user font-size-5"></i>
                             </a>
                             {{-- <!-- End Account Sidebar Toggle Button - Mobile --> --}}

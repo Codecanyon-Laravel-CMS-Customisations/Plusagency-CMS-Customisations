@@ -238,4 +238,19 @@ function storePushSubscription(pushSubscription) {
         }
 
     });
+
+    $('body').on('click',function(){
+    
+    
+        if($('#hc-nav-1').hasClass('nav-open')){
+            $('#hc-nav-1').attr("aria-hidden", "true");
+            $('body').removeAttr( 'class' );
+            $('#hc-nav-1').removeAttr( 'style' ).removeClass('nav-open');
+            $('html').removeClass('hc-nav-yscroll');
+            $('#sidebarNavToggler').removeClass('toggle-open');
+        }
+        
+    });
+
+
 })(jQuery);
