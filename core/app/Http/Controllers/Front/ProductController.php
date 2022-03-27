@@ -223,6 +223,7 @@ class ProductController extends Controller
         }
     }
 
+
     public function cart()
     {
         $bex = BasicExtra::first();
