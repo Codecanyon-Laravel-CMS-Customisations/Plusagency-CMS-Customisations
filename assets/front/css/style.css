@@ -3728,3 +3728,11 @@ ul#select2-headerProductsSelect-results {
     display: none;
   }
 }
+
+#hc-nav-1-nav-title {
+    color: #fff0ce;
+}
+
+.bg-site{
+    background: #fff0ce;
+}
