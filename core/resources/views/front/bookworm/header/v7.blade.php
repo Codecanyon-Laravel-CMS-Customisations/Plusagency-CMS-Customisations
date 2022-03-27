@@ -319,7 +319,8 @@ $countitem += $p['qty'];
                                 <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0 cart-items">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
                                 <i class="glph-icon flaticon-icon-126515 font-size-5"></i>
                             </a>
-                        </li> -->
+                        </li> 
+                        -->
 
 
 
