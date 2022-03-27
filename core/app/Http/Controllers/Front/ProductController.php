@@ -280,6 +280,8 @@ class ProductController extends Controller
     public function addToCart($id)
     {
         $cart = session()->get('cart');
+        
+        
         if (strpos($id, ',,,') == true) {
             $data = explode(',,,', $id);
             $id = $data[0];

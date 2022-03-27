@@ -307,6 +307,9 @@ $countitem += $p['qty'];
                                 </div>
                             </div>
                         </li>
+                        
+                        <!-- 
+                        Previous cart code commented for header
                         <li class="nav-item px-2">
                             <a id="sidebarNavToggler1-desktop" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="sidebarContent1" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent1" data-unfold-type="css-animation" data-unfold-overlay='{
                                                                     "className": "u-sidebar-bg-overlay",
@@ -316,7 +319,82 @@ $countitem += $p['qty'];
                                 <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0 cart-items">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
                                 <i class="glph-icon flaticon-icon-126515 font-size-5"></i>
                             </a>
+                        </li> -->
+
+
+
+                        <li class="nav-item px-2">
+                            <a id="basicDropdownHoverInvokerCart19-7" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19Cart-7" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19Cart-7" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                                <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0 cart-items">
+                                   {{ isset($cart) && $cart ? $countitem : 0 }}
+                                </span>
+                                <i class="glph-icon flaticon-icon-126515 font-size-5"></i>
+                            </a>
+                            <div id="basicDropdownHover19Cart-7" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvokerCart19-7">
+                                <!-- Title -->
+                                <header class="border-bottom px-4 px-md-6 py-4">
+                                    <h6 class="font-size-5 h6 mb-0 d-flex align-items-center">
+                                        @php
+                                        echo "My Cart (";
+                                        try {
+                                        echo is_array( session()->get('cart') ) ? count(session()->get('cart')) : '0';
+                                        }
+                                        catch (\Exception $e){ }
+                                        echo ")";
+                                        @endphp
+                                    </h6>
+                                </header>
+                                <!-- End Title -->
+                                @if(isset($cart) && $cart != null)
+
+                                @foreach ( $cart as $id1 => $item)
+                                @php
+                                $product1 = App\Product::find($id1);
+                                if(is_null($product1)) continue;
+
+                                @endphp
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <div class="media">
+                                        <a target="_blank" href="{{route('front.product.details', $product1->slug)}}" class="d-block">
+                                            <img src="@if($item['photo']!=null){{$item['photo']}}@else{{asset('https://via.placeholder.com/55')}}@endif" class="img-fluid" alt="image-description" width="55">
+                                        </a>
+                                        <div class="media-body ml-1">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                <a href="{{route('front.product.details', $product1->slug)}}" class="text-dark">{{convertUtf8($item['name'])}}</a>
+                                            </h6>
+                                            <div class="cart d-block">
+                                                <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
+                                                    <span class="woocommerce-Price-amount amount d-inline-block ml-3">
+                                                        {{ $product1->symbol }}
+                                                        <span> {{ number_format($product1->price, 0) }}</span>
+                                                    </span>
+                                                    <div class="mt-0 ml-auto pr-2">
+                                                        <a href="{{ route('cart.item.remove', $product1->id) }}" class="text-dark"><i class="fas fa-times"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                                @endif
+                                <div class="px-4 mb-4 px-md-6 d-flex justify-content-around pb-2 pt-4">
+                                    <a href="{{route('front.cart')}}" class="btn px-10 py-3 rounded-0 btn-outline-dark mb-4">View Cart</a>
+                                </div>
+                            </div>
                         </li>
+
+
+
+
+
+
+
+
+
+
+
+
                         <li class="nav-item px-2">
                             {{-- <!-- Account Sidebar Toggle Button - Mobile --> --}}
                             {{-- Commented for using theme's login and register --}}
