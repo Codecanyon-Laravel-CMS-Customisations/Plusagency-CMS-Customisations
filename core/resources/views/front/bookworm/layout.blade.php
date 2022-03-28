@@ -33,6 +33,16 @@
     <link rel="stylesheet" href="{{ asset('assets/front/css/common-style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @yield('styles')
+
+    <!-- start: header menu styles -->
+    <style>
+        #sidebarNavToggler {
+            font-weight: 500;
+            font-size: 20px;
+        }
+    </style>
+    <!-- end: header menu styles -->
+
     <style>
         .toast {
             background-color: #030303 !important;
