@@ -11,7 +11,7 @@ $sliders_v2 = App\Models\SliderV2::where('language_id', $lang->id)->orderBy('id'
     <div class="container">
         <div class="row">
             <div class="@if ($sliders_v2->whereIn('slider_category', ['side1', 'side2'])->count() >= 1) col-md-9 @else col-md-12 @endif mb-4 mb-xl-0 abh-hero-slider-v2-main">
-                <div class="bg-gray-200 px-5 px-md-8 px-xl-0 pl-xl-10 pt-6 min-height-530">
+                <div class="bg-site px-5 px-md-8 px-xl-0 pl-xl-10 pt-6 min-height-530">
                     <div class="js-slick-carousel u-slick" data-pagi-classes="text-center u-slick__pagination u-slick__pagination mt-7">
                         @foreach ($sliders_v2->where('slider_category', 'main') as $slider)
                         <div class="js-slider">
@@ -19,11 +19,17 @@ $sliders_v2 = App\Models\SliderV2::where('language_id', $lang->id)->orderBy('id'
                                 <div class="d-block d-xl-flex media">
                                     <div class="hero__body media-body align-self-center mb-4 mb-xl-0">
                                         <h2 class="hero__title font-size-10 mb-3" data-scs-animation-in="fadeInUp" data-scs-animation-delay="300">
-                                            <span class="hero__title--1 font-weight-bold d-block" @if(!empty($slider->title_font_size)) style="font-size: {{ $slider->title_font_size }} !important;"@endif>{{ $slider->title }}</span>
-                                            <span class="hero__title--2 d-block font-weight-normal" @if(!empty($slider->text_font_size)) style="font-size: {{ $slider->text_font_size }} !important;"@endif>{{ $slider->text }}</span>
+                                            <span class="hero__title--1 font-weight-bold d-block" 
+                                                @if(!empty($slider->title_font_size)) style="font-size: {{ $slider->title_font_size }} !important; color: #fff0ce !important;"
+                                                @endif>{{ $slider->title }}
+                                            </span>
+                                            <span class="hero__title--2 d-block font-weight-normal" 
+                                                @if(!empty($slider->text_font_size)) style="font-size: {{ $slider->text_font_size }} !important; color: #fff0ce !important"
+                                                @endif>{{ $slider->text }}
+                                            </span>
                                         </h2>
                                         @if (!empty($slider->button_text))
-                                        <a href="{{ $slider->button_url }}" class="hero__btn btn btn-primary-green text-white btn-wide" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500">
+                                        <a href="{{ $slider->button_url }}" class="hero__btn btn btn-wide" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="background:#D55534; color: #fffcoe;">
                                             {{ $slider->button_text }}
                                         </a>
                                         @endif
