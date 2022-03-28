@@ -309,7 +309,7 @@ $countitem += $p['qty'];
                         </li>
                         
                         <!-- 
-                        Previous cart code commented for header
+                        Previous cart code commented for header -->
                         <li class="nav-item px-2">
                             <a id="sidebarNavToggler1-desktop" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="sidebarContent1" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent1" data-unfold-type="css-animation" data-unfold-overlay='{
                                                                     "className": "u-sidebar-bg-overlay",
@@ -319,10 +319,10 @@ $countitem += $p['qty'];
                                 <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0 cart-items">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
                                 <i class="glph-icon flaticon-icon-126515 font-size-5"></i>
                             </a>
-                        </li> -->
+                        </li> 
 
 
-
+                        {{-- commented new code
                         <li class="nav-item px-2">
                             <a id="basicDropdownHoverInvokerCart19-7" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19Cart-7" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19Cart-7" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
                                 <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0 cart-items">
@@ -382,7 +382,7 @@ $countitem += $p['qty'];
                                     <a href="{{route('front.cart')}}" class="btn px-10 py-3 rounded-0 btn-outline-dark mb-4">View Cart</a>
                                 </div>
                             </div>
-                        </li>
+                        </li> --}}
                         
                         <li class="nav-item px-2">
                             {{-- <!-- Account Sidebar Toggle Button - Mobile --> --}}

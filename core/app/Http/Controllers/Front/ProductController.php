@@ -278,7 +278,7 @@ class ProductController extends Controller
         return view('front.product.product_categories', compact('pcategories', 'be', 'version'));
     }
 
-    public function addToCart($id)
+    public function addToCart(Request $request, $id)
     {
         $cart = session()->get('cart');
         if (strpos($id, ',,,') == true) {
@@ -502,6 +502,41 @@ class ProductController extends Controller
                     $cart[$id]['qty'] =  $request->qty[$key];
                     session()->put('cart', $cart);
                 }
+            }
+        }
+        $total = 0;
+        $count = 0;
+        foreach ($cart as $key => $i) {
+            $product    = Product::findOrFail($key);
+            $total += $product->price * $i['qty'];
+            $count += $i['qty'];
+        }
+
+        $total = round($total, 2);
+
+        return response()->json(['message' => 'Cart Update Successfully.', 'total' => $total, 'count' => $count]);
+    }
+
+
+    public function updateSingleCartItem(Request $request)
+    {
+        
+        if (session()->has('cart')) {
+            $cart = session()->get('cart');
+            
+            $product = Product::findOrFail($request->product_id);
+            
+            if ($product->type != 'digital') {
+                if($product->stock < $request->quantity){
+                    return response()->json(['error' => $product->title .' stock not available']);
+                }
+            }
+
+            
+            if (isset($cart[$request->product_id])) {
+                $cart[$request->product_id]['qty'] =  $request->quantity;
+
+                session()->put('cart', $cart);
             }
         }
         $total = 0;

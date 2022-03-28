@@ -146,9 +146,9 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                             </div>
                                             <div class="qty">
                                                 <div class="product-quantity d-flex mb-35" id="quantity">
-                                                    <button type="button" id="sub" class="sub">-</button>
-                                                    <input type="text" class="cart_qty" id="1" value="{{$item['qty']}}" />
-                                                    <button type="button" id="add" class="add">+</button>
+                                                    <button type="button" id="sub" class="sub" onclick="onMinus(this, '{{$product->id}}')">-</button>
+                                                    <input type="text" class="quantity-{{$product->id}} cart_qty" id="1" value="{{$item['qty']}}" onclick="onInputChange(this, '{{$product->id}}')"/>
+                                                    <button type="button" id="add" class="add" onclick="onPlus(this, '{{$product->id}}')" >+</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -209,9 +209,9 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                 </td>
                                 <td class="qty">
                                     <div class="product-quantity d-flex mb-35" id="quantity">
-                                        <button type="button" id="sub" class="sub">-</button>
-                                        <input type="text" class="cart_qty" id="1" value="{{$item['qty']}}" />
-                                        <button type="button" id="add" class="add">+</button>
+                                        <button type="button" id="sub" class="sub" onclick="onMinus(this, '{{$product->id}}')">-</button>
+                                        <input type="text" class="quantity-{{$product->id}} cart_qty" id="1" value="{{$item['qty']}}" onblur="onInputChange(this, '{{$product->id}}')"/>
+                                        <button type="button" id="add" class="add" onclick="onPlus(this, '{{$product->id}}')" >+</button>
                                     </div>
                                 </td>
                                 <input type="hidden" value="{{$id}}" class="product_id">
@@ -298,6 +298,31 @@ var position = "{{ 'left' }}";
 <script src="{{asset('assets/front/js/cart.js')}}"></script>
 
 <script>
+
+
+function onPlus(elem, product_id) {
+    // console.log("elem ", elem.previousElementSibling.value)
+    let targetElem = elem.previousElementSibling;
+    let targetCount = parseInt(targetElem.value);
+    targetCount++;
+    
+    document.getElementsByClassName("quantity-"+product_id)[0].value = targetCount;
+}
+
+function onMinus(elem, product_id) {
+    // console.log("elem ", elem.previousElementSibling.value)
+    let targetElem = elem.nextElementSibling;
+    let targetCount = parseInt(targetElem.value);
+    targetCount--;
+    // targetElem.value = targetCount;
+    
+    document.getElementsByClassName("quantity-"+product_id)[0].value = targetCount;
+}
+
+
+function onInputChange(elem, product_id) {
+    document.getElementsByClassName("quantity-"+product_id)[0].value = elem.value;
+}
 
 
 </script>

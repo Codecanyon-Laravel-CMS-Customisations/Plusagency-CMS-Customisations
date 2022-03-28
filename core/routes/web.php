@@ -167,6 +167,7 @@ Route::group(['middleware' => 'setlang'], function () {
     Route::get('/cart', 'Front\ProductController@cart')->name('front.cart');
     Route::get('/add-to-cart/{id}', 'Front\ProductController@addToCart')->name('add.cart');
     Route::post('/cart/update', 'Front\ProductController@updatecart')->name('cart.update');
+    Route::post('/single-cart-item/update', 'Front\ProductController@updateSingleCartItem')->name('singleCartItem.update');
     Route::get('/cart/item/remove/{id}', 'Front\ProductController@cartitemremove')->name('cart.item.remove');
     Route::get('/checkout', 'Front\ProductController@checkout')->name('front.checkout');
     Route::get('/checkout/{slug}', 'Front\ProductController@Prdouctcheckout')->name('front.product.checkout');

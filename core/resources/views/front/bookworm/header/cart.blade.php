@@ -53,12 +53,12 @@
                                         <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
                                             <a href="{{route('front.product.details', $product->slug)}}" class="text-dark">{{convertUtf8($item['name'])}}</a>
                                         </h2>
-                                        <form class="cart d-block" method="post" enctype="multipart/form-data">
+                                        <form class="form-{{$product->id}} cart d-block" method="post" enctype="multipart/form-data">
                                             <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
                                             <span class="woocommerce-Price-amount amount">
                                                 <div class="product-quantity d-flex mb-35" id="quantity">
                                                 <button type="button" id="sub" class="sub">-</button>
-                                                <input type="text" class="cart_qty cart-value" id="1" value="{{$item['qty']}}" />
+                                                <input type="text" class="quantity-{{$product->id}} cart_qty cart-value" id="1" value="{{$item['qty']}}" />
                                                 <button type="button" id="add" class="add">+</button>
                                                 <input type="hidden" value="{{$id}}" class="product_id">
                                                 </div>
@@ -69,7 +69,7 @@
                                             </span>
                                             </div>
                                             <br/>
-                                            <a data-href="{{ route('add.cart', $product->id) }}"
+                                            <a id="{{ $product->id }}" data-href="{{ route('singleCartItem.update') }}"
                                                class="btn btn-sm btn-dark border-0 rounded-0 py-2 px-5 single_add_to_cart_button button alt cart-btn cart-sidebar-link my-1"
                                                style="color: #fff">Update cart</a>
                                         </form>
@@ -89,7 +89,7 @@
 
                         <div class="px-4 mb-8 px-md-6">
                             <a href="{{route('front.cart')}}" class="btn btn-block py-4 rounded-0 btn-outline-dark mb-4">View Cart</a>
-                            {{-- <button type="submit" class="btn btn-block py-4 rounded-0 btn-dark">Checkout</button> --}}
+                            <a href="{{route('front.checkout')}}" type="submit" class="btn btn-block py-4 rounded-0 btn-dark">Checkout</a>
                         </div>
                     </div>
                 </div>
@@ -99,24 +99,89 @@
     </div>
 </aside>
 <script>
+    // previous code commented 
+    // !function(t) {
+    //     "use strict";
+    //     jQuery(document).ready(function(t) {
+    //         t(".cart-sidebar .cart-sidebar-link").click(function() {
+    //             let e = t(this).attr("data-href");
+    //             console.log(e);
+    //             let a = t(".cart-amount").val();
+    //             a > 1 ? t.get(e + ",,," + a, function(e) {
+    //                 e.message ? (toastr.success(e.message),
+    //                     t(".cart-amount").val(1),
+    //                     t("#cartIconWrapper").load(location.href + " #cartIconWrapper")) : (toastr.error(e.error),
+    //                     t(".cart-amount").val(1),
+    //                     t("#cartIconWrapper").load(location.href + " #cartIconWrapper"))
+    //             }) : t.get(e, function(e) {
+    //                 e.message ? (toastr.success(e.message),
+    //                     t("#cartIconWrapper").load(location.href + " #cartIconWrapper")) : (toastr.error(e.error),
+    //                     t("#cartIconWrapper").load(location.href + " #cartIconWrapper"))
+    //             })
+    //         })
+    //     })
+    // }(jQuery);
+
     !function(t) {
         "use strict";
         jQuery(document).ready(function(t) {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
             t(".cart-sidebar .cart-sidebar-link").click(function() {
                 let e = t(this).attr("data-href");
                 console.log(e);
+
+
                 let a = t(".cart-amount").val();
-                a > 1 ? t.get(e + ",,," + a, function(e) {
-                    e.message ? (toastr.success(e.message),
-                        t(".cart-amount").val(1),
-                        t("#cartIconWrapper").load(location.href + " #cartIconWrapper")) : (toastr.error(e.error),
-                        t(".cart-amount").val(1),
-                        t("#cartIconWrapper").load(location.href + " #cartIconWrapper"))
-                }) : t.get(e, function(e) {
-                    e.message ? (toastr.success(e.message),
-                        t("#cartIconWrapper").load(location.href + " #cartIconWrapper")) : (toastr.error(e.error),
-                        t("#cartIconWrapper").load(location.href + " #cartIconWrapper"))
-                })
+
+                console.log('amount ',this.id);
+                var product_id = this.id;
+
+                var quantity = $('.quantity-'+this.id+'').val();
+
+                console.log("quantity form ", quantity);
+
+                $.ajax({
+                    type:'POST',
+                    url:"{{ route('singleCartItem.update') }}",
+                    data:{
+                        product_id: this.id,
+                        quantity:quantity
+                    },
+                    success:function (a) {
+                        if (console.log(a), a.message) {
+
+                            // updating count items for carts
+                            $('.cart-items').text(a.count);
+                            $(".quantity-"+product_id).val(quantity);
+
+                            let r = [];
+                            t(".cart_price span").each(function () {
+                                r.push(parseFloat(t(this).text()))
+                            }), t(".sub-total span").each(function (a, o) {
+                                t(this).text(r[a] * e[a])
+                            }), toastr.success(a.message), a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
+                        } else toastr.error(a.error)
+                    }
+                });
+
+
+                // a > 1 ? t.get(e + ",,," + a, function(e) {
+                //     e.message ? (toastr.success(e.message),
+                //         t(".cart-amount").val(1),
+                //         t("#cartIconWrapper").load(location.href + " #cartIconWrapper")) : (toastr.error(e.error),
+                //         t(".cart-amount").val(1),
+                //         t("#cartIconWrapper").load(location.href + " #cartIconWrapper"))
+                // }) : t.get(e, function(e) {
+                //     e.message ? (toastr.success(e.message),
+                //         t("#cartIconWrapper").load(location.href + " #cartIconWrapper")) : (toastr.error(e.error),
+                //         t("#cartIconWrapper").load(location.href + " #cartIconWrapper"))
+                // })
             })
         })
     }(jQuery);

@@ -37,10 +37,9 @@
 				contentType: !1,
 				success: function (a) {
 					if (console.log(a), a.message) {
-
 						// updating count items for carts
 						$('.cart-items').text(a.count);
-						$('.cart-value').val(a.count);
+						// $('.cart-value').val(a.count);
 
 						let r = [];
 						t(".cart_price span").each(function () {
