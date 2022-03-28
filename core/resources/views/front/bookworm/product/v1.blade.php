@@ -53,6 +53,8 @@
                         </figure>
                     </div>
                     <div class="col-md-7 pl-0 summary entry-summary border-left">
+
+                        {{-- @dd('here') --}}
                         <div class="space-top-2 px-4 px-xl-7 border-bottom pb-5">
                             <h1 class="product_title entry-title font-size-7 mb-3">{{ convertUtf8($product->title) }}
                             </h1>
@@ -202,7 +204,21 @@
                             <div class="px-4 px-xl-7 py-5 d-flex align-items-center">
                                 <ul class="list-unstyled nav">
                                     <li class="mr-6 mb-4 mb-md-0">
-                                        <a href="{{ route("wishlist.item.add", $product->id) }}" class="h-primary"><i class="flaticon-heart mr-2"></i> Add to Wishlist</a>
+                                        <a href="{{ route("wishlist.item.add", $product->id) }}" class="h-primary"><i class="flaticon-heart mr-2"></i> 
+                                        @php
+                                        
+                                        if(session()->get('wishlist') ){
+                                            // dd('have this ');
+                                            echo "Added to Wishlist";
+                                        }
+                                        else{
+                                            echo "Add to Wishlist";
+
+                                            // dd('not in wish list');
+                                        }
+                                        // echo is_array( session()->get('wishlist') ) ?  'Added to Wishlist' : 'Add to Wishlist';
+                                        @endphp
+                                    </a>
                                     </li>
                                     <li class="mr-6">
                                         <a href="whatsapp://send?text={{$bs->website_title. ' - Product - '.  $product->title.' '. route('front.product.details', $product->slug) }}" data-action="share/whatsapp/share" class="h-primary"><svg style="width:18px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -212,11 +228,12 @@
 
                                         <span class="btooltip">
                                             <span class="ml-3 h-primary" style="color:black !important; " onclick="copyToClipBoard('{{route('front.product.details', $product->slug) }}')" onmouseout="outFunc()">
-                                                <span class="tooltiptext" id="myTooltip">Click to copy</span>
-                                                <svg style="width:16px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                                                <span class="tooltiptext" id="myTooltip">  Click to copy</span>
+                                                {{-- <svg style="width:16px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                                     <!--! Font Awesome Pro 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. -->
                                                     <path d="M384 96L384 0h-112c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48H464c26.51 0 48-21.49 48-48V128h-95.1C398.4 128 384 113.6 384 96zM416 0v96h96L416 0zM192 352V128h-144c-26.51 0-48 21.49-48 48v288c0 26.51 21.49 48 48 48h192c26.51 0 48-21.49 48-48L288 416h-32C220.7 416 192 387.3 192 352z" />
-                                                </svg> Copy link
+                                                </svg> --}} <i class="fa fa-share-alt" aria-hidden="true"></i>
+
                                             </span>
                                         </span>
                                     </li>
