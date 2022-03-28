@@ -536,6 +536,8 @@ class ProductController extends Controller
             if (isset($cart[$request->product_id])) {
                 $cart[$request->product_id]['qty'] =  $request->quantity;
 
+                $sub_total = $product->price*$request->quantity;
+
                 session()->put('cart', $cart);
             }
         }
@@ -549,7 +551,8 @@ class ProductController extends Controller
 
         $total = round($total, 2);
 
-        return response()->json(['message' => 'Cart Update Successfully.', 'total' => $total, 'count' => $count]);
+
+        return response()->json(['message' => 'Cart Update Successfully.', 'total' => $total, 'count' => $count, 'sub_total' => $sub_total]);
     }
 
 

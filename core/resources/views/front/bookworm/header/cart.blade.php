@@ -159,12 +159,13 @@
                             // updating count items for carts
                             $('.cart-items').text(a.count);
                             $(".quantity-"+product_id).val(quantity);
+                            console.log("amount ssss ", a)
+
+                            $(".sub-total-"+product_id).text(a.sub_total);
 
                             let r = [];
                             t(".cart_price span").each(function () {
                                 r.push(parseFloat(t(this).text()))
-                            }), t(".sub-total span").each(function (a, o) {
-                                t(this).text(r[a] * e[a])
                             }), toastr.success(a.message), a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
                         } else toastr.error(a.error)
                     }

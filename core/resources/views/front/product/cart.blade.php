@@ -240,7 +240,7 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                 <td class="sub-total">
                                     {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
                                     {{ $product->symbol }}
-                                    <span>
+                                    <span class="sub-total-{{$product->id}}">
                                         {{-- {{ isset($pvariation) ? angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) }} --}}
                                         {{ number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) }}
                                     </span>
