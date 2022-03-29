@@ -583,7 +583,7 @@ $countitem += $p['qty'];
     <div class="row">
         <div class="col-12">
             <div class="modal fade headerProductInquiryModal hPIM" id="headerProductInquiryModal" tabindex="-1" aria-labelledby="headerProductInquiryModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg--- modal-xl modal-dialog-centered modal-dialog-scrollable---naaah">
+                <div class="modal-dialog modal-lg--- modal-lg modal-dialog-centered modal-dialog-scrollable---naaah">
                     <div class="modal-content">
                         <div class="modal-body p-0">
                             <div class="container-fluid">
@@ -676,10 +676,10 @@ $countitem += $p['qty'];
                                                 </div>
                                             </div>
                                         </form>
-                                        <div class="px-0 text-center w-100 py-2  d-block d-lg-none">
+                                        <!-- <div class="px-0 text-center w-100 py-2  d-block d-lg-none">
                                             <button type="button" class="btn btn-dark submit-button border-0 rounded-0 p-3 ml-auto mr-auto min-width-250 single_add_to_cart_button button alt cart-btn cart-link" style="color: #fff">{{ __('Submit') }}
                                             </button>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
