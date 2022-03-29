@@ -384,7 +384,7 @@ $countitem += $p['qty'];
                             </div>
                         </li> --}}
                         
-                        <li class="nav-item px-2">
+                        <li class="nav-item px-2 mt-2">
                             {{-- <!-- Account Sidebar Toggle Button - Mobile --> --}}
                             {{-- Commented for using theme's login and register --}}
                             {{-- <a id="sidebarNavToggler9" href="javascript:;" role="button" class="px-2 nav-link h-primary" aria-controls="sidebarContent9" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent9" data-unfold-type="css-animation" data-unfold-overlay='{
@@ -397,7 +397,7 @@ $countitem += $p['qty'];
                             {{-- Commented for using theme's login and register --}}
 
 
-                            <a id="sidebarNavToggler9" href="{{ route('user-register') }}">
+                            <a id="sidebarNavToggler9" class="text-dark" href="{{ route('user-register') }}">
                                 <i class="glph-icon flaticon-user font-size-5"></i>
                             </a>
                             {{-- <!-- End Account Sidebar Toggle Button - Mobile --> --}}
