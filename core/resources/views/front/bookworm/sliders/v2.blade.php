@@ -52,7 +52,13 @@ $sliders_v2 = App\Models\SliderV2::where('language_id', $lang->id)->orderBy('id'
                         <div class="z-index-2 position-absolute" style="top:2em; left:2em;">
                             <h2 class="slider-banner__title font-size-4 text-lh-md ">
                                 <span class="slider-banner__title--1 d-block font-weight-bold">{{ $sliders_v2->where('slider_category', 'side1')->first()->title }}</span>
-                                <span class="slider-banner__title--2">{{ $sliders_v2->where('slider_category', 'side1')->first()->text }}</span>
+                                <span class="slider-banner__title--2 d-block">{{ $sliders_v2->where('slider_category', 'side1')->first()->text }}</span>
+
+                                @if (!empty($slider->button_text))
+                                <a href="{{ $slider->button_url }}" class="hero__btn btn mt-2" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="background:#D55534; color: #fffcoe;">
+                                    {{ $slider->button_text }}
+                                </a>
+                                @endif
                             </h2>
                         </div>
                         <img data-src="{{ asset('assets/front/img/sliders/' . $sliders_v2->where('slider_category', 'side1')->first()->image) }}" class="lazy img-fluid position-absolute w-100 h-100" alt="">
@@ -63,7 +69,14 @@ $sliders_v2 = App\Models\SliderV2::where('language_id', $lang->id)->orderBy('id'
                         <div class="z-index-2 position-absolute" style="top:2em; left:2em;">
                             <h2 class="slider-banner__title font-size-4 text-lh-md">
                                 <span class="slider-banner__title--1 d-block font-weight-bold">{{ $sliders_v2->where('slider_category', 'side2')->first()->title }}</span>
-                                <span class="slider-banner__title--2">{{ $sliders_v2->where('slider_category', 'side2')->first()->text }}</span>
+                                <span class="slider-banner__title--2 d-block">{{ $sliders_v2->where('slider_category', 'side2')->first()->text }}</span>
+
+                                @if (!empty($slider->button_text))
+                                <a href="{{ $slider->button_url }}" class="hero__btn btn mt-2" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="background:#D55534; color: #fffcoe;">
+                                    {{ $slider->button_text }}
+                                </a>
+                                @endif
+
                             </h2>
                         </div>
                         <img data-src="{{ asset('assets/front/img/sliders/' . $sliders_v2->where('slider_category', 'side2')->first()->image) }}" class="lazy img-fluid position-absolute w-100 h-100" alt="">
