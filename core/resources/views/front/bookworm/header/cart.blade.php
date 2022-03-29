@@ -37,7 +37,7 @@
                         @endif
                         <!-- Title -->
                         <header class="border-bottom px-4 px-md-6 py-4">
-                            <h2 class="font-size-3 mb-0 d-flex align-items-center"><i class="flaticon-icon-126515 mr-3 font-size-5"></i>Your cart ({{ isset($cart) && $cart ? $countitem : 0 }})</h2>
+                            <h2 class="font-size-3 mb-0 d-flex align-items-center"><i class="flaticon-icon-126515 mr-3 font-size-5"></i>Your cart (<span class="cart-items">{{ isset($cart) && $cart ? $countitem : 0 }}</span>)</h2>
                         </header>
                         <!-- End Title -->
                         @if(isset($cart) && $cart != null)
@@ -50,7 +50,7 @@
                                     <a target="_blank" href="{{route('front.product.details',$product->slug)}}" class="d-block"><img src="@if($item['photo']!=null){{$item['photo']}}@else{{asset('https://via.placeholder.com/150')}}@endif" class="img-fluid" alt="image-description" width="150"></a>
                                     <div class="media-body ml-4d875">
                                         {{-- <div class="text-primary text-uppercase font-size-1 mb-1 text-truncate"><a href="#">Hard Cover</a></div> --}}
-                                        <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                        <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 mt-3">
                                             <a href="{{route('front.product.details', $product->slug)}}" class="text-dark">{{convertUtf8($item['name'])}}</a>
                                         </h2>
                                         <form class="form-{{$product->id}} cart d-block" method="post" enctype="multipart/form-data">
@@ -69,9 +69,11 @@
                                             </span>
                                             </div>
                                             <br/>
+                                            <!-- Update button removed
                                             <a id="{{ $product->id }}" data-href="{{ route('singleCartItem.update') }}"
                                                class="btn btn-sm btn-dark border-0 rounded-0 py-2 px-5 single_add_to_cart_button button alt cart-btn cart-sidebar-link my-1"
-                                               style="color: #fff">Update cart</a>
+                                               style="color: #fff">Update cart</a> 
+                                            -->
                                         </form>
                                     </div>
                                     <div class="mt-3 ml-3">
@@ -132,6 +134,8 @@
                 }
             });
 
+
+            // on update button click
             t(".cart-sidebar .cart-sidebar-link").click(function() {
                 let e = t(this).attr("data-href");
                 console.log(e);
@@ -139,7 +143,6 @@
 
                 let a = t(".cart-amount").val();
 
-                console.log('amount ',this.id);
                 var product_id = this.id;
 
                 var quantity = $('.quantity-'+this.id+'').val();
@@ -170,20 +173,92 @@
                         } else toastr.error(a.error)
                     }
                 });
-
-
-                // a > 1 ? t.get(e + ",,," + a, function(e) {
-                //     e.message ? (toastr.success(e.message),
-                //         t(".cart-amount").val(1),
-                //         t("#cartIconWrapper").load(location.href + " #cartIconWrapper")) : (toastr.error(e.error),
-                //         t(".cart-amount").val(1),
-                //         t("#cartIconWrapper").load(location.href + " #cartIconWrapper"))
-                // }) : t.get(e, function(e) {
-                //     e.message ? (toastr.success(e.message),
-                //         t("#cartIconWrapper").load(location.href + " #cartIconWrapper")) : (toastr.error(e.error),
-                //         t("#cartIconWrapper").load(location.href + " #cartIconWrapper"))
-                // })
             })
+
+
+            // on subtract(-) icon click
+            t(".cart-sidebar .sub").click(function() {
+                let e = t(".cart-sidebar-link").attr("data-href");
+                console.log(e);
+
+
+                let a = t(".cart-amount").val();
+
+                var product_id = this.nextElementSibling.nextElementSibling.nextElementSibling.value;
+
+                var quantity = $('.quantity-'+product_id+'').val();
+
+                console.log("quantity form ", quantity);
+
+                $.ajax({
+                    type:'POST',
+                    url:"{{ route('singleCartItem.update') }}",
+                    data:{
+                        product_id: product_id,
+                        quantity:quantity
+                    },
+                    success:function (a) {
+                        if (console.log(a), a.message) {
+
+                            // updating count items for carts
+                            $('.cart-items').text(a.count);
+                            $(".quantity-"+product_id).val(quantity);
+                            console.log("amount ssss ", a)
+
+                            $(".sub-total-"+product_id).text(a.sub_total);
+
+                            let r = [];
+                            t(".cart_price span").each(function () {
+                                r.push(parseFloat(t(this).text()))
+                            }), toastr.success(a.message), a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
+                        } else toastr.error(a.error)
+                    }
+                });
+            })
+
+            // on add(+) icon click
+            t(".cart-sidebar .add").click(function() {
+
+
+                let e = t(".cart-sidebar-link").attr("data-href");
+                console.log(e);
+
+
+                let a = t(".cart-amount").val();
+
+                var product_id = this.nextElementSibling.value;
+
+
+                var quantity = $('.quantity-'+product_id+'').val();
+
+                console.log("quantity form ", quantity);
+
+                $.ajax({
+                    type:'POST',
+                    url:"{{ route('singleCartItem.update') }}",
+                    data:{
+                        product_id: product_id,
+                        quantity:quantity
+                    },
+                    success:function (a) {
+                        if (console.log(a), a.message) {
+                            console.log("count ", a.count)
+                            // updating count items for carts
+                            $('.cart-items').text(a.count);
+                            $(".quantity-"+product_id).val(quantity);
+                            console.log("amount ssss ", a)
+
+                            $(".sub-total-"+product_id).text(a.sub_total);
+
+                            let r = [];
+                            t(".cart_price span").each(function () {
+                                r.push(parseFloat(t(this).text()))
+                            }), toastr.success(a.message), a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
+                        } else toastr.error(a.error)
+                    }
+                });
+            })
+            
         })
     }(jQuery);
 

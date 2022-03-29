@@ -50,7 +50,107 @@
 					} else toastr.error(a.error)
 				}
 			})
-		}), t(document).on("click", ".item-remove", function () {
+		}), t(document).on("click", "#add", function () {
+			let e = [],
+				a = [],
+				r = [],
+				o = t("#cartUpdate").attr("data-href");
+
+			let current_url = window.location.href;
+			let wishlist_page = current_url.search("wishlist");
+
+			if (wishlist_page != -1) {
+				o = t(".wishUpdate").attr("data-href");
+			} 
+			
+			
+				
+			t(".cart_qty").each(function () {
+				e.push(t(this).val())
+			}), t(".cart_price span").each(function () {
+				a.push(parseFloat(t(this).text()))
+			}), t(".product_id").each(function () {
+				r.push(t(this).val())
+			});
+			let c = new FormData,
+				n = 0;
+			for (n = 0; n < e.length; n++) c.append("qty[]", e[n]), c.append("cartprice[]", a[n]), c.append("product_id[]", r[n]);
+			t.ajaxSetup({
+				headers: {
+					"X-CSRF-TOKEN": t('meta[name="csrf-token"]').attr("content")
+				}
+			}), t.ajax({
+				type: "POST",
+				url: o,
+				data: c,
+				processData: !1,
+				contentType: !1,
+				success: function (a) {
+					if (console.log(a), a.message) {
+						// updating count items for carts
+						$('.cart-items').text(a.count);
+						// $('.cart-value').val(a.count);
+
+						let r = [];
+						t(".cart_price span").each(function () {
+							r.push(parseFloat(t(this).text()))
+						}), t(".sub-total span").each(function (a, o) {
+							t(this).text(r[a] * e[a])
+						}), t(".cart-total-view").text(a.total), toastr.success(a.message), a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
+					} else toastr.error(a.error)
+				}
+			})
+		}),  
+		t(document).on("click", "#sub", function () {
+			let e = [],
+				a = [],
+				r = [],
+				o = t("#cartUpdate").attr("data-href");
+
+			let current_url = window.location.href;
+			let wishlist_page = current_url.search("wishlist");
+
+			if (wishlist_page != -1) {
+				o = t(".wishUpdate").attr("data-href");
+			} 
+
+			t(".cart_qty").each(function () {
+				e.push(t(this).val())
+			}), t(".cart_price span").each(function () {
+				a.push(parseFloat(t(this).text()))
+			}), t(".product_id").each(function () {
+				r.push(t(this).val())
+			});
+			let c = new FormData,
+				n = 0;
+			for (n = 0; n < e.length; n++) c.append("qty[]", e[n]), c.append("cartprice[]", a[n]), c.append("product_id[]", r[n]);
+			t.ajaxSetup({
+				headers: {
+					"X-CSRF-TOKEN": t('meta[name="csrf-token"]').attr("content")
+				}
+			}), t.ajax({
+				type: "POST",
+				url: o,
+				data: c,
+				processData: !1,
+				contentType: !1,
+				success: function (a) {
+					if (console.log(a), a.message) {
+						// updating count items for carts
+						$('.cart-items').text(a.count);
+						// $('.cart-value').val(a.count);
+
+						let r = [];
+						t(".cart_price span").each(function () {
+							r.push(parseFloat(t(this).text()))
+						}), t(".sub-total span").each(function (a, o) {
+							t(this).text(r[a] * e[a])
+						}), t(".cart-total-view").text(a.total), toastr.success(a.message), a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
+					} else toastr.error(a.error)
+				}
+			})
+		}),  
+		t(document).on("click", ".item-remove", function () {
 			let e = t(this).attr("rel"),
 				a = t(this).attr("data-href");
 			t.get(a, function (a) {
