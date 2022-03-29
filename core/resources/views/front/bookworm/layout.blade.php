@@ -533,6 +533,46 @@
             });
         });
     </script>
+
+
+    <script>
+
+        // start: don't close Sidebar on clicked outside
+        var menu_opened = false;
+
+        var sideBarClicked = sidebarNavToggler.onclick = function(e) {
+            menu_opened = true;
+        };
+
+        if(!sideBarClicked) {
+            menu_opened = false;
+        }
+
+        var elems = document.getElementsByClassName("nav-close-button");
+
+        var close_nav = function() {
+            menu_opened = false;
+        };
+
+        for (var i = 0; i < elems.length; i++) {
+            elems[i].addEventListener('click', close_nav, false);
+        }
+
+
+        document.onclick = function (e) {
+            const menu = document.getElementById('hc-nav-1');
+                
+            if (menu_opened) {
+                menu.classList.add("nav-open");
+                menu.style.visibility = "visible";
+            } else {
+                menu.classList.remove("nav-open");
+                menu.style.visibility = "hidden";
+            }
+        };
+
+        // end: don't close Sidebar on clicked outside
+    </script>
 </body>
 
 </html>
