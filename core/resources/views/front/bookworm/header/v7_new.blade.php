@@ -234,10 +234,6 @@ $countitem += $p['qty'];
                             #basicDropdownHoverInvoker19-7::after {
                                 display: none;
                             }
-
-                            #basicDropdownHoverInvoker19-9::after {
-                                display: none;
-                            }
                         </style>
                         <li class="nav-item px-2">
                             <a id="basicDropdownHoverInvoker19-7" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-7" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-7" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
@@ -415,12 +411,13 @@ $countitem += $p['qty'];
                         <!-- </li> -->
 
 
+
                         <!-- Start: Desktop Account Drop Down Button --> 
                         <li class="nav-item px-2">
-                            <a id="basicDropdownHoverInvoker19-9" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-7" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-7" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                            <a id="basicDropdownHoverInvoker19-7-m" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-7-m" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-7-m" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
                                 <i class="glph-icon flaticon-user font-size-5"></i>
                             </a>
-                            <div id="basicDropdownHover19-7" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-9">
+                            <div id="basicDropdownHover19-7-m" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-7-m">
                                 <!-- Title -->
                                 <header class="border-bottom px-4 px-md-6 py-4">
                                     <h6 class="font-size-3 mb-0 d-flex align-items-center">
@@ -480,6 +477,20 @@ $countitem += $p['qty'];
                         <!-- End: Desktop Account Drop Down Button --> 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     </ul>
                 </div>
             </div>
@@ -520,17 +531,6 @@ $countitem += $p['qty'];
                                 ::after {
                                     display: none;
                                 }
-
-                                ::after,
-                                #basicDropdownHoverInvoker19-9 {
-                                        {
-                                        $rand_id
-                                    }
-                                }
-
-                                ::after {
-                                    display: none;
-                                }
                             </style>
                             @if (trim($header_v2_button_text) != '')
                             <li class="nav-item d-none d-lg-block">
@@ -553,10 +553,6 @@ $countitem += $p['qty'];
                     <ul class="nav align-self-center d-lg-none ml-auto">
                         <style>
                             #basicDropdownHoverInvoker19-7::after {
-                                display: none;
-                            }
-
-                            #basicDropdownHoverInvoker19-9::after {
                                 display: none;
                             }
                         </style>
@@ -664,13 +660,12 @@ $countitem += $p['qty'];
                         <!-- </li> -->
 
 
-                        
                         <!-- Start: Mobile Account Drop Down Button --> 
                         <li class="nav-item px-2">
-                            <a id="basicDropdownHoverInvoker19-9-m" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-9-m" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-9-m" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                            <a id="basicDropdownHoverInvoker19-7-m" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-7-m" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-7-m" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
                                 <i class="glph-icon flaticon-user font-size-5"></i>
                             </a>
-                            <div id="basicDropdownHover19-9-m" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-9-m">
+                            <div id="basicDropdownHover19-7-m" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-7-m">
                                 <!-- Title -->
                                 <header class="border-bottom px-4 px-md-6 py-4">
                                     <h6 class="font-size-3 mb-0 d-flex align-items-center">
@@ -728,7 +723,7 @@ $countitem += $p['qty'];
                             </div>
                         </li>
                         <!-- End: Mobile Account Drop Down Button --> 
-                        
+
 
                     </ul>
                     <div class="site-navigation mr-auto d-none d-lg-block">
