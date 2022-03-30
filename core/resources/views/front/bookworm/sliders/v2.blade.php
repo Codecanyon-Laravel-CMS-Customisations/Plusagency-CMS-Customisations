@@ -29,8 +29,8 @@ $sliders_v2 = App\Models\SliderV2::where('language_id', $lang->id)->orderBy('id'
                                             </span>
                                         </h2>
                                         @if (!empty($slider->button_text))
-                                        <a href="{{ route('front.product-categories') }}" class="hero__btn btn btn-wide" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="background:#D55534; color: #fffcoe;">
-                                            {{ $slider->button_text }}
+                                        <a href="{{ ($slider->button_url)?$slider->button_url:'#' }}" class="hero__btn btn btn-wide" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="background:#D55534; color: #fffcoe; <?php echo ($slider->button_text_font_size)?'font-size:'.$slider->button_text_font_size.'px !important;':''; ?>">
+                                            <span style="">{{ $slider->button_text }}</span>
                                         </a>
                                         @endif
                                     </div>
@@ -55,8 +55,8 @@ $sliders_v2 = App\Models\SliderV2::where('language_id', $lang->id)->orderBy('id'
                                 <span class="slider-banner__title--2 d-block">{{ $sliders_v2->where('slider_category', 'side1')->first()->text }}</span>
 
                                 @if (!empty($slider->button_text))
-                                <a href="{{ route('front.product-categories') }}" class="hero__btn btn mt-2" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="background:#D55534; color: #fffcoe;">
-                                    {{ $slider->button_text }}
+                                <a href="{{ $sliders_v2->where('slider_category', 'side1')->first()->button_url }}" class="hero__btn btn mt-2" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="background:#D55534; color: #fffcoe; <?php echo ($sliders_v2->where('slider_category', 'side1')->first()->button_text_font_size)?'font-size:'.$sliders_v2->where('slider_category', 'side1')->first()->button_text_font_size.'px !important;':''; ?>">
+                                    {{ $sliders_v2->where('slider_category', 'side1')->first()->button_text }}
                                 </a>
                                 @endif
                             </h2>
@@ -72,8 +72,8 @@ $sliders_v2 = App\Models\SliderV2::where('language_id', $lang->id)->orderBy('id'
                                 <span class="slider-banner__title--2 d-block">{{ $sliders_v2->where('slider_category', 'side2')->first()->text }}</span>
 
                                 @if (!empty($slider->button_text))
-                                <a href="{{ route('front.product-categories') }}" class="hero__btn btn mt-2" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="background:#D55534; color: #fffcoe;">
-                                    {{ $slider->button_text }}
+                                <a href="{{ $sliders_v2->where('slider_category', 'side2')->first()->button_url }}" class="hero__btn btn mt-2" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="background:#D55534; color: #fffcoe; <?php echo ($sliders_v2->where('slider_category', 'side2')->first()->button_text_font_size)?'font-size:'.$sliders_v2->where('slider_category', 'side2')->first()->button_text_font_size.'px !important;':''; ?>">
+                                    {{ $sliders_v2->where('slider_category', 'side2')->first()->button_text }}
                                 </a>
                                 @endif
 
