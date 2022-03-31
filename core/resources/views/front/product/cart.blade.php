@@ -48,6 +48,19 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
 
 @section('styles')
 <link rel="stylesheet" href="{{asset('assets/front/css/jquery-ui.min.css')}}">
+
+<style>
+    .btn-disable
+    {
+        cursor: not-allowed;
+        pointer-events: none;
+
+        /*Button disabled - CSS color class*/
+        color: #c0c0c0;
+        background-color: #ffffff;
+
+    }
+</style>
 @endsection
 
 @section('breadcrumb-links')
@@ -146,9 +159,9 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                             </div>
                                             <div class="qty">
                                                 <div class="product-quantity d-flex mb-35" id="quantity">
-                                                    <button type="button" id="sub" class="sub" onclick="onMinus(this, '{{$product->id}}')">-</button>
+                                                    <button type="button" id="sub" class="sub btn-sub" onclick="onMinus(this, '{{$product->id}}')">-</button>
                                                     <input type="text" class="quantity-{{$product->id}} cart_qty" id="1" value="{{$item['qty']}}" onclick="onInputChange(this, '{{$product->id}}')"/>
-                                                    <button type="button" id="add" class="add" onclick="onPlus(this, '{{$product->id}}')" >+</button>
+                                                    <button type="button" id="add" class="add btn-add" onclick="onPlus(this, '{{$product->id}}')" >+</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -209,9 +222,9 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                 </td>
                                 <td class="qty">
                                     <div class="product-quantity d-flex mb-35" id="quantity">
-                                        <button type="button" id="sub" class="sub" onclick="onMinus(this, '{{$product->id}}')">-</button>
+                                        <button type="button" id="sub" class="sub btn-sub" onclick="onMinus(this, '{{$product->id}}')">-</button>
                                         <input type="text" class="quantity-{{$product->id}} cart_qty" id="1" value="{{$item['qty']}}" onblur="onInputChange(this, '{{$product->id}}')"/>
-                                        <button type="button" id="add" class="add" onclick="onPlus(this, '{{$product->id}}')" >+</button>
+                                        <button type="button" id="add" class="add btn-add" onclick="onPlus(this, '{{$product->id}}')" >+</button>
                                     </div>
                                 </td>
                                 <input type="hidden" value="{{$id}}" class="product_id">

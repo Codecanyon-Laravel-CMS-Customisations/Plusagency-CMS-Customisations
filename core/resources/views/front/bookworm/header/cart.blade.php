@@ -1,3 +1,16 @@
+<style>
+    .btn-disable
+    {
+        cursor: not-allowed;
+        pointer-events: none;
+
+        /*Button disabled - CSS color class*/
+        color: #c0c0c0;
+        background-color: #ffffff;
+
+    }
+</style>
+
 <aside id="sidebarContent1" class="u-sidebar u-sidebar__xl cart-sidebar" aria-labelledby="sidebarNavToggler1">
     <div class="u-sidebar__scroller js-scrollbar">
         <div class="u-sidebar__container">
@@ -178,6 +191,12 @@
 
             // on subtract(-) icon click
             t(".cart-sidebar .sub").click(function() {
+                const btnAdd = document.getElementById("add");
+                const btnSub = document.getElementById("sub");
+                
+                btnAdd.classList.add("btn-disable");
+                btnSub.classList.add("btn-disable");
+
                 let e = t(".cart-sidebar-link").attr("data-href");
                 console.log(e);
 
@@ -198,6 +217,9 @@
                         quantity:quantity
                     },
                     success:function (a) {
+                        btnAdd.classList.remove("btn-disable");
+                        btnSub.classList.remove("btn-disable");
+
                         if (console.log(a), a.message) {
 
                             // updating count items for carts
@@ -219,6 +241,11 @@
             // on add(+) icon click
             t(".cart-sidebar .add").click(function() {
 
+                const btnAdd = document.getElementById("add");
+                const btnSub = document.getElementById("sub");
+                
+                btnAdd.classList.add("btn-disable");
+                btnSub.classList.add("btn-disable");
 
                 let e = t(".cart-sidebar-link").attr("data-href");
                 console.log(e);
@@ -241,6 +268,9 @@
                         quantity:quantity
                     },
                     success:function (a) {
+                        btnAdd.classList.remove("btn-disable");
+                        btnSub.classList.remove("btn-disable");
+
                         if (console.log(a), a.message) {
                             console.log("count ", a.count)
                             // updating count items for carts

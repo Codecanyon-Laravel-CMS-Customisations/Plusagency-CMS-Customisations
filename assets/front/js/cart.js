@@ -50,7 +50,7 @@
 					} else toastr.error(a.error)
 				}
 			})
-		}), t(document).on("click", "#add", function () {
+		}), t(document).on("click", ".btn-add", function () {
 			let e = [],
 				a = [],
 				r = [],
@@ -101,7 +101,7 @@
 				}
 			})
 		}),  
-		t(document).on("click", "#sub", function () {
+		t(document).on("click", ".btn-sub", function () {
 			let e = [],
 				a = [],
 				r = [],
