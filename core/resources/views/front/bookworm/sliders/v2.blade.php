@@ -4,14 +4,15 @@ if(request()->has('language')) $language_id = request('language');
 $lang = App\Language::where('code', $language_id)->first();
 $sliders_v2 = App\Models\SliderV2::where('language_id', $lang->id)->orderBy('id', 'ASC')->get();
 
-
+$bg_color = App\WebsiteColors::find(150);
 @endphp
+
 
 <div class="hero-slider-with-banners space-bottom-2 mt-4d875 abh-hero-slider-v2">
     <div class="container">
         <div class="row">
             <div class="@if ($sliders_v2->whereIn('slider_category', ['side1', 'side2'])->count() >= 1) col-md-9 @else col-md-12 @endif mb-4 mb-xl-0 abh-hero-slider-v2-main">
-                <div class="bg-site px-5 px-md-8 px-xl-0 pl-xl-10 pt-6 min-height-530">
+                <div class="bg-site px-5 px-md-8 px-xl-0 pl-xl-10 pt-6 min-height-530" style="<?php echo ($bg_color && $bg_color->value )? 'background: #'.$bg_color->value.' !important' :''; ?>">
                     <div class="js-slick-carousel u-slick" data-pagi-classes="text-center u-slick__pagination u-slick__pagination mt-7">
                         @foreach ($sliders_v2->where('slider_category', 'main') as $slider)
                         <div class="js-slider">
