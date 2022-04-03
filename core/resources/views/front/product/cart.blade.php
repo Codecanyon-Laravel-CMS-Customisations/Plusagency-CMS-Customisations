@@ -1,3 +1,15 @@
+<style>
+    .btn-disable
+    {
+        cursor: not-allowed;
+        pointer-events: none;
+
+        /*Button disabled - CSS color class*/
+        color: #c0c0c0;
+        background-color: #ffffff;
+    }
+</style>
+
 @extends("front.$version.layout")
 @php
 // $bex->base_currency_symbol = "AI";

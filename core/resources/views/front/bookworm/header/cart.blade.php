@@ -7,7 +7,6 @@
         /*Button disabled - CSS color class*/
         color: #c0c0c0;
         background-color: #ffffff;
-
     }
 </style>
 
@@ -182,7 +181,10 @@
                             let r = [];
                             t(".cart_price span").each(function () {
                                 r.push(parseFloat(t(this).text()))
-                            }), toastr.success(a.message), a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
+                            }),
+                            // removed toast message 
+                            // toastr.success(a.message), 
+                            a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
                         } else toastr.error(a.error)
                     }
                 });
@@ -191,11 +193,8 @@
 
             // on subtract(-) icon click
             t(".cart-sidebar .sub").click(function() {
-                const btnAdd = document.getElementById("add");
-                const btnSub = document.getElementById("sub");
-                
-                btnAdd.classList.add("btn-disable");
-                btnSub.classList.add("btn-disable");
+                // disable add sub buttons
+                enabledisableAddSubBtns("disable");
 
                 let e = t(".cart-sidebar-link").attr("data-href");
                 console.log(e);
@@ -217,11 +216,7 @@
                         quantity:quantity
                     },
                     success:function (a) {
-                        btnAdd.classList.remove("btn-disable");
-                        btnSub.classList.remove("btn-disable");
-
                         if (console.log(a), a.message) {
-
                             // updating count items for carts
                             $('.cart-items').text(a.count);
                             $(".quantity-"+product_id).val(quantity);
@@ -232,8 +227,15 @@
                             let r = [];
                             t(".cart_price span").each(function () {
                                 r.push(parseFloat(t(this).text()))
-                            }), toastr.success(a.message), a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
+                            }), 
+                            // toastr.success(a.message), 
+                            a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
+                            
                         } else toastr.error(a.error)
+
+
+                        // disable add sub buttons
+                        enabledisableAddSubBtns("enable");
                     }
                 });
             })
@@ -241,11 +243,8 @@
             // on add(+) icon click
             t(".cart-sidebar .add").click(function() {
 
-                const btnAdd = document.getElementById("add");
-                const btnSub = document.getElementById("sub");
                 
-                btnAdd.classList.add("btn-disable");
-                btnSub.classList.add("btn-disable");
+                enabledisableAddSubBtns("disable");
 
                 let e = t(".cart-sidebar-link").attr("data-href");
                 console.log(e);
@@ -258,7 +257,7 @@
 
                 var quantity = $('.quantity-'+product_id+'').val();
 
-                console.log("quantity form ", quantity);
+                console.log("quantity form ", quantity);    
 
                 $.ajax({
                     type:'POST',
@@ -268,8 +267,6 @@
                         quantity:quantity
                     },
                     success:function (a) {
-                        btnAdd.classList.remove("btn-disable");
-                        btnSub.classList.remove("btn-disable");
 
                         if (console.log(a), a.message) {
                             console.log("count ", a.count)
@@ -283,14 +280,102 @@
                             let r = [];
                             t(".cart_price span").each(function () {
                                 r.push(parseFloat(t(this).text()))
-                            }), toastr.success(a.message), a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
+                            }), 
+                            // toastr.success(a.message), 
+                            a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
+
                         } else toastr.error(a.error)
+
+
+                        // remove class disable
+                        enabledisableAddSubBtns("enable");
+                    }
+                });
+            })
+
+
+            // on input cart quantity change
+            t(".cart-sidebar .cart_qty").blur(function() {
+
+                
+                enabledisableAddSubBtns("disable");
+
+                let e = t(".cart-sidebar-link").attr("data-href");
+                console.log(e);
+
+
+                let a = t(".cart-amount").val();
+
+                var product_id = this.nextElementSibling.nextElementSibling.value;
+                console.log("product_id", product_id);
+
+                var quantity = $('.quantity-'+product_id+'').val();
+
+                console.log("quantity form ", quantity);    
+
+                $.ajax({
+                    type:'POST',
+                    url:"{{ route('singleCartItem.update') }}",
+                    data:{
+                        product_id: product_id,
+                        quantity:quantity
+                    },
+                    success:function (a) {
+
+                        if (console.log(a), a.message) {
+                            console.log("count ", a.count)
+                            // updating count items for carts
+                            $('.cart-items').text(a.count);
+                            $(".quantity-"+product_id).val(quantity);
+                            console.log("amount ssss ", a)
+
+                            $(".sub-total-"+product_id).text(a.sub_total);
+
+                            let r = [];
+                            t(".cart_price span").each(function () {
+                                r.push(parseFloat(t(this).text()))
+                            }), 
+                            // toastr.success(a.message), 
+                            a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
+
+                        } else toastr.error(a.error)
+
+
+                        // remove class disable
+                        enabledisableAddSubBtns("enable");
                     }
                 });
             })
             
         })
     }(jQuery);
+
+    function enabledisableAddSubBtns(param) {
+        const btnsAdd = document.getElementsByClassName("add");
+        const btnsSub = document.getElementsByClassName("sub");
+
+        if ( param == "disable" ) {
+            for (var i = 0; i < btnsAdd.length; i++) {
+                btnsAdd[i].classList.add("btn-disable");
+            }
+
+            for (var i = 0; i < btnsSub.length; i++) {
+                btnsSub[i].classList.add("btn-disable");
+            }
+        }
+        else if( param == "enable" ) {
+            for (var i = 0; i < btnsAdd.length; i++) {
+                btnsAdd[i].classList.remove("btn-disable");
+            }
+
+            for (var i = 0; i < btnsSub.length; i++) {
+                btnsSub[i].classList.remove("btn-disable");
+            }
+        }
+        else {
+            console.log(" please provide valid attributes to the function: enabledisableAddSubBtns")
+        }
+    }
 
 </script>
 <!-- End Cart Sidebar Navigation -->

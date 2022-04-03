@@ -169,7 +169,7 @@
                 <div class="update-cart float-right d-inline-block ml-4">
                     <a class="proceed-checkout-btn d-none wish2Cart" data-href="{{route('wishlist.to.cart')}}" href="javascript:;" type="button"><span>{{__('Add to Cart')}}</span></a>
                 </div>
-                <div class="update-cart float-right d-inline-block">
+                <div class="update-cart float-right d-inline-block" style="display: none !important;">
                     <button class="main-btn main-btn-2 wishUpdate" id="cartUpdate" data-href="{{route('wishlist.update')}}" type="button"><span>{{__('Update Wishlist')}}</span></button>
                 </div>
             </div>

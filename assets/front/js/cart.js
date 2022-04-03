@@ -46,7 +46,9 @@
 							r.push(parseFloat(t(this).text()))
 						}), t(".sub-total span").each(function (a, o) {
 							t(this).text(r[a] * e[a])
-						}), t(".cart-total-view").text(a.total), toastr.success(a.message), a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
+						}), t(".cart-total-view").text(a.total), 
+						// toastr.success(a.message), 
+						a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
 					} else toastr.error(a.error)
 				}
 			})
@@ -63,7 +65,7 @@
 				o = t(".wishUpdate").attr("data-href");
 			} 
 			
-			
+			enabledisableAddSubBtns("disable");
 				
 			t(".cart_qty").each(function () {
 				e.push(t(this).val())
@@ -96,8 +98,12 @@
 							r.push(parseFloat(t(this).text()))
 						}), t(".sub-total span").each(function (a, o) {
 							t(this).text(r[a] * e[a])
-						}), t(".cart-total-view").text(a.total), toastr.success(a.message), a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
+						}), t(".cart-total-view").text(a.total), 
+						// toastr.success(a.message), 
+						a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
 					} else toastr.error(a.error)
+
+					enabledisableAddSubBtns("enable");
 				}
 			})
 		}),  
@@ -113,6 +119,8 @@
 			if (wishlist_page != -1) {
 				o = t(".wishUpdate").attr("data-href");
 			} 
+
+			enabledisableAddSubBtns("disable");
 
 			t(".cart_qty").each(function () {
 				e.push(t(this).val())
@@ -145,8 +153,67 @@
 							r.push(parseFloat(t(this).text()))
 						}), t(".sub-total span").each(function (a, o) {
 							t(this).text(r[a] * e[a])
-						}), t(".cart-total-view").text(a.total), toastr.success(a.message), a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
+						}), t(".cart-total-view").text(a.total), 
+						// toastr.success(a.message), 
+						a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
 					} else toastr.error(a.error)
+
+					enabledisableAddSubBtns("enable");
+				}
+			})
+		}), 
+		t(document).on("blur", ".cart_qty", function () {
+			let e = [],
+				a = [],
+				r = [],
+				o = t("#cartUpdate").attr("data-href");
+
+			let current_url = window.location.href;
+			let wishlist_page = current_url.search("wishlist");
+
+			if (wishlist_page != -1) {
+				o = t(".wishUpdate").attr("data-href");
+			} 
+			
+			enabledisableAddSubBtns("disable");
+
+			t(".cart_qty").each(function () {
+				e.push(t(this).val())
+			}), t(".cart_price span").each(function () {
+				a.push(parseFloat(t(this).text()))
+			}), t(".product_id").each(function () {
+				r.push(t(this).val())
+			});
+			let c = new FormData,
+				n = 0;
+			for (n = 0; n < e.length; n++) c.append("qty[]", e[n]), c.append("cartprice[]", a[n]), c.append("product_id[]", r[n]);
+			t.ajaxSetup({
+				headers: {
+					"X-CSRF-TOKEN": t('meta[name="csrf-token"]').attr("content")
+				}
+			}), t.ajax({
+				type: "POST",
+				url: o,
+				data: c,
+				processData: !1,
+				contentType: !1,
+				success: function (a) {
+					if (console.log(a), a.message) {
+						// updating count items for carts
+						$('.cart-items').text(a.count);
+						// $('.cart-value').val(a.count);
+
+						let r = [];
+						t(".cart_price span").each(function () {
+							r.push(parseFloat(t(this).text()))
+						}), t(".sub-total span").each(function (a, o) {
+							t(this).text(r[a] * e[a])
+						}), t(".cart-total-view").text(a.total), 
+						// toastr.success(a.message), 
+						a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
+					} else toastr.error(a.error)
+
+					enabledisableAddSubBtns("enable");
 				}
 			})
 		}),  
@@ -165,3 +232,30 @@
 		t("#order_click_with_qty").val(e)
 	})
 }(jQuery);
+
+function enabledisableAddSubBtns(param) {
+    const btnsAdd = document.getElementsByClassName("add");
+    const btnsSub = document.getElementsByClassName("sub");
+
+    if ( param == "disable" ) {
+        for (var i = 0; i < btnsAdd.length; i++) {
+            btnsAdd[i].classList.add("btn-disable");
+        }
+
+        for (var i = 0; i < btnsSub.length; i++) {
+            btnsSub[i].classList.add("btn-disable");
+        }
+    }
+    else if( param == "enable" ) {
+        for (var i = 0; i < btnsAdd.length; i++) {
+            btnsAdd[i].classList.remove("btn-disable");
+        }
+
+        for (var i = 0; i < btnsSub.length; i++) {
+            btnsSub[i].classList.remove("btn-disable");
+        }
+    }
+    else {
+        console.log(" please provide valid attributes to the function: enabledisableAddSubBtns")
+    }
+}
