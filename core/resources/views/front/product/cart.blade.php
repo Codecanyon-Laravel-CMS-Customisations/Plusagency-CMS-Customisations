@@ -286,8 +286,8 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                 <div class="update-cart float-right d-inline-block ml-4">
                     <a class="proceed-checkout-btn" href="{{route('front.checkout')}}" type="button"><span>{{__('Checkout')}}</span></a>
                 </div>
-                <!-- Button removed from UI- removed this class: d-inline-block -->
-                <div class="update-cart float-right d-inline-block d-none">
+                <!-- Button removed from UI -->
+                <div class="update-cart float-right d-inline-block" style="display: none !important;">
                     <button class="main-btn main-btn-2" id="cartUpdate" data-href="{{route('cart.update')}}" type="button"><span>{{__('Update Cart')}}</span></button>
                 </div>
             </div>
