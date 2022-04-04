@@ -68,7 +68,7 @@
                                     <a target="_blank" href="{{route('front.product.details',$product->slug)}}" class="d-block">
                                         <img src="@if($item['photo']!=null){{$item['photo']}}@else{{asset('https://via.placeholder.com/150')}}@endif" class="img-fluid cus-pos" alt="image-description" width="150"></a>
                                     <!-- <div class="media-body ml-4d875"> -->
-                                    <div class="media-body">
+                                    <div class="media-body ml-1">
                                         {{-- <div class="text-primary text-uppercase font-size-1 mb-1 text-truncate"><a href="#">Hard Cover</a></div> --}}
                                         <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 mt-3">
                                             <a href="{{route('front.product.details', $product->slug)}}" class="text-dark">{{convertUtf8($item['name'])}}</a>
