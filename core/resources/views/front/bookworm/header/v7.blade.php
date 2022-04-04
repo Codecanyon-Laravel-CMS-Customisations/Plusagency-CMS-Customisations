@@ -269,7 +269,7 @@ $countitem += $p['qty'];
                                 </header>
 
                                 <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="#" class="text-dark">
+                                    <a href="{{ route('user.login') }}" class="text-dark">
                                         <div class="media-body ml-4">
                                             <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
                                                 {{convertUtf8("Login")}}
@@ -505,7 +505,7 @@ $countitem += $p['qty'];
                                 </header>
 
                                 <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="#" class="text-dark">
+                                    <a href="{{ route('user.login') }}" class="text-dark">
                                         <div class="media-body ml-4">
                                             <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
                                                 {{convertUtf8("Login")}}
