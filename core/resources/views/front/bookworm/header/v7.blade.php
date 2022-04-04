@@ -83,6 +83,18 @@ $countitem += $p['qty'];
 }
 @endphp
 @endif
+
+<style>
+    option {
+        background-color: #fff;
+    }
+
+    #sidebarNavToggler {
+            margin-bottom: -6px;
+    }
+
+</style>
+
 <header id="site-header" class="site-header__v7">
     <div class="topbar bg-punch-light">
         <div class="container">
@@ -239,6 +251,72 @@ $countitem += $p['qty'];
                                 display: none;
                             }
                         </style>
+
+                        <!-- Start: Desktop Account Drop Down Button --> 
+                        <li class="nav-item px-2">
+                            <a id="basicDropdownHoverInvoker19-9" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-9" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-9" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                                <i class="glph-icon flaticon-user font-size-5"></i>
+                                Account
+                            </a>
+                            <div id="basicDropdownHover19-9" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-9">
+                                <!-- Title -->
+                                <header class="border-bottom px-4 px-md-6 py-4">
+                                    <h6 class="font-size-3 mb-0 d-flex align-items-center">
+                                        @php
+                                        echo "My Account";
+                                        @endphp
+                                    </h6>
+                                </header>
+
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="#" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8("Login")}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="{{ route('user-register') }}" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8("Register")}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
+
+
+
+                                @foreach ($ulinks as $key => $ulink)
+                                @if($ulink->id == 18)
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="{{$ulink->url}}" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8($ulink->name)}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                @endif
+                                @endforeach
+
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="#" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8("Help")}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- End: Desktop Account Drop Down Button --> 
+
                         <li class="nav-item px-2">
                             <a id="basicDropdownHoverInvoker19-7" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-7" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-7" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
                                 <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0">
@@ -250,6 +328,7 @@ $countitem += $p['qty'];
                                     @endphp
                                 </span>
                                 <i class="flaticon-heart font-size-5"></i>
+                                Wishlist
                             </a>
                             <div id="basicDropdownHover19-7" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-7">
                                 <!-- Title -->
@@ -324,160 +403,6 @@ $countitem += $p['qty'];
                                 <i class="glph-icon flaticon-icon-126515 font-size-5"></i>
                             </a>
                         </li> 
-
-
-                        {{-- commented new code
-                        <li class="nav-item px-2">
-                            <a id="basicDropdownHoverInvokerCart19-7" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19Cart-7" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19Cart-7" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
-                                <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0 cart-items">
-                                   {{ isset($cart) && $cart ? $countitem : 0 }}
-                                </span>
-                                <i class="glph-icon flaticon-icon-126515 font-size-5"></i>
-                            </a>
-                            <div id="basicDropdownHover19Cart-7" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvokerCart19-7">
-                                <!-- Title -->
-                                <header class="border-bottom px-4 px-md-6 py-4">
-                                    <h6 class="font-size-5 h6 mb-0 d-flex align-items-center">
-                                        @php
-                                        echo "My Cart (";
-                                        try {
-                                        echo is_array( session()->get('cart') ) ? count(session()->get('cart')) : '0';
-                                        }
-                                        catch (\Exception $e){ }
-                                        echo ")";
-                                        @endphp
-                                    </h6>
-                                </header>
-                                <!-- End Title -->
-                                @if(isset($cart) && $cart != null)
-
-                                @foreach ( $cart as $id1 => $item)
-                                @php
-                                $product1 = App\Product::find($id1);
-                                if(is_null($product1)) continue;
-
-                                @endphp
-                                <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <div class="media">
-                                        <a target="_blank" href="{{route('front.product.details', $product1->slug)}}" class="d-block">
-                                            <img src="@if($item['photo']!=null){{$item['photo']}}@else{{asset('https://via.placeholder.com/55')}}@endif" class="img-fluid" alt="image-description" width="55">
-                                        </a>
-                                        <div class="media-body ml-1">
-                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                <a href="{{route('front.product.details', $product1->slug)}}" class="text-dark">{{convertUtf8($item['name'])}}</a>
-                                            </h6>
-                                            <div class="cart d-block">
-                                                <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
-                                                    <span class="woocommerce-Price-amount amount d-inline-block ml-3">
-                                                        {{ $product1->symbol }}
-                                                        <span> {{ number_format($product1->price, 0) }}</span>
-                                                    </span>
-                                                    <div class="mt-0 ml-auto pr-2">
-                                                        <a href="{{ route('cart.item.remove', $product1->id) }}" class="text-dark"><i class="fas fa-times"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                @endforeach
-                                @endif
-                                <div class="px-4 mb-4 px-md-6 d-flex justify-content-around pb-2 pt-4">
-                                    <a href="{{route('front.cart')}}" class="btn px-10 py-3 rounded-0 btn-outline-dark mb-4">View Cart</a>
-                                </div>
-                            </div>
-                        </li> --}}
-                        
-                        <!-- <li class="nav-item px-2 mt-2"> -->
-                            {{-- <!-- Account Sidebar Toggle Button - Mobile --> --}}
-                            {{-- Commented for using theme's login and register --}}
-                            {{-- <a id="sidebarNavToggler9" href="javascript:;" role="button" class="px-2 nav-link h-primary" aria-controls="sidebarContent9" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent9" data-unfold-type="css-animation" data-unfold-overlay='{
-                                        "className": "u-sidebar-bg-overlay",
-                                        "background": "rgba(0, 0, 0, .7)",
-                                        "animationSpeed": 500
-                                    }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
-                                <i class="glph-icon flaticon-user font-size-5"></i>
-                            </a> --}}
-
-
-                            {{-- Commented for using theme's login and register --}}
-
-                            <!-- <a id="sidebarNavToggler9" class="text-dark" href="{{ route('user-register') }}">
-                                <i class="glph-icon flaticon-user font-size-5"></i>
-                            </a> -->
-
-                            <!-- <a id="sidebarNavToggler9" class="text-dark" href="{{ route('user-register') }}">
-                                <i class="glph-icon flaticon-user font-size-5"></i>
-                            </a> -->
-
-                             <!-- End Account Sidebar Toggle Button - Mobile --> 
-                             
-                        <!-- </li> -->
-
-
-                        <!-- Start: Desktop Account Drop Down Button --> 
-                        <li class="nav-item px-2">
-                            <a id="basicDropdownHoverInvoker19-9" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-7" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-7" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
-                                <i class="glph-icon flaticon-user font-size-5"></i>
-                            </a>
-                            <div id="basicDropdownHover19-7" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-9">
-                                <!-- Title -->
-                                <header class="border-bottom px-4 px-md-6 py-4">
-                                    <h6 class="font-size-3 mb-0 d-flex align-items-center">
-                                        @php
-                                        echo "My Account";
-                                        @endphp
-                                    </h6>
-                                </header>
-
-                                <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="#" class="text-dark">
-                                        <div class="media-body ml-4">
-                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8("Login")}}
-                                            </h6>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="{{ route('user-register') }}" class="text-dark">
-                                        <div class="media-body ml-4">
-                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8("Register")}}
-                                            </h6>
-                                        </div>
-                                    </a>
-                                </div>
-
-
-
-                                @foreach ($ulinks as $key => $ulink)
-                                @if($ulink->id == 18)
-                                <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="{{$ulink->url}}" class="text-dark">
-                                        <div class="media-body ml-4">
-                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8($ulink->name)}}
-                                            </h6>
-                                        </div>
-                                    </a>
-                                </div>
-                                @endif
-                                @endforeach
-
-                                <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="#" class="text-dark">
-                                        <div class="media-body ml-4">
-                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8("Help")}}
-                                            </h6>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- End: Desktop Account Drop Down Button --> 
 
 
                     </ul>
@@ -560,6 +485,75 @@ $countitem += $p['qty'];
                                 display: none;
                             }
                         </style>
+
+
+
+                        <!-- Start: Mobile Account Drop Down Button --> 
+                        <li class="nav-item px-2">
+                            <a id="basicDropdownHoverInvoker19-9-m" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-9-m" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-9-m" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                                <i class="glph-icon flaticon-user font-size-5"></i>
+                                Account
+                            </a>
+                            <div id="basicDropdownHover19-9-m" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-9-m">
+                                <!-- Title -->
+                                <header class="border-bottom px-4 px-md-6 py-4">
+                                    <h6 class="font-size-3 mb-0 d-flex align-items-center">
+                                        @php
+                                        echo "My Account";
+                                        @endphp
+                                    </h6>
+                                </header>
+
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="#" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8("Login")}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="{{ route('user-register') }}" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8("Register")}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
+
+
+
+                                @foreach ($ulinks as $key => $ulink)
+                                @if($ulink->id == 18)
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="{{$ulink->url}}" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8($ulink->name)}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                @endif
+                                @endforeach
+
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="#" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8("Help")}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- End: Mobile Account Drop Down Button --> 
+
+
                         <li class="nav-item px-2">
                             <a id="basicDropdownHoverInvoker19-7-m" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-7-m" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-7-m" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
                                 <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0">
@@ -571,6 +565,7 @@ $countitem += $p['qty'];
                                     @endphp
                                 </span>
                                 <i class="flaticon-heart font-size-5"></i>
+                                Wishlist
                             </a>
                             <div id="basicDropdownHover19-7-m" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-7-m">
                                 <!-- Title -->
@@ -634,11 +629,6 @@ $countitem += $p['qty'];
                         </li>
 
 
-
-                        
-
-
-
                         <li class="nav-item px-2">
                             <a id="sidebarNavToggler1-desktop" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="sidebarContent1" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent1" data-unfold-type="css-animation" data-unfold-overlay='{
                                                                     "className": "u-sidebar-bg-overlay",
@@ -649,86 +639,6 @@ $countitem += $p['qty'];
                                 <i class="glph-icon flaticon-icon-126515 font-size-5"></i>
                             </a>
                         </li>
-
-
-                        <!-- <li class="nav-item px-2"> -->
-                            {{-- <!-- Account Sidebar Toggle Button - Mobile --> --}}
-                            <!-- <a id="sidebarNavToggler9" href="javascript:;" role="button" class="px-2 nav-link h-primary" aria-controls="sidebarContent9" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent9" data-unfold-type="css-animation" data-unfold-overlay='{
-                                        "className": "u-sidebar-bg-overlay",
-                                        "background": "rgba(0, 0, 0, .7)",
-                                        "animationSpeed": 500
-                                    }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
-                                <i class="glph-icon flaticon-user font-size-5"></i>
-                            </a> -->
-                            {{-- <!-- End Account Sidebar Toggle Button - Mobile --> --}}
-                        <!-- </li> -->
-
-
-                        
-                        <!-- Start: Mobile Account Drop Down Button --> 
-                        <li class="nav-item px-2">
-                            <a id="basicDropdownHoverInvoker19-9-m" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-9-m" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-9-m" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
-                                <i class="glph-icon flaticon-user font-size-5"></i>
-                            </a>
-                            <div id="basicDropdownHover19-9-m" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-9-m">
-                                <!-- Title -->
-                                <header class="border-bottom px-4 px-md-6 py-4">
-                                    <h6 class="font-size-3 mb-0 d-flex align-items-center">
-                                        @php
-                                        echo "My Account";
-                                        @endphp
-                                    </h6>
-                                </header>
-
-                                <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="#" class="text-dark">
-                                        <div class="media-body ml-4">
-                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8("Login")}}
-                                            </h6>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="{{ route('user-register') }}" class="text-dark">
-                                        <div class="media-body ml-4">
-                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8("Register")}}
-                                            </h6>
-                                        </div>
-                                    </a>
-                                </div>
-
-
-
-                                @foreach ($ulinks as $key => $ulink)
-                                @if($ulink->id == 18)
-                                <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="{{$ulink->url}}" class="text-dark">
-                                        <div class="media-body ml-4">
-                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8($ulink->name)}}
-                                            </h6>
-                                        </div>
-                                    </a>
-                                </div>
-                                @endif
-                                @endforeach
-
-                                <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="#" class="text-dark">
-                                        <div class="media-body ml-4">
-                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8("Help")}}
-                                            </h6>
-                                        </div>
-                                    </a>
-                                </div>
-                            </div>
-                        </li>
-                        <!-- End: Mobile Account Drop Down Button --> 
-                        
 
                     </ul>
                     <div class="site-navigation mr-auto d-none d-lg-block">

@@ -180,11 +180,19 @@ class ProductController extends Controller
     public function productDetails($slug)
     {
 
-        if(empty(Product::where('slug', $slug)->first()))
+        $product_details = Product::where('slug', $slug)->first();
+
+        if(!$product_details)
         {
+            dump($product_details);
             session()->flash('error', 'Product not found!');
             return redirect()->to('products');
+        } 
+
+        if ( $product_details ) {
+            session()->forget('error');
         }
+
         $bex = BasicExtra::first();
         if ($bex->is_shop == 0) {
             return back();

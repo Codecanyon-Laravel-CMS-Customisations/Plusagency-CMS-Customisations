@@ -49,7 +49,7 @@ $bg_color = App\WebsiteColors::find(150);
             <div class="col-md-3 d-none-----naaaah d-md-block-----naaaah">
                 <div class="banners">
                     @if ($sliders_v2->where('slider_category', 'side1')->count() >= 1)
-                    <div class="slider-banner flex-grow-1 mr-md-3 mr-xl-0 bg-gray-200 mb-4d875 position-relative overflow-hidden abh-hero-slider-v2-s1" style="height:250px;">
+                    <div class="slider-banner flex-grow-1 mr-md-3 mr-xl-0 bg-gray-200 mb-4d875 position-relative overflow-hidden abh-hero-slider-v2-s1" style="height:250px;  <?php echo ($bg_color && $bg_color->value )? 'background: #'.$bg_color->value.' !important' :''; ?>">
                         <div class="z-index-2 position-absolute" style="top:2em; left:2em;">
                             <h2 class="slider-banner__title font-size-4 text-lh-md ">
                                 <span class="slider-banner__title--1 d-block font-weight-bold">{{ $sliders_v2->where('slider_category', 'side1')->first()->title }}</span>
@@ -66,7 +66,7 @@ $bg_color = App\WebsiteColors::find(150);
                     </div>
                     @endif
                     @if ($sliders_v2->where('slider_category', 'side2')->count() >= 1)
-                    <div class="slider-banner flex-grow-1 ml-md-3 ml-xl-0 bg-gray-200 position-relative overflow-hidden abh-hero-slider-v2-s2" style="height:250px;">
+                    <div class="slider-banner flex-grow-1 ml-md-3 ml-xl-0 bg-gray-200 position-relative overflow-hidden abh-hero-slider-v2-s2" style="height:250px; <?php echo ($bg_color && $bg_color->value )? 'background: #'.$bg_color->value.' !important' :''; ?> ">
                         <div class="z-index-2 position-absolute" style="top:2em; left:2em;">
                             <h2 class="slider-banner__title font-size-4 text-lh-md">
                                 <span class="slider-banner__title--1 d-block font-weight-bold">{{ $sliders_v2->where('slider_category', 'side2')->first()->title }}</span>

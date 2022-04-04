@@ -8,6 +8,12 @@
         color: #c0c0c0;
         background-color: #ffffff;
     }
+
+    .cus-pos {
+        max-width: 4.5rem !important; 
+        position: relative !important;
+        float: left !important;
+    }
 </style>
 
 <aside id="sidebarContent1" class="u-sidebar u-sidebar__xl cart-sidebar" aria-labelledby="sidebarNavToggler1">
@@ -59,8 +65,10 @@
                             @endphp
                             <div class="px-4 py-5 px-md-6 border-bottom">
                                 <div class="media">
-                                    <a target="_blank" href="{{route('front.product.details',$product->slug)}}" class="d-block"><img src="@if($item['photo']!=null){{$item['photo']}}@else{{asset('https://via.placeholder.com/150')}}@endif" class="img-fluid" alt="image-description" width="150"></a>
-                                    <div class="media-body ml-4d875">
+                                    <a target="_blank" href="{{route('front.product.details',$product->slug)}}" class="d-block">
+                                        <img src="@if($item['photo']!=null){{$item['photo']}}@else{{asset('https://via.placeholder.com/150')}}@endif" class="img-fluid cus-pos" alt="image-description" width="150"></a>
+                                    <!-- <div class="media-body ml-4d875"> -->
+                                    <div class="media-body">
                                         {{-- <div class="text-primary text-uppercase font-size-1 mb-1 text-truncate"><a href="#">Hard Cover</a></div> --}}
                                         <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2 mt-3">
                                             <a href="{{route('front.product.details', $product->slug)}}" class="text-dark">{{convertUtf8($item['name'])}}</a>
