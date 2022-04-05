@@ -40,6 +40,10 @@
             font-weight: 500;
             font-size: 20px;
         }
+
+        .nav-open {
+            visibility: visible;
+        }
     </style>
     <!-- end: header menu styles -->
 
@@ -604,6 +608,15 @@
         //     }
         // };
         // end: Sidebar on click will open after one to seconds
+
+        var sideBarClicked = sidebarNavToggler.onclick = function(e) {
+        console.log("menu clicked")
+        const menu = document.getElementById('hc-nav-1');
+        menu.classList.add("nav-open");
+            console.log(" menu is ", menu)
+                            menu.style.visibility = "visible";
+            e.stopPropagation();
+        };
     </script>
 </body>
 
