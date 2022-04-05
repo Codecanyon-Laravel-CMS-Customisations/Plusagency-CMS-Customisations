@@ -26,6 +26,15 @@
     <link rel="stylesheet" href="{{asset('assets/user/css/dashboard.css')}}">
     <link rel="stylesheet" href="{{asset('assets/front/css/common-style.css')}}">
     <link rel="stylesheet" href="{{asset('assets/front/css/style.css')}}">
+    <link
+      rel="stylesheet"
+      href="{{asset('assets/user/css/datatables.min.css')}}"
+    >
+    <link
+      rel="stylesheet"
+      href="{{asset('assets/user/css/dataTables.bootstrap4.css')}}"
+    >
+
     {{-- New Style --}}
 
     <!-- CSS Bookworm Template -->
@@ -34,7 +43,7 @@
 <body>
     <!-- ====== HEADER CONTENT ====== -->
     <header id="site-header" class="site-header__v7">
-        <div class="topbar d-none d-md-block bg-punch-light">
+        {{-- <div class="topbar d-none d-md-block bg-punch-light">
             <div class="container">
                 <div class="topbar__nav d-lg-flex justify-content-between align-items-center font-size-2">
                     <ul class="topbar__nav--left nav ml-lg-n3 justify-content-center">
@@ -95,7 +104,7 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="masthead">
             <div class="bg-white border-bottom">
                 <div class="container pt-3 pb-2 pt-lg-5 pb-lg-5">
@@ -128,51 +137,79 @@
                             </form>
                         </div>
                         <ul class="nav align-self-center d-none d-md-flex">
-                            <li class="nav-item"><a href="#" class="nav-link text-dark"><i class="glph-icon flaticon-heart font-size-4"></i></a></li>
+                            
+                            
                             <li class="nav-item">
-                                <!-- Account Sidebar Toggle Button -->
-                                <a id="sidebarNavToggler" href="javascript:;" role="button" class="nav-link text-dark"
-                                    aria-controls="sidebarContent"
-                                    aria-haspopup="true"
-                                    aria-expanded="false"
-                                    data-unfold-event="click"
-                                    data-unfold-hide-on-scroll="false"
-                                    data-unfold-target="#sidebarContent"
-                                    data-unfold-type="css-animation"
-                                    data-unfold-overlay='{
-                                        "className": "u-sidebar-bg-overlay",
-                                        "background": "rgba(0, 0, 0, .7)",
-                                        "animationSpeed": 500
-                                    }'
-                                    data-unfold-animation-in="fadeInRight"
-                                    data-unfold-animation-out="fadeOutRight"
-                                    data-unfold-duration="500">
-                                    <i class="glph-icon flaticon-user font-size-4"></i>
-                                </a>
-                                <!-- End Account Sidebar Toggle Button -->
-                            </li>
-                            <li class="nav-item">
-                                <!-- Cart Sidebar Toggle Button -->
-                                <a id="sidebarNavToggler1" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative"
-                                    aria-controls="sidebarContent1"
-                                    aria-haspopup="true"
-                                    aria-expanded="false"
-                                    data-unfold-event="click"
-                                    data-unfold-hide-on-scroll="false"
-                                    data-unfold-target="#sidebarContent1"
-                                    data-unfold-type="css-animation"
-                                    data-unfold-overlay='{
-                                        "className": "u-sidebar-bg-overlay",
-                                        "background": "rgba(0, 0, 0, .7)",
-                                        "animationSpeed": 500
-                                    }'
-                                    data-unfold-animation-in="fadeInRight"
-                                    data-unfold-animation-out="fadeOutRight"
-                                    data-unfold-duration="500">
-                                    <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0">3</span>
-                                    <i class="glph-icon flaticon-icon-126515 font-size-4"></i>
-                                    <span class="d-none d-xl-inline h6 mb-0 ml-1">$40.93</span>
-                                </a>
+                              
+                                    @auth
+                                    
+                                        <div class="language dashboard">
+                                        <a class="language-btn" href="#">
+                                            <i class="far fa-user"></i> {{Auth::user()->username}}
+                                        </a>
+                                        <ul class="language-dropdown">
+                                            <li>
+                                                <a href="{{route('user-dashboard')}}">{{__('Dashboard')}}</a>
+                                            </li>
+
+                                            @if ($bex->recurring_billing == 1)
+                                                <li><a href="{{route('user-packages')}}">{{__('Packages')}}</a></li>
+                                            @endif
+
+                                            @if ($bex->is_shop == 1 && $bex->catalog_mode == 0)
+                                                <li><a href="{{route('user-orders')}}">{{__('Product Orders')}} </a></li>
+                                            @endif
+
+                                            @if ($bex->recurring_billing == 0)
+                                                <li><a href="{{route('user-package-orders')}}">{{__('Package Orders')}} </a></li>
+                                            @endif
+
+                                            @if ($bex->is_course == 1)
+                                            <li>
+                                                <a href="{{route('user.course_orders')}}" >{{__('Courses')}}</a>
+                                            </li>
+                                            @endif
+
+                                            @if ($bex->is_event == 1)
+                                            <li>
+                                                <a href="{{route('user-events')}}">{{__('Event Bookings')}}</a>
+                                            </li>
+                                            @endif
+
+
+                                            @if ($bex->is_donation == 1)
+                                            <li>
+                                                <a href="{{route('user-donations')}}" >{{__('Donations')}}</a>
+                                            </li>
+                                            @endif
+
+                                            @if ($bex->is_ticket == 1)
+                                            <li>
+                                                <a href="{{route('user-tickets')}}">{{__('Support Tickets')}}</a>
+                                            </li>
+                                            @endif
+
+                                            <li>
+                                                <a href="{{route('user-profile')}}">{{__('Edit Profile')}}</a>
+                                            </li>
+
+                                            @if ($bex->is_shop == 1 && $bex->catalog_mode == 0)
+                                                <li>
+                                                    <a href="{{route('shpping-details')}}">{{__('Shipping Details')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{route('billing-details')}}">{{__('Billing Details')}}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="{{route('user-reset')}}">{{__('Change Password')}}</a>
+                                                </li>
+                                            @endif
+                                            <li>
+                                                <a href="{{route('user-logout')}}" target="_self">{{__('Logout')}}</a>
+                                            </li>
+                                        </ul>
+                                        </div>
+                                    @endauth
                                 <!-- End Cart Sidebar Toggle Button -->
                             </li>
                         </ul>
@@ -5945,6 +5982,11 @@
     <script src="{{ asset('assets/assets/js/components/hs.show-animation.js') }} "></script>
     <script src="{{ asset('assets/assets/js/components/hs.selectpicker.js') }} "></script>
 
+    {{-- Bootstrap Datatables --}}
+    <script src="{{asset('assets/user/js/datatables.min.js')}}"></script>
+    <script src="{{asset('assets/user/js/dataTables.bootstrap4.js')}}"></script>
+    {{-- Bootstrap Datatables --}}
+
     <!-- JS Bookworm -->
     <!-- <script src="../../assets/js/bookworm.js"></script> -->
 
@@ -5993,5 +6035,45 @@
             });
         });
     </script>
+
+    <script src="{{asset('assets/user/js/main.js')}}"></script>
+
+    <script>
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+    </script>
+
+    <script>
+      var imgupload = "{{route('user.summernote.upload')}}";
+    </script>
+
+    <!-- custom js -->
+    <script src="{{asset('assets/user/js/custom.js')}}"></script>
+
+    @yield('scripts')
+
+    @if (session()->has('success'))
+      <script>
+        toastr["success"]("{{__(session()->get('success'))}}");
+      </script>
+    @endif
+
+    @if (session()->has('error'))
+      <script>
+        toastr["error"]("{{__(session('error'))}}");
+      </script>
+    @endif
+
+    <script>
+      $(document).ready(function() {
+        $('#example').DataTable({
+          responsive: true
+        });
+      });
+    </script>
+
 </body>
 </html>
