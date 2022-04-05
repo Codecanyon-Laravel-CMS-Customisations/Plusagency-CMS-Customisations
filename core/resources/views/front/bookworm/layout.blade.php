@@ -543,11 +543,10 @@
 
         // start: script to handle sidebar
         var sideBarClicked = sidebarNavToggler.onclick = function(e) {
-            console.log("menu clicked")
+            
             const menu = document.getElementById('hc-nav-1');
             menu.classList.add("nav-open");
-            console.log(" menu is ", menu)
-                            menu.style.visibility = "visible";
+            menu.style.visibility = "visible";
             e.stopPropagation();
         };
 
