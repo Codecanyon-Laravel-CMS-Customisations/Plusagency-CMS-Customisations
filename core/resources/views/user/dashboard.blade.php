@@ -1,4 +1,5 @@
-@extends('user.layout')
+<!-- @extends('user.layout') -->
+@extends('user.dashboard.master')
 
 @section('pagename')
  - {{__('Dashboard')}}
