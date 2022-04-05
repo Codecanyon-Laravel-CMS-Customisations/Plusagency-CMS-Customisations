@@ -541,82 +541,28 @@
 
     <script>
 
-        // start: don't close Sidebar on clicked outside
-        
-        // var menu_opened = false;
-
-        // var sideBarClicked = sidebarNavToggler.onclick = function(e) {
-        //     menu_opened = true;
-        // };
-
-        // if(!sideBarClicked) {
-        //     menu_opened = false;
-        // }
-
-        // var elems = document.getElementsByClassName("nav-close-button");
-
-        // var close_nav = function() {
-        //     menu_opened = false;
-        // };
-
-        // for (var i = 0; i < elems.length; i++) {
-        //     elems[i].addEventListener('click', close_nav, false);
-        // }
-
-
-        // document.onclick = function (e) {
-        //     const menu = document.getElementById('hc-nav-1');
-                
-        //     if (menu_opened) {
-        //         menu.classList.add("nav-open");
-        //         menu.style.visibility = "visible";
-        //     } else {
-        //         menu.classList.remove("nav-open");
-        //         menu.style.visibility = "hidden";
-        //     }
-        // };
-
-        // end: don't close Sidebar on clicked outside
-
-        // start: Sidebar on click will open after one to seconds
-        // var sideBarClicked = sidebarNavToggler.onclick = function(e) {
-        // const menu = document.getElementById('hc-nav-1');
-        
-        //     if(menu) {
-
-        //         const myTimeout = setTimeout(openMenu, 400);
-
-        //         function openMenu() {
-        //             menu.classList.add("nav-open");
-        //             menu.style.visibility = "visible";
-        //         }
-
-        //         var elems = document.getElementsByClassName("nav-close-button");
-
-        //         var close_nav = function() {
-        //             menu.classList.remove("nav-open");
-        //             menu.style.visibility = "hidden";
-        //         };
-                
-        //         for (var i = 0; i < elems.length; i++) {
-        //             elems[i].addEventListener('click', close_nav, false);
-        //         }
-                
-        //     } else {
-        //         menu.classList.remove("nav-open");
-        //         menu.style.visibility = "hidden";
-        //     }
-        // };
-        // end: Sidebar on click will open after one to seconds
-
+        // start: script to handle sidebar
         var sideBarClicked = sidebarNavToggler.onclick = function(e) {
-        console.log("menu clicked")
-        const menu = document.getElementById('hc-nav-1');
-        menu.classList.add("nav-open");
+            console.log("menu clicked")
+            const menu = document.getElementById('hc-nav-1');
+            menu.classList.add("nav-open");
             console.log(" menu is ", menu)
                             menu.style.visibility = "visible";
             e.stopPropagation();
         };
+
+        $('.nav-close-button').on('click',function(){
+    
+            if($('#hc-nav-1').hasClass('nav-open')){
+                $('#hc-nav-1').attr("aria-hidden", "true");
+                $('body').removeAttr( 'class' );
+                $('#hc-nav-1').removeAttr( 'style' ).removeClass('nav-open');
+                $('html').removeClass('hc-nav-yscroll');
+                $('#sidebarNavToggler').removeClass('toggle-open');
+            }
+            
+        });
+        // end: script to handle sidebar
     </script>
 </body>
 
