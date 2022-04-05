@@ -575,34 +575,34 @@
         // end: don't close Sidebar on clicked outside
 
         // start: Sidebar on click will open after one to seconds
-        var sideBarClicked = sidebarNavToggler.onclick = function(e) {
-        const menu = document.getElementById('hc-nav-1');
+        // var sideBarClicked = sidebarNavToggler.onclick = function(e) {
+        // const menu = document.getElementById('hc-nav-1');
         
-            if(menu) {
+        //     if(menu) {
 
-                const myTimeout = setTimeout(openMenu, 400);
+        //         const myTimeout = setTimeout(openMenu, 400);
 
-                function openMenu() {
-                    menu.classList.add("nav-open");
-                    menu.style.visibility = "visible";
-                }
+        //         function openMenu() {
+        //             menu.classList.add("nav-open");
+        //             menu.style.visibility = "visible";
+        //         }
 
-                var elems = document.getElementsByClassName("nav-close-button");
+        //         var elems = document.getElementsByClassName("nav-close-button");
 
-                var close_nav = function() {
-                    menu.classList.remove("nav-open");
-                    menu.style.visibility = "hidden";
-                };
+        //         var close_nav = function() {
+        //             menu.classList.remove("nav-open");
+        //             menu.style.visibility = "hidden";
+        //         };
                 
-                for (var i = 0; i < elems.length; i++) {
-                    elems[i].addEventListener('click', close_nav, false);
-                }
+        //         for (var i = 0; i < elems.length; i++) {
+        //             elems[i].addEventListener('click', close_nav, false);
+        //         }
                 
-            } else {
-                menu.classList.remove("nav-open");
-                menu.style.visibility = "hidden";
-            }
-        };
+        //     } else {
+        //         menu.classList.remove("nav-open");
+        //         menu.style.visibility = "hidden";
+        //     }
+        // };
         // end: Sidebar on click will open after one to seconds
     </script>
 </body>

@@ -401,6 +401,7 @@ $countitem += $p['qty'];
                                                                 }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
                                 <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0 cart-items">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
                                 <i class="glph-icon flaticon-icon-126515 font-size-5"></i>
+                                <span>Cart</span>
                             </a>
                         </li> 
 
@@ -492,7 +493,7 @@ $countitem += $p['qty'];
                         <li class="nav-item px-2">
                             <a id="basicDropdownHoverInvoker19-9-m" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-9-m" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-9-m" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
                                 <i class="glph-icon flaticon-user font-size-5"></i>
-                                Account
+                                <span>Account</span>
                             </a>
                             <div id="basicDropdownHover19-9-m" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-9-m">
                                 <!-- Title -->
@@ -565,7 +566,7 @@ $countitem += $p['qty'];
                                     @endphp
                                 </span>
                                 <i class="flaticon-heart font-size-5"></i>
-                                Wishlist
+                                <span>Wishlist</span>
                             </a>
                             <div id="basicDropdownHover19-7-m" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-7-m">
                                 <!-- Title -->
@@ -637,6 +638,7 @@ $countitem += $p['qty'];
                                                                 }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
                                 <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0 cart-items">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
                                 <i class="glph-icon flaticon-icon-126515 font-size-5"></i>
+                                <span>Cart</span>
                             </a>
                         </li>
 
