@@ -93,11 +93,11 @@ $countitem += $p['qty'];
             margin-bottom: -6px;
     }
 
-    /*.hc-nav-trigger {
+    .hc-nav-trigger {
         width: 169px !important;
-    }*/
+    }
 
-    @media only screen and (max-width: 372px) {
+    @media only screen and (max-width: 441px) {
       .helper-text {
         display: none;
       }
