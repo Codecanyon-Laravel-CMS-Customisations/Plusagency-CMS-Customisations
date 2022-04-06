@@ -53,9 +53,7 @@
         @media screen and (max-width: 600px) {
 
             .mCSB_dragger_bar {
-                width: 45% !important;
-                overflow: scroll;
-                -webkit-overflow-scrolling: touch;
+                width: 48% !important;
             }
         }
         
