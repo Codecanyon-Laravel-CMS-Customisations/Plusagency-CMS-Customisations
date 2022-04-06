@@ -93,9 +93,9 @@ $countitem += $p['qty'];
             margin-bottom: -6px;
     }
 
-    .hc-nav-trigger {
+    /*.hc-nav-trigger {
         width: 169px !important;
-    }
+    }*/
 
     @media only screen and (max-width: 372px) {
       .helper-text {
@@ -431,7 +431,7 @@ $countitem += $p['qty'];
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,8.000 L15.000,8.000 L15.000,10.000 L-0.000,10.000 L-0.000,8.000 Z"></path>
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,16.000 L20.000,16.000 L20.000,18.000 L-0.000,18.000 L-0.000,16.000 Z"></path>
                             </svg>
-                            &nbsp;Browse Menu
+                            &nbsp;Menu
                         </a>
                         <!-- End Account Sidebar Toggle Button -->
                         <ul class="nav d-lg-none ml-auto">
