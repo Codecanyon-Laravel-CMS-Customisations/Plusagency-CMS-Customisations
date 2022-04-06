@@ -32,6 +32,13 @@
     <link href="/assets/front/sidebar-nav/dist/hc-offcanvas-nav.carbon.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('assets/front/css/common-style.css') }}">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    
+
+    <script src="http://code.jquery.com/jquery.min.js"></script>
+<script src="http://code.jquery.com/ui/1.8.17/jquery-ui.min.js"></script>
+<script src="jquery.ui.touch-punch.min.js"></script>
+
+
     @yield('styles')
 
     <!-- start: header menu styles -->
@@ -45,13 +52,15 @@
             visibility: visible;
         }
 
-        .mCSB_dragger {
-            overflow: scroll;
-        }
 
-        .mCSB_dragger_bar {
-            width: 45%;
+        /* On screens that are 600px wide or less */
+        @media screen and (max-width: 600px) {
+
+            .mCSB_dragger_bar {
+                width: 45% !important;
+            }
         }
+        
     </style>
     <!-- end: header menu styles -->
 
@@ -571,6 +580,8 @@
         });
         // end: script to handle sidebar
     </script>
+
+    <script>$('#widget').draggable();</script>
 </body>
 
 </html>
