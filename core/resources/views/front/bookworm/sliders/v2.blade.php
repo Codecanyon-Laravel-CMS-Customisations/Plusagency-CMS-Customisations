@@ -5,7 +5,7 @@ $lang = App\Language::where('code', $language_id)->first();
 $sliders_v2 = App\Models\SliderV2::where('language_id', $lang->id)->orderBy('id', 'ASC')->get();
 
 $bg_color = App\WebsiteColors::find(199);
-
+dd($bg_color);
 if( !$bg_color ) {
     $bg_color = App\WebsiteColors::where('element', '=', '.abh-hero-slider-v2 .abh-hero-slider-v2-main .hero_title--1')->first();
 }
