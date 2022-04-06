@@ -7,6 +7,8 @@ $sliders_v2 = App\Models\SliderV2::where('language_id', $lang->id)->orderBy('id'
 $bg_color = App\WebsiteColors::find(150);
 @endphp
 
+@dd($bg_color)
+
 <!-- Push again -->
 <div class="hero-slider-with-banners space-bottom-2 mt-4d875 abh-hero-slider-v2">
     <div class="container">
