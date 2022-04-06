@@ -34,10 +34,6 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     
 
-    <script src="http://code.jquery.com/jquery.min.js"></script>
-<script src="http://code.jquery.com/ui/1.8.17/jquery-ui.min.js"></script>
-<script src="jquery.ui.touch-punch.min.js"></script>
-
 
     @yield('styles')
 
@@ -58,6 +54,8 @@
 
             .mCSB_dragger_bar {
                 width: 45% !important;
+                overflow: scroll;
+                -webkit-overflow-scrolling: touch;
             }
         }
         
@@ -580,8 +578,6 @@
         });
         // end: script to handle sidebar
     </script>
-
-    <script>$('#widget').draggable();</script>
 </body>
 
 </html>
