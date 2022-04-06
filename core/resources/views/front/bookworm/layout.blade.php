@@ -44,6 +44,14 @@
         .nav-open {
             visibility: visible;
         }
+
+        .mCSB_dragger {
+            overflow: scroll;
+        }
+
+        .mCSB_dragger_bar {
+            width: 45%;
+        }
     </style>
     <!-- end: header menu styles -->
 
