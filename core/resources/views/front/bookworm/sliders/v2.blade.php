@@ -4,10 +4,15 @@ if(request()->has('language')) $language_id = request('language');
 $lang = App\Language::where('code', $language_id)->first();
 $sliders_v2 = App\Models\SliderV2::where('language_id', $lang->id)->orderBy('id', 'ASC')->get();
 
-$bg_color = App\WebsiteColors::find(150);
+$bg_color = App\WebsiteColors::find(199);
+
+if( !$bg_color ) {
+    $bg_color = App\WebsiteColors::where('element', '=', '.abh-hero-slider-v2 .abh-hero-slider-v2-main .hero_title--1')->first();
+}
+
 @endphp
 
-@dd($bg_color)
+
 
 <!-- Push again -->
 <div class="hero-slider-with-banners space-bottom-2 mt-4d875 abh-hero-slider-v2">
