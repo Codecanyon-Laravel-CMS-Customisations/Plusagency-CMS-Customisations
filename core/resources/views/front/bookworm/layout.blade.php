@@ -53,7 +53,7 @@
         @media screen and (max-width: 600px) {
 
             .mCSB_dragger_bar {
-                width: 49%;
+                width: 49.5% !important;
             }
         }
         
