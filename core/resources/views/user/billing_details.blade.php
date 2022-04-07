@@ -29,7 +29,7 @@
      <section class="user-dashbord">
         <div class="container">
             <div class="row">
-                @include('user.inc.site_bar')
+                {{-- @include('user.inc.site_bar') --}}
                 <div class="col-lg-9">
                     <div class="row mb-5">
                         <div class="col-lg-12">

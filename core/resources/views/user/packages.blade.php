@@ -1,6 +1,7 @@
 {{-- @extends('user.layout') --}}
 @extends('user.dashboard.master')
 
+
 @section('pagename')
  - {{__('Packages')}}
 @endsection
@@ -30,7 +31,7 @@
 <section class="user-dashbord">
     <div class="container">
         <div class="row">
-            @include('user.inc.site_bar')
+            {{-- @include('user.inc.site_bar') --}}
             <div class="col-lg-9">
                 <div class="row">
                     <div class="col-12">
