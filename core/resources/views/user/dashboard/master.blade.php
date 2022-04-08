@@ -28,6 +28,26 @@
     <link rel="stylesheet" href="{{asset('assets/user/css/dashboard.css')}}">
     <link rel="stylesheet" href="{{asset('assets/front/css/common-style.css')}}">
     <link rel="stylesheet" href="{{asset('assets/front/css/style.css')}}">
+
+
+    <link rel="stylesheet" href="{{ asset('assets/bookworm/css/theme.css') }}">
+    <style>
+        .toast-container {
+            background-color: green !important;
+        }
+
+        .toast-success {
+            background-color: green !important;
+        }
+
+        .hc-nav-trigger {
+            width: 160px !important;
+        }
+
+    </style>
+
+   @include('front.bookworm.partials.custom_style')
+
     <link
       rel="stylesheet"
       href="{{asset('assets/user/css/datatables.min.css')}}"
@@ -44,7 +64,7 @@
 </head>
 <body>
     <!--===== HEADER CONTENT =====-->
-     <header id="site-header" class="site-header__v2 site-header__white-text">
+     {{-- <header id="site-header" class="site-header__v2 site-header__white-text">
         <div class="masthead">
             <div class="bg-secondary-gray-800">
                 <div class="container pt-3 pt-md-4 pb-3 pb-md-5">
@@ -97,7 +117,6 @@
                             </form>
                         </div>
                         <div class="d-flex align-items-center">
-                            <!-- Account Sidebar Toggle Button -->
                             <a id="sidebarNavToggler" href="javascript:;" role="button"
                                 aria-controls="sidebarContent"
                                 aria-haspopup="true"
@@ -115,10 +134,7 @@
                                 data-unfold-animation-out="fadeOutRight"
                                 data-unfold-duration="500">
                                 <div class="d-flex align-items-center text-white font-size-2 text-lh-sm">
-                                    {{-- <i class="flaticon-user font-size-5"></i> --}}
                                     <div class="ml-2 d-none d-lg-block">
-                                        {{-- <span class="text-secondary-gray-1080 font-size-1">Sign In</span> --}}
-                                        {{-- <div class="">My Account</div> --}}
 
                                         @auth
                                     
@@ -192,35 +208,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <!-- End Account Sidebar Toggle Button -->
-
-                            <!-- Cart Sidebar Toggle Button -->
-                            {{-- <a id="sidebarNavToggler1" href="javascript:;" role="button" class="ml-4 d-none d-lg-block"
-                                aria-controls="sidebarContent1"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                                data-unfold-event="click"
-                                data-unfold-hide-on-scroll="false"
-                                data-unfold-target="#sidebarContent1"
-                                data-unfold-type="css-animation"
-                                data-unfold-overlay='{
-                                    "className": "u-sidebar-bg-overlay",
-                                    "background": "rgba(0, 0, 0, .7)",
-                                    "animationSpeed": 500
-                                }'
-                                data-unfold-animation-in="fadeInRight"
-                                data-unfold-animation-out="fadeOutRight"
-                                data-unfold-duration="500">
-                                <div class="d-flex align-items-center text-white font-size-2 text-lh-sm position-relative">
-                                    <span class="position-absolute bg-white width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-dark font-size-n9 left-0 top-0 ml-n2 mt-n1">3</span>
-                                    <i class="flaticon-icon-126515 font-size-5"></i>
-                                    <div class="ml-2">
-                                        <span class="text-secondary-gray-1080 font-size-1">My Cart</span>
-                                        <div class="">$40.93</div>
-                                    </div>
-                                </div>
-                            </a> --}}
-                            <!-- End Cart Sidebar Toggle Button -->
+                            
                         </div>
                     </div>
                 </div>
@@ -248,70 +236,7 @@
                                     
                                 </li>
                                 <li class="nav-item"><a href="{{ route('front.product-categories') }}" class="nav-link link-black-100 mx-3 px-0 py-3 font-size-2 font-weight-medium">Categories</a></li>
-                                {{-- <li class="nav-item dropdown">
-                                    <a id="shopDropdownInvoker" href="#" class="nav-link link-black-100 mx-3 px-0 py-3 font-size-2 font-weight-medium d-flex align-items-center"
-                                        aria-haspopup="true"
-                                        aria-expanded="false"
-                                        data-unfold-event="hover"
-                                        data-unfold-target="#shopDropdownMenu"
-                                        data-unfold-type="css-animation"
-                                        data-unfold-duration="200"
-                                        data-unfold-delay="50"
-                                        data-unfold-hide-on-scroll="true"
-                                        data-unfold-animation-in="slideInUp"
-                                        data-unfold-animation-out="fadeOut">
-                                        Shop
-                                    </a>
-                                    
-                                </li> --}}
-                                {{-- <li class="nav-item">
-                                    <a id="featuresDropdownInvoker" href="#" class="nav-link link-black-100 mx-3 px-0 py-3 font-size-2 font-weight-medium d-flex align-items-center"
-                                        aria-haspopup="true"
-                                        aria-expanded="false"
-                                        data-unfold-event="hover"
-                                        data-unfold-target="#featuresDropdownMenu"
-                                        data-unfold-type="css-animation"
-                                        data-unfold-duration="200"
-                                        data-unfold-delay="50"
-                                        data-unfold-hide-on-scroll="true"
-                                        data-unfold-animation-in="slideInUp"
-                                        data-unfold-animation-out="fadeOut">
-                                        Pages
-                                    </a>
-                                    
-                                </li> --}}
-                                {{-- <li class="nav-item dropdown">
-                                    <a id="blogDropdownInvoker" href="#" class="nav-link link-black-100 mx-3 px-0 py-3 font-size-2 font-weight-medium d-flex align-items-center"
-                                        aria-haspopup="true"
-                                        aria-expanded="false"
-                                        data-unfold-event="hover"
-                                        data-unfold-target="#blogDropdownMenu"
-                                        data-unfold-type="css-animation"
-                                        data-unfold-duration="200"
-                                        data-unfold-delay="50"
-                                        data-unfold-hide-on-scroll="true"
-                                        data-unfold-animation-in="slideInUp"
-                                        data-unfold-animation-out="fadeOut">
-                                        Blog
-                                    </a>
-                                    
-                                </li> --}}
-                                {{-- <li class="nav-item dropdown">
-                                    <a id="pagesDropdownInvoker" href="#" class="nav-link link-black-100 mx-3 px-0 py-3 font-size-2 font-weight-medium d-flex align-items-center"
-                                        aria-haspopup="true"
-                                        aria-expanded="false"
-                                        data-unfold-event="hover"
-                                        data-unfold-target="#pagesDropdownMenu"
-                                        data-unfold-type="css-animation"
-                                        data-unfold-duration="200"
-                                        data-unfold-delay="50"
-                                        data-unfold-hide-on-scroll="true"
-                                        data-unfold-animation-in="slideInUp"
-                                        data-unfold-animation-out="fadeOut">
-                                        Others
-                                    </a>
-                                    
-                                </li> --}}
+                                
                             </ul>
                         </div>
 
@@ -327,7 +252,22 @@
                 </div>
             </div>
         </div>
-    </header>
+    </header> --}}
+
+    @include('user.dashboard.navbar')
+   {{--  <div class="u-sidebar-bg-overlay" style="background-color: rgba(0, 0, 0, 0.7); display: none;"></div>
+    @if (!request()->routeIs('front.index') && !request()->routeIs('front.packageorder.confirmation'))
+        <div class="page-header border-bottom">
+            <div class="container">
+                <div class="d-md-flex justify-content-between align-items-center py-4">
+                    @yield('breadcrumb-links')
+                    </nav>
+                </div>
+            </div>
+        </div>
+    @endif --}}
+
+
 
     <!-- Account Sidebar Navigation - Mobile -->
     <aside id="sidebarContent9" class="u-sidebar u-sidebar__lg" aria-labelledby="sidebarNavToggler9">
@@ -1984,17 +1924,15 @@
     <!-- ====== END MAIN CONTENT ===== -->
 
     <!-- ========== FOOTER ========== -->
-    <footer>
+    {{-- <footer>
         <div class="border-top space-top-3">
             <div class="border-bottom pb-5 space-bottom-lg-3">
                 <div class="container">
-                    <!-- Newsletter -->
                     <div class="space-bottom-2 space-bottom-md-3">
                         <div class="text-center mb-5">
                             <h5 class="font-size-7 font-weight-medium">Join Our Newsletter</h5>
                             <p class="text-gray-700">Signup to be the first to hear about exclusive deals, special offers and upcoming collections</p>
                         </div>
-                        <!-- Form Group -->
                         <div class="form-row justify-content-center">
                             <div class="col-md-5 mb-3 mb-md-2">
                                 <div class="js-form-message">
@@ -2008,9 +1946,7 @@
                                 </button>
                             </div>
                         </div>
-                        <!-- End Form Group -->
                     </div>
-                    <!-- End  Newsletter -->
                     <div class="row">
                         <div class="col-lg-4 mb-6 mb-lg-0">
                             <div class="pb-6">
@@ -2019,7 +1955,7 @@
                                 </a>
                                 <address class="font-size-2 mb-5">
                                     <span class="mb-2 font-weight-normal text-dark">
-                                        1516-17, Gali Pataudi House, Daryaganj{{--  <br> United States --}}
+                                        1516-17, Gali Pataudi House, Daryaganj
                                     </span>
                                 </address>
                                 <div class="mb-4">
@@ -2141,16 +2077,13 @@
             <div class="space-1">
                 <div class="container">
                     <div class="d-lg-flex text-center text-lg-left justify-content-between align-items-center">
-                        <!-- Copyright -->
-                        <p class="mb-3 mb-lg-0 font-size-2">©2020 Book Worm. All rights reserved</p>
-                        <!-- End Copyright -->
+                        <p class="mb-3 mb-lg-0 font-size-2">©2022 All rights reserved by ibsbookstore.com</p>
 
                         <div class="ml-auto d-lg-flex align-items-center">
                             <div class="mb-4 mb-lg-0 mr-5">
                                <img class="img-fluid" src="{{ asset('assets/assets/img/324x38/img1.png') }}" alt="Image-Description">
                             </div>
 
-                            <!-- Select -->
                             <select class="js-select selectpicker dropdown-select mb-3 mb-lg-0"
                                 data-style="border px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2"
                                 data-dropdown-align-right="true">
@@ -2159,9 +2092,7 @@
                                 <option value="three">Français</option>
                                 <option value="four">Español</option>
                             </select>
-                            <!-- End Select -->
 
-                            <!-- Select -->
                             <select class="js-select selectpicker dropdown-select ml-md-3"
                                 data-style="border px-4 py-2 rounded-0 height-5 outline-none shadow-none form-control font-size-2"
                                 data-dropdown-align-right="true"
@@ -2177,6 +2108,9 @@
             </div>
         </div>
     </footer>
+ --}}
+    @include('front.bookworm.footer.v2')
+
     <!-- ========== END FOOTER ========== -->
 
    <!-- jQuery first, then Popper.js, then Bootstrap JS -->

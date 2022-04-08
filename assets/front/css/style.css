@@ -3736,3 +3736,6 @@ ul#select2-headerProductsSelect-results {
 .bg-site{
     background: #383838;
 }
+#sidebarContent1{
+    z-index: 9999 !important;
+}
