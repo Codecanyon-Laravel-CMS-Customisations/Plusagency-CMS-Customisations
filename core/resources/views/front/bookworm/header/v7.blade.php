@@ -672,9 +672,10 @@ $countitem += $p['qty'];
                                 </div>
                             </div>
                         </li>
+                        
+                        <!-- Commented below code for solving cart issue -->
 
-
-                        <li class="nav-item px-2">
+                        <!-- <li class="nav-item px-2">
                             <a id="sidebarNavToggler1-desktop" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="sidebarContent1" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent1" data-unfold-type="css-animation" data-unfold-overlay='{
                                                                     "className": "u-sidebar-bg-overlay",
                                                                     "background": "rgba(0, 0, 0, .7)",
@@ -684,7 +685,14 @@ $countitem += $p['qty'];
                                 <i class="glph-icon flaticon-icon-126515 font-size-5 fonts"></i>
                                 <div class="helper-text">Cart</div>
                             </a>
-                        </li>
+                        </li> -->
+
+                        <li class="nav-item px-2">
+                            <a id="" class="nav-link pr-0 btn text-dark position-relative" data-toggle="modal" data-target="#exampleModalCenter">
+                                <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0 cart-items">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
+                                <i class="glph-icon flaticon-icon-126515 font-size-5"></i>
+                            </a>
+                        </li> 
 
                     </ul>
                     <div class="site-navigation mr-auto d-none d-lg-block">
