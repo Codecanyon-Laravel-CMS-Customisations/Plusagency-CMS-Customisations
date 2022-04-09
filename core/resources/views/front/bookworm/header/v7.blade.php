@@ -102,6 +102,32 @@ $countitem += $p['qty'];
         display: none;
       }
     }
+
+    /* media query for mobile screens */
+    @media only screen and (max-width: 366px) {
+        .fonts {
+             font-size: 1.0rem !important;
+        }
+
+        .paddings {
+            padding-left: 0.25rem !important;
+            padding-right: 0.25rem !important;
+        }
+    }
+
+    /* media query for mobile screens */
+    @media only screen and (max-width: 308px) {
+        .fonts {
+             font-size: 0.8rem !important;
+        }
+    }
+
+    /* media query for mobile screens */
+    @media only screen and (max-width: 278px) {
+        .fonts {
+             font-size: 0.7rem !important;
+        }
+    }
 </style>
 
 <header id="site-header" class="site-header__v7">
@@ -431,7 +457,7 @@ $countitem += $p['qty'];
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,8.000 L15.000,8.000 L15.000,10.000 L-0.000,10.000 L-0.000,8.000 Z"></path>
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,16.000 L20.000,16.000 L20.000,18.000 L-0.000,18.000 L-0.000,16.000 Z"></path>
                             </svg>
-                            &nbsp;Browse Menu
+                            &nbsp;<span class="fonts">Browse Menu</span>
                         </a>
                         <!-- End Account Sidebar Toggle Button -->
                         <ul class="nav d-lg-none ml-auto">
@@ -499,9 +525,9 @@ $countitem += $p['qty'];
 
 
                         <!-- Start: Mobile Account Drop Down Button --> 
-                        <li class="nav-item px-2">
+                        <li class="nav-item px-2 paddings">
                             <a id="basicDropdownHoverInvoker19-9-m" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-9-m" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-9-m" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
-                                <i class="glph-icon flaticon-user font-size-5"></i>
+                                <i class="glph-icon flaticon-user font-size-5 fonts"></i>
                                 <div class="helper-text">Account</div>
                             </a>
                             <div id="basicDropdownHover19-9-m" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-9-m">
@@ -574,7 +600,7 @@ $countitem += $p['qty'];
                                     catch (\Exception $e){ }
                                     @endphp
                                 </span>
-                                <i class="flaticon-heart font-size-5"></i>
+                                <i class="flaticon-heart font-size-5 fonts"></i>
                                 <div class="helper-text">Wishlist</div>
                             </a>
                             <div id="basicDropdownHover19-7-m" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-7-m">
@@ -646,7 +672,7 @@ $countitem += $p['qty'];
                                                                     "animationSpeed": 500
                                                                 }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
                                 <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0 cart-items">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
-                                <i class="glph-icon flaticon-icon-126515 font-size-5"></i>
+                                <i class="glph-icon flaticon-icon-126515 font-size-5 fonts"></i>
                                 <div class="helper-text">Cart</div>
                             </a>
                         </li>
