@@ -182,8 +182,12 @@
             background-color: green !important;
         }
 
-        .hc-nav-trigger {
+        /*.hc-nav-trigger {
             width: 160px !important;
+        }*/
+
+        .hc-nav-trigger {
+            width: 169px !important;
         }
 
     </style>
