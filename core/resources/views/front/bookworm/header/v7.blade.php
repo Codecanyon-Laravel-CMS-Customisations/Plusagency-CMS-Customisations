@@ -452,13 +452,14 @@ $countitem += $p['qty'];
                 <div class="d-flex position-relative">
                     <div class="offcanvas-toggler d-flex align-self-center mr-md-8 ">
                         <!-- Account Sidebar Toggle Button -->
-                        <a id="sidebarNavToggler" style="min-width: 30px !important; z-index:1" class="cat-menu py-3 text-dark target-of-invoker-has-unfolds" href="javascript:;" role="button" aria-controls="sidebarContent" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebar001Content" data-unfold-type="css-animation" data-unfold-animation-in="fadeInLeft" data-unfold-animation-out="fadeOutLeft" data-unfold-duration="500">
+                        <a id="sidebarNavToggler" style="min-width: 30px !important; z-index:1" class="cat-menu py-3 text-dark target-of-invoker-has-unfolds fonts" href="javascript:;" role="button" aria-controls="sidebarContent" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebar001Content" data-unfold-type="css-animation" data-unfold-animation-in="fadeInLeft" data-unfold-animation-out="fadeOutLeft" data-unfold-duration="500">
                             <svg width="20px" height="18px" class="my-auto mr-2">
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,-0.000 L20.000,-0.000 L20.000,2.000 L-0.000,2.000 L-0.000,-0.000 Z"></path>
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,8.000 L15.000,8.000 L15.000,10.000 L-0.000,10.000 L-0.000,8.000 Z"></path>
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,16.000 L20.000,16.000 L20.000,18.000 L-0.000,18.000 L-0.000,16.000 Z"></path>
                             </svg>
-                            &nbsp;<span class="fonts">Browse Menu</span>
+                            &nbsp;Browse Menu
+                            <!-- <span class="fonts"></span> -->
                         </a>
                         <!-- End Account Sidebar Toggle Button -->
                         <ul class="nav d-lg-none ml-auto">
