@@ -406,7 +406,7 @@ $countitem += $p['qty'];
                                             </h6>
                                             <div class="cart d-block">
                                                 <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
-                                                    <span class="woocommerce-Price-amount amount d-inline-block ml-3">
+                                                    <span class="woocommerce-Price-amount amount d-inline-block ml-3 d-flex">
                                                         {{ $product1->symbol }}
                                                         <span> {{ number_format($product1->price, 0) }}</span>
                                                     </span>
@@ -652,7 +652,7 @@ $countitem += $p['qty'];
                                             </h6>
                                             <div class="cart d-block">
                                                 <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
-                                                    <span class="woocommerce-Price-amount amount d-inline-block ml-3">
+                                                    <span class="woocommerce-Price-amount amount d-inline-block ml-3 d-flex">
                                                         {{ $product1->symbol }}
                                                         <span> {{ number_format($product1->price, 0) }}</span>
                                                     </span>
