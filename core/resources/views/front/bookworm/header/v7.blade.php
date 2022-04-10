@@ -304,6 +304,17 @@ $countitem += $p['qty'];
                                     </h6>
                                 </header>
 
+                                @if(auth()->user())
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="{{ route('user-dashboard') }}" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8("Dashboard")}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                @else
                                 <div class="px-1 py-2 px-md-3 border-bottom">
                                     <a href="{{ route('user.login') }}" class="text-dark">
                                         <div class="media-body ml-4">
@@ -323,6 +334,7 @@ $countitem += $p['qty'];
                                         </div>
                                     </a>
                                 </div>
+                                @endif
 
 
 
