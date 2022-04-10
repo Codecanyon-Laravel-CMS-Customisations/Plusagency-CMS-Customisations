@@ -294,7 +294,7 @@ $countitem += $p['qty'];
                                 <i class="glph-icon flaticon-user font-size-5"></i>
                                 Account
                             </a>
-                            <div id="basicDropdownHover19-9" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-9">
+                            <div id="basicDropdownHover19-9" class="dropdown-menu dropdown-unfold right-0 left-auto mr-8" aria-labelledby="basicDropdownHoverInvoker19-9">
                                 <!-- Title -->
                                 <header class="border-bottom px-4 px-md-6 py-4">
                                     <h6 class="font-size-3 mb-0 d-flex align-items-center">
@@ -445,6 +445,7 @@ $countitem += $p['qty'];
                             <a id="" class="nav-link pr-0 btn text-dark position-relative" data-toggle="modal" data-target="#exampleModalCenter">
                                 <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0 cart-items">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
                                 <i class="glph-icon flaticon-icon-126515 font-size-5"></i>
+                                Cart
                             </a>
                         </li> 
 
@@ -691,6 +692,7 @@ $countitem += $p['qty'];
                             <a id="" class="nav-link pr-0 btn text-dark position-relative" data-toggle="modal" data-target="#exampleModalCenter">
                                 <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0 cart-items">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
                                 <i class="glph-icon flaticon-icon-126515 font-size-5 fonts"></i>
+                                <div class="helper-text">Cart</div>
                             </a>
                         </li> 
 

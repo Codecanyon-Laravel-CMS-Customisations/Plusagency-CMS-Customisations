@@ -1,3 +1,4 @@
+
 <style>
     .btn-disable
     {
@@ -9,10 +10,27 @@
         background-color: #ffffff;
     }
 
-    .cus-pos {
-        max-width: 4.5rem !important; 
-        position: relative !important;
-        float: left !important;
+    /*.cus-pos {
+        max-width: 4.0rem; 
+        position: relative;
+        float: left;
+    }
+*/
+
+    /* media query for small mobiles */
+    @media only screen and (max-width: 375px) {
+        .cus-pos {
+            max-width: 4.0rem; 
+            position: relative;
+            float: left;
+        }
+    }
+
+    /* media query for small mobiles */
+    @media only screen and (max-width: 320px) {
+        .cus-pos {
+            max-width: 100%;
+        }
     }
 </style>
 
@@ -111,6 +129,8 @@
 </aside> -->
 
 
+
+
 <div class="modal fade" id="exampleModalCenter" class="cart-sidebar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -122,7 +142,7 @@
             {{-- </header> --}}
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+          <span aria-hidden="true" style="font-size: 2rem;">&times;</span>
         </button>
       </div>
       <div class="modal-body">
@@ -152,7 +172,7 @@
                             @endphp
                             <div class="px-4 py-5 px-md-6 border-bottom">
                                 <div class="media">
-                                    <a target="_blank" href="{{route('front.product.details',$product->slug)}}" class="d-block"><img src="@if($item['photo']!=null){{$item['photo']}}@else{{asset('https://via.placeholder.com/150')}}@endif" class="img-fluid" alt="image-description" width="150"></a>
+                                    <a target="_blank" href="{{route('front.product.details',$product->slug)}}" class="d-block"><img src="@if($item['photo']!=null){{$item['photo']}}@else{{asset('https://via.placeholder.com/150')}}@endif" class="img-fluid cus-pos" alt="image-description" width="150"></a>
                                     <div class="media-body ml-4d875">
                                         {{-- <div class="text-primary text-uppercase font-size-1 mb-1 text-truncate"><a href="#">Hard Cover</a></div> --}}
                                         <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
@@ -288,6 +308,10 @@
 
             // on subtract(-) icon click
             t(".sub").click(function() {
+                let url = window.location.href
+                let page = url.lastIndexOf('/');
+                page = url.substring(page + 1);
+
                 // disable add sub buttons
                 enabledisableAddSubBtns("disable");
 
@@ -320,11 +344,26 @@
                             $(".sub-total-"+product_id).text(a.sub_total);
 
                             let r = [];
-                            t(".cart_price span").each(function () {
-                                r.push(parseFloat(t(this).text()))
-                            }), 
-                            // toastr.success(a.message), 
-                            a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
+                            
+                            if ( page && page == "cart" ) {
+                                t(".cart_price span").each(function () {
+                                    r.push(parseFloat(t(this).text()))
+                                }), 
+                                // toastr.success(a.message), 
+                                a.count && (t(".cart-item-view").text(a.count)
+                                    , t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))
+                                    ), t("#cartIconWrapper")
+                                .load(location.href + " #cartIconWrapper")
+                            } else {
+                                t(".cart_price span").each(function () {
+                                    r.push(parseFloat(t(this).text()))
+                                }), 
+                                // toastr.success(a.message), 
+                                a.count && (t(".cart-item-view").text(a.count)
+                                    // , t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))
+                                    ), t("#cartIconWrapper")
+                                .load(location.href + " #cartIconWrapper")
+                            }
                             
                         } else toastr.error(a.error)
 
@@ -338,7 +377,10 @@
             // on add(+) icon click
             t(".add").click(function() {
 
-                console.log("commm")
+                let url = window.location.href
+                let page = url.lastIndexOf('/');
+                page = url.substring(page + 1);
+
                 enabledisableAddSubBtns("disable");
 
                 let e = t(".cart-sidebar-link").attr("data-href");
@@ -373,11 +415,28 @@
                             $(".sub-total-"+product_id).text(a.sub_total);
 
                             let r = [];
-                            t(".cart_price span").each(function () {
-                                r.push(parseFloat(t(this).text()))
-                            }), 
-                            // toastr.success(a.message), 
-                            a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
+
+
+                            if ( page && page == "cart" ) {
+                                t(".cart_price span").each(function () {
+                                    r.push(parseFloat(t(this).text()))
+                                }), 
+                                // toastr.success(a.message), 
+                                a.count && (t(".cart-item-view").text(a.count)
+                                    , t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))
+                                    ), t("#cartIconWrapper")
+                                .load(location.href + " #cartIconWrapper")
+                            } else {
+                                t(".cart_price span").each(function () {
+                                    r.push(parseFloat(t(this).text()))
+                                }), 
+                                // toastr.success(a.message), 
+                                a.count && (t(".cart-item-view").text(a.count)
+                                    // , t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))
+                                    ), t("#cartIconWrapper")
+                                .load(location.href + " #cartIconWrapper")
+                            }
+                            
 
                         } else toastr.error(a.error)
 
@@ -394,6 +453,10 @@
 
                 
                 enabledisableAddSubBtns("disable");
+
+                let url = window.location.href
+                let page = url.lastIndexOf('/');
+                page = url.substring(page + 1);
 
                 let e = t(".cart-sidebar-link").attr("data-href");
                 console.log(e);
@@ -427,11 +490,26 @@
                             $(".sub-total-"+product_id).text(a.sub_total);
 
                             let r = [];
-                            t(".cart_price span").each(function () {
-                                r.push(parseFloat(t(this).text()))
-                            }), 
-                            // toastr.success(a.message), 
-                            a.count && (t(".cart-item-view").text(a.count), t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")
+                            
+                            if ( page && page == "cart" ) {
+                                t(".cart_price span").each(function () {
+                                    r.push(parseFloat(t(this).text()))
+                                }), 
+                                // toastr.success(a.message), 
+                                a.count && (t(".cart-item-view").text(a.count)
+                                    , t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))
+                                    ), t("#cartIconWrapper")
+                                .load(location.href + " #cartIconWrapper")
+                            } else {
+                                t(".cart_price span").each(function () {
+                                    r.push(parseFloat(t(this).text()))
+                                }), 
+                                // toastr.success(a.message), 
+                                a.count && (t(".cart-item-view").text(a.count)
+                                    // , t(".cart-total-view").text(("left" == position ? symbol + " " : "") + a.total + ("right" == position ? " " + symbol : ""))
+                                    ), t("#cartIconWrapper")
+                                .load(location.href + " #cartIconWrapper")
+                            }
 
                         } else toastr.error(a.error)
 
