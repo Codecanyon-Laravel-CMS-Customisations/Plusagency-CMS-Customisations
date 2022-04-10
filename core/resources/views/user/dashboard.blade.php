@@ -47,7 +47,7 @@
                             @endif
 
                             @if ($bex->is_course == 1)
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-4">
                                 <a class="card card-box box-2 course" href="{{route('user.course_orders')}}">
                                     <div class="card-info">
                                         <h4>{{__('Enrolled Courses')}}</h4>
