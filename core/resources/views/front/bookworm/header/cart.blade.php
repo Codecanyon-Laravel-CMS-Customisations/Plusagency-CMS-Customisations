@@ -111,14 +111,14 @@
 </aside> -->
 
 
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="exampleModalCenter" class="cart-sidebar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">
 
             {{-- <header class="border-bottom px-4 px-md-6 py-4"> --}}
-                <i class="flaticon-icon-126515 mr-3 font-size-5"></i>Your cart ({{ isset($cart) && $cart ? $countitem : 0 }})
+                <i class="flaticon-icon-126515 mr-3 font-size-5"></i>Your cart (<span class="cart-items">{{ isset($cart) && $cart ? $countitem : 0 }}</span>)
             {{-- </header> --}}
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -174,9 +174,9 @@
                                             </span>
                                             </div>
                                             <br/>
-                                            <a id="{{ $product->id }}" data-href="{{ route('singleCartItem.update') }}"
+                                            <!-- <a id="{{ $product->id }}" data-href="{{ route('singleCartItem.update') }}"
                                                class="btn btn-sm btn-dark border-0 rounded-0 py-2 px-5 single_add_to_cart_button button alt cart-btn cart-sidebar-link my-1"
-                                               style="color: #fff">Update cart</a>
+                                               style="color: #fff">Update cart</a> -->
                                         </form>
                                     </div>
                                     <div class="mt-3 ml-3">
@@ -243,6 +243,7 @@
 
             // on update button click
             t(".cart-sidebar .cart-sidebar-link").click(function() {
+
                 let e = t(this).attr("data-href");
                 console.log(e);
 
@@ -286,7 +287,7 @@
 
 
             // on subtract(-) icon click
-            t(".cart-sidebar .sub").click(function() {
+            t(".sub").click(function() {
                 // disable add sub buttons
                 enabledisableAddSubBtns("disable");
 
@@ -335,9 +336,9 @@
             })
 
             // on add(+) icon click
-            t(".cart-sidebar .add").click(function() {
+            t(".add").click(function() {
 
-                
+                console.log("commm")
                 enabledisableAddSubBtns("disable");
 
                 let e = t(".cart-sidebar-link").attr("data-href");
@@ -389,7 +390,7 @@
 
 
             // on input cart quantity change
-            t(".cart-sidebar .cart_qty").blur(function() {
+            t(".cart_qty").blur(function() {
 
                 
                 enabledisableAddSubBtns("disable");
