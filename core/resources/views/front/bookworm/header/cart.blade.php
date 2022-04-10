@@ -168,7 +168,7 @@
                                                 <input type="hidden" value="{{$id}}" class="product_id">
                                                 </div>
                                             </span>
-                                                <span class="woocommerce-Price-amount amount d-inline-block ml-3">
+                                                <span class="woocommerce-Price-amount amount d-inline-block ml-3 d-flex">
                                                 {{ $product->symbol }}
                                                 <span> {{ number_format($product->price, 0) }}</span>
                                             </span>
