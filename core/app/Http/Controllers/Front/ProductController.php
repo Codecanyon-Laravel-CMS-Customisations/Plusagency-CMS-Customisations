@@ -181,10 +181,17 @@ class ProductController extends Controller
     {
 
         $product_details = Product::where('slug', $slug)->first();
-
-        if(!$product_details)
+        
+        $request = false;
+        $current_uri = $_SERVER['REQUEST_URI'];
+        if (str_contains($current_uri, '/product/')) { 
+            $request = true;
+        }
+        
+        
+        if( !$product_details && $request === false )
         {
-            dump($product_details);
+            // dd($product_details);
             session()->flash('error', 'Product not found!');
             return redirect()->to('products');
         } 
@@ -295,7 +302,6 @@ class ProductController extends Controller
             $qty = $data[1];
 
             $product = Product::findOrFail($id);
-
             if ($product->type != 'digital') {
                 if(!empty($cart) && array_key_exists($id, $cart)){
                     if($product->stock < $cart[$id]['qty'] + $qty){

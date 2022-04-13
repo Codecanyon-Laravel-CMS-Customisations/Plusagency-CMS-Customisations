@@ -4,11 +4,18 @@
 		t(".cart-link").click(function () {
 			let e = t(this).attr("data-href");
 			console.log(e);
+
+
 			let a = t(".cart-amount").val();
 			a > 1 ? t.get(e + ",,," + a, function (e) {
+				console.log("console 1 cond")
 				e.message ? (toastr.success(e.message), t(".cart-amount").val(1), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")) : (toastr.error(e.error), t(".cart-amount").val(1), t("#cartIconWrapper").load(location.href + " #cartIconWrapper"))
 			}) : t.get(e, function (e) {
 				e.message ? (toastr.success(e.message), t("#cartIconWrapper").load(location.href + " #cartIconWrapper")) : (toastr.error(e.error), t("#cartIconWrapper").load(location.href + " #cartIconWrapper"))
+				
+				if ( e.message == "Product added to cart successfully!" ) {
+					location.reload();
+				}
 			})
 		}), t(document).on("click", "#cartUpdate", function () {
 			let e = [],
