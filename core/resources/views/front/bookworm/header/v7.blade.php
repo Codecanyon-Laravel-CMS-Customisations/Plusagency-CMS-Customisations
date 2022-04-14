@@ -100,7 +100,14 @@ $countitem += $p['qty'];
 
     @media only screen and (max-width: 441px) {
       .helper-text {
-        display: none;
+        /* display: none; */
+        font-size: 2.4vw;
+        font-weight: 400;
+      }
+
+      .paddings {
+        padding-left: 0.2rem !important;
+        padding-right: 0.4rem !important;
       }
     }
 
@@ -612,7 +619,7 @@ $countitem += $p['qty'];
                         <!-- End: Mobile Account Drop Down Button --> 
 
 
-                        <li class="nav-item px-2">
+                        <li class="nav-item px-2 paddings">
                             <a id="basicDropdownHoverInvoker19-7-m" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-7-m" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-7-m" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
                                 <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0">
                                     @php
@@ -700,7 +707,7 @@ $countitem += $p['qty'];
                             </a>
                         </li> -->
 
-                        <li class="nav-item px-2">
+                        <li class="nav-item px-2 paddings">
                             <a id="" class="nav-link pr-0 btn text-dark position-relative" data-toggle="modal" data-target="#exampleModalCenter">
                                 <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0 cart-items">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
                                 <i class="glph-icon flaticon-icon-126515 font-size-5 fonts"></i>
