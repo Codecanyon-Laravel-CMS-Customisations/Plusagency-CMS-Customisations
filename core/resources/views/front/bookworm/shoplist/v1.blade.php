@@ -173,9 +173,7 @@
 
 
                 <nav class="pagination-nav {{ $products->count() > 6 ? 'mb-4' : '' }}">
-                    {{-- {{ $products->appends(['search' => request()->input('search'), 'minprice' => request()->input('minprice'), 'maxprice' => request()->input('maxprice'), 'category_id' => request()->input('category_id'), 'type' => request()->input('type'), 'tag' => request()->input('tag'), 'review' => request()->input('review')])->links() }} --}}
-                    {{-- @dd('here') --}}
-                    {{ $products->appends(['search' => request()->input('search'), 'minprice' => request()->input('minprice'), 'maxprice' => request()->input('maxprice'), 'sc-id' => request()->input('sc-id'), 'type' => request()->input('type'), 'tag' => request()->input('tag'), 'review' => request()->input('review')])->links() }}
+                    {{ $products->appends(['search' => request()->input('search'), 'minprice' => request()->input('minprice'), 'maxprice' => request()->input('maxprice'), 'category_id' => request()->input('category_id'), 'type' => request()->input('type'), 'tag' => request()->input('tag'), 'review' => request()->input('review')])->links() }}
                 </nav>
             </div>
             @else
