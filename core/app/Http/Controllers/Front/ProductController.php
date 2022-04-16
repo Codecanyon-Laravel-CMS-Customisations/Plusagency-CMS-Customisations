@@ -520,15 +520,19 @@ class ProductController extends Controller
         }
         $total = 0;
         $count = 0;
+        $product_ids = [];
+        $product_quantities = [];
         foreach ($cart as $key => $i) {
             $product    = Product::findOrFail($key);
             $total += $product->price * $i['qty'];
             $count += $i['qty'];
+            $product_ids[]= $product->id;
+            $product_quantities[] = $i['qty'];
         }
 
         $total = round($total, 2);
 
-        return response()->json(['message' => 'Cart Update Successfully.', 'total' => $total, 'count' => $count]);
+        return response()->json(['message' => 'Cart Update Successfully.', 'total' => $total, 'count' => $count, 'product_ids' => $product_ids, 'product_quantities' => $product_quantities]);
     }
 
 

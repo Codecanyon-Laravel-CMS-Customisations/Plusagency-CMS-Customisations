@@ -81,6 +81,8 @@
 			}), t(".product_id").each(function () {
 				r.push(t(this).val())
 			});
+
+
 			let c = new FormData,
 				n = 0;
 			for (n = 0; n < e.length; n++) c.append("qty[]", e[n]), c.append("cartprice[]", a[n]), c.append("product_id[]", r[n]);

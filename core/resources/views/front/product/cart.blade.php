@@ -153,11 +153,11 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                                         {!! convertUtf8("ISBN : $isbn") !!}
                                                     </p>
                                                     <p class="card-text pt-1">
-                                                        <strong style="font-size: 1.5em;font-weight: 300;">
+                                                        <strong class="sub-total-currency-{{$product->id}}" style="font-size: 1.5em;font-weight: 300;">
                                                             {{ $product->symbol }}
-                                                            <span>{{ number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) }}</span>
+                                                            <span class="sub-total-{{$product->id}}">{{ number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) }}</span>
                                                         </strong>
-                                                        <small class="text-muted pl-2">( {{ $product->symbol }}{{ number_format(!empty($product->price) ? $product->price : '0.00', 0) }} x {{ $item['qty'] }} )</small>
+                                                        <small class="text-muted pl-2 price cart_price">( {{ $product->symbol }} <span class="cart_price_brkt-{{$product->id}}">{{ number_format(!empty($product->price) ? $product->price : '0.00', 0) }}</span> x <span class="cart_qty_brkt-{{$product->id}}">{{ $item['qty'] }}</span> )</small>
                                                     </p>
                                                 </div>
                                             </a>
@@ -172,7 +172,7 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                             <div class="qty">
                                                 <div class="product-quantity d-flex mb-35" id="quantity">
                                                     <button type="button" id="sub" class="sub btn-sub" onclick="onMinus(this, '{{$product->id}}')">-</button>
-                                                    <input type="text" class="quantity-{{$product->id}} cart_qty" id="1" value="{{$item['qty']}}" onclick="onInputChange(this, '{{$product->id}}')"/>
+                                                    <input type="text" class="quantity-{{$product->id}} cart_qty" id="1" value="{{$item['qty']}}" onblur="onInputChange(this, '{{$product->id}}')"/>
                                                     <button type="button" id="add" class="add btn-add" onclick="onPlus(this, '{{$product->id}}')" >+</button>
                                                 </div>
                                             </div>
@@ -333,6 +333,9 @@ function onPlus(elem, product_id) {
     targetCount++;
     
     document.getElementsByClassName("quantity-"+product_id)[0].value = targetCount;
+
+    changeItemQuantityAndPrice(targetCount, product_id);
+    
 }
 
 function onMinus(elem, product_id) {
@@ -343,11 +346,34 @@ function onMinus(elem, product_id) {
     // targetElem.value = targetCount;
     
     document.getElementsByClassName("quantity-"+product_id)[0].value = targetCount;
+
+    changeItemQuantityAndPrice(targetCount, product_id);
+    
+    
 }
 
 
 function onInputChange(elem, product_id) {
     document.getElementsByClassName("quantity-"+product_id)[0].value = elem.value;
+
+    let targetCount = parseInt(elem.value);
+
+    changeItemQuantityAndPrice(targetCount, product_id);
+    
+}
+
+function changeItemQuantityAndPrice(targetCount, product_id) {
+    
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        if (targetCount > 0) {
+            setTimeout( function(){
+                if ( $(".cart_qty_brkt-"+product_id) &&  $(".sub-total-"+product_id) ) {
+                    $(".cart_qty_brkt-"+product_id).text(targetCount);
+                    $(".sub-total-"+product_id).text($(".cart_price_brkt-"+product_id).text() * targetCount);
+                }
+            }, 500);
+        }
+    }
 }
 
 
