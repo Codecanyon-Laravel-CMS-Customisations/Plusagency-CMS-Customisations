@@ -181,6 +181,15 @@
 
     <!-- CSS Bookworm Template -->
     <link rel="stylesheet" href="{{ asset('assets/bookworm/css/theme.css') }}">
+
+    <link
+      rel="stylesheet"
+      href="{{asset('assets/user/css/datatables.min.css')}}"
+    >
+    <link
+      rel="stylesheet"
+      href="{{asset('assets/user/css/dataTables.bootstrap4.css')}}"
+    >
     <style>
         .toast-container {
             background-color: green !important;

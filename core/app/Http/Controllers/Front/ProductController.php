@@ -63,6 +63,7 @@ class ProductController extends Controller
 
     public function product(Request $request)
     {
+        // dd($request->all());
         $bex            = BasicExtra::first();
         $data['colors'] = WebsiteColors::all();
         if ($bex->is_shop == 0) {
@@ -129,8 +130,8 @@ class ProductController extends Controller
                 return $query->where('language_id', $lang_id);
             })
             ->when($search, function ($query, $search) {
-                //return $query->where('title', 'like', '%' . $search . '%')->orwhere('summary', 'like', '%' . $search . '%')->orwhere('description', 'like', '%' . $search . '%');
-                return trim($search) == '' ? $query : $query->where('title', 'like', '%' . $search . '%');
+                return $query->where('title', 'like', '%' . $search . '%')->orwhere('summary', 'like', '%' . $search . '%')->orwhere('description', 'like', '%' . $search . '%');
+                // return trim($search) == '' ? $query : $query->where('title', 'like','%'. $search .'%');
             })
             ->when($minprice, function ($query, $minprice) {
                 return $query->where('current_price', '>=', $minprice);
@@ -167,7 +168,7 @@ class ProductController extends Controller
 
             $data['version'] = $version;
 
-            if($be->theme_version == 'bookworm') {
+            if($be->theme_version == 'bookworm') {  
                 return view('front.bookworm.products', $data);
             } else {
 

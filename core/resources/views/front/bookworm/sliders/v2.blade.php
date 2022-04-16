@@ -46,7 +46,7 @@ if( !$text_color ) {
                                             </span>
                                         </h2>
                                         @if (!empty($slider->button_text))
-                                        <a href="{{ ($slider->button_url)?$slider->button_url:'#' }}" class="hero__btn btn btn-wide" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="background:#D55534; color: #fffcoe; <?php echo ($slider->button_text_font_size)?'font-size:'.$slider->button_text_font_size.'px !important;':''; ?>">
+                                        <a href="{{ ($slider->button_url)?$slider->button_url:'#' }}" class="hero__btn btn btn-wide" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="background:#D55534; color: #fff0ce !important; <?php echo ($slider->button_text_font_size)?'font-size:'.$slider->button_text_font_size.'px !important;':''; ?>">
                                             <span style="">{{ $slider->button_text }}</span>
                                         </a>
                                         @endif
@@ -72,7 +72,7 @@ if( !$text_color ) {
                                 <span class="slider-banner__title--2 d-block" style=" <?php echo ($text_color && $text_color->value )? 'color: #'.$text_color->value.' !important' :'color: #fff0ce !important'; ?>">{{ $sliders_v2->where('slider_category', 'side1')->first()->text }}</span>
 
                                 @if (!empty($slider->button_text))
-                                <a href="{{ $sliders_v2->where('slider_category', 'side1')->first()->button_url }}" class="hero__btn btn mt-2" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="background:#D55534; color: #fffcoe; <?php echo ($sliders_v2->where('slider_category', 'side1')->first()->button_text_font_size)?'font-size:'.$sliders_v2->where('slider_category', 'side1')->first()->button_text_font_size.'px !important;':''; ?>">
+                                <a href="{{ $sliders_v2->where('slider_category', 'side1')->first()->button_url }}" class="hero__btn btn mt-2" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="background:#D55534; color: #fff0ce !important; <?php echo ($sliders_v2->where('slider_category', 'side1')->first()->button_text_font_size)?'font-size:'.$sliders_v2->where('slider_category', 'side1')->first()->button_text_font_size.'px !important;':''; ?>">
                                     {{ $sliders_v2->where('slider_category', 'side1')->first()->button_text }}
                                 </a>
                                 @endif
@@ -89,7 +89,7 @@ if( !$text_color ) {
                                 <span class="slider-banner__title--2 d-block" style=" <?php echo ($text_color && $text_color->value )? 'color: #'.$text_color->value.' !important' :'color: #fff0ce !important'; ?>  ">{{ $sliders_v2->where('slider_category', 'side2')->first()->text }}</span>
 
                                 @if (!empty($slider->button_text))
-                                <a href="{{ $sliders_v2->where('slider_category', 'side2')->first()->button_url }}" class="hero__btn btn mt-2" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="background:#D55534; color: #fffcoe; <?php echo ($sliders_v2->where('slider_category', 'side2')->first()->button_text_font_size)?'font-size:'.$sliders_v2->where('slider_category', 'side2')->first()->button_text_font_size.'px !important;':''; ?>">
+                                <a href="{{ $sliders_v2->where('slider_category', 'side2')->first()->button_url }}" class="hero__btn btn mt-2" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="background:#D55534; color: #fff0ce !important ; <?php echo ($sliders_v2->where('slider_category', 'side2')->first()->button_text_font_size)?'font-size:'.$sliders_v2->where('slider_category', 'side2')->first()->button_text_font_size.'px !important;':''; ?>">
                                     {{ $sliders_v2->where('slider_category', 'side2')->first()->button_text }}
                                 </a>
                                 @endif
