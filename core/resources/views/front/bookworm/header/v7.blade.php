@@ -98,6 +98,10 @@ $countitem += $p['qty'];
         width: 169px !important;
     }
 
+    .custom-header-button a:hover {
+        background-color: #D55534;
+    }
+
     #basicDropdownHoverInvoker19-9:hover, #basicDropdownHoverInvoker19-9-m:hover, #basicDropdownHoverInvoker19-7:hover, #basicDropdownHoverInvoker19-7-m:hover, #cartModal:hover, #cartModal-m:hover {
         color: #D55534 !important;
     }

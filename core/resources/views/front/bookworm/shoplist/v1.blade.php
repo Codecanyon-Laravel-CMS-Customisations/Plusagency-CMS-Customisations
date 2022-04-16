@@ -1,3 +1,9 @@
+<style>
+    .add-to-cart-hover span:hover, .add-to-cart-hover a:hover {
+        color: #D55534 !important;
+    }
+</style>
+
 <div class="site-content space-bottom-3" id="content">
     <div class="container pt-5">
         <div class="row pt-5">
@@ -147,8 +153,8 @@
                                                     <span class="woocommerce-Price-currencySymbol"> {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : $bex->base_currency_symbol }}</span>{{ $product->current_price }}</span>
                                             </div>
                                         </div>
-                                        <div class="col-md-auto d-flex align-items-center">
-                                            <a href="{{ route('add.cart', $product->id) }}" class="text-uppercase text-dark h-dark font-weight-medium mr-4" data-toggle="tooltip" data-placement="right" title="" data-original-title="ADD TO CART">
+                                        <div class="col-md-auto d-flex align-items-center add-to-cart-hover">
+                                            <a href="{{ route('add.cart', $product->id) }}" class="text-uppercase text-dark h-dark font-weight-medium mr-4 add-to-cart-hover" data-toggle="tooltip" data-placement="right" title="" data-original-title="ADD TO CART">
                                                 <span class="product__add-to-cart">ADD TO CART</span>
                                                 <span class="product__add-to-cart-icon font-size-4"><i class="flaticon-icon-126515"></i></span>
                                             </a>

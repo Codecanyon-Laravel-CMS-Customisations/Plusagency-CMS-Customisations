@@ -1,3 +1,10 @@
+<style>
+    .cart-btn:hover {
+        background-color: #D55534 !important;
+    }
+</style>
+
+
 @section('breadcrumb-links')
 <nav class="woocommerce-breadcrumb font-size-2">
     @php
