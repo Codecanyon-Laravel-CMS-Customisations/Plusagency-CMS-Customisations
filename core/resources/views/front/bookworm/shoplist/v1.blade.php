@@ -1,5 +1,5 @@
 <style>
-    .add-to-cart-hover span:hover, .add-to-cart-hover a:hover {
+    .add-to-cart-hover span:hover, .add-to-cart-hover a:hover { 
         color: #D55534 !important;
     }
 </style>
