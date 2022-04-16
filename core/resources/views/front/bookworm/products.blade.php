@@ -34,7 +34,7 @@ $minprice = App\Product::all()->min('price');
         <a href='/products' class='h-primary'>Products</a>
         @if (isset($category))
             <span class='breadcrumb-separator mx-1'><i class='fas fa-angle-right'></i></span>
-            <a href='/product-categories' class='h-primary'>{{ $category->name }}</a>
+            <a href="/products?search=&category_id={{ $category->id }}&type=new" class='h-primary testing'>{{ $category->name }}</a>
             @if (isset($sub_category))
                 <span class='breadcrumb-separator mx-1'><i class='fas fa-angle-right'></i></span>
                 <a href='#' class='h-primary'>{{ $sub_category->name }}</a>
