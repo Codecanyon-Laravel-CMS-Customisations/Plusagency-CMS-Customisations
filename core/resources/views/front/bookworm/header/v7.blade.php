@@ -259,7 +259,7 @@ $countitem += $p['qty'];
                                 </div>
                                 <input type="text" class="form-control border-right-0 px-3" placeholder="Search for books by keyword" aria-label="Amount (to the nearest dollar)" id="search" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : '' }}">
                                 <div class="input-group-append border-left">
-                                    <button class="btn btn-dark btn-search px-3 rounded-0 py-2" type="button"><i class="mx-1 glph-icon flaticon-loupe " onclick="window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`" style="cursor: pointer;"></i></button>
+                                    <button class="btn btn-dark btn-search px-3 rounded-0 py-2" type="button" onclick="window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`" style="cursor: pointer;"><i class="mx-1 glph-icon flaticon-loupe "></i></button>
                                 </div>
                             </div>
                         </div>
