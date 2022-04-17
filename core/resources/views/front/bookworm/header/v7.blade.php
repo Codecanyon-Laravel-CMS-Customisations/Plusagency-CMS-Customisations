@@ -98,6 +98,10 @@ $countitem += $p['qty'];
         width: 169px !important;
     }
 
+    .custom-header-button a:hover {
+        background-color: #D55534;
+    }
+
     #basicDropdownHoverInvoker19-9:hover, #basicDropdownHoverInvoker19-9-m:hover, #basicDropdownHoverInvoker19-7:hover, #basicDropdownHoverInvoker19-7-m:hover, #cartModal:hover, #cartModal-m:hover {
         color: #D55534 !important;
     }
@@ -259,7 +263,7 @@ $countitem += $p['qty'];
                                 </div>
                                 <input type="text" class="form-control border-right-0 px-3" placeholder="Search for books by keyword" aria-label="Amount (to the nearest dollar)" id="search" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : '' }}">
                                 <div class="input-group-append border-left">
-                                    <button class="btn btn-dark btn-search px-3 rounded-0 py-2" type="button"><i class="mx-1 glph-icon flaticon-loupe " onclick="window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`" style="cursor: pointer;"></i></button>
+                                    <button class="btn btn-dark btn-search px-3 rounded-0 py-2" type="button" onclick="window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`" style="cursor: pointer;"><i class="mx-1 glph-icon flaticon-loupe "></i></button>
                                 </div>
                             </div>
                         </div>
@@ -309,6 +313,7 @@ $countitem += $p['qty'];
                                 <!-- Title -->
                                 <header class="border-bottom px-4 px-md-6 py-4">
                                     <h6 class="font-size-3 mb-0 d-flex align-items-center">
+                                        <i class="glph-icon flaticon-user font-size-5 mr-2"></i>
                                         @php
                                         echo "My Account";
                                         @endphp
@@ -393,6 +398,7 @@ $countitem += $p['qty'];
                                 <!-- Title -->
                                 <header class="border-bottom px-4 px-md-6 py-4">
                                     <h6 class="font-size-5 h6 mb-0 d-flex align-items-center">
+                                        <i class="flaticon-heart font-size-5 mr-2"></i>
                                         @php
                                         echo "My Wishlist (";
                                         try {
@@ -567,6 +573,7 @@ $countitem += $p['qty'];
                                 <!-- Title -->
                                 <header class="border-bottom px-4 px-md-6 py-4">
                                     <h6 class="font-size-3 mb-0 d-flex align-items-center">
+                                        <i class="glph-icon flaticon-user font-size-5 mr-2"></i>
                                         @php
                                         echo "My Account";
                                         @endphp
@@ -640,6 +647,7 @@ $countitem += $p['qty'];
                                 <!-- Title -->
                                 <header class="border-bottom px-4 px-md-6 py-4">
                                     <h6 class="font-size-5 h6 mb-0 d-flex align-items-center">
+                                        <i class="flaticon-heart font-size-5 mr-2"></i>
                                         @php
                                         echo "My Wishlist (";
                                         try {

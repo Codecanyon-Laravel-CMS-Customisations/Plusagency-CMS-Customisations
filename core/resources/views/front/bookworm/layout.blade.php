@@ -190,6 +190,10 @@
             width: 169px !important;
         }
 
+        .woocommerce-breadcrumb a:hover, .h-primary:hover {
+            color: #D55534 !important;
+        }
+
     </style>
 
    @include('front.bookworm.partials.custom_style')
