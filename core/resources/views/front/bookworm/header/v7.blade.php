@@ -313,6 +313,7 @@ $countitem += $p['qty'];
                                 <!-- Title -->
                                 <header class="border-bottom px-4 px-md-6 py-4">
                                     <h6 class="font-size-3 mb-0 d-flex align-items-center">
+                                        <i class="glph-icon flaticon-user font-size-5 mr-2"></i>
                                         @php
                                         echo "My Account";
                                         @endphp
@@ -397,6 +398,7 @@ $countitem += $p['qty'];
                                 <!-- Title -->
                                 <header class="border-bottom px-4 px-md-6 py-4">
                                     <h6 class="font-size-5 h6 mb-0 d-flex align-items-center">
+                                        <i class="flaticon-heart font-size-5 mr-2"></i>
                                         @php
                                         echo "My Wishlist (";
                                         try {
@@ -571,6 +573,7 @@ $countitem += $p['qty'];
                                 <!-- Title -->
                                 <header class="border-bottom px-4 px-md-6 py-4">
                                     <h6 class="font-size-3 mb-0 d-flex align-items-center">
+                                        <i class="glph-icon flaticon-user font-size-5 mr-2"></i>
                                         @php
                                         echo "My Account";
                                         @endphp
@@ -644,6 +647,7 @@ $countitem += $p['qty'];
                                 <!-- Title -->
                                 <header class="border-bottom px-4 px-md-6 py-4">
                                     <h6 class="font-size-5 h6 mb-0 d-flex align-items-center">
+                                        <i class="flaticon-heart font-size-5 mr-2"></i>
                                         @php
                                         echo "My Wishlist (";
                                         try {
