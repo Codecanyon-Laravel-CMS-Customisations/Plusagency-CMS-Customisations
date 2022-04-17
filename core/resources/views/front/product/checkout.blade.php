@@ -58,14 +58,15 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
         cursor: pointer;
     }
 
-    /* must comment below css before push  */
-    label, label:hover, .field-label {
+    /* start: must comment below css before push  */
+    /*label, label:hover, .field-label {
         color: black;
     }
 
     input, input:hover {
         color: black;
-    }
+    }*/
+    /* end: must comment below css before push  */
 </style>
 
 <!--====== CHECKOUT PART START ======-->
@@ -87,18 +88,20 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                         <div class="row">
                             <div class="form-check-inline">
                               <label class="form-check-label field-label btn-radio" for="same-billing">
-                                <input onchange="checkBillingAddress('same')" id="same-billing" type="radio" class="form-check-input" name="billing_address" value="same_billing_address" checked> Same as shipping address
+                                <input onchange="checkBillingAddress('same')" id="same-billing" type="radio" class="form-check-input" name="same_billing_address" value="same"  
+                                {{ !old("same_billing_address") ? 'checked' : '' }}
+                                {{ old("same_billing_address") == 'same' ? 'checked' : '' }}> Same as shipping address
                               </label>
                             </div>
 
                             <div class="form-check-inline">
                               <label class="form-check-label field-label btn-radio" for="other-billing">
-                                <input onchange="checkBillingAddress('other')" type="radio" id="other-billing" class="form-check-input" name="billing_address" value="different_billing_address">Other billing address
+                                <input onchange="checkBillingAddress('other')" type="radio" id="other-billing" class="form-check-input" name="same_billing_address" value="other" {{ old("same_billing_address") == 'other' ? 'checked' : '' }}>Other billing address
                               </label>
                             </div>
                         </div>
 
-                        <div class="row billing-form d-none">
+                        <div class="row billing-form {{ old('same_billing_address') == 'other' ? '' : 'd-none' }}">
                             <div class="col-md-12 mb-4">
                                 <div class="field-label">{{__('Country')}} *</div>
                                 {{-- <div class="field-input">

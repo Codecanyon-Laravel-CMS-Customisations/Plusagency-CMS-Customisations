@@ -30,7 +30,7 @@ class RazorpayController extends PaymentController
         }
 
 
-
+        // dd($request);
         $cart = Session::get('cart');
 
         $total = $this->orderTotal($request->shipping_charge);

@@ -50,22 +50,37 @@ class PaymentController extends Controller
     }
 
     public function orderValidation($request, $gtype = 'online') {
-        $rules = [
-            'billing_fname' => 'required',
-            'billing_lname' => 'required',
-            'billing_address' => 'required',
-            'billing_city' => 'required',
-            'billing_country' => 'required',
-            'billing_number' => 'required',
-            'billing_email' => 'required',
-            'shpping_fname' => 'required',
-            'shpping_lname' => 'required',
-            'shpping_address' => 'required',
-            'shpping_city' => 'required',
-            'shpping_country' => 'required',
-            'shpping_number' => 'required',
-            'shpping_email' => 'required',
-        ];
+        
+        if ($request->same_billing_address == "same") {
+            $rules = [
+                'shpping_fname' => 'required',
+                'shpping_lname' => 'required',
+                'shpping_address' => 'required',
+                'shpping_city' => 'required',
+                'shpping_country' => 'required',
+                'shpping_number' => 'required',
+                'shpping_email' => 'required',
+            ];
+        }
+        else {
+            $rules = [
+                'billing_fname' => 'required',
+                'billing_lname' => 'required',
+                'billing_address' => 'required',
+                'billing_city' => 'required',
+                'billing_country' => 'required',
+                'billing_number' => 'required',
+                'billing_email' => 'required',
+                'shpping_fname' => 'required',
+                'shpping_lname' => 'required',
+                'shpping_address' => 'required',
+                'shpping_city' => 'required',
+                'shpping_country' => 'required',
+                'shpping_number' => 'required',
+                'shpping_email' => 'required',
+            ];
+        }
+        
 
         if ($gtype == 'offline') {
             $gateway = OfflineGateway::find($request->method);
@@ -114,14 +129,26 @@ class PaymentController extends Controller
 
         $order = new ProductOrder;
 
+        
+        if (isset($request['same_billing_address']) && $request['same_billing_address'] == "same") {
+            $order->billing_fname = $request['shpping_fname'];
+            $order->billing_lname = $request['shpping_lname'];
+            $order->billing_email = $request['shpping_email'];
+            $order->billing_address = $request['shpping_address'];
+            $order->billing_city = $request['shpping_city'];
+            $order->billing_country = $request['shpping_country'];
+            $order->billing_number = $request['shpping_number'];
+        }
+        else {
+            $order->billing_fname = $request['billing_fname'];
+            $order->billing_lname = $request['billing_lname'];
+            $order->billing_email = $request['billing_email'];
+            $order->billing_address = $request['billing_address'];
+            $order->billing_city = $request['billing_city'];
+            $order->billing_country = $request['billing_country'];
+            $order->billing_number = $request['billing_number'];
+        }
 
-        $order->billing_fname = $request['billing_fname'];
-        $order->billing_lname = $request['billing_lname'];
-        $order->billing_email = $request['billing_email'];
-        $order->billing_address = $request['billing_address'];
-        $order->billing_city = $request['billing_city'];
-        $order->billing_country = $request['billing_country'];
-        $order->billing_number = $request['billing_number'];
         $order->shpping_fname = $request['shpping_fname'];
         $order->shpping_lname = $request['shpping_lname'];
         $order->shpping_email = $request['shpping_email'];
