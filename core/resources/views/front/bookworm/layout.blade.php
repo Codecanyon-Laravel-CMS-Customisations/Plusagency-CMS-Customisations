@@ -39,6 +39,7 @@
 
     <!-- start: header menu styles -->
     <style>
+
         #sidebarNavToggler {
             font-weight: 500;
             font-size: 20px;
