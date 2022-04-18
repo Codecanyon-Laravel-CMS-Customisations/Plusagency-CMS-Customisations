@@ -239,7 +239,7 @@ function storePushSubscription(pushSubscription) {
 
     });
 
-    $('body').on('click',function(){
+    $('body').on('click',function() {
     
     
         if($('#hc-nav-1').hasClass('nav-open')){
@@ -248,6 +248,8 @@ function storePushSubscription(pushSubscription) {
             $('#hc-nav-1').removeAttr( 'style' ).removeClass('nav-open');
             $('html').removeClass('hc-nav-yscroll');
             $('#sidebarNavToggler').removeClass('toggle-open');
+            $('.nav-wrapper').removeClass('sub-level-open');
+
         }
         
     });
