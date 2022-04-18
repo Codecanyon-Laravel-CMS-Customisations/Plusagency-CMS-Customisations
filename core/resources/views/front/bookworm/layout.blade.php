@@ -50,6 +50,14 @@
         }
 
 
+        /* On screens that are 1250px wide or less */
+        @media screen and (max-width: 1250px) {
+
+            .pagination {
+                flex-wrap: wrap !important;
+            }
+        }
+
         /* On screens that are 600px wide or less */
         @media screen and (max-width: 600px) {
 
