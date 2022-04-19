@@ -299,7 +299,7 @@ $searches = \App\Product::query()
                                   <div id="myDropdown" class="dropdown-content show w-50">
                                     <input type="text" placeholder="Search.." id="myInput" onblur="addingClass()" onfocus="removingClass()" onkeyup="filterFunction()">
 
-                                    <div class="titles d-none"  style="height: 300px;">
+                                    <div class="titles d-none overflow-auto"  style="height: 300px;">
                                     @foreach ($searches as $product)
                                             
                                         <a href="{{ route('front.product.details', ['slug' => $product->slug]) }}" style="cursor:pointer">   {{ $product->title }} </a>
