@@ -84,6 +84,22 @@ $countitem += $p['qty'];
 @endphp
 @endif
 
+<!-- @php
+$searches = \App\Product::query()
+                ->orderBy('title', 'ASC')
+                ->get()
+                ->each(function ($query) {
+                    if (session()->has('product_ids')) {
+                        $product_ids = (array) session('product_ids');
+                        if (in_array($query->id, $product_ids)) {
+                            $query->selected = true;
+                            return $query;
+                        }
+                    }
+                }); //->pluck('title', 'current_price', 'id');
+
+@endphp -->
+
 <style>
     
     option {

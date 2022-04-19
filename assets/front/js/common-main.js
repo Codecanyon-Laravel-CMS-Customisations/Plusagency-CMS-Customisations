@@ -243,6 +243,7 @@ function storePushSubscription(pushSubscription) {
     
     
         if($('#hc-nav-1').hasClass('nav-open')){
+            $( "li" ).removeClass( 'level-open');
             $('#hc-nav-1').attr("aria-hidden", "true");
             $('body').removeAttr( 'class' );
             $('#hc-nav-1').removeAttr( 'style' ).removeClass('nav-open');
