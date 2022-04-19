@@ -302,7 +302,7 @@ $searches = \App\Product::query()
                                     <div class="titles d-none"  style="height: 300px;">
                                     @foreach ($searches as $product)
                                             
-                                        <a>   {{ $product->title }} </a>
+                                        <a href="{{ route('front.product.details', ['slug' => $product->slug]) }}" style="cursor:pointer">   {{ $product->title }} </a>
 
                                     @endforeach
                                     </div>
@@ -949,7 +949,10 @@ function removingClass(){
 }
 
 function addingClass(){
-    $('.titles').addClass('d-none');
+    setTimeout(function(){
+
+        $('.titles').addClass('d-none');
+    },3000);
 }
 
 
