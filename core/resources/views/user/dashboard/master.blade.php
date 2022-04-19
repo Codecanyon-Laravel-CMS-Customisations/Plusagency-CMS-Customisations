@@ -703,6 +703,50 @@
             });
         });
     </script>
-</body>
 
+    <script>
+
+        // start: script to handle sidebar
+        var sideBarClicked = sidebarNavToggler.onclick = function(e) {
+            
+            const menu = document.getElementById('hc-nav-1');
+            menu.classList.add("nav-open");
+            menu.style.visibility = "visible";
+            e.stopPropagation();
+        };
+
+        $('.nav-close-button').on('click',function(){
+            $( "li" ).removeClass( 'level-open');
+
+            if($('#hc-nav-1').hasClass('nav-open')){
+                $('#hc-nav-1').attr("aria-hidden", "true");
+                $('body').removeAttr( 'class' );
+                $('#hc-nav-1').removeAttr( 'style' ).removeClass('nav-open');
+                $('html').removeClass('hc-nav-yscroll');
+                $('#sidebarNavToggler').removeClass('toggle-open');
+                $('.nav-wrapper').removeClass('sub-level-open');
+            }
+            
+        });
+        // end: script to handle sidebar
+    </script>
+
+
+    <script>
+        $('body').on('click',function() {
+            $( "li" ).removeClass( 'level-open');
+        
+            if($('#hc-nav-1').hasClass('nav-open')){
+                $( "li" ).removeClass( 'level-open');
+                $('#hc-nav-1').attr("aria-hidden", "true");
+                $('body').removeAttr( 'class' );
+                $('#hc-nav-1').removeAttr( 'style' ).removeClass('nav-open');
+                $('html').removeClass('hc-nav-yscroll');
+                $('#sidebarNavToggler').removeClass('toggle-open');
+                $('.nav-wrapper').removeClass('sub-level-open');
+            }
+            
+        });
+    </script>
+</body>
 </html>
