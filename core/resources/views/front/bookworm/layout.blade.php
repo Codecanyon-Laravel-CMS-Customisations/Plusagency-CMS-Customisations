@@ -593,6 +593,26 @@
         });
         // end: script to handle sidebar
     </script>
+
+
+    <script>
+        $('body').on('click',function() {
+            console.log("#hc-nav-1 before ",$( "li" ).removeClass( 'level-open'))
+        
+            if($('#hc-nav-1').hasClass('nav-open')){
+                console.log("#hc-nav-1 ",$( "li" ).removeClass( 'level-open'))
+                $( "li" ).removeClass( 'level-open');
+                $('#hc-nav-1').attr("aria-hidden", "true");
+                $('body').removeAttr( 'class' );
+                $('#hc-nav-1').removeAttr( 'style' ).removeClass('nav-open');
+                $('html').removeClass('hc-nav-yscroll');
+                $('#sidebarNavToggler').removeClass('toggle-open');
+                $('.nav-wrapper').removeClass('sub-level-open');
+
+            }
+            
+        });
+    </script>
 </body>
 
 </html>
