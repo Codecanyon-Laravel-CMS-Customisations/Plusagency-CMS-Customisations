@@ -606,7 +606,7 @@
                 $('html').removeClass('hc-nav-yscroll');
                 $('#sidebarNavToggler').removeClass('toggle-open');
                 $('.nav-wrapper').removeClass('sub-level-open');
-
+                $( "li" ).removeClass( 'level-open');
             }
             
         });
