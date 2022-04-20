@@ -46,6 +46,8 @@
         }
 
         .nav-open {
+            -webkit-transform: translate3d(0px, 0px, 0px);
+            transform: translate3d(0px, 0px, 0px);
             visibility: visible;
         }
 
