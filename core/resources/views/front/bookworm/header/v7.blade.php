@@ -122,6 +122,16 @@ $searches = \App\Product::query()
         color: #D55534 !important;
     }
 
+    .search-input {
+        padding-left: 76px !important;
+    }
+
+    @media only screen and (max-width: 767px) {
+        .search-input {
+            padding-left: 10px !important;
+        }
+    }
+
     @media only screen and (max-width: 441px) {
       .helper-text {
         /* display: none; */
@@ -297,7 +307,7 @@ $searches = \App\Product::query()
                                 <div class="dropdown w-75">
                                   {{-- <button onclick="myFunction()" class="dropbtn">Dropdown</button> --}}
                                   <div id="myDropdown" class="dropdown-content show w-100">
-                                    <input type="text" placeholder="Search.." id="myInput" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#myInput').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : '' }}" onblur="addingClass()" onfocus="removingClass()" onkeyup="filterFunction()">
+                                    <input type="text" placeholder="Search.." id="myInput" class="search-input" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#myInput').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : '' }}" onblur="addingClass()" onfocus="removingClass()" onkeyup="filterFunction()">
 
                                     <div class="titles d-none overflow-auto"  style="max-height: 300px;">
                                     @foreach ($searches as $product)
@@ -317,7 +327,7 @@ $searches = \App\Product::query()
                                   </div>
 
                                   <div class="input-group-append border-left">
-                                    <button class="btn btn-dark btn-search px-3 rounded-0 py-2 position-absolute right-0" type="button" onclick="window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`" style="cursor: pointer;"><i class="mx-1 glph-icon flaticon-loupe "></i></button>
+                                    <button class="btn btn-dark btn-search px-3 rounded-0 py-2 position-absolute right-0" type="button" onclick="window.location.href = `/products?search=${document.querySelector('#myInput').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`" style="cursor: pointer;"><i class="mx-1 glph-icon flaticon-loupe "></i></button>
                                 </div>
                                 
                                 </div>
