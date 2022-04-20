@@ -45,9 +45,9 @@
             font-size: 20px;
         }
 
-        /*.nav-open {
+        .nav-open {
             visibility: visible;
-        }*/
+        }
 
 
         /* On screens that are 1250px wide or less */
