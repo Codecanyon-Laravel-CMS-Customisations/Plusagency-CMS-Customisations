@@ -49,6 +49,12 @@
             visibility: visible;
         }*/
 
+        .nav-open::after {
+            visibility: visible;
+            opacity: 1;
+            transition-delay: .05s;
+        }
+
 
         /* On screens that are 1250px wide or less */
         @media screen and (max-width: 1250px) {
