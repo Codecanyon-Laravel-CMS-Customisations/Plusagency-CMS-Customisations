@@ -296,7 +296,7 @@ $searches = \App\Product::query()
 
                                 <div class="dropdown w-75">
                                   {{-- <button onclick="myFunction()" class="dropbtn">Dropdown</button> --}}
-                                  <div id="myDropdown" class="dropdown-content show">
+                                  <div id="myDropdown" class="dropdown-content show w-100">
                                     <input type="text" placeholder="Search.." id="myInput" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#myInput').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : '' }}" onblur="addingClass()" onfocus="removingClass()" onkeyup="filterFunction()">
 
                                     <div class="titles d-none overflow-auto"  style="height: 300px;">
@@ -984,7 +984,8 @@ function addingClass(){
   font-size: 16px;
   padding: 14px 20px 12px 45px;
   border: none;
-  border-bottom: 1px solid #ddd;
+  /*border-bottom: 1px solid #ddd;*/
+  height: 48px;
 }
 
 #myInput:focus {outline: 3px solid #ddd;}
@@ -998,7 +999,7 @@ function addingClass(){
   display: none;
   position: absolute;
   background-color: #f6f6f6;
-  min-width: 230px;
+  max-width: 100%;
   overflow: auto;
   border: 1px solid #ddd;
   z-index: 1;
@@ -1014,4 +1015,13 @@ function addingClass(){
 .dropdown a:hover {background-color: #ddd;}
 
 .show {display: block;}
+
+.input-group .btn-search {
+    height: 49px;
+}
+@media only screen and (max-width: 990px) {
+        .custom-header-button-wrapper {
+             margin-top: 40px;
+        }
+    }
 </style>
