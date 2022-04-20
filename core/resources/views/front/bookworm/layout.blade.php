@@ -45,9 +45,9 @@
             font-size: 20px;
         }
 
-        .nav-open {
+        /*.nav-open {
             visibility: visible;
-        }
+        }*/
 
 
         /* On screens that are 1250px wide or less */
@@ -577,6 +577,7 @@
             const menu = document.getElementById('hc-nav-1');
             menu.classList.add("nav-open");
             $('body').addClass("hc-nav-open");
+            $('hc-nav-1').css("visibility", "visible");
             menu.style.visibility = "visible";
             e.stopPropagation();
         };
