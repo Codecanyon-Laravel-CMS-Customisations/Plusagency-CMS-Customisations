@@ -299,7 +299,7 @@ $searches = \App\Product::query()
                                   <div id="myDropdown" class="dropdown-content show w-100">
                                     <input type="text" placeholder="Search.." id="myInput" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#myInput').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : '' }}" onblur="addingClass()" onfocus="removingClass()" onkeyup="filterFunction()">
 
-                                    <div class="titles d-none overflow-auto"  style="height: 300px;">
+                                    <div class="titles d-none overflow-auto"  style="max-height: 300px;">
                                     @foreach ($searches as $product)
                                             
                                         <a href="{{ route('front.product.details', ['slug' => $product->slug]) }}" style="cursor:pointer">   {{ $product->title }} </a>
