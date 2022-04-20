@@ -576,6 +576,7 @@
             
             const menu = document.getElementById('hc-nav-1');
             menu.classList.add("nav-open");
+            menu.classList.add("hc-nav-open");
             menu.style.visibility = "visible";
             e.stopPropagation();
         };
