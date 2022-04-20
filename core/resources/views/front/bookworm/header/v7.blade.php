@@ -257,7 +257,7 @@ $searches = \App\Product::query()
                     <div class="site-search ml-xl-0 ml-md-auto w-r-100 flex-grow-1 mr-md-5 py-2 py-md-0">
                         <div class="form-inline my-2 my-xl-0">
                             <div class="input-group w-100">
-                                <div class="input-group-prepend z-index-2 d-none d-xl-block">
+                                <div class="input-group-prepend z-index-2 d-none d-xl-block w-25">
                                     <select class="d-none d-lg-block custom-select pr-7 pl-4 rounded-0 height-5 shadow-none text-dark" id="category_id" {{-- style="max-width: 150px;" --}}>
                                         <option selected>All Categories</option>
                                         @php
@@ -294,10 +294,10 @@ $searches = \App\Product::query()
                                 </select> --}}
 
 
-                                <div class="dropdown">
+                                <div class="dropdown w-75">
                                   {{-- <button onclick="myFunction()" class="dropbtn">Dropdown</button> --}}
-                                  <div id="myDropdown" class="dropdown-content show w-50">
-                                    <input type="text" placeholder="Search.." id="myInput" onblur="addingClass()" onfocus="removingClass()" onkeyup="filterFunction()">
+                                  <div id="myDropdown" class="dropdown-content show">
+                                    <input type="text" placeholder="Search.." id="myInput" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#myInput').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : '' }}" onblur="addingClass()" onfocus="removingClass()" onkeyup="filterFunction()">
 
                                     <div class="titles d-none overflow-auto"  style="height: 300px;">
                                     @foreach ($searches as $product)
@@ -315,6 +315,11 @@ $searches = \App\Product::query()
                                     <a href="#support">Support</a>
                                     <a href="#tools">Tools</a> --}}
                                   </div>
+
+                                  <div class="input-group-append border-left">
+                                    <button class="btn btn-dark btn-search px-3 rounded-0 py-2 position-absolute right-0" type="button" onclick="window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`" style="cursor: pointer;"><i class="mx-1 glph-icon flaticon-loupe "></i></button>
+                                </div>
+                                
                                 </div>
 
 
@@ -323,9 +328,7 @@ $searches = \App\Product::query()
 
 
 
-                                {{-- <div class="input-group-append border-left">
-                                    <button class="btn btn-dark btn-search px-3 rounded-0 py-2" type="button" onclick="window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`" style="cursor: pointer;"><i class="mx-1 glph-icon flaticon-loupe "></i></button>
-                                </div> --}}
+                                
                             </div>
                         </div>
                     </div>
