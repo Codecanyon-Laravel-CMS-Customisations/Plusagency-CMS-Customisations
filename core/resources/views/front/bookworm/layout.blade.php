@@ -578,7 +578,6 @@
             menu.classList.add("nav-open");
             $('body').addClass("hc-nav-open");
             $('hc-nav-1').css("visibility", "visible");
-            menu.style.visibility = "visible";
             e.stopPropagation();
         };
 
