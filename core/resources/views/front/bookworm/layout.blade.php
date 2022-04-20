@@ -47,6 +47,14 @@
 
         .nav-open {
             visibility: visible;
+        } 
+
+        .nav-container {
+            -webkit-transform: translate3d(-100%, 0px, 0px);
+  transform: translate3d(-100%, 0px, 0px);
+  visibility: visible;
+  transition: all 0.5s ease 0s;
+  -webkit-transition: all 0.5s ease 0s;
         }
 
 
