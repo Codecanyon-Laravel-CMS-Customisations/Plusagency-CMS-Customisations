@@ -45,15 +45,16 @@
             font-size: 20px;
         }
 
-        /*.nav-open {
+        .nav-open {
             visibility: visible;
-        }*/
+            transition-delay: .05s;
+        }
 
-        .nav-open::after {
+        /*.nav-open::after {
             visibility: visible;
             opacity: 1;
             transition-delay: .05s;
-        }
+        }*/
 
 
         /* On screens that are 1250px wide or less */
