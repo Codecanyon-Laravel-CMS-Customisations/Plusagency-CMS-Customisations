@@ -3719,3 +3719,23 @@ a#cartIcon span.length {
 .partner-carousel img {
     width: 100% !important;
 }
+ul#select2-headerProductsSelect-results {
+    color: #383838 !important;
+}
+
+@media only screen and (max-width: 996px) {
+  .topbar.bg-punch-light {
+    display: none;
+  }
+}
+
+#hc-nav-1-nav-title {
+    color: #fff0ce;
+}
+
+.bg-site{
+    background: #383838;
+}
+#sidebarContent1{
+    z-index: 9999 !important;
+}

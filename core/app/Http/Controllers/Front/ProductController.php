@@ -63,6 +63,7 @@ class ProductController extends Controller
 
     public function product(Request $request)
     {
+        // dd($request->all());
         $bex            = BasicExtra::first();
         $data['colors'] = WebsiteColors::all();
         if ($bex->is_shop == 0) {
@@ -129,8 +130,8 @@ class ProductController extends Controller
                 return $query->where('language_id', $lang_id);
             })
             ->when($search, function ($query, $search) {
-                //return $query->where('title', 'like', '%' . $search . '%')->orwhere('summary', 'like', '%' . $search . '%')->orwhere('description', 'like', '%' . $search . '%');
-                return trim($search) == '' ? $query : $query->where('title', 'like', '%' . $search . '%');
+                return $query->where('title', 'like', '%' . $search . '%')->orwhere('summary', 'like', '%' . $search . '%')->orwhere('description', 'like', '%' . $search . '%');
+                // return trim($search) == '' ? $query : $query->where('title', 'like','%'. $search .'%');
             })
             ->when($minprice, function ($query, $minprice) {
                 return $query->where('current_price', '>=', $minprice);
@@ -167,7 +168,7 @@ class ProductController extends Controller
 
             $data['version'] = $version;
 
-            if($be->theme_version == 'bookworm') {
+            if($be->theme_version == 'bookworm') {  
                 return view('front.bookworm.products', $data);
             } else {
 
@@ -180,11 +181,26 @@ class ProductController extends Controller
     public function productDetails($slug)
     {
 
-        if(empty(Product::where('slug', $slug)->first()))
+        $product_details = Product::where('slug', $slug)->first();
+        
+        $request = false;
+        $current_uri = $_SERVER['REQUEST_URI'];
+        if (str_contains($current_uri, '/product/')) { 
+            $request = true;
+        }
+        
+        
+        if( !$product_details && $request === false )
         {
+            // dd($product_details);
             session()->flash('error', 'Product not found!');
             return redirect()->to('products');
+        } 
+
+        if ( $product_details ) {
+            session()->forget('error');
         }
+
         $bex = BasicExtra::first();
         if ($bex->is_shop == 0) {
             return back();
@@ -222,6 +238,7 @@ class ProductController extends Controller
             return view('front.product.details', $data);
         }
     }
+
 
     public function cart()
     {
@@ -277,7 +294,7 @@ class ProductController extends Controller
         return view('front.product.product_categories', compact('pcategories', 'be', 'version'));
     }
 
-    public function addToCart($id)
+    public function addToCart(Request $request, $id)
     {
         $cart = session()->get('cart');
         if (strpos($id, ',,,') == true) {
@@ -286,7 +303,6 @@ class ProductController extends Controller
             $qty = $data[1];
 
             $product = Product::findOrFail($id);
-
             if ($product->type != 'digital') {
                 if(!empty($cart) && array_key_exists($id, $cart)){
                     if($product->stock < $cart[$id]['qty'] + $qty){
@@ -505,6 +521,47 @@ class ProductController extends Controller
         }
         $total = 0;
         $count = 0;
+        $product_ids = [];
+        $product_quantities = [];
+        foreach ($cart as $key => $i) {
+            $product    = Product::findOrFail($key);
+            $total += $product->price * $i['qty'];
+            $count += $i['qty'];
+            $product_ids[]= $product->id;
+            $product_quantities[] = $i['qty'];
+        }
+
+        $total = round($total, 2);
+
+        return response()->json(['message' => 'Cart Update Successfully.', 'total' => $total, 'count' => $count, 'product_ids' => $product_ids, 'product_quantities' => $product_quantities]);
+    }
+
+
+    public function updateSingleCartItem(Request $request)
+    {
+        
+        if (session()->has('cart')) {
+            $cart = session()->get('cart');
+            
+            $product = Product::findOrFail($request->product_id);
+            
+            if ($product->type != 'digital') {
+                if($product->stock < $request->quantity){
+                    return response()->json(['error' => $product->title .' stock not available']);
+                }
+            }
+
+            
+            if (isset($cart[$request->product_id])) {
+                $cart[$request->product_id]['qty'] =  $request->quantity;
+
+                $sub_total = $product->price*$request->quantity;
+
+                session()->put('cart', $cart);
+            }
+        }
+        $total = 0;
+        $count = 0;
         foreach ($cart as $key => $i) {
             $product    = Product::findOrFail($key);
             $total += $product->price * $i['qty'];
@@ -513,7 +570,8 @@ class ProductController extends Controller
 
         $total = round($total, 2);
 
-        return response()->json(['message' => 'Cart Update Successfully.', 'total' => $total, 'count' => $count]);
+
+        return response()->json(['message' => 'Cart Update Successfully.', 'total' => $total, 'count' => $count, 'sub_total' => $sub_total]);
     }
 
 

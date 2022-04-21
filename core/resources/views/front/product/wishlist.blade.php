@@ -112,9 +112,9 @@
                                 </td>
                                 <td class="qty">
                                     <div class="product-quantity d-flex mb-35" id="quantity">
-                                        <button type="button" id="sub" class="sub">-</button>
+                                        <button type="button" id="sub" class="sub btn-sub">-</button>
                                         <input type="text" class="cart_qty" id="1" value="{{$item['qty']}}" />
-                                        <button type="button" id="add" class="add">+</button>
+                                        <button type="button" id="add" class="add btn-add">+</button>
                                     </div>
                                 </td>
                                 <input type="hidden" value="{{$id}}" class="product_id">
@@ -169,8 +169,8 @@
                 <div class="update-cart float-right d-inline-block ml-4">
                     <a class="proceed-checkout-btn d-none wish2Cart" data-href="{{route('wishlist.to.cart')}}" href="javascript:;" type="button"><span>{{__('Add to Cart')}}</span></a>
                 </div>
-                <div class="update-cart float-right d-inline-block">
-                    <button class="main-btn main-btn-2" id="cartUpdate" data-href="{{route('wishlist.update')}}" type="button"><span>{{__('Update Wishlist')}}</span></button>
+                <div class="update-cart float-right d-inline-block" style="display: none !important;">
+                    <button class="main-btn main-btn-2 wishUpdate" id="cartUpdate" data-href="{{route('wishlist.update')}}" type="button"><span>{{__('Update Wishlist')}}</span></button>
                 </div>
             </div>
         </div>

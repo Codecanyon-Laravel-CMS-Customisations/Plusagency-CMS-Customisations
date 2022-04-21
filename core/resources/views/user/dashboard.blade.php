@@ -1,4 +1,6 @@
-@extends('user.layout')
+{{-- @extends('user.layout') --}}
+
+@extends('user.dashboard.master')
 
 @section('pagename')
  - {{__('Dashboard')}}
@@ -7,12 +9,13 @@
 @section('content')
 
     <!--   hero area start   -->
-    <div class="breadcrumb-area services service-bg" style="background-image: url('{{asset  ('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
+    <div class="breadcrumb-area services service-bg" 
+    style="background-image: url('{{asset  ('assets/front/img/' . $bs->breadcrumb)}}');background-size:cover;">
         <div class="container">
             <div class="breadcrumb-txt">
                 <div class="row">
                     <div class="col-xl-7 col-lg-8 col-sm-10">
-                        <h1>{{__('Dashboard')}}</h1>
+                        {{-- <h1>{{__('Dashboard')}}</h1> --}}
                         <ul class="breadcumb">
                             <li>{{__('Dashboard')}}</li>
                         </ul>
@@ -27,7 +30,7 @@
  <section class="user-dashbord">
     <div class="container">
         <div class="row">
-            @include('user.inc.site_bar')
+            {{-- @include('user.inc.site_bar') --}}
             <div class="col-lg-9">
                 <div class="row mb-5">
                     <div class="col-lg-12">
@@ -44,7 +47,7 @@
                             @endif
 
                             @if ($bex->is_course == 1)
-                            <div class="col-md-6">
+                            <div class="col-md-6 mb-4">
                                 <a class="card card-box box-2 course" href="{{route('user.course_orders')}}">
                                     <div class="card-info">
                                         <h4>{{__('Enrolled Courses')}}</h4>

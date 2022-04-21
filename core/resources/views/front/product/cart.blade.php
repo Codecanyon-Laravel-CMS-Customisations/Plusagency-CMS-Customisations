@@ -1,3 +1,15 @@
+<style>
+    .btn-disable
+    {
+        cursor: not-allowed;
+        pointer-events: none;
+
+        /*Button disabled - CSS color class*/
+        color: #c0c0c0;
+        background-color: #ffffff;
+    }
+</style>
+
 @extends("front.$version.layout")
 @php
 // $bex->base_currency_symbol = "AI";
@@ -48,6 +60,19 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
 
 @section('styles')
 <link rel="stylesheet" href="{{asset('assets/front/css/jquery-ui.min.css')}}">
+
+<style>
+    .btn-disable
+    {
+        cursor: not-allowed;
+        pointer-events: none;
+
+        /*Button disabled - CSS color class*/
+        color: #c0c0c0;
+        background-color: #ffffff;
+
+    }
+</style>
 @endsection
 
 @section('breadcrumb-links')
@@ -128,11 +153,11 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                                         {!! convertUtf8("ISBN : $isbn") !!}
                                                     </p>
                                                     <p class="card-text pt-1">
-                                                        <strong style="font-size: 1.5em;font-weight: 300;">
+                                                        <strong class="sub-total-currency-{{$product->id}}" style="font-size: 1.5em;font-weight: 300;">
                                                             {{ $product->symbol }}
-                                                            <span>{{ number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) }}</span>
+                                                            <span class="sub-total-{{$product->id}}">{{ number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) }}</span>
                                                         </strong>
-                                                        <small class="text-muted pl-2">( {{ $product->symbol }}{{ number_format(!empty($product->price) ? $product->price : '0.00', 0) }} x {{ $item['qty'] }} )</small>
+                                                        <small class="text-muted pl-2 price cart_price">( {{ $product->symbol }} <span class="cart_price_brkt-{{$product->id}}">{{ number_format(!empty($product->price) ? $product->price : '0.00', 0) }}</span> x <span class="cart_qty_brkt-{{$product->id}}">{{ $item['qty'] }}</span> )</small>
                                                     </p>
                                                 </div>
                                             </a>
@@ -146,9 +171,9 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                             </div>
                                             <div class="qty">
                                                 <div class="product-quantity d-flex mb-35" id="quantity">
-                                                    <button type="button" id="sub" class="sub">-</button>
-                                                    <input type="text" class="cart_qty" id="1" value="{{$item['qty']}}" />
-                                                    <button type="button" id="add" class="add">+</button>
+                                                    <button type="button" id="sub" class="sub btn-sub" onclick="onMinus(this, '{{$product->id}}')">-</button>
+                                                    <input type="text" class="quantity-{{$product->id}} cart_qty" id="1" value="{{$item['qty']}}" onblur="onInputChange(this, '{{$product->id}}')"/>
+                                                    <button type="button" id="add" class="add btn-add" onclick="onPlus(this, '{{$product->id}}')" >+</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -209,9 +234,9 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                 </td>
                                 <td class="qty">
                                     <div class="product-quantity d-flex mb-35" id="quantity">
-                                        <button type="button" id="sub" class="sub">-</button>
-                                        <input type="text" class="cart_qty" id="1" value="{{$item['qty']}}" />
-                                        <button type="button" id="add" class="add">+</button>
+                                        <button type="button" id="sub" class="sub btn-sub" onclick="onMinus(this, '{{$product->id}}')">-</button>
+                                        <input type="text" class="quantity-{{$product->id}} cart_qty" id="1" value="{{$item['qty']}}" onblur="onInputChange(this, '{{$product->id}}')"/>
+                                        <button type="button" id="add" class="add btn-add" onclick="onPlus(this, '{{$product->id}}')" >+</button>
                                     </div>
                                 </td>
                                 <input type="hidden" value="{{$id}}" class="product_id">
@@ -240,7 +265,7 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                 <td class="sub-total">
                                     {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
                                     {{ $product->symbol }}
-                                    <span>
+                                    <span class="sub-total-{{$product->id}}">
                                         {{-- {{ isset($pvariation) ? angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) }} --}}
                                         {{ number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) }}
                                     </span>
@@ -273,7 +298,8 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                 <div class="update-cart float-right d-inline-block ml-4">
                     <a class="proceed-checkout-btn" href="{{route('front.checkout')}}" type="button"><span>{{__('Checkout')}}</span></a>
                 </div>
-                <div class="update-cart float-right d-inline-block">
+                <!-- Button removed from UI -->
+                <div class="update-cart float-right d-inline-block" style="display: none !important;">
                     <button class="main-btn main-btn-2" id="cartUpdate" data-href="{{route('cart.update')}}" type="button"><span>{{__('Update Cart')}}</span></button>
                 </div>
             </div>
@@ -298,6 +324,57 @@ var position = "{{ 'left' }}";
 <script src="{{asset('assets/front/js/cart.js')}}"></script>
 
 <script>
+
+
+function onPlus(elem, product_id) {
+    // console.log("elem ", elem.previousElementSibling.value)
+    let targetElem = elem.previousElementSibling;
+    let targetCount = parseInt(targetElem.value);
+    targetCount++;
+    
+    document.getElementsByClassName("quantity-"+product_id)[0].value = targetCount;
+
+    changeItemQuantityAndPrice(targetCount, product_id);
+    
+}
+
+function onMinus(elem, product_id) {
+    // console.log("elem ", elem.previousElementSibling.value)
+    let targetElem = elem.nextElementSibling;
+    let targetCount = parseInt(targetElem.value);
+    targetCount--;
+    // targetElem.value = targetCount;
+    
+    document.getElementsByClassName("quantity-"+product_id)[0].value = targetCount;
+
+    changeItemQuantityAndPrice(targetCount, product_id);
+    
+    
+}
+
+
+function onInputChange(elem, product_id) {
+    document.getElementsByClassName("quantity-"+product_id)[0].value = elem.value;
+
+    let targetCount = parseInt(elem.value);
+
+    changeItemQuantityAndPrice(targetCount, product_id);
+    
+}
+
+function changeItemQuantityAndPrice(targetCount, product_id) {
+    
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        if (targetCount > 0) {
+            setTimeout( function(){
+                if ( $(".cart_qty_brkt-"+product_id) &&  $(".sub-total-"+product_id) ) {
+                    $(".cart_qty_brkt-"+product_id).text(targetCount);
+                    $(".sub-total-"+product_id).text($(".cart_price_brkt-"+product_id).text() * targetCount);
+                }
+            }, 500);
+        }
+    }
+}
 
 
 </script>

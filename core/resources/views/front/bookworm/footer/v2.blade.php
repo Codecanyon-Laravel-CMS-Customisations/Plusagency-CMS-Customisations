@@ -1,12 +1,27 @@
+<style>
+    .useful-links h4:hover, .useful-links ul li a:hover {
+        color: #D55534 !important;
+    }
+
+    .contact-us h4:hover, .contact-us address span:hover, .contact-us div a span:hover, .fa-instagram:hover {
+        color: #D55534 !important;
+    }
+
+    .copyright:hover, .copyright:hover p span {
+        color: #D55534 !important;
+    }
+</style>
+
 <footer class="site-footer_v2">
     @if (!($bex->home_page_pagebuilder == 0 && $bs->top_footer_section == 0))
     <div class="space-top-3 bg-gray-850">
         <div class="pb-5 space-bottom-lg-3">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-3 mb-6 mb-lg-0">
+                    <div class="col-lg-3 mb-6 mb-lg-0 useful-links">
                         <h4 class="font-size-3 font-weight-medium mb-2 mb-xl-5 pb-xl-1 text-white">{{__('Useful Links')}}</h4>
                         <ul class="list-unstyled mb-0">
+                            
                             @foreach ($ulinks as $key => $ulink)
                             <li class="h-white pb-2">
                                 <a class="widgets-hover transition-3d-hover font-size-2 text-gray-450" href="{{$ulink->url}}">{{convertUtf8($ulink->name)}}</a>
@@ -15,7 +30,7 @@
                         </ul>
                     </div>
                     <div class="col-lg-6 mb-6 mb-lg-0">
-                        <div class="pb-lg-6">
+                        <div class="pb-lg-6 contact-us">
                             <h4 class="font-size-3 font-weight-medium mb-2 mb-xl-5 pb-xl-1 text-white">Contact Us</h4>
                             <address class="font-size-2 mb-5">
                                 @php
@@ -98,7 +113,7 @@
             <div class="container">
                 <div class="d-lg-flex text-center text-lg-left justify-content-between align-items-center">
                     <!-- Copyright -->
-                    <div class="mb-4 mb-lg-0 font-size-2 text-gray-450">{!! replaceBaseUrl(convertUtf8($bs->copyright_text)) !!}</div>
+                    <div class="mb-4 mb-lg-0 font-size-2 text-gray-450 copyright">{!! replaceBaseUrl(convertUtf8($bs->copyright_text)) !!}</div>
                     <!-- End Copyright -->
 
                     <div class="ml-auto d-lg-flex justify-content-xl-end align-items-center">

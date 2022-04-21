@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Ticket;
 use Illuminate\Support\Facades\Hash;
 use Session;
 
@@ -54,7 +55,9 @@ class RegisterUserController extends Controller
 
     public function delete(Request $request)
     {
+
         $user = User::findOrFail($request->user_id);
+
 
         if ($user->conversations()->count() > 0) {
             $convs = $user->conversations()->get();
@@ -125,8 +128,10 @@ class RegisterUserController extends Controller
             @unlink('assets/front/invoices/' . $user->subscription->invoice);
             $user->subscription()->delete();
         }
+        
+        
 
-        if ($user->tickets()->count() > 0) {
+        if ($user->tickets() && $user->tickets()->count() > 0) {
             $tickets = $user->tickets()->get();
             foreach ($tickets as $key => $ticket) {
                 @unlink('assets/front/user-suppor-file/' . $ticket->zip_file);

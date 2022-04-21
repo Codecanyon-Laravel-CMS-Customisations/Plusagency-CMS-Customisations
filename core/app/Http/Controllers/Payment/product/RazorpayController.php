@@ -30,7 +30,7 @@ class RazorpayController extends PaymentController
         }
 
 
-
+        // dd($request);
         $cart = Session::get('cart');
 
         $total = $this->orderTotal($request->shipping_charge);
@@ -46,7 +46,8 @@ class RazorpayController extends PaymentController
         $be = $currentLang->basic_extended;
         $bs = $currentLang->basic_setting;
         $userCountry = app()->make('user_country');
-        if ($userCountry->name !== 'India') {
+        // dd($userCountry);
+        if (!$userCountry && $userCountry->name !== 'India') {
             $bex->base_currency_text = 'USD';
         }
 

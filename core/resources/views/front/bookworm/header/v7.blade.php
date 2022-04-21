@@ -83,10 +83,99 @@ $countitem += $p['qty'];
 }
 @endphp
 @endif
+
+<!-- @php
+$searches = \App\Product::query()
+                ->orderBy('title', 'ASC')
+                ->get()
+                ->each(function ($query) {
+                    if (session()->has('product_ids')) {
+                        $product_ids = (array) session('product_ids');
+                        if (in_array($query->id, $product_ids)) {
+                            $query->selected = true;
+                            return $query;
+                        }
+                    }
+                }); //->pluck('title', 'current_price', 'id');
+
+@endphp -->
+
+<style>
+    
+    option {
+        background-color: #fff;
+    }
+
+    #sidebarNavToggler {
+            margin-bottom: -6px;
+    }
+
+    .hc-nav-trigger {
+        width: 169px !important;
+    }
+
+    .custom-header-button a:hover {
+        background-color: #D55534;
+    }
+
+    #basicDropdownHoverInvoker19-9:hover, #basicDropdownHoverInvoker19-9-m:hover, #basicDropdownHoverInvoker19-7:hover, #basicDropdownHoverInvoker19-7-m:hover, #cartModal:hover, #cartModal-m:hover {
+        color: #D55534 !important;
+    }
+
+    .search-input {
+        padding-left: 76px !important;
+    }
+
+    @media only screen and (max-width: 767px) {
+        .search-input {
+            padding-left: 10px !important;
+        }
+    }
+
+    @media only screen and (max-width: 441px) {
+      .helper-text {
+        /* display: none; */
+        font-size: 2.4vw;
+        font-weight: 400;
+      }
+
+      .paddings {
+        padding-left: 0.2rem !important;
+        padding-right: 0.4rem !important;
+      }
+    }
+
+    /* media query for mobile screens */
+    @media only screen and (max-width: 366px) {
+        .fonts {
+             font-size: 1.0rem !important;
+        }
+
+        .paddings {
+            padding-left: 0.25rem !important;
+            padding-right: 0.25rem !important;
+        }
+    }
+
+    /* media query for mobile screens */
+    @media only screen and (max-width: 308px) {
+        .fonts {
+             font-size: 0.8rem !important;
+        }
+    }
+
+    /* media query for mobile screens */
+    @media only screen and (max-width: 278px) {
+        .fonts {
+             font-size: 0.7rem !important;
+        }
+    }
+</style>
+
 <header id="site-header" class="site-header__v7">
     <div class="topbar bg-punch-light">
         <div class="container">
-            <div class="topbar__nav d-lg-flex justify-content-between align-items-center font-size-2">
+            <div class="topbar__nav d-lg-flex justify-content-between align-items-center font-size-2 test1234">
                 <ul class="topbar__nav--left nav ml-lg-n3 justify-content-center">
                     {{-- @php
                         $header_v2_button_text = 'GIVE US FEEDBACK';
@@ -178,8 +267,8 @@ $countitem += $p['qty'];
                     <div class="site-search ml-xl-0 ml-md-auto w-r-100 flex-grow-1 mr-md-5 py-2 py-md-0">
                         <div class="form-inline my-2 my-xl-0">
                             <div class="input-group w-100">
-                                <div class="input-group-prepend z-index-2 d-none d-xl-block">
-                                    <select class="d-none d-lg-block custom-select pr-7 pl-4 rounded-0 height-5 shadow-none text-dark" id="category_id" style="max-width: 150px;">
+                                <div class="input-group-prepend z-index-2 d-none d-xl-block w-25">
+                                    <select class="d-none d-lg-block custom-select pr-7 pl-4 rounded-0 height-5 shadow-none text-dark" id="category_id" {{-- style="max-width: 150px;" --}}>
                                         <option selected>All Categories</option>
                                         @php
                                         $active_category = request()->has('category_id') ? request('category_id') : '';
@@ -198,10 +287,58 @@ $countitem += $p['qty'];
                                         @endforeach
                                     </select>
                                 </div>
-                                <input type="text" class="form-control border-right-0 px-3" placeholder="Search for books by keyword" aria-label="Amount (to the nearest dollar)" id="search" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : '' }}">
-                                <div class="input-group-append border-left">
-                                    <button class="btn btn-dark btn-search px-3 rounded-0 py-2" type="button"><i class="mx-1 glph-icon flaticon-loupe " onclick="window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`" style="cursor: pointer;"></i></button>
+
+
+
+                                
+                                {{-- commented for adding search option in products --}}
+                                {{-- <input type="text" class="form-control border-right-0 px-3" placeholder="Search for books by keyword" aria-label="Amount (to the nearest dollar)" id="search" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#search').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : '' }}"> --}}
+
+                                {{-- <select class="form-control border-right-0 px-3">
+                                    
+                                    <option> Search for books by keyword </option>
+
+                                    @foreach ($searches as $product)
+                                        <option> {{ $product->title }} </option>
+                                    @endforeach
+                                </select> --}}
+
+
+                                <div class="dropdown w-75">
+                                  {{-- <button onclick="myFunction()" class="dropbtn">Dropdown</button> --}}
+                                  <div id="myDropdown" class="dropdown-content show w-100">
+                                    <input type="text" placeholder="Search.." id="myInput" class="search-input" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#myInput').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : '' }}" onblur="addingClass()" onfocus="removingClass()" onkeyup="filterFunction()">
+
+                                    <div class="titles d-none overflow-auto"  style="max-height: 300px;">
+                                    @foreach ($searches as $product)
+                                            
+                                        <a href="{{ route('front.product.details', ['slug' => $product->slug]) }}" style="cursor:pointer">   {{ $product->title }} </a>
+
+                                    @endforeach
+                                    </div>
+
+                                    {{-- <a href="#about">About</a>
+                                    <a href="#base">Base</a>
+                                    <a href="#blog">Blog</a>
+                                    <a href="#contact">Contact</a>
+                                    <a href="#custom">Custom</a>
+                                    <a href="#support">Support</a>
+                                    <a href="#tools">Tools</a> --}}
+                                  </div>
+
+                                  <div class="input-group-append border-left">
+                                    <button class="btn btn-dark btn-search px-3 rounded-0 py-2 position-absolute right-0" type="button" onclick="window.location.href = `/products?search=${document.querySelector('#myInput').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`" style="cursor: pointer;"><i class="mx-1 glph-icon flaticon-loupe "></i></button>
                                 </div>
+                                
+                                </div>
+
+
+                                
+
+
+
+
+                                
                             </div>
                         </div>
                     </div>
@@ -234,7 +371,90 @@ $countitem += $p['qty'];
                             #basicDropdownHoverInvoker19-7::after {
                                 display: none;
                             }
+
+                            #basicDropdownHoverInvoker19-9::after {
+                                display: none;
+                            }
                         </style>
+
+                        <!-- Start: Desktop Account Drop Down Button --> 
+                        <li class="nav-item px-2 hover-red">
+                            <a id="basicDropdownHoverInvoker19-9" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-9" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-9" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                                <i class="glph-icon flaticon-user font-size-5"></i>
+                                Account
+                            </a>
+                            <div id="basicDropdownHover19-9" class="dropdown-menu dropdown-unfold right-0 left-auto mr-8" aria-labelledby="basicDropdownHoverInvoker19-9">
+                                <!-- Title -->
+                                <header class="border-bottom px-4 px-md-6 py-4">
+                                    <h6 class="font-size-3 mb-0 d-flex align-items-center">
+                                        <i class="glph-icon flaticon-user font-size-5 mr-2"></i>
+                                        @php
+                                        echo "My Account";
+                                        @endphp
+                                    </h6>
+                                </header>
+
+                                @if(auth()->user())
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="{{ route('user-dashboard') }}" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8("Dashboard")}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                @else
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="{{ route('user.login') }}" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8("Login")}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="{{ route('user-register') }}" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8("Register")}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                @endif
+
+
+
+                                @foreach ($ulinks as $key => $ulink)
+                                @if($ulink->id == 18)
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="{{$ulink->url}}" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8($ulink->name)}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                @endif
+                                @endforeach
+
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="#" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8("Help")}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- End: Desktop Account Drop Down Button --> 
+
                         <li class="nav-item px-2">
                             <a id="basicDropdownHoverInvoker19-7" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-7" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-7" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
                                 <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0">
@@ -246,11 +466,13 @@ $countitem += $p['qty'];
                                     @endphp
                                 </span>
                                 <i class="flaticon-heart font-size-5"></i>
+                                Wishlist
                             </a>
                             <div id="basicDropdownHover19-7" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-7">
                                 <!-- Title -->
                                 <header class="border-bottom px-4 px-md-6 py-4">
                                     <h6 class="font-size-5 h6 mb-0 d-flex align-items-center">
+                                        <i class="flaticon-heart font-size-5 mr-2"></i>
                                         @php
                                         echo "My Wishlist (";
                                         try {
@@ -287,7 +509,7 @@ $countitem += $p['qty'];
                                             </h6>
                                             <div class="cart d-block">
                                                 <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
-                                                    <span class="woocommerce-Price-amount amount d-inline-block ml-3">
+                                                    <span class="woocommerce-Price-amount amount d-inline-block ml-3 d-flex">
                                                         {{ $product1->symbol }}
                                                         <span> {{ number_format($product1->price, 0) }}</span>
                                                     </span>
@@ -307,27 +529,30 @@ $countitem += $p['qty'];
                                 </div>
                             </div>
                         </li>
-                        <li class="nav-item px-2">
+                        
+                        <!-- 
+                        Previous cart code commented for header -->
+                        <!-- <li class="nav-item px-2">
                             <a id="sidebarNavToggler1-desktop" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="sidebarContent1" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent1" data-unfold-type="css-animation" data-unfold-overlay='{
                                                                     "className": "u-sidebar-bg-overlay",
                                                                     "background": "rgba(0, 0, 0, .7)",
                                                                     "animationSpeed": 500
                                                                 }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
-                                <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
+                                <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0 cart-items">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
                                 <i class="glph-icon flaticon-icon-126515 font-size-5"></i>
+                                <span>Cart</span>
                             </a>
-                        </li>
+                        </li>  -->
+
                         <li class="nav-item px-2">
-                            {{-- <!-- Account Sidebar Toggle Button - Mobile --> --}}
-                            <a id="sidebarNavToggler9" href="javascript:;" role="button" class="px-2 nav-link h-primary" aria-controls="sidebarContent9" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent9" data-unfold-type="css-animation" data-unfold-overlay='{
-                                        "className": "u-sidebar-bg-overlay",
-                                        "background": "rgba(0, 0, 0, .7)",
-                                        "animationSpeed": 500
-                                    }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
-                                <i class="glph-icon flaticon-user font-size-5"></i>
+                            <a id="cartModal" class="nav-link pr-0 btn text-dark position-relative" data-toggle="modal" data-target="#exampleModalCenter">
+                                <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0 cart-items">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
+                                <i class="glph-icon flaticon-icon-126515 font-size-5"></i>
+                                Cart
                             </a>
-                            {{-- <!-- End Account Sidebar Toggle Button - Mobile --> --}}
-                        </li>
+                        </li> 
+
+
                     </ul>
                 </div>
             </div>
@@ -338,13 +563,14 @@ $countitem += $p['qty'];
                 <div class="d-flex position-relative">
                     <div class="offcanvas-toggler d-flex align-self-center mr-md-8 ">
                         <!-- Account Sidebar Toggle Button -->
-                        <a id="sidebarNavToggler" style="min-width: 30px !important; z-index:1" class="cat-menu py-3 text-dark target-of-invoker-has-unfolds" href="javascript:;" role="button" aria-controls="sidebarContent" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebar001Content" data-unfold-type="css-animation" data-unfold-animation-in="fadeInLeft" data-unfold-animation-out="fadeOutLeft" data-unfold-duration="500">
-                            <svg width="20px" height="18px" class="my-auto">
+                        <a id="sidebarNavToggler" style="min-width: 30px !important; z-index:1" class="cat-menu py-3 text-dark target-of-invoker-has-unfolds fonts" href="javascript:;" role="button" aria-controls="sidebarContent" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebar001Content" data-unfold-type="css-animation" data-unfold-animation-in="fadeInLeft" data-unfold-animation-out="fadeOutLeft" data-unfold-duration="500">
+                            <svg width="20px" height="18px" class="my-auto mr-2">
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,-0.000 L20.000,-0.000 L20.000,2.000 L-0.000,2.000 L-0.000,-0.000 Z"></path>
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,8.000 L15.000,8.000 L15.000,10.000 L-0.000,10.000 L-0.000,8.000 Z"></path>
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,16.000 L20.000,16.000 L20.000,18.000 L-0.000,18.000 L-0.000,16.000 Z"></path>
                             </svg>
-                            &nbsp;Menu
+                            &nbsp;Books Menu
+                            <!-- <span class="fonts"></span> -->
                         </a>
                         <!-- End Account Sidebar Toggle Button -->
                         <ul class="nav d-lg-none ml-auto">
@@ -360,6 +586,17 @@ $countitem += $p['qty'];
 
                                 ::after,
                                 #basicDropdownHoverInvoker19-8 {
+                                        {
+                                        $rand_id
+                                    }
+                                }
+
+                                ::after {
+                                    display: none;
+                                }
+
+                                ::after,
+                                #basicDropdownHoverInvoker19-9 {
                                         {
                                         $rand_id
                                     }
@@ -392,8 +629,82 @@ $countitem += $p['qty'];
                             #basicDropdownHoverInvoker19-7::after {
                                 display: none;
                             }
+
+                            #basicDropdownHoverInvoker19-9::after {
+                                display: none;
+                            }
                         </style>
-                        <li class="nav-item px-2">
+
+
+
+                        <!-- Start: Mobile Account Drop Down Button --> 
+                        <li class="nav-item px-2 paddings">
+                            <a id="basicDropdownHoverInvoker19-9-m" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-9-m" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-9-m" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
+                                <i class="glph-icon flaticon-user font-size-5 fonts"></i>
+                                <div class="helper-text">Account</div>
+                            </a>
+                            <div id="basicDropdownHover19-9-m" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-9-m">
+                                <!-- Title -->
+                                <header class="border-bottom px-4 px-md-6 py-4">
+                                    <h6 class="font-size-3 mb-0 d-flex align-items-center">
+                                        <i class="glph-icon flaticon-user font-size-5 mr-2"></i>
+                                        @php
+                                        echo "My Account";
+                                        @endphp
+                                    </h6>
+                                </header>
+
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="{{ route('user.login') }}" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8("Login")}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="{{ route('user-register') }}" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8("Register")}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
+
+
+
+                                @foreach ($ulinks as $key => $ulink)
+                                @if($ulink->id == 18)
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="{{$ulink->url}}" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8($ulink->name)}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
+                                @endif
+                                @endforeach
+
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="#" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8("Help")}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- End: Mobile Account Drop Down Button --> 
+
+
+                        <li class="nav-item px-2 paddings">
                             <a id="basicDropdownHoverInvoker19-7-m" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="basicDropdownHover19-7-m" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-target="#basicDropdownHover19-7-m" data-unfold-type="css-animation" data-unfold-duration="300" data-unfold-delay="300" data-unfold-hide-on-scroll="false" data-unfold-animation-in="slideInUp" data-unfold-animation-out="fadeOut">
                                 <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0">
                                     @php
@@ -403,12 +714,14 @@ $countitem += $p['qty'];
                                     catch (\Exception $e){ }
                                     @endphp
                                 </span>
-                                <i class="flaticon-heart font-size-5"></i>
+                                <i class="flaticon-heart font-size-5 fonts"></i>
+                                <div class="helper-text">Wishlist</div>
                             </a>
                             <div id="basicDropdownHover19-7-m" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-7-m">
                                 <!-- Title -->
                                 <header class="border-bottom px-4 px-md-6 py-4">
                                     <h6 class="font-size-5 h6 mb-0 d-flex align-items-center">
+                                        <i class="flaticon-heart font-size-5 mr-2"></i>
                                         @php
                                         echo "My Wishlist (";
                                         try {
@@ -445,7 +758,7 @@ $countitem += $p['qty'];
                                             </h6>
                                             <div class="cart d-block">
                                                 <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
-                                                    <span class="woocommerce-Price-amount amount d-inline-block ml-3">
+                                                    <span class="woocommerce-Price-amount amount d-inline-block ml-3 d-flex">
                                                         {{ $product1->symbol }}
                                                         <span> {{ number_format($product1->price, 0) }}</span>
                                                     </span>
@@ -465,27 +778,29 @@ $countitem += $p['qty'];
                                 </div>
                             </div>
                         </li>
-                        <li class="nav-item px-2">
+                        
+                        <!-- Commented below code for solving cart issue -->
+
+                        <!-- <li class="nav-item px-2">
                             <a id="sidebarNavToggler1-desktop" href="javascript:;" role="button" class="nav-link pr-0 text-dark position-relative" aria-controls="sidebarContent1" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent1" data-unfold-type="css-animation" data-unfold-overlay='{
                                                                     "className": "u-sidebar-bg-overlay",
                                                                     "background": "rgba(0, 0, 0, .7)",
                                                                     "animationSpeed": 500
                                                                 }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
-                                <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
-                                <i class="glph-icon flaticon-icon-126515 font-size-5"></i>
+                                <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0 cart-items">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
+                                <i class="glph-icon flaticon-icon-126515 font-size-5 fonts"></i>
+                                <div class="helper-text">Cart</div>
                             </a>
-                        </li>
-                        <li class="nav-item px-2">
-                            {{-- <!-- Account Sidebar Toggle Button - Mobile --> --}}
-                            <a id="sidebarNavToggler9" href="javascript:;" role="button" class="px-2 nav-link h-primary" aria-controls="sidebarContent9" aria-haspopup="true" aria-expanded="false" data-unfold-event="click" data-unfold-hide-on-scroll="false" data-unfold-target="#sidebarContent9" data-unfold-type="css-animation" data-unfold-overlay='{
-                                        "className": "u-sidebar-bg-overlay",
-                                        "background": "rgba(0, 0, 0, .7)",
-                                        "animationSpeed": 500
-                                    }' data-unfold-animation-in="fadeInRight" data-unfold-animation-out="fadeOutRight" data-unfold-duration="500">
-                                <i class="glph-icon flaticon-user font-size-5"></i>
+                        </li> -->
+
+                        <li class="nav-item px-2 paddings">
+                            <a id="cartModal-m" class="nav-link pr-0 btn text-dark position-relative" data-toggle="modal" data-target="#exampleModalCenter">
+                                <span class="ml-1 position-absolute bg-dark width-16 height-16 rounded-circle d-flex align-items-center justify-content-center text-white font-size-n9 left-0 cart-items">{{ isset($cart) && $cart ? $countitem : 0 }}</span>
+                                <i class="glph-icon flaticon-icon-126515 font-size-5 fonts"></i>
+                                <div class="helper-text">Cart</div>
                             </a>
-                            {{-- <!-- End Account Sidebar Toggle Button - Mobile --> --}}
-                        </li>
+                        </li> 
+
                     </ul>
                     <div class="site-navigation mr-auto d-none d-lg-block">
                         @includeIf('front.bookworm.chemistry.molecules.front_main_nav_strip')
@@ -509,12 +824,12 @@ $countitem += $p['qty'];
     <div class="row">
         <div class="col-12">
             <div class="modal fade headerProductInquiryModal hPIM" id="headerProductInquiryModal" tabindex="-1" aria-labelledby="headerProductInquiryModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-lg--- modal-xl modal-dialog-centered modal-dialog-scrollable---naaah">
+                <div class="modal-dialog modal-lg--- modal-lg modal-dialog-centered modal-dialog-scrollable---naaah">
                     <div class="modal-content">
                         <div class="modal-body p-0">
                             <div class="container-fluid">
                                 <div class="row">
-                                    <div class="col-lg-5 py-2 pl-3 pr-2 d-none d-lg-block" style="background-repeat:no-repeat;background-size:cover;background-image: url('https://img.freepik.com/free-photo/abstract-blur-defocused-bookshelf-library_1203-9640.jpg?w=740');background-position:top">
+                                    {{-- <div class="col-lg-5 py-2 pl-3 pr-2 d-none d-lg-block" style="background-repeat:no-repeat;background-size:cover;background-image: url('https://img.freepik.com/free-photo/abstract-blur-defocused-bookshelf-library_1203-9640.jpg?w=740');background-position:top">
                                         <div class="d-flex align-content-center flex-wrap bd-highlight mb-3" style="min-height: 77vh">
                                             <div style="background-color: #00000050;font-weight: bolder;border-radius: 7px;" class="p-2 w-100">
                                                 <h3 style="text-shadow: 0px 1px 7px black;color: white;font-weight: bolder;" class="modal-title m-0" id="productInquiryModalLabel">Books Inquiry & Info</h3>
@@ -536,8 +851,8 @@ $countitem += $p['qty'];
                                             </div>
 
                                         </div>
-                                    </div>
-                                    <div class="col-sm-12 col-lg-7 p-2" style="max-height: 77vh;overflow: hidden;overflow-y: scroll;">
+                                    </div> --}}
+                                    <div class="col-sm-12 col-lg-12 p-2" style="max-height: 77vh;overflow: hidden;overflow-y: scroll;">
                                         <button type="button" class="close" style="background-color: white;font-weight: bolder;font-size: 1.7rem;color: #000000;width: 35px;height: 35px;border-radius: 50%;opacity: .9;box-shadow: 0px 0px 7px #000000;" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
@@ -602,10 +917,10 @@ $countitem += $p['qty'];
                                                 </div>
                                             </div>
                                         </form>
-                                        <div class="px-0 text-center w-100 py-2  d-block d-lg-none">
+                                        <!-- <div class="px-0 text-center w-100 py-2  d-block d-lg-none">
                                             <button type="button" class="btn btn-dark submit-button border-0 rounded-0 p-3 ml-auto mr-auto min-width-250 single_add_to_cart_button button alt cart-btn cart-link" style="color: #fff">{{ __('Submit') }}
                                             </button>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -617,3 +932,106 @@ $countitem += $p['qty'];
     </div>
 </header>
 @include('front.bookworm.header.aside')
+
+
+<script>
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+// function myFunction() {
+//   document.getElementById("myDropdown").classList.toggle("show");
+// }
+
+function filterFunction() {
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  div = document.getElementById("myDropdown");
+  a = div.getElementsByTagName("a");
+  for (i = 0; i < a.length; i++) {
+    txtValue = a[i].textContent || a[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      a[i].style.display = "";
+    } else {
+      a[i].style.display = "none";
+    }
+  }
+}
+
+function removingClass(){
+    $('.titles').removeClass('d-none');
+}
+
+function addingClass(){
+    setTimeout(function(){
+
+        $('.titles').addClass('d-none');
+    },3000);
+}
+
+
+
+</script>
+
+<style>
+.dropbtn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #3e8e41;
+}
+
+#myInput {
+  box-sizing: border-box;
+  background-image: url('searchicon.png');
+  background-position: 14px 12px;
+  background-repeat: no-repeat;
+  font-size: 16px;
+  padding: 14px 20px 12px 45px;
+  border: none;
+  /*border-bottom: 1px solid #ddd;*/
+  height: 48px;
+}
+
+#myInput:focus {outline: 3px solid #ddd;}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f6f6f6;
+  max-width: 100%;
+  overflow: auto;
+  border: 1px solid #ddd;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
+
+.input-group .btn-search {
+    height: 49px;
+}
+@media only screen and (max-width: 990px) {
+        .custom-header-button-wrapper {
+             margin-top: 40px;
+        }
+    }
+</style>
