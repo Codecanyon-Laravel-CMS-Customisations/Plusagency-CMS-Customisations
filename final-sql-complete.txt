@@ -128,13 +128,12 @@ CREATE TABLE `child_categories` (
 );
 
 CREATE TABLE `website_colors` (
-  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `element` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `element` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `attribute` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `value` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -148,7 +147,7 @@ ALTER TABLE `website_colors`
 -- AUTO_INCREMENT for table `website_colors`
 --
 ALTER TABLE `website_colors`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 
 

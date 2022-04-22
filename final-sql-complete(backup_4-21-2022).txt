@@ -1,0 +1,1137 @@
+ALTER TABLE `basic_settings_extended`
+ADD `header_v2_button_text` varchar(255) NULL;
+
+ALTER TABLE `basic_settings_extended`
+ADD `header_shipping_text` varchar(255) NULL;
+
+ALTER TABLE `basic_settings_extended`
+ADD `bookworm_slider_version` varchar(255) NULL;
+
+ALTER TABLE `basic_settings_extended`
+ADD `digital_resource_link` varchar(255) NULL;
+
+ALTER TABLE `basic_settings_extended`
+ADD `digital_resource_text` varchar(255) NULL;
+
+ALTER TABLE `basic_settings_extended`
+ADD `offline_resource_text` varchar(255) NULL;
+
+ALTER TABLE `basic_settings_extended`
+ADD `bookworm_shop_list_version` varchar(255) NULL;
+
+ALTER TABLE `basic_settings_extended`
+ADD `bookworm_shop_single_version` varchar(255) NULL;
+
+ALTER TABLE `basic_settings_extended`
+ADD `bookworm_footer_version` varchar(255) NULL;
+
+ALTER TABLE `basic_settings_extended`
+ADD `bookworm_header_version` varchar(255) NULL;
+
+ALTER TABLE `basic_settings_extended`
+ADD `bookworm_blog_version` varchar(255) NULL;
+
+ALTER TABLE `tickets`
+ADD `product_id` bigint(20) unsigned NULL;
+
+ALTER TABLE `products`
+ADD `digital` INT NULL DEFAULT 0;
+
+ALTER TABLE `products`
+ADD `offline` INT NULL DEFAULT 0;
+
+ALTER TABLE `products`
+ADD `show_inquiry_form` INT NULL DEFAULT 0;
+
+ALTER TABLE `products`
+ADD `attributes` json NULL;
+
+ALTER TABLE `products`
+ADD `options` json NULL;
+
+ALTER TABLE `products`
+ADD `tabs` json NULL;
+
+ALTER TABLE `products`
+ADD `sub_categories` json NULL;
+
+ALTER TABLE `products`
+ADD `current_price_international` decimal(8,2) DEFAULT NULL;
+
+ALTER TABLE `basic_settings_extended`
+ADD `product_tabs` json NULL;
+
+ALTER TABLE `basic_settings_extended`
+ADD `product_attributes` json NULL;
+
+ALTER TABLE `basic_settings_extended`
+ADD `product_fields` json NULL;
+
+ALTER TABLE `basic_settings_extended`
+ADD `product_variations` json NULL;
+
+ALTER TABLE `products`
+ADD `custom_fields` json NULL;
+
+ALTER TABLE `products`
+ADD `variation_data` json NULL;
+
+ALTER TABLE `products`
+ADD `variations` TEXT NULL;
+
+ALTER TABLE `products`
+ADD `sub_category` TEXT NULL;
+
+ALTER TABLE `products`
+ADD `pending_images_download` TEXT NULL;
+
+ALTER TABLE `products`
+ADD `sub_category_id` INT NULL;
+
+ALTER TABLE `products`
+ADD `sub_child_category_id` INT NULL;
+
+ALTER TABLE `products`
+ADD `show_in_page_builder` INT NOT NULL DEFAULT 0;
+
+ALTER TABLE `pcategories`
+ADD `is_child` INT NOT NULL DEFAULT 0;
+
+ALTER TABLE `pcategories`
+ADD `menu_level` INT NOT NULL DEFAULT 1;
+
+ALTER TABLE `pcategories`
+ADD `parent_menu_id` INT NULL;
+
+ALTER TABLE `pcategories`
+ADD `show_in_menu` INT NOT NULL DEFAULT 1;
+
+ALTER TABLE `menus`
+ADD `is_product` int(1) NOT NULL DEFAULT 0;
+
+ALTER TABLE `products`
+ADD `is_variation` int NOT NULL DEFAULT 0;
+
+ALTER TABLE `megamenus`
+ADD `subcat` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL;
+
+CREATE TABLE `child_categories` (
+ `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+ `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+ `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+ `language_id` int(11) NOT NULL DEFAULT '0',
+ `status` int(11) NOT NULL DEFAULT '1',
+ `is_feature` int(11) NOT NULL DEFAULT '0',
+ `created_at` timestamp NULL DEFAULT NULL,
+ `updated_at` timestamp NULL DEFAULT NULL,
+ PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `website_colors` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `element` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attribute` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Indexes for table `website_colors`
+--
+ALTER TABLE `website_colors`
+  ADD PRIMARY KEY (`id`);
+
+
+--
+-- AUTO_INCREMENT for table `website_colors`
+--
+ALTER TABLE `website_colors`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+
+
+--
+-- Indexes for table `tickets`
+--
+ALTER TABLE `tickets`
+  ADD KEY `tickets_product_id_index` (`product_id`);
+  
+
+--
+-- Constraints for table `tickets`
+--
+ALTER TABLE `tickets`
+  ADD CONSTRAINT `tickets_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON UPDATE CASCADE ON DELETE SET NULL;
+  
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_ticket`
+--
+
+CREATE TABLE `product_ticket` (
+  `id` bigint UNSIGNED NOT NULL,
+  `product_id` bigint UNSIGNED DEFAULT NULL,
+  `ticket_id` bigint UNSIGNED DEFAULT NULL,
+  `user_id` bigint UNSIGNED DEFAULT NULL,
+  `preferred_communication` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `whatsapp_number` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `product_ticket`
+--
+ALTER TABLE `product_ticket`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_ticket_product_id_index` (`product_id`),
+  ADD KEY `product_ticket_ticket_id_index` (`ticket_id`),
+  ADD KEY `product_ticket_user_id_index` (`user_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `product_ticket`
+--
+ALTER TABLE `product_ticket`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `product_ticket`
+--
+ALTER TABLE `product_ticket`
+  ADD CONSTRAINT `product_ticket_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `product_ticket_ticket_id_foreign` FOREIGN KEY (`ticket_id`) REFERENCES `tickets` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  ADD CONSTRAINT `product_ticket_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+
+  
+  
+  
+  
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `easy_forms`
+--
+
+CREATE TABLE `easy_forms` (
+  `id` bigint UNSIGNED NOT NULL,
+  `easy_form_server_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `easy_form_digital` text COLLATE utf8mb4_unicode_ci,
+  `easy_form_restricted` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `easy_forms`
+--
+ALTER TABLE `easy_forms`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `easy_forms`
+--
+ALTER TABLE `easy_forms`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  
+
+  
+  
+  
+  
+-- --------------------------------------------------------
+
+--
+-- ADD EXTRAS for table `users`
+--
+ALTER TABLE `users`
+  ADD `is_digital_system` boolean NULL DEFAULT false;
+  
+
+  
+  
+  
+  
+-- --------------------------------------------------------
+
+--
+-- ADD EXTRAS for table `tickets` 
+--
+ALTER TABLE `tickets`
+  ADD `digital_system_stack_trace` text NULL;
+  
+ALTER TABLE `tickets`
+  ADD `digital_system_user_id` bigInt NULL;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `countries`
+--
+
+CREATE TABLE `countries` (
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alpha_2_code` varchar(7) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'eg IN',
+  `alpha_3_code` varchar(7) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'eg IND',
+  `calling_codes` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'csv entries',
+  `alt_spellings` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'csv entries',
+  `region` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sub_region` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `demonym` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `timezones` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'csv entries',
+  `native_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '0' COMMENT 'only active countries will be visible to clients',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `countries`
+--
+
+INSERT INTO `countries` (`id`, `name`, `alpha_2_code`, `alpha_3_code`, `calling_codes`, `alt_spellings`, `region`, `sub_region`, `demonym`, `timezones`, `native_name`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Afghanistan', 'AF', 'AFG', '\"93\"', '\"AF,Af\\u0121\\u0101nist\\u0101n\"', 'Asia', 'Southern Asia', 'Afghan', '\"UTC+04:30\"', '\"\\u0627\\u0641\\u063a\\u0627\\u0646\\u0633\\u062a\\u0627\\u0646\"', 0, '2021-10-24 20:41:06', '2021-10-28 18:37:23'),
+(2, 'Åland Islands', 'AX', 'ALA', '\"358\"', '\"AX,Aaland,Aland,Ahvenanmaa\"', 'Europe', 'Northern Europe', 'Ålandish', '\"UTC+02:00\"', '\"\\u00c5land\"', 0, '2021-10-24 20:41:06', '2021-10-24 20:41:06'),
+(3, 'Albania', 'AL', 'ALB', '\"355\"', '\"AL,Shqip\\u00ebri,Shqip\\u00ebria,Shqipnia\"', 'Europe', 'Southern Europe', 'Albanian', '\"UTC+01:00\"', '\"Shqip\\u00ebria\"', 0, '2021-10-24 20:41:06', '2021-10-24 20:41:06'),
+(4, 'Algeria', 'DZ', 'DZA', '\"213\"', '\"DZ,Dzayer,Alg\\u00e9rie\"', 'Africa', 'Northern Africa', 'Algerian', '\"UTC+01:00\"', '\"\\u0627\\u0644\\u062c\\u0632\\u0627\\u0626\\u0631\"', 0, '2021-10-24 20:41:06', '2021-10-24 20:41:06'),
+(5, 'American Samoa', 'AS', 'ASM', '\"1684\"', '\"AS,Amerika S\\u0101moa,Amelika S\\u0101moa,S\\u0101moa Amelika\"', 'Oceania', 'Polynesia', 'American Samoan', '\"UTC-11:00\"', '\"American Samoa\"', 0, '2021-10-24 20:41:07', '2021-10-24 20:41:07'),
+(6, 'Andorra', 'AD', 'AND', '\"376\"', '\"AD,Principality of Andorra,Principat d\'Andorra\"', 'Europe', 'Southern Europe', 'Andorran', '\"UTC+01:00\"', '\"Andorra\"', 0, '2021-10-24 20:41:07', '2021-10-24 20:41:07'),
+(7, 'Angola', 'AO', 'AGO', '\"244\"', '\"AO,Rep\\u00fablica de Angola,\\u0281\\u025bpublika de an\'\\u0261\\u0254la\"', 'Africa', 'Middle Africa', 'Angolan', '\"UTC+01:00\"', '\"Angola\"', 0, '2021-10-24 20:41:07', '2021-10-24 20:41:07'),
+(8, 'Anguilla', 'AI', 'AIA', '\"1264\"', '\"AI\"', 'Americas', 'Caribbean', 'Anguillian', '\"UTC-04:00\"', '\"Anguilla\"', 0, '2021-10-24 20:41:07', '2021-10-24 20:41:07'),
+(9, 'Antarctica', 'AQ', 'ATA', '\"\"', '\"\"', 'Polar', '', '', '\"UTC-03:00,UTC+03:00,UTC+05:00,UTC+06:00,UTC+07:00,UTC+08:00,UTC+10:00,UTC+12:00\"', '\"Antarctica\"', 0, '2021-10-24 20:41:07', '2021-10-24 20:41:07'),
+(10, 'Antigua and Barbuda', 'AG', 'ATG', '\"1268\"', '\"AG\"', 'Americas', 'Caribbean', 'Antiguan, Barbudan', '\"UTC-04:00\"', '\"Antigua and Barbuda\"', 0, '2021-10-24 20:41:07', '2021-10-24 20:41:07'),
+(11, 'Argentina', 'AR', 'ARG', '\"54\"', '\"AR,Argentine Republic,Rep\\u00fablica Argentina\"', 'Americas', 'South America', 'Argentinean', '\"UTC-03:00\"', '\"Argentina\"', 0, '2021-10-24 20:41:07', '2021-10-24 20:41:07'),
+(12, 'Armenia', 'AM', 'ARM', '\"374\"', '\"AM,Hayastan,Republic of Armenia,\\u0540\\u0561\\u0575\\u0561\\u057d\\u057f\\u0561\\u0576\\u056b \\u0540\\u0561\\u0576\\u0580\\u0561\\u057a\\u0565\\u057f\\u0578\\u0582\\u0569\\u0575\\u0578\\u0582\\u0576\"', 'Asia', 'Western Asia', 'Armenian', '\"UTC+04:00\"', '\"\\u0540\\u0561\\u0575\\u0561\\u057d\\u057f\\u0561\\u0576\"', 0, '2021-10-24 20:41:08', '2021-10-24 20:41:08'),
+(13, 'Aruba', 'AW', 'ABW', '\"297\"', '\"AW\"', 'Americas', 'Caribbean', 'Aruban', '\"UTC-04:00\"', '\"Aruba\"', 0, '2021-10-24 20:41:08', '2021-10-24 20:41:08'),
+(14, 'Australia', 'AU', 'AUS', '\"61\"', '\"AU\"', 'Oceania', 'Australia and New Zealand', 'Australian', '\"UTC+05:00,UTC+06:30,UTC+07:00,UTC+08:00,UTC+09:30,UTC+10:00,UTC+10:30,UTC+11:30\"', '\"Australia\"', 0, '2021-10-24 20:41:08', '2021-10-24 20:41:08'),
+(15, 'Austria', 'AT', 'AUT', '\"43\"', '\"AT,\\u00d6sterreich,Osterreich,Oesterreich\"', 'Europe', 'Western Europe', 'Austrian', '\"UTC+01:00\"', '\"\\u00d6sterreich\"', 0, '2021-10-24 20:41:08', '2021-10-24 20:41:08'),
+(16, 'Azerbaijan', 'AZ', 'AZE', '\"994\"', '\"AZ,Republic of Azerbaijan,Az\\u0259rbaycan Respublikas\\u0131\"', 'Asia', 'Western Asia', 'Azerbaijani', '\"UTC+04:00\"', '\"Az\\u0259rbaycan\"', 0, '2021-10-24 20:41:08', '2021-10-24 20:41:08'),
+(17, 'The Bahamas', 'BS', 'BHS', '\"1242\"', '\"BS,Commonwealth of the Bahamas\"', 'Americas', 'Caribbean', 'Bahamian', '\"UTC-05:00\"', '\"Bahamas\"', 0, '2021-10-24 20:41:08', '2021-10-24 20:41:08'),
+(18, 'Bahrain', 'BH', 'BHR', '\"973\"', '\"BH,Kingdom of Bahrain,Mamlakat al-Ba\\u1e25rayn\"', 'Asia', 'Western Asia', 'Bahraini', '\"UTC+03:00\"', '\"\\u200f\\u0627\\u0644\\u0628\\u062d\\u0631\\u064a\\u0646\"', 0, '2021-10-24 20:41:08', '2021-10-24 20:41:08'),
+(19, 'Bangladesh', 'BD', 'BGD', '\"880\"', '\"BD,People\'s Republic of Bangladesh,G\\u00f4n\\u00f4pr\\u00f4jat\\u00f4ntri Bangladesh\"', 'Asia', 'Southern Asia', 'Bangladeshi', '\"UTC+06:00\"', '\"Bangladesh\"', 0, '2021-10-24 20:41:08', '2021-10-24 20:41:08'),
+(20, 'Barbados', 'BB', 'BRB', '\"1246\"', '\"BB\"', 'Americas', 'Caribbean', 'Barbadian', '\"UTC-04:00\"', '\"Barbados\"', 0, '2021-10-24 20:41:08', '2021-10-24 20:41:08'),
+(21, 'Belarus', 'BY', 'BLR', '\"375\"', '\"BY,Bielaru\\u015b,Republic of Belarus,\\u0411\\u0435\\u043b\\u043e\\u0440\\u0443\\u0441\\u0441\\u0438\\u044f,\\u0420\\u0435\\u0441\\u043f\\u0443\\u0431\\u043b\\u0438\\u043a\\u0430 \\u0411\\u0435\\u043b\\u0430\\u0440\\u0443\\u0441\\u044c,Belorussiya,Respublika Belarus\\u2019\"', 'Europe', 'Eastern Europe', 'Belarusian', '\"UTC+03:00\"', '\"\\u0411\\u0435\\u043b\\u0430\\u0440\\u0443\\u0301\\u0441\\u044c\"', 0, '2021-10-24 20:41:08', '2021-10-24 20:41:08'),
+(22, 'Belgium', 'BE', 'BEL', '\"32\"', '\"BE,Belgi\\u00eb,Belgie,Belgien,Belgique,Kingdom of Belgium,Koninkrijk Belgi\\u00eb,Royaume de Belgique,K\\u00f6nigreich Belgien\"', 'Europe', 'Western Europe', 'Belgian', '\"UTC+01:00\"', '\"Belgi\\u00eb\"', 0, '2021-10-24 20:41:09', '2021-10-24 20:41:09'),
+(23, 'Belize', 'BZ', 'BLZ', '\"501\"', '\"BZ\"', 'Americas', 'Central America', 'Belizean', '\"UTC-06:00\"', '\"Belize\"', 0, '2021-10-24 20:41:09', '2021-10-24 20:41:09'),
+(24, 'Benin', 'BJ', 'BEN', '\"229\"', '\"BJ,Republic of Benin,R\\u00e9publique du B\\u00e9nin\"', 'Africa', 'Western Africa', 'Beninese', '\"UTC+01:00\"', '\"B\\u00e9nin\"', 0, '2021-10-24 20:41:09', '2021-10-24 20:41:09'),
+(25, 'Bermuda', 'BM', 'BMU', '\"1441\"', '\"BM,The Islands of Bermuda,The Bermudas,Somers Isles\"', 'Americas', 'Northern America', 'Bermudian', '\"UTC-04:00\"', '\"Bermuda\"', 0, '2021-10-24 20:41:09', '2021-10-24 20:41:09'),
+(26, 'Bhutan', 'BT', 'BTN', '\"975\"', '\"BT,Kingdom of Bhutan\"', 'Asia', 'Southern Asia', 'Bhutanese', '\"UTC+06:00\"', '\"\\u02bcbrug-yul\"', 0, '2021-10-24 20:41:09', '2021-10-24 20:41:09'),
+(27, 'Bolivia', 'BO', 'BOL', '\"591\"', '\"BO,Buliwya,Wuliwya,Plurinational State of Bolivia,Estado Plurinacional de Bolivia,Buliwya Mamallaqta,Wuliwya Suyu,Tet\\u00e3 Vol\\u00edvia\"', 'Americas', 'South America', 'Bolivian', '\"UTC-04:00\"', '\"Bolivia\"', 0, '2021-10-24 20:41:09', '2021-10-24 20:41:09'),
+(28, 'Bonaire', 'BQ', 'BES', '\"5997\"', '\"BQ,Boneiru\"', 'Americas', 'Caribbean', 'Dutch', '\"UTC-04:00\"', '\"Bonaire\"', 0, '2021-10-24 20:41:09', '2021-10-24 20:41:09'),
+(29, 'Bosnia and Herzegovina', 'BA', 'BIH', '\"387\"', '\"BA,Bosnia-Herzegovina,\\u0411\\u043e\\u0441\\u043d\\u0430 \\u0438 \\u0425\\u0435\\u0440\\u0446\\u0435\\u0433\\u043e\\u0432\\u0438\\u043d\\u0430\"', 'Europe', 'Southern Europe', 'Bosnian, Herzegovinian', '\"UTC+01:00\"', '\"Bosna i Hercegovina\"', 1, '2021-10-24 20:41:09', '2021-10-28 18:36:40'),
+(30, 'Botswana', 'BW', 'BWA', '\"267\"', '\"BW,Republic of Botswana,Lefatshe la Botswana\"', 'Africa', 'Southern Africa', 'Motswana', '\"UTC+02:00\"', '\"Botswana\"', 0, '2021-10-24 20:41:09', '2021-10-24 20:41:09'),
+(31, 'Bouvet Island', 'BV', 'BVT', '\"\"', '\"BV,Bouvet\\u00f8ya,Bouvet-\\u00f8ya\"', '', '', '', '\"UTC+01:00\"', '\"Bouvet\\u00f8ya\"', 0, '2021-10-24 20:41:09', '2021-10-24 20:41:09'),
+(32, 'Brazil', 'BR', 'BRA', '\"55\"', '\"BR,Brasil,Federative Republic of Brazil,Rep\\u00fablica Federativa do Brasil\"', 'Americas', 'South America', 'Brazilian', '\"UTC-05:00,UTC-04:00,UTC-03:00,UTC-02:00\"', '\"Brasil\"', 0, '2021-10-24 20:41:10', '2021-10-24 20:41:10'),
+(33, 'British Indian Ocean Territory', 'IO', 'IOT', '\"246\"', '\"IO\"', 'Africa', 'Eastern Africa', 'Indian', '\"UTC+06:00\"', '\"British Indian Ocean Territory\"', 0, '2021-10-24 20:41:10', '2021-10-24 20:41:10'),
+(34, 'United States Minor Outlying Islands', 'UM', 'UMI', '\"\"', '\"UM\"', 'Americas', 'Northern America', 'American', '\"UTC-11:00,UTC-10:00,UTC+12:00\"', '\"United States Minor Outlying Islands\"', 0, '2021-10-24 20:41:10', '2021-10-28 18:06:10'),
+(35, 'Virgin Islands (British)', 'VG', 'VGB', '\"1284\"', '\"VG\"', 'Americas', 'Caribbean', 'Virgin Islander', '\"UTC-04:00\"', '\"British Virgin Islands\"', 0, '2021-10-24 20:41:10', '2021-10-24 20:41:10'),
+(36, 'Virgin Islands (U.S.)', 'VI', 'VIR', '\"1 340\"', '\"VI,USVI,American Virgin Islands,U.S. Virgin Islands\"', 'Americas', 'Caribbean', 'Virgin Islander', '\"UTC-04:00\"', '\"Virgin Islands of the United States\"', 0, '2021-10-24 20:41:10', '2021-10-24 20:41:10'),
+(37, 'Brunei', 'BN', 'BRN', '\"673\"', '\"BN,Nation of Brunei, the Abode of Peace\"', 'Asia', 'South-Eastern Asia', 'Bruneian', '\"UTC+08:00\"', '\"Negara Brunei Darussalam\"', 0, '2021-10-24 20:41:10', '2021-10-24 20:41:10'),
+(38, 'Bulgaria', 'BG', 'BGR', '\"359\"', '\"BG,Republic of Bulgaria,\\u0420\\u0435\\u043f\\u0443\\u0431\\u043b\\u0438\\u043a\\u0430 \\u0411\\u044a\\u043b\\u0433\\u0430\\u0440\\u0438\\u044f\"', 'Europe', 'Eastern Europe', 'Bulgarian', '\"UTC+02:00\"', '\"\\u0411\\u044a\\u043b\\u0433\\u0430\\u0440\\u0438\\u044f\"', 0, '2021-10-24 20:41:10', '2021-10-24 20:41:10'),
+(39, 'Burkina Faso', 'BF', 'BFA', '\"226\"', '\"BF\"', 'Africa', 'Western Africa', 'Burkinabe', '\"UTC\"', '\"Burkina Faso\"', 0, '2021-10-24 20:41:10', '2021-10-24 20:41:10'),
+(40, 'Burundi', 'BI', 'BDI', '\"257\"', '\"BI,Republic of Burundi,Republika y\'Uburundi,R\\u00e9publique du Burundi\"', 'Africa', 'Eastern Africa', 'Burundian', '\"UTC+02:00\"', '\"Burundi\"', 0, '2021-10-24 20:41:10', '2021-10-24 20:41:10'),
+(41, 'Cambodia', 'KH', 'KHM', '\"855\"', '\"KH,Kingdom of Cambodia\"', 'Asia', 'South-Eastern Asia', 'Cambodian', '\"UTC+07:00\"', '\"K\\u00e2mp\\u016dch\\u00e9a\"', 0, '2021-10-24 20:41:11', '2021-10-24 20:41:11'),
+(42, 'Cameroon', 'CM', 'CMR', '\"237\"', '\"CM,Republic of Cameroon,R\\u00e9publique du Cameroun\"', 'Africa', 'Middle Africa', 'Cameroonian', '\"UTC+01:00\"', '\"Cameroon\"', 0, '2021-10-24 20:41:11', '2021-10-24 20:41:11'),
+(43, 'Canada', 'CA', 'CAN', '\"1\"', '\"CA\"', 'Americas', 'Northern America', 'Canadian', '\"UTC-08:00,UTC-07:00,UTC-06:00,UTC-05:00,UTC-04:00,UTC-03:30\"', '\"Canada\"', 0, '2021-10-24 20:41:11', '2021-10-24 20:41:11'),
+(44, 'Cape Verde', 'CV', 'CPV', '\"238\"', '\"CV,Republic of Cabo Verde,Rep\\u00fablica de Cabo Verde\"', 'Africa', 'Western Africa', 'Cape Verdian', '\"UTC-01:00\"', '\"Cabo Verde\"', 0, '2021-10-24 20:41:11', '2021-10-24 20:41:11'),
+(45, 'Cayman Islands', 'KY', 'CYM', '\"1345\"', '\"KY\"', 'Americas', 'Caribbean', 'Caymanian', '\"UTC-05:00\"', '\"Cayman Islands\"', 0, '2021-10-24 20:41:11', '2021-10-24 20:41:11'),
+(46, 'Central African Republic', 'CF', 'CAF', '\"236\"', '\"CF,Central African Republic,R\\u00e9publique centrafricaine\"', 'Africa', 'Middle Africa', 'Central African', '\"UTC+01:00\"', '\"K\\u00f6d\\u00f6r\\u00f6s\\u00ease t\\u00ee B\\u00eaafr\\u00eeka\"', 0, '2021-10-24 20:41:11', '2021-10-24 20:41:11'),
+(47, 'Chad', 'TD', 'TCD', '\"235\"', '\"TD,Tchad,Republic of Chad,R\\u00e9publique du Tchad\"', 'Africa', 'Middle Africa', 'Chadian', '\"UTC+01:00\"', '\"Tchad\"', 0, '2021-10-24 20:41:11', '2021-10-24 20:41:11'),
+(48, 'Chile', 'CL', 'CHL', '\"56\"', '\"CL,Republic of Chile,Rep\\u00fablica de Chile\"', 'Americas', 'South America', 'Chilean', '\"UTC-06:00,UTC-04:00\"', '\"Chile\"', 0, '2021-10-24 20:41:11', '2021-10-24 20:41:11'),
+(49, 'China', 'CN', 'CHN', '\"86\"', '\"CN,Zh\\u014dnggu\\u00f3,Zhongguo,Zhonghua,People\'s Republic of China,\\u4e2d\\u534e\\u4eba\\u6c11\\u5171\\u548c\\u56fd,Zh\\u014dnghu\\u00e1 R\\u00e9nm\\u00edn G\\u00f2ngh\\u00e9gu\\u00f3\"', 'Asia', 'Eastern Asia', 'Chinese', '\"UTC+08:00\"', '\"\\u4e2d\\u56fd\"', 0, '2021-10-24 20:41:11', '2021-10-24 20:41:11'),
+(50, 'Christmas Island', 'CX', 'CXR', '\"61\"', '\"CX,Territory of Christmas Island\"', 'Oceania', 'Australia and New Zealand', 'Christmas Island', '\"UTC+07:00\"', '\"Christmas Island\"', 0, '2021-10-24 20:41:11', '2021-10-24 20:41:11'),
+(51, 'Cocos (Keeling) Islands', 'CC', 'CCK', '\"61\"', '\"CC,Territory of the Cocos (Keeling) Islands,Keeling Islands\"', 'Oceania', 'Australia and New Zealand', 'Cocos Islander', '\"UTC+06:30\"', '\"Cocos (Keeling) Islands\"', 0, '2021-10-24 20:41:12', '2021-10-24 20:41:12'),
+(52, 'Colombia', 'CO', 'COL', '\"57\"', '\"CO,Republic of Colombia,Rep\\u00fablica de Colombia\"', 'Americas', 'South America', 'Colombian', '\"UTC-05:00\"', '\"Colombia\"', 0, '2021-10-24 20:41:12', '2021-10-24 20:41:12'),
+(53, 'Comoros', 'KM', 'COM', '\"269\"', '\"KM,Union of the Comoros,Union des Comores,Udzima wa Komori,al-Itti\\u1e25\\u0101d al-Qumur\\u012b\"', 'Africa', 'Eastern Africa', 'Comoran', '\"UTC+03:00\"', '\"Komori\"', 0, '2021-10-24 20:41:12', '2021-10-24 20:41:12'),
+(54, 'Republic of the Congo', 'CG', 'COG', '\"242\"', '\"CG,Congo-Brazzaville\"', 'Africa', 'Middle Africa', 'Congolese', '\"UTC+01:00\"', '\"R\\u00e9publique du Congo\"', 0, '2021-10-24 20:41:12', '2021-10-24 20:41:12'),
+(55, 'Democratic Republic of the Congo', 'CD', 'COD', '\"243\"', '\"CD,DR Congo,Congo-Kinshasa,DRC\"', 'Africa', 'Middle Africa', 'Congolese', '\"UTC+01:00,UTC+02:00\"', '\"R\\u00e9publique d\\u00e9mocratique du Congo\"', 0, '2021-10-24 20:41:12', '2021-10-24 20:41:12'),
+(56, 'Cook Islands', 'CK', 'COK', '\"682\"', '\"CK,K\\u016bki \'\\u0100irani\"', 'Oceania', 'Polynesia', 'Cook Islander', '\"UTC-10:00\"', '\"Cook Islands\"', 0, '2021-10-24 20:41:12', '2021-10-24 20:41:12'),
+(57, 'Costa Rica', 'CR', 'CRI', '\"506\"', '\"CR,Republic of Costa Rica,Rep\\u00fablica de Costa Rica\"', 'Americas', 'Central America', 'Costa Rican', '\"UTC-06:00\"', '\"Costa Rica\"', 0, '2021-10-24 20:41:13', '2021-10-24 20:41:13'),
+(58, 'Croatia', 'HR', 'HRV', '\"385\"', '\"HR,Hrvatska,Republic of Croatia,Republika Hrvatska\"', 'Europe', 'Southern Europe', 'Croatian', '\"UTC+01:00\"', '\"Hrvatska\"', 0, '2021-10-24 20:41:13', '2021-10-24 20:41:13'),
+(59, 'Cuba', 'CU', 'CUB', '\"53\"', '\"CU,Republic of Cuba,Rep\\u00fablica de Cuba\"', 'Americas', 'Caribbean', 'Cuban', '\"UTC-05:00\"', '\"Cuba\"', 0, '2021-10-24 20:41:13', '2021-10-24 20:41:13'),
+(60, 'Curaçao', 'CW', 'CUW', '\"599\"', '\"CW,Curacao,K\\u00f2rsou,Country of Cura\\u00e7ao,Land Cura\\u00e7ao,Pais K\\u00f2rsou\"', 'Americas', 'Caribbean', 'Dutch', '\"UTC-04:00\"', '\"Cura\\u00e7ao\"', 0, '2021-10-24 20:41:13', '2021-10-24 20:41:13'),
+(61, 'Cyprus', 'CY', 'CYP', '\"357\"', '\"CY,K\\u00fdpros,K\\u0131br\\u0131s,Republic of Cyprus,\\u039a\\u03c5\\u03c0\\u03c1\\u03b9\\u03b1\\u03ba\\u03ae \\u0394\\u03b7\\u03bc\\u03bf\\u03ba\\u03c1\\u03b1\\u03c4\\u03af\\u03b1,K\\u0131br\\u0131s Cumhuriyeti\"', 'Europe', 'Southern Europe', 'Cypriot', '\"UTC+02:00\"', '\"\\u039a\\u03cd\\u03c0\\u03c1\\u03bf\\u03c2\"', 0, '2021-10-24 20:41:13', '2021-10-24 20:41:13'),
+(62, 'Czech Republic', 'CZ', 'CZE', '\"420\"', '\"CZ,\\u010cesk\\u00e1 republika,\\u010cesko\"', 'Europe', 'Eastern Europe', 'Czech', '\"UTC+01:00\"', '\"\\u010cesk\\u00e1 republika\"', 0, '2021-10-24 20:41:13', '2021-10-24 20:41:13'),
+(63, 'Denmark', 'DK', 'DNK', '\"45\"', '\"DK,Danmark,Kingdom of Denmark,Kongeriget Danmark\"', 'Europe', 'Northern Europe', 'Danish', '\"UTC-04:00,UTC-03:00,UTC-01:00,UTC,UTC+01:00\"', '\"Danmark\"', 0, '2021-10-24 20:41:13', '2021-10-24 20:41:13'),
+(64, 'Djibouti', 'DJ', 'DJI', '\"253\"', '\"DJ,Jabuuti,Gabuuti,Republic of Djibouti,R\\u00e9publique de Djibouti,Gabuutih Ummuuno,Jamhuuriyadda Jabuuti\"', 'Africa', 'Eastern Africa', 'Djibouti', '\"UTC+03:00\"', '\"Djibouti\"', 0, '2021-10-24 20:41:14', '2021-10-24 20:41:14'),
+(65, 'Dominica', 'DM', 'DMA', '\"1767\"', '\"DM,Dominique,Wai\\u2018tu kubuli,Commonwealth of Dominica\"', 'Americas', 'Caribbean', 'Dominican', '\"UTC-04:00\"', '\"Dominica\"', 0, '2021-10-24 20:41:14', '2021-10-24 20:41:14'),
+(66, 'Dominican Republic', 'DO', 'DOM', '\"1809,1829,1849\"', '\"DO\"', 'Americas', 'Caribbean', 'Dominican', '\"UTC-04:00\"', '\"Rep\\u00fablica Dominicana\"', 0, '2021-10-24 20:41:14', '2021-10-24 20:41:14'),
+(67, 'Ecuador', 'EC', 'ECU', '\"593\"', '\"EC,Republic of Ecuador,Rep\\u00fablica del Ecuador\"', 'Americas', 'South America', 'Ecuadorean', '\"UTC-06:00,UTC-05:00\"', '\"Ecuador\"', 0, '2021-10-24 20:41:14', '2021-10-24 20:41:14'),
+(68, 'Egypt', 'EG', 'EGY', '\"20\"', '\"EG,Arab Republic of Egypt\"', 'Africa', 'Northern Africa', 'Egyptian', '\"UTC+02:00\"', '\"\\u0645\\u0635\\u0631\\u200e\"', 0, '2021-10-24 20:41:14', '2021-10-24 20:41:14'),
+(69, 'El Salvador', 'SV', 'SLV', '\"503\"', '\"SV,Republic of El Salvador,Rep\\u00fablica de El Salvador\"', 'Americas', 'Central America', 'Salvadoran', '\"UTC-06:00\"', '\"El Salvador\"', 0, '2021-10-24 20:41:14', '2021-10-24 20:41:14'),
+(70, 'Equatorial Guinea', 'GQ', 'GNQ', '\"240\"', '\"GQ,Republic of Equatorial Guinea,Rep\\u00fablica de Guinea Ecuatorial,R\\u00e9publique de Guin\\u00e9e \\u00e9quatoriale,Rep\\u00fablica da Guin\\u00e9 Equatorial\"', 'Africa', 'Middle Africa', 'Equatorial Guinean', '\"UTC+01:00\"', '\"Guinea Ecuatorial\"', 0, '2021-10-24 20:41:14', '2021-10-24 20:41:14'),
+(71, 'Eritrea', 'ER', 'ERI', '\"291\"', '\"ER,State of Eritrea,\\u1203\\u1308\\u1228 \\u12a4\\u122d\\u1275\\u122b,Dawlat Iritriy\\u00e1,\\u02beErtr\\u0101,Iritriy\\u0101,\"', 'Africa', 'Eastern Africa', 'Eritrean', '\"UTC+03:00\"', '\"\\u12a4\\u122d\\u1275\\u122b\"', 0, '2021-10-24 20:41:14', '2021-10-24 20:41:14'),
+(72, 'Estonia', 'EE', 'EST', '\"372\"', '\"EE,Eesti,Republic of Estonia,Eesti Vabariik\"', 'Europe', 'Northern Europe', 'Estonian', '\"UTC+02:00\"', '\"Eesti\"', 0, '2021-10-24 20:41:15', '2021-10-24 20:41:15'),
+(73, 'Ethiopia', 'ET', 'ETH', '\"251\"', '\"ET,\\u02be\\u012aty\\u014d\\u1e57\\u1e57y\\u0101,Federal Democratic Republic of Ethiopia,\\u12e8\\u12a2\\u1275\\u12ee\\u1335\\u12eb \\u134c\\u12f4\\u122b\\u120b\\u12ca \\u12f2\\u121e\\u12ad\\u122b\\u1232\\u12eb\\u12ca \\u122a\\u1350\\u1265\\u120a\\u12ad\"', 'Africa', 'Eastern Africa', 'Ethiopian', '\"UTC+03:00\"', '\"\\u12a2\\u1275\\u12ee\\u1335\\u12eb\"', 0, '2021-10-24 20:41:15', '2021-10-24 20:41:15'),
+(74, 'Falkland Islands', 'FK', 'FLK', '\"500\"', '\"FK,Islas Malvinas\"', 'Americas', 'South America', 'Falkland Islander', '\"UTC-04:00\"', '\"Falkland Islands\"', 0, '2021-10-24 20:41:15', '2021-10-24 20:41:15'),
+(75, 'Faroe Islands', 'FO', 'FRO', '\"298\"', '\"FO,F\\u00f8royar,F\\u00e6r\\u00f8erne\"', 'Europe', 'Northern Europe', 'Faroese', '\"UTC+00:00\"', '\"F\\u00f8royar\"', 0, '2021-10-24 20:41:15', '2021-10-24 20:41:15'),
+(76, 'Fiji', 'FJ', 'FJI', '\"679\"', '\"FJ,Viti,Republic of Fiji,Matanitu ko Viti,Fij\\u012b Ga\\u1e47ar\\u0101jya\"', 'Oceania', 'Melanesia', 'Fijian', '\"UTC+12:00\"', '\"Fiji\"', 0, '2021-10-24 20:41:15', '2021-10-24 20:41:15'),
+(77, 'Finland', 'FI', 'FIN', '\"358\"', '\"FI,Suomi,Republic of Finland,Suomen tasavalta,Republiken Finland\"', 'Europe', 'Northern Europe', 'Finnish', '\"UTC+02:00\"', '\"Suomi\"', 0, '2021-10-24 20:41:15', '2021-10-24 20:41:15'),
+(78, 'France', 'FR', 'FRA', '\"33\"', '\"FR,French Republic,R\\u00e9publique fran\\u00e7aise\"', 'Europe', 'Western Europe', 'French', '\"UTC-10:00,UTC-09:30,UTC-09:00,UTC-08:00,UTC-04:00,UTC-03:00,UTC+01:00,UTC+03:00,UTC+04:00,UTC+05:00,UTC+11:00,UTC+12:00\"', '\"France\"', 0, '2021-10-24 20:41:15', '2021-10-24 20:41:15'),
+(79, 'French Guiana', 'GF', 'GUF', '\"594\"', '\"GF,Guiana,Guyane\"', 'Americas', 'South America', '', '\"UTC-03:00\"', '\"Guyane fran\\u00e7aise\"', 0, '2021-10-24 20:41:15', '2021-10-24 20:41:15'),
+(80, 'French Polynesia', 'PF', 'PYF', '\"689\"', '\"PF,Polyn\\u00e9sie fran\\u00e7aise,French Polynesia,P\\u014dr\\u012bnetia Far\\u0101ni\"', 'Oceania', 'Polynesia', 'French Polynesian', '\"UTC-10:00,UTC-09:30,UTC-09:00\"', '\"Polyn\\u00e9sie fran\\u00e7aise\"', 0, '2021-10-24 20:41:16', '2021-10-24 20:41:16'),
+(81, 'French Southern and Antarctic Lands', 'TF', 'ATF', '\"\"', '\"TF\"', 'Africa', 'Southern Africa', 'French', '\"UTC+05:00\"', '\"Territoire des Terres australes et antarctiques fran\\u00e7aises\"', 0, '2021-10-24 20:41:16', '2021-10-24 20:41:16'),
+(82, 'Gabon', 'GA', 'GAB', '\"241\"', '\"GA,Gabonese Republic,R\\u00e9publique Gabonaise\"', 'Africa', 'Middle Africa', 'Gabonese', '\"UTC+01:00\"', '\"Gabon\"', 0, '2021-10-24 20:41:16', '2021-10-24 20:41:16'),
+(83, 'The Gambia', 'GM', 'GMB', '\"220\"', '\"GM,Republic of the Gambia\"', 'Africa', 'Western Africa', 'Gambian', '\"UTC+00:00\"', '\"Gambia\"', 0, '2021-10-24 20:41:16', '2021-10-24 20:41:16'),
+(84, 'Georgia', 'GE', 'GEO', '\"995\"', '\"GE,Sakartvelo\"', 'Asia', 'Western Asia', 'Georgian', '\"UTC-05:00\"', '\"\\u10e1\\u10d0\\u10e5\\u10d0\\u10e0\\u10d7\\u10d5\\u10d4\\u10da\\u10dd\"', 0, '2021-10-24 20:41:16', '2021-10-24 20:41:16'),
+(85, 'Germany', 'DE', 'DEU', '\"49\"', '\"DE,Federal Republic of Germany,Bundesrepublik Deutschland\"', 'Europe', 'Western Europe', 'German', '\"UTC+01:00\"', '\"Deutschland\"', 0, '2021-10-24 20:41:16', '2021-10-24 20:41:16'),
+(86, 'Ghana', 'GH', 'GHA', '\"233\"', '\"GH\"', 'Africa', 'Western Africa', 'Ghanaian', '\"UTC\"', '\"Ghana\"', 0, '2021-10-24 20:41:16', '2021-10-24 20:41:16'),
+(87, 'Gibraltar', 'GI', 'GIB', '\"350\"', '\"GI\"', 'Europe', 'Southern Europe', 'Gibraltar', '\"UTC+01:00\"', '\"Gibraltar\"', 0, '2021-10-24 20:41:16', '2021-10-24 20:41:16'),
+(88, 'Greece', 'GR', 'GRC', '\"30\"', '\"GR,Ell\\u00e1da,Hellenic Republic,\\u0395\\u03bb\\u03bb\\u03b7\\u03bd\\u03b9\\u03ba\\u03ae \\u0394\\u03b7\\u03bc\\u03bf\\u03ba\\u03c1\\u03b1\\u03c4\\u03af\\u03b1\"', 'Europe', 'Southern Europe', 'Greek', '\"UTC+02:00\"', '\"\\u0395\\u03bb\\u03bb\\u03ac\\u03b4\\u03b1\"', 0, '2021-10-24 20:41:17', '2021-10-24 20:41:17'),
+(89, 'Greenland', 'GL', 'GRL', '\"299\"', '\"GL,Gr\\u00f8nland\"', 'Americas', 'Northern America', 'Greenlandic', '\"UTC-04:00,UTC-03:00,UTC-01:00,UTC+00:00\"', '\"Kalaallit Nunaat\"', 0, '2021-10-24 20:41:17', '2021-10-24 20:41:17'),
+(90, 'Grenada', 'GD', 'GRD', '\"1473\"', '\"GD\"', 'Americas', 'Caribbean', 'Grenadian', '\"UTC-04:00\"', '\"Grenada\"', 0, '2021-10-24 20:41:17', '2021-10-24 20:41:17'),
+(91, 'Guadeloupe', 'GP', 'GLP', '\"590\"', '\"GP,Gwadloup\"', 'Americas', 'Caribbean', 'Guadeloupian', '\"UTC-04:00\"', '\"Guadeloupe\"', 0, '2021-10-24 20:41:17', '2021-10-24 20:41:17'),
+(92, 'Guam', 'GU', 'GUM', '\"1671\"', '\"GU,Gu\\u00e5h\\u00e5n\"', 'Oceania', 'Micronesia', 'Guamanian', '\"UTC+10:00\"', '\"Guam\"', 0, '2021-10-24 20:41:17', '2021-10-24 20:41:17'),
+(93, 'Guatemala', 'GT', 'GTM', '\"502\"', '\"GT\"', 'Americas', 'Central America', 'Guatemalan', '\"UTC-06:00\"', '\"Guatemala\"', 0, '2021-10-24 20:41:17', '2021-10-24 20:41:17'),
+(94, 'Guernsey', 'GG', 'GGY', '\"44\"', '\"GG,Bailiwick of Guernsey,Bailliage de Guernesey\"', 'Europe', 'Northern Europe', 'Channel Islander', '\"UTC+00:00\"', '\"Guernsey\"', 0, '2021-10-24 20:41:18', '2021-10-24 20:41:18'),
+(95, 'Guinea', 'GN', 'GIN', '\"224\"', '\"GN,Republic of Guinea,R\\u00e9publique de Guin\\u00e9e\"', 'Africa', 'Western Africa', 'Guinean', '\"UTC\"', '\"Guin\\u00e9e\"', 0, '2021-10-24 20:41:18', '2021-10-24 20:41:18'),
+(96, 'Guinea-Bissau', 'GW', 'GNB', '\"245\"', '\"GW,Republic of Guinea-Bissau,Rep\\u00fablica da Guin\\u00e9-Bissau\"', 'Africa', 'Western Africa', 'Guinea-Bissauan', '\"UTC\"', '\"Guin\\u00e9-Bissau\"', 0, '2021-10-24 20:41:19', '2021-10-24 20:41:19'),
+(97, 'Guyana', 'GY', 'GUY', '\"592\"', '\"GY,Co-operative Republic of Guyana\"', 'Americas', 'South America', 'Guyanese', '\"UTC-04:00\"', '\"Guyana\"', 0, '2021-10-24 20:41:19', '2021-10-24 20:41:19'),
+(98, 'Haiti', 'HT', 'HTI', '\"509\"', '\"HT,Republic of Haiti,R\\u00e9publique d\'Ha\\u00efti,Repiblik Ayiti\"', 'Americas', 'Caribbean', 'Haitian', '\"UTC-05:00\"', '\"Ha\\u00efti\"', 0, '2021-10-24 20:41:19', '2021-10-24 20:41:19'),
+(99, 'Heard Island and McDonald Islands', 'HM', 'HMD', '\"\"', '\"HM\"', '', '', 'Heard and McDonald Islander', '\"UTC+05:00\"', '\"Heard Island and McDonald Islands\"', 0, '2021-10-24 20:41:19', '2021-10-24 20:41:19'),
+(100, 'Holy See', 'VA', 'VAT', '\"379\"', '\"Sancta Sedes,Vatican,The Vatican\"', 'Europe', 'Southern Europe', '', '\"UTC+01:00\"', '\"Sancta Sedes\"', 0, '2021-10-24 20:41:19', '2021-10-24 20:41:19'),
+(101, 'Honduras', 'HN', 'HND', '\"504\"', '\"HN,Republic of Honduras,Rep\\u00fablica de Honduras\"', 'Americas', 'Central America', 'Honduran', '\"UTC-06:00\"', '\"Honduras\"', 0, '2021-10-24 20:41:19', '2021-10-24 20:41:19'),
+(102, 'Hong Kong', 'HK', 'HKG', '\"852\"', '\"HK,\\u9999\\u6e2f\"', 'Asia', 'Eastern Asia', 'Chinese', '\"UTC+08:00\"', '\"\\u9999\\u6e2f\"', 0, '2021-10-24 20:41:20', '2021-10-24 20:41:20'),
+(103, 'Hungary', 'HU', 'HUN', '\"36\"', '\"HU\"', 'Europe', 'Eastern Europe', 'Hungarian', '\"UTC+01:00\"', '\"Magyarorsz\\u00e1g\"', 0, '2021-10-24 20:41:20', '2021-10-24 20:41:20'),
+(104, 'Iceland', 'IS', 'ISL', '\"354\"', '\"IS,Island,Republic of Iceland,L\\u00fd\\u00f0veldi\\u00f0 \\u00cdsland\"', 'Europe', 'Northern Europe', 'Icelander', '\"UTC\"', '\"\\u00cdsland\"', 0, '2021-10-24 20:41:20', '2021-10-24 20:41:20'),
+(105, 'India', 'IN', 'IND', '\"91\"', '\"IN,Bh\\u0101rat,Republic of India,Bharat Ganrajya\"', 'Asia', 'Southern Asia', 'Indian', '\"UTC+05:30\"', '\"\\u092d\\u093e\\u0930\\u0924\"', 0, '2021-10-24 20:41:20', '2021-10-24 20:41:20'),
+(106, 'Indonesia', 'ID', 'IDN', '\"62\"', '\"ID,Republic of Indonesia,Republik Indonesia\"', 'Asia', 'South-Eastern Asia', 'Indonesian', '\"UTC+07:00,UTC+08:00,UTC+09:00\"', '\"Indonesia\"', 0, '2021-10-24 20:41:20', '2021-10-24 20:41:20'),
+(107, 'Ivory Coast', 'CI', 'CIV', '\"225\"', '\"CI,Ivory Coast,Republic of C\\u00f4te d\'Ivoire,R\\u00e9publique de C\\u00f4te d\'Ivoire\"', 'Africa', 'Western Africa', 'Ivorian', '\"UTC\"', '\"C\\u00f4te d\'Ivoire\"', 0, '2021-10-24 20:41:21', '2021-10-24 20:41:21'),
+(108, 'Iran', 'IR', 'IRN', '\"98\"', '\"IR,Islamic Republic of Iran,Jomhuri-ye Esl\\u0101mi-ye Ir\\u0101n\"', 'Asia', 'Southern Asia', 'Iranian', '\"UTC+03:30\"', '\"\\u0627\\u06cc\\u0631\\u0627\\u0646\"', 0, '2021-10-24 20:41:21', '2021-10-24 20:41:21'),
+(109, 'Iraq', 'IQ', 'IRQ', '\"964\"', '\"IQ,Republic of Iraq,Jumh\\u016briyyat al-\\u2018Ir\\u0101q\"', 'Asia', 'Western Asia', 'Iraqi', '\"UTC+03:00\"', '\"\\u0627\\u0644\\u0639\\u0631\\u0627\\u0642\"', 0, '2021-10-24 20:41:21', '2021-10-24 20:41:21'),
+(110, 'Republic of Ireland', 'IE', 'IRL', '\"353\"', '\"IE,\\u00c9ire,Republic of Ireland,Poblacht na h\\u00c9ireann\"', 'Europe', 'Northern Europe', 'Irish', '\"UTC\"', '\"\\u00c9ire\"', 0, '2021-10-24 20:41:21', '2021-10-24 20:41:21'),
+(111, 'Isle of Man', 'IM', 'IMN', '\"44\"', '\"IM,Ellan Vannin,Mann,Mannin\"', 'Europe', 'Northern Europe', 'Manx', '\"UTC+00:00\"', '\"Isle of Man\"', 0, '2021-10-24 20:41:21', '2021-10-24 20:41:21'),
+(112, 'Israel', 'IL', 'ISR', '\"972\"', '\"IL,State of Israel,Med\\u012bnat Yisr\\u0101\'el\"', 'Asia', 'Western Asia', 'Israeli', '\"UTC+02:00\"', '\"\\u05d9\\u05b4\\u05e9\\u05b0\\u05c2\\u05e8\\u05b8\\u05d0\\u05b5\\u05dc\"', 0, '2021-10-24 20:41:22', '2021-10-24 20:41:22'),
+(113, 'Italy', 'IT', 'ITA', '\"39\"', '\"IT,Italian Republic,Repubblica italiana\"', 'Europe', 'Southern Europe', 'Italian', '\"UTC+01:00\"', '\"Italia\"', 0, '2021-10-24 20:41:22', '2021-10-24 20:41:22'),
+(114, 'Jamaica', 'JM', 'JAM', '\"1876\"', '\"JM\"', 'Americas', 'Caribbean', 'Jamaican', '\"UTC-05:00\"', '\"Jamaica\"', 0, '2021-10-24 20:41:22', '2021-10-24 20:41:22'),
+(115, 'Japan', 'JP', 'JPN', '\"81\"', '\"JP,Nippon,Nihon\"', 'Asia', 'Eastern Asia', 'Japanese', '\"UTC+09:00\"', '\"\\u65e5\\u672c\"', 0, '2021-10-24 20:41:22', '2021-10-24 20:41:22'),
+(116, 'Jersey', 'JE', 'JEY', '\"44\"', '\"JE,Bailiwick of Jersey,Bailliage de Jersey,Bailliage d\\u00e9 J\\u00e8rri\"', 'Europe', 'Northern Europe', 'Channel Islander', '\"UTC+01:00\"', '\"Jersey\"', 0, '2021-10-24 20:41:23', '2021-10-24 20:41:23'),
+(117, 'Jordan', 'JO', 'JOR', '\"962\"', '\"JO,Hashemite Kingdom of Jordan,al-Mamlakah al-Urdun\\u012byah al-H\\u0101shim\\u012byah\"', 'Asia', 'Western Asia', 'Jordanian', '\"UTC+03:00\"', '\"\\u0627\\u0644\\u0623\\u0631\\u062f\\u0646\"', 0, '2021-10-24 20:41:23', '2021-10-24 20:41:23'),
+(118, 'Kazakhstan', 'KZ', 'KAZ', '\"76,77\"', '\"KZ,Qazaqstan,\\u041a\\u0430\\u0437\\u0430\\u0445\\u0441\\u0442\\u0430\\u043d,Republic of Kazakhstan,\\u049a\\u0430\\u0437\\u0430\\u049b\\u0441\\u0442\\u0430\\u043d \\u0420\\u0435\\u0441\\u043f\\u0443\\u0431\\u043b\\u0438\\u043a\\u0430\\u0441\\u044b,Qazaqstan Respubl\\u00efkas\\u0131,\\u', 'Asia', 'Central Asia', 'Kazakhstani', '\"UTC+05:00,UTC+06:00\"', '\"\\u049a\\u0430\\u0437\\u0430\\u049b\\u0441\\u0442\\u0430\\u043d\"', 0, '2021-10-24 20:41:23', '2021-10-24 20:41:23'),
+(119, 'Kenya', 'KE', 'KEN', '\"254\"', '\"KE,Republic of Kenya,Jamhuri ya Kenya\"', 'Africa', 'Eastern Africa', 'Kenyan', '\"UTC+03:00\"', '\"Kenya\"', 1, '2021-10-24 20:41:23', '2021-10-28 18:05:59'),
+(120, 'Kiribati', 'KI', 'KIR', '\"686\"', '\"KI,Republic of Kiribati,Ribaberiki Kiribati\"', 'Oceania', 'Micronesia', 'I-Kiribati', '\"UTC+12:00,UTC+13:00,UTC+14:00\"', '\"Kiribati\"', 0, '2021-10-24 20:41:24', '2021-10-24 20:41:24'),
+(121, 'Kuwait', 'KW', 'KWT', '\"965\"', '\"KW,State of Kuwait,Dawlat al-Kuwait\"', 'Asia', 'Western Asia', 'Kuwaiti', '\"UTC+03:00\"', '\"\\u0627\\u0644\\u0643\\u0648\\u064a\\u062a\"', 0, '2021-10-24 20:41:24', '2021-10-24 20:41:24'),
+(122, 'Kyrgyzstan', 'KG', 'KGZ', '\"996\"', '\"KG,\\u041a\\u0438\\u0440\\u0433\\u0438\\u0437\\u0438\\u044f,Kyrgyz Republic,\\u041a\\u044b\\u0440\\u0433\\u044b\\u0437 \\u0420\\u0435\\u0441\\u043f\\u0443\\u0431\\u043b\\u0438\\u043a\\u0430\\u0441\\u044b,Kyrgyz Respublikasy\"', 'Asia', 'Central Asia', 'Kirghiz', '\"UTC+06:00\"', '\"\\u041a\\u044b\\u0440\\u0433\\u044b\\u0437\\u0441\\u0442\\u0430\\u043d\"', 0, '2021-10-24 20:41:24', '2021-10-24 20:41:24'),
+(123, 'Laos', 'LA', 'LAO', '\"856\"', '\"LA,Lao,Lao People\'s Democratic Republic,Sathalanalat Paxathipatai Paxaxon Lao\"', 'Asia', 'South-Eastern Asia', 'Laotian', '\"UTC+07:00\"', '\"\\u0eaa\\u0e9b\\u0e9b\\u0ea5\\u0eb2\\u0ea7\"', 0, '2021-10-24 20:41:24', '2021-10-24 20:41:24'),
+(124, 'Latvia', 'LV', 'LVA', '\"371\"', '\"LV,Republic of Latvia,Latvijas Republika\"', 'Europe', 'Northern Europe', 'Latvian', '\"UTC+02:00\"', '\"Latvija\"', 0, '2021-10-24 20:41:24', '2021-10-24 20:41:24'),
+(125, 'Lebanon', 'LB', 'LBN', '\"961\"', '\"LB,Lebanese Republic,Al-Jumh\\u016br\\u012byah Al-Libn\\u0101n\\u012byah\"', 'Asia', 'Western Asia', 'Lebanese', '\"UTC+02:00\"', '\"\\u0644\\u0628\\u0646\\u0627\\u0646\"', 0, '2021-10-24 20:41:25', '2021-10-24 20:41:25'),
+(126, 'Lesotho', 'LS', 'LSO', '\"266\"', '\"LS,Kingdom of Lesotho,Muso oa Lesotho\"', 'Africa', 'Southern Africa', 'Mosotho', '\"UTC+02:00\"', '\"Lesotho\"', 0, '2021-10-24 20:41:25', '2021-10-24 20:41:25'),
+(127, 'Liberia', 'LR', 'LBR', '\"231\"', '\"LR,Republic of Liberia\"', 'Africa', 'Western Africa', 'Liberian', '\"UTC\"', '\"Liberia\"', 0, '2021-10-24 20:41:25', '2021-10-24 20:41:25'),
+(128, 'Libya', 'LY', 'LBY', '\"218\"', '\"LY,State of Libya,Dawlat Libya\"', 'Africa', 'Northern Africa', 'Libyan', '\"UTC+01:00\"', '\"\\u200f\\u0644\\u064a\\u0628\\u064a\\u0627\"', 0, '2021-10-24 20:41:25', '2021-10-24 20:41:25'),
+(129, 'Liechtenstein', 'LI', 'LIE', '\"423\"', '\"LI,Principality of Liechtenstein,F\\u00fcrstentum Liechtenstein\"', 'Europe', 'Western Europe', 'Liechtensteiner', '\"UTC+01:00\"', '\"Liechtenstein\"', 0, '2021-10-24 20:41:25', '2021-10-24 20:41:25'),
+(130, 'Lithuania', 'LT', 'LTU', '\"370\"', '\"LT,Republic of Lithuania,Lietuvos Respublika\"', 'Europe', 'Northern Europe', 'Lithuanian', '\"UTC+02:00\"', '\"Lietuva\"', 0, '2021-10-24 20:41:25', '2021-10-24 20:41:25'),
+(131, 'Luxembourg', 'LU', 'LUX', '\"352\"', '\"LU,Grand Duchy of Luxembourg,Grand-Duch\\u00e9 de Luxembourg,Gro\\u00dfherzogtum Luxemburg,Groussherzogtum L\\u00ebtzebuerg\"', 'Europe', 'Western Europe', 'Luxembourger', '\"UTC+01:00\"', '\"Luxembourg\"', 0, '2021-10-24 20:41:25', '2021-10-24 20:41:25'),
+(132, 'Macau', 'MO', 'MAC', '\"853\"', '\"MO,\\u6fb3\\u95e8,Macao Special Administrative Region of the People\'s Republic of China,\\u4e2d\\u83ef\\u4eba\\u6c11\\u5171\\u548c\\u570b\\u6fb3\\u9580\\u7279\\u5225\\u884c\\u653f\\u5340,Regi\\u00e3o Administrativa Especial de Macau da Rep\\u00fablica Popular da China\"', 'Asia', 'Eastern Asia', 'Chinese', '\"UTC+08:00\"', '\"\\u6fb3\\u9580\"', 0, '2021-10-24 20:41:25', '2021-10-24 20:41:25'),
+(133, 'Republic of Macedonia', 'MK', 'MKD', '\"389\"', '\"MK,Republic of Macedonia,\\u0420\\u0435\\u043f\\u0443\\u0431\\u043b\\u0438\\u043a\\u0430 \\u041c\\u0430\\u043a\\u0435\\u0434\\u043e\\u043d\\u0438\\u0458\\u0430\"', 'Europe', 'Southern Europe', 'Macedonian', '\"UTC+01:00\"', '\"\\u041c\\u0430\\u043a\\u0435\\u0434\\u043e\\u043d\\u0438\\u0458\\u0430\"', 0, '2021-10-24 20:41:25', '2021-10-24 20:41:25'),
+(134, 'Madagascar', 'MG', 'MDG', '\"261\"', '\"MG,Republic of Madagascar,Repoblikan\'i Madagasikara,R\\u00e9publique de Madagascar\"', 'Africa', 'Eastern Africa', 'Malagasy', '\"UTC+03:00\"', '\"Madagasikara\"', 0, '2021-10-24 20:41:25', '2021-10-24 20:41:25'),
+(135, 'Malawi', 'MW', 'MWI', '\"265\"', '\"MW,Republic of Malawi\"', 'Africa', 'Eastern Africa', 'Malawian', '\"UTC+02:00\"', '\"Malawi\"', 0, '2021-10-24 20:41:26', '2021-10-24 20:41:26'),
+(136, 'Malaysia', 'MY', 'MYS', '\"60\"', '\"MY\"', 'Asia', 'South-Eastern Asia', 'Malaysian', '\"UTC+08:00\"', '\"Malaysia\"', 0, '2021-10-24 20:41:26', '2021-10-24 20:41:26'),
+(137, 'Maldives', 'MV', 'MDV', '\"960\"', '\"MV,Maldive Islands,Republic of the Maldives,Dhivehi Raajjeyge Jumhooriyya\"', 'Asia', 'Southern Asia', 'Maldivan', '\"UTC+05:00\"', '\"Maldives\"', 0, '2021-10-24 20:41:26', '2021-10-24 20:41:26'),
+(138, 'Mali', 'ML', 'MLI', '\"223\"', '\"ML,Republic of Mali,R\\u00e9publique du Mali\"', 'Africa', 'Western Africa', 'Malian', '\"UTC\"', '\"Mali\"', 0, '2021-10-24 20:41:26', '2021-10-24 20:41:26'),
+(139, 'Malta', 'MT', 'MLT', '\"356\"', '\"MT,Republic of Malta,Repubblika ta\' Malta\"', 'Europe', 'Southern Europe', 'Maltese', '\"UTC+01:00\"', '\"Malta\"', 0, '2021-10-24 20:41:26', '2021-10-24 20:41:26'),
+(140, 'Marshall Islands', 'MH', 'MHL', '\"692\"', '\"MH,Republic of the Marshall Islands,Aolep\\u0101n Aor\\u014dkin M\\u0327aje\\u013c\"', 'Oceania', 'Micronesia', 'Marshallese', '\"UTC+12:00\"', '\"M\\u0327aje\\u013c\"', 0, '2021-10-24 20:41:26', '2021-10-24 20:41:26'),
+(141, 'Martinique', 'MQ', 'MTQ', '\"596\"', '\"MQ\"', 'Americas', 'Caribbean', 'French', '\"UTC-04:00\"', '\"Martinique\"', 0, '2021-10-24 20:41:26', '2021-10-24 20:41:26'),
+(142, 'Mauritania', 'MR', 'MRT', '\"222\"', '\"MR,Islamic Republic of Mauritania,al-Jumh\\u016briyyah al-\\u02beIsl\\u0101miyyah al-M\\u016br\\u012bt\\u0101niyyah\"', 'Africa', 'Western Africa', 'Mauritanian', '\"UTC\"', '\"\\u0645\\u0648\\u0631\\u064a\\u062a\\u0627\\u0646\\u064a\\u0627\"', 0, '2021-10-24 20:41:26', '2021-10-24 20:41:26'),
+(143, 'Mauritius', 'MU', 'MUS', '\"230\"', '\"MU,Republic of Mauritius,R\\u00e9publique de Maurice\"', 'Africa', 'Eastern Africa', 'Mauritian', '\"UTC+04:00\"', '\"Maurice\"', 0, '2021-10-24 20:41:26', '2021-10-24 20:41:26'),
+(144, 'Mayotte', 'YT', 'MYT', '\"262\"', '\"YT,Department of Mayotte,D\\u00e9partement de Mayotte\"', 'Africa', 'Eastern Africa', 'French', '\"UTC+03:00\"', '\"Mayotte\"', 0, '2021-10-24 20:41:26', '2021-10-24 20:41:26'),
+(145, 'Mexico', 'MX', 'MEX', '\"52\"', '\"MX,Mexicanos,United Mexican States,Estados Unidos Mexicanos\"', 'Americas', 'Central America', 'Mexican', '\"UTC-08:00,UTC-07:00,UTC-06:00\"', '\"M\\u00e9xico\"', 0, '2021-10-24 20:41:27', '2021-10-24 20:41:27'),
+(146, 'Federated States of Micronesia', 'FM', 'FSM', '\"691\"', '\"FM,Federated States of Micronesia\"', 'Oceania', 'Micronesia', 'Micronesian', '\"UTC+10:00,UTC+11\"', '\"Micronesia\"', 0, '2021-10-24 20:41:27', '2021-10-24 20:41:27'),
+(147, 'Moldova', 'MD', 'MDA', '\"373\"', '\"MD,Republic of Moldova,Republica Moldova\"', 'Europe', 'Eastern Europe', 'Moldovan', '\"UTC+02:00\"', '\"Moldova\"', 0, '2021-10-24 20:41:27', '2021-10-24 20:41:27'),
+(148, 'Monaco', 'MC', 'MCO', '\"377\"', '\"MC,Principality of Monaco,Principaut\\u00e9 de Monaco\"', 'Europe', 'Western Europe', 'Monegasque', '\"UTC+01:00\"', '\"Monaco\"', 0, '2021-10-24 20:41:27', '2021-10-24 20:41:27'),
+(149, 'Mongolia', 'MN', 'MNG', '\"976\"', '\"MN\"', 'Asia', 'Eastern Asia', 'Mongolian', '\"UTC+07:00,UTC+08:00\"', '\"\\u041c\\u043e\\u043d\\u0433\\u043e\\u043b \\u0443\\u043b\\u0441\"', 0, '2021-10-24 20:41:27', '2021-10-24 20:41:27'),
+(150, 'Montenegro', 'ME', 'MNE', '\"382\"', '\"ME,Crna Gora\"', 'Europe', 'Southern Europe', 'Montenegrin', '\"UTC+01:00\"', '\"\\u0426\\u0440\\u043d\\u0430 \\u0413\\u043e\\u0440\\u0430\"', 0, '2021-10-24 20:41:27', '2021-10-24 20:41:27'),
+(151, 'Montserrat', 'MS', 'MSR', '\"1664\"', '\"MS\"', 'Americas', 'Caribbean', 'Montserratian', '\"UTC-04:00\"', '\"Montserrat\"', 0, '2021-10-24 20:41:27', '2021-10-24 20:41:27'),
+(152, 'Morocco', 'MA', 'MAR', '\"212\"', '\"MA,Kingdom of Morocco,Al-Mamlakah al-Ma\\u0121ribiyah\"', 'Africa', 'Northern Africa', 'Moroccan', '\"UTC\"', '\"\\u0627\\u0644\\u0645\\u063a\\u0631\\u0628\"', 0, '2021-10-24 20:41:27', '2021-10-24 20:41:27'),
+(153, 'Mozambique', 'MZ', 'MOZ', '\"258\"', '\"MZ,Republic of Mozambique,Rep\\u00fablica de Mo\\u00e7ambique\"', 'Africa', 'Eastern Africa', 'Mozambican', '\"UTC+02:00\"', '\"Mo\\u00e7ambique\"', 0, '2021-10-24 20:41:27', '2021-10-24 20:41:27'),
+(154, 'Myanmar', 'MM', 'MMR', '\"95\"', '\"MM,Burma,Republic of the Union of Myanmar,Pyidaunzu Thanm\\u0103da My\\u0103ma Nainngandaw\"', 'Asia', 'South-Eastern Asia', 'Burmese', '\"UTC+06:30\"', '\"Myanma\"', 0, '2021-10-24 20:41:27', '2021-10-24 20:41:27'),
+(155, 'Namibia', 'NA', 'NAM', '\"264\"', '\"NA,Namibi\\u00eb,Republic of Namibia\"', 'Africa', 'Southern Africa', 'Namibian', '\"UTC+01:00\"', '\"Namibia\"', 0, '2021-10-24 20:41:28', '2021-10-24 20:41:28'),
+(156, 'Nauru', 'NR', 'NRU', '\"674\"', '\"NR,Naoero,Pleasant Island,Republic of Nauru,Ripublik Naoero\"', 'Oceania', 'Micronesia', 'Nauruan', '\"UTC+12:00\"', '\"Nauru\"', 0, '2021-10-24 20:41:28', '2021-10-24 20:41:28'),
+(157, 'Nepal', 'NP', 'NPL', '\"977\"', '\"NP,Federal Democratic Republic of Nepal,Lokt\\u0101ntrik Ganatantra Nep\\u0101l\"', 'Asia', 'Southern Asia', 'Nepalese', '\"UTC+05:45\"', '\"\\u0928\\u0947\\u092a\\u093e\\u0932\"', 0, '2021-10-24 20:41:28', '2021-10-24 20:41:28'),
+(158, 'Netherlands', 'NL', 'NLD', '\"31\"', '\"NL,Holland,Nederland\"', 'Europe', 'Western Europe', 'Dutch', '\"UTC-04:00,UTC+01:00\"', '\"Nederland\"', 0, '2021-10-24 20:41:28', '2021-10-24 20:41:28'),
+(159, 'New Caledonia', 'NC', 'NCL', '\"687\"', '\"NC\"', 'Oceania', 'Melanesia', 'New Caledonian', '\"UTC+11:00\"', '\"Nouvelle-Cal\\u00e9donie\"', 0, '2021-10-24 20:41:28', '2021-10-24 20:41:28'),
+(160, 'New Zealand', 'NZ', 'NZL', '\"64\"', '\"NZ,Aotearoa\"', 'Oceania', 'Australia and New Zealand', 'New Zealander', '\"UTC-11:00,UTC-10:00,UTC+12:00,UTC+12:45,UTC+13:00\"', '\"New Zealand\"', 0, '2021-10-24 20:41:28', '2021-10-24 20:41:28'),
+(161, 'Nicaragua', 'NI', 'NIC', '\"505\"', '\"NI,Republic of Nicaragua,Rep\\u00fablica de Nicaragua\"', 'Americas', 'Central America', 'Nicaraguan', '\"UTC-06:00\"', '\"Nicaragua\"', 0, '2021-10-24 20:41:28', '2021-10-24 20:41:28'),
+(162, 'Niger', 'NE', 'NER', '\"227\"', '\"NE,Nijar,Republic of Niger,R\\u00e9publique du Niger\"', 'Africa', 'Western Africa', 'Nigerien', '\"UTC+01:00\"', '\"Niger\"', 0, '2021-10-24 20:41:28', '2021-10-24 20:41:28'),
+(163, 'Nigeria', 'NG', 'NGA', '\"234\"', '\"NG,Nijeriya,Na\\u00edj\\u00edr\\u00ed\\u00e0,Federal Republic of Nigeria\"', 'Africa', 'Western Africa', 'Nigerian', '\"UTC+01:00\"', '\"Nigeria\"', 0, '2021-10-24 20:41:29', '2021-10-24 20:41:29'),
+(164, 'Niue', 'NU', 'NIU', '\"683\"', '\"NU\"', 'Oceania', 'Polynesia', 'Niuean', '\"UTC-11:00\"', '\"Niu\\u0113\"', 0, '2021-10-24 20:41:29', '2021-10-24 20:41:29'),
+(165, 'Norfolk Island', 'NF', 'NFK', '\"672\"', '\"NF,Territory of Norfolk Island,Teratri of Norf\'k Ailen\"', 'Oceania', 'Australia and New Zealand', 'Norfolk Islander', '\"UTC+11:30\"', '\"Norfolk Island\"', 0, '2021-10-24 20:41:29', '2021-10-24 20:41:29'),
+(166, 'North Korea', 'KP', 'PRK', '\"850\"', '\"KP,Democratic People\'s Republic of Korea,\\uc870\\uc120\\ubbfc\\uc8fc\\uc8fc\\uc758\\uc778\\ubbfc\\uacf5\\ud654\\uad6d,Chos\\u014fn Minjuju\\u016di Inmin Konghwaguk\"', 'Asia', 'Eastern Asia', 'North Korean', '\"UTC+09:00\"', '\"\\ubd81\\ud55c\"', 0, '2021-10-24 20:41:29', '2021-10-24 20:41:29'),
+(167, 'Northern Mariana Islands', 'MP', 'MNP', '\"1670\"', '\"MP,Commonwealth of the Northern Mariana Islands,Sankattan Siha Na Islas Mari\\u00e5nas\"', 'Oceania', 'Micronesia', 'American', '\"UTC+10:00\"', '\"Northern Mariana Islands\"', 0, '2021-10-24 20:41:29', '2021-10-24 20:41:29'),
+(168, 'Norway', 'NO', 'NOR', '\"47\"', '\"NO,Norge,Noreg,Kingdom of Norway,Kongeriket Norge,Kongeriket Noreg\"', 'Europe', 'Northern Europe', 'Norwegian', '\"UTC+01:00\"', '\"Norge\"', 0, '2021-10-24 20:41:29', '2021-10-24 20:41:29'),
+(169, 'Oman', 'OM', 'OMN', '\"968\"', '\"OM,Sultanate of Oman,Sal\\u1e6danat \\u02bbUm\\u0101n\"', 'Asia', 'Western Asia', 'Omani', '\"UTC+04:00\"', '\"\\u0639\\u0645\\u0627\\u0646\"', 0, '2021-10-24 20:41:29', '2021-10-24 20:41:29'),
+(170, 'Pakistan', 'PK', 'PAK', '\"92\"', '\"PK,P\\u0101kist\\u0101n,Islamic Republic of Pakistan,Isl\\u0101m\\u012b Jumh\\u016briya\'eh P\\u0101kist\\u0101n\"', 'Asia', 'Southern Asia', 'Pakistani', '\"UTC+05:00\"', '\"Pakistan\"', 0, '2021-10-24 20:41:29', '2021-10-24 20:41:29'),
+(171, 'Palau', 'PW', 'PLW', '\"680\"', '\"PW,Republic of Palau,Beluu er a Belau\"', 'Oceania', 'Micronesia', 'Palauan', '\"UTC+09:00\"', '\"Palau\"', 0, '2021-10-24 20:41:30', '2021-10-24 20:41:30'),
+(172, 'Palestine', 'PS', 'PSE', '\"970\"', '\"PS,State of Palestine,Dawlat Filas\\u1e6din\"', 'Asia', 'Western Asia', 'Palestinian', '\"UTC+02:00\"', '\"\\u0641\\u0644\\u0633\\u0637\\u064a\\u0646\"', 0, '2021-10-24 20:41:30', '2021-10-24 20:41:30'),
+(173, 'Panama', 'PA', 'PAN', '\"507\"', '\"PA,Republic of Panama,Rep\\u00fablica de Panam\\u00e1\"', 'Americas', 'Central America', 'Panamanian', '\"UTC-05:00\"', '\"Panam\\u00e1\"', 0, '2021-10-24 20:41:30', '2021-10-24 20:41:30'),
+(174, 'Papua New Guinea', 'PG', 'PNG', '\"675\"', '\"PG,Independent State of Papua New Guinea,Independen Stet bilong Papua Niugini\"', 'Oceania', 'Melanesia', 'Papua New Guinean', '\"UTC+10:00\"', '\"Papua Niugini\"', 0, '2021-10-24 20:41:30', '2021-10-24 20:41:30'),
+(175, 'Paraguay', 'PY', 'PRY', '\"595\"', '\"PY,Republic of Paraguay,Rep\\u00fablica del Paraguay,Tet\\u00e3 Paragu\\u00e1i\"', 'Americas', 'South America', 'Paraguayan', '\"UTC-04:00\"', '\"Paraguay\"', 0, '2021-10-24 20:41:30', '2021-10-24 20:41:30'),
+(176, 'Peru', 'PE', 'PER', '\"51\"', '\"PE,Republic of Peru, Rep\\u00fablica del Per\\u00fa\"', 'Americas', 'South America', 'Peruvian', '\"UTC-05:00\"', '\"Per\\u00fa\"', 0, '2021-10-24 20:41:30', '2021-10-24 20:41:30'),
+(177, 'Philippines', 'PH', 'PHL', '\"63\"', '\"PH,Republic of the Philippines,Rep\\u00fablika ng Pilipinas\"', 'Asia', 'South-Eastern Asia', 'Filipino', '\"UTC+08:00\"', '\"Pilipinas\"', 0, '2021-10-24 20:41:30', '2021-10-24 20:41:30'),
+(178, 'Pitcairn Islands', 'PN', 'PCN', '\"64\"', '\"PN,Pitcairn Henderson Ducie and Oeno Islands\"', 'Oceania', 'Polynesia', 'Pitcairn Islander', '\"UTC-08:00\"', '\"Pitcairn Islands\"', 0, '2021-10-24 20:41:30', '2021-10-24 20:41:30'),
+(179, 'Poland', 'PL', 'POL', '\"48\"', '\"PL,Republic of Poland,Rzeczpospolita Polska\"', 'Europe', 'Eastern Europe', 'Polish', '\"UTC+01:00\"', '\"Polska\"', 0, '2021-10-24 20:41:31', '2021-10-24 20:41:31'),
+(180, 'Portugal', 'PT', 'PRT', '\"351\"', '\"PT,Portuguesa,Portuguese Republic,Rep\\u00fablica Portuguesa\"', 'Europe', 'Southern Europe', 'Portuguese', '\"UTC-01:00,UTC\"', '\"Portugal\"', 0, '2021-10-24 20:41:31', '2021-10-24 20:41:31'),
+(181, 'Puerto Rico', 'PR', 'PRI', '\"1787,1939\"', '\"PR,Commonwealth of Puerto Rico,Estado Libre Asociado de Puerto Rico\"', 'Americas', 'Caribbean', 'Puerto Rican', '\"UTC-04:00\"', '\"Puerto Rico\"', 0, '2021-10-24 20:41:31', '2021-10-24 20:41:31'),
+(182, 'Qatar', 'QA', 'QAT', '\"974\"', '\"QA,State of Qatar,Dawlat Qa\\u1e6dar\"', 'Asia', 'Western Asia', 'Qatari', '\"UTC+03:00\"', '\"\\u0642\\u0637\\u0631\"', 0, '2021-10-24 20:41:31', '2021-10-24 20:41:31'),
+(183, 'Republic of Kosovo', 'XK', 'KOS', '\"383\"', '\"XK,\\u0420\\u0435\\u043f\\u0443\\u0431\\u043b\\u0438\\u043a\\u0430 \\u041a\\u043e\\u0441\\u043e\\u0432\\u043e\"', 'Europe', 'Eastern Europe', 'Kosovar', '\"UTC+01:00\"', '\"Republika e Kosov\\u00ebs\"', 0, '2021-10-24 20:41:31', '2021-10-24 20:41:31'),
+(184, 'Réunion', 'RE', 'REU', '\"262\"', '\"RE,Reunion\"', 'Africa', 'Eastern Africa', 'French', '\"UTC+04:00\"', '\"La R\\u00e9union\"', 0, '2021-10-24 20:41:31', '2021-10-24 20:41:31'),
+(185, 'Romania', 'RO', 'ROU', '\"40\"', '\"RO,Rumania,Roumania,Rom\\u00e2nia\"', 'Europe', 'Eastern Europe', 'Romanian', '\"UTC+02:00\"', '\"Rom\\u00e2nia\"', 0, '2021-10-24 20:41:31', '2021-10-24 20:41:31'),
+(186, 'Russia', 'RU', 'RUS', '\"7\"', '\"RU,Rossiya,Russian Federation,\\u0420\\u043e\\u0441\\u0441\\u0438\\u0439\\u0441\\u043a\\u0430\\u044f \\u0424\\u0435\\u0434\\u0435\\u0440\\u0430\\u0446\\u0438\\u044f,Rossiyskaya Federatsiya\"', 'Europe', 'Eastern Europe', 'Russian', '\"UTC+03:00,UTC+04:00,UTC+06:00,UTC+07:00,UTC+08:00,UTC+09:00,UTC+10:00,UTC+11:00,UTC+12:00\"', '\"\\u0420\\u043e\\u0441\\u0441\\u0438\\u044f\"', 0, '2021-10-24 20:41:31', '2021-10-24 20:41:31'),
+(187, 'Rwanda', 'RW', 'RWA', '\"250\"', '\"RW,Republic of Rwanda,Repubulika y\'u Rwanda,R\\u00e9publique du Rwanda\"', 'Africa', 'Eastern Africa', 'Rwandan', '\"UTC+02:00\"', '\"Rwanda\"', 0, '2021-10-24 20:41:31', '2021-10-24 20:41:31'),
+(188, 'Saint Barthélemy', 'BL', 'BLM', '\"590\"', '\"BL,St. Barthelemy,Collectivity of Saint Barth\\u00e9lemy,Collectivit\\u00e9 de Saint-Barth\\u00e9lemy\"', 'Americas', 'Caribbean', 'Saint Barthélemy Islander', '\"UTC-04:00\"', '\"Saint-Barth\\u00e9lemy\"', 0, '2021-10-24 20:41:31', '2021-10-24 20:41:31'),
+(189, 'Saint Helena', 'SH', 'SHN', '\"290\"', '\"SH\"', 'Africa', 'Western Africa', 'Saint Helenian', '\"UTC+00:00\"', '\"Saint Helena\"', 0, '2021-10-24 20:41:32', '2021-10-24 20:41:32'),
+(190, 'Saint Kitts and Nevis', 'KN', 'KNA', '\"1869\"', '\"KN,Federation of Saint Christopher and Nevis\"', 'Americas', 'Caribbean', 'Kittian and Nevisian', '\"UTC-04:00\"', '\"Saint Kitts and Nevis\"', 0, '2021-10-24 20:41:32', '2021-10-24 20:41:32'),
+(191, 'Saint Lucia', 'LC', 'LCA', '\"1758\"', '\"LC\"', 'Americas', 'Caribbean', 'Saint Lucian', '\"UTC-04:00\"', '\"Saint Lucia\"', 0, '2021-10-24 20:41:32', '2021-10-24 20:41:32'),
+(192, 'Saint Martin', 'MF', 'MAF', '\"590\"', '\"MF,Collectivity of Saint Martin,Collectivit\\u00e9 de Saint-Martin\"', 'Americas', 'Caribbean', 'Saint Martin Islander', '\"UTC-04:00\"', '\"Saint-Martin\"', 0, '2021-10-24 20:41:32', '2021-10-24 20:41:32'),
+(193, 'Saint Pierre and Miquelon', 'PM', 'SPM', '\"508\"', '\"PM,Collectivit\\u00e9 territoriale de Saint-Pierre-et-Miquelon\"', 'Americas', 'Northern America', 'French', '\"UTC-03:00\"', '\"Saint-Pierre-et-Miquelon\"', 0, '2021-10-24 20:41:32', '2021-10-24 20:41:32'),
+(194, 'Saint Vincent and the Grenadines', 'VC', 'VCT', '\"1784\"', '\"VC\"', 'Americas', 'Caribbean', 'Saint Vincentian', '\"UTC-04:00\"', '\"Saint Vincent and the Grenadines\"', 0, '2021-10-24 20:41:32', '2021-10-24 20:41:32'),
+(195, 'Samoa', 'WS', 'WSM', '\"685\"', '\"WS,Independent State of Samoa,Malo Sa\\u02bboloto Tuto\\u02bbatasi o S\\u0101moa\"', 'Oceania', 'Polynesia', 'Samoan', '\"UTC+13:00\"', '\"Samoa\"', 0, '2021-10-24 20:41:32', '2021-10-24 20:41:32'),
+(196, 'San Marino', 'SM', 'SMR', '\"378\"', '\"SM,Republic of San Marino,Repubblica di San Marino\"', 'Europe', 'Southern Europe', 'Sammarinese', '\"UTC+01:00\"', '\"San Marino\"', 0, '2021-10-24 20:41:32', '2021-10-24 20:41:32'),
+(197, 'São Tomé and Príncipe', 'ST', 'STP', '\"239\"', '\"ST,Democratic Republic of S\\u00e3o Tom\\u00e9 and Pr\\u00edncipe,Rep\\u00fablica Democr\\u00e1tica de S\\u00e3o Tom\\u00e9 e Pr\\u00edncipe\"', 'Africa', 'Middle Africa', 'Sao Tomean', '\"UTC\"', '\"S\\u00e3o Tom\\u00e9 e Pr\\u00edncipe\"', 0, '2021-10-24 20:41:33', '2021-10-24 20:41:33'),
+(198, 'Saudi Arabia', 'SA', 'SAU', '\"966\"', '\"SA,Kingdom of Saudi Arabia,Al-Mamlakah al-\\u2018Arabiyyah as-Su\\u2018\\u016bdiyyah\"', 'Asia', 'Western Asia', 'Saudi Arabian', '\"UTC+03:00\"', '\"\\u0627\\u0644\\u0639\\u0631\\u0628\\u064a\\u0629 \\u0627\\u0644\\u0633\\u0639\\u0648\\u062f\\u064a\\u0629\"', 0, '2021-10-24 20:41:33', '2021-10-24 20:41:33'),
+(199, 'Senegal', 'SN', 'SEN', '\"221\"', '\"SN,Republic of Senegal,R\\u00e9publique du S\\u00e9n\\u00e9gal\"', 'Africa', 'Western Africa', 'Senegalese', '\"UTC\"', '\"S\\u00e9n\\u00e9gal\"', 0, '2021-10-24 20:41:33', '2021-10-24 20:41:33'),
+(200, 'Serbia', 'RS', 'SRB', '\"381\"', '\"RS,Srbija,Republic of Serbia,\\u0420\\u0435\\u043f\\u0443\\u0431\\u043b\\u0438\\u043a\\u0430 \\u0421\\u0440\\u0431\\u0438\\u0458\\u0430,Republika Srbija\"', 'Europe', 'Southern Europe', 'Serbian', '\"UTC+01:00\"', '\"\\u0421\\u0440\\u0431\\u0438\\u0458\\u0430\"', 0, '2021-10-24 20:41:33', '2021-10-24 20:41:33'),
+(201, 'Seychelles', 'SC', 'SYC', '\"248\"', '\"SC,Republic of Seychelles,Repiblik Sesel,R\\u00e9publique des Seychelles\"', 'Africa', 'Eastern Africa', 'Seychellois', '\"UTC+04:00\"', '\"Seychelles\"', 0, '2021-10-24 20:41:33', '2021-10-24 20:41:33'),
+(202, 'Sierra Leone', 'SL', 'SLE', '\"232\"', '\"SL,Republic of Sierra Leone\"', 'Africa', 'Western Africa', 'Sierra Leonean', '\"UTC\"', '\"Sierra Leone\"', 0, '2021-10-24 20:41:33', '2021-10-24 20:41:33'),
+(203, 'Singapore', 'SG', 'SGP', '\"65\"', '\"SG,Singapura,Republik Singapura,\\u65b0\\u52a0\\u5761\\u5171\\u548c\\u56fd\"', 'Asia', 'South-Eastern Asia', 'Singaporean', '\"UTC+08:00\"', '\"Singapore\"', 0, '2021-10-24 20:41:33', '2021-10-24 20:41:33'),
+(204, 'Sint Maarten', 'SX', 'SXM', '\"1721\"', '\"SX\"', 'Americas', 'Caribbean', 'Dutch', '\"UTC-04:00\"', '\"Sint Maarten\"', 0, '2021-10-24 20:41:33', '2021-10-24 20:41:33');
+INSERT INTO `countries` (`id`, `name`, `alpha_2_code`, `alpha_3_code`, `calling_codes`, `alt_spellings`, `region`, `sub_region`, `demonym`, `timezones`, `native_name`, `status`, `created_at`, `updated_at`) VALUES
+(205, 'Slovakia', 'SK', 'SVK', '\"421\"', '\"SK,Slovak Republic,Slovensk\\u00e1 republika\"', 'Europe', 'Eastern Europe', 'Slovak', '\"UTC+01:00\"', '\"Slovensko\"', 0, '2021-10-24 20:41:33', '2021-10-24 20:41:33'),
+(206, 'Slovenia', 'SI', 'SVN', '\"386\"', '\"SI,Republic of Slovenia,Republika Slovenija\"', 'Europe', 'Southern Europe', 'Slovene', '\"UTC+01:00\"', '\"Slovenija\"', 0, '2021-10-24 20:41:34', '2021-10-24 20:41:34'),
+(207, 'Solomon Islands', 'SB', 'SLB', '\"677\"', '\"SB\"', 'Oceania', 'Melanesia', 'Solomon Islander', '\"UTC+11:00\"', '\"Solomon Islands\"', 0, '2021-10-24 20:41:34', '2021-10-24 20:41:34'),
+(208, 'Somalia', 'SO', 'SOM', '\"252\"', '\"SO,a\\u1e63-\\u1e62\\u016bm\\u0101l,Federal Republic of Somalia,Jamhuuriyadda Federaalka Soomaaliya,Jumh\\u016briyyat a\\u1e63-\\u1e62\\u016bm\\u0101l al-Fider\\u0101liyya\"', 'Africa', 'Eastern Africa', 'Somali', '\"UTC+03:00\"', '\"Soomaaliya\"', 0, '2021-10-24 20:41:34', '2021-10-24 20:41:34'),
+(209, 'South Africa', 'ZA', 'ZAF', '\"27\"', '\"ZA,RSA,Suid-Afrika,Republic of South Africa\"', 'Africa', 'Southern Africa', 'South African', '\"UTC+02:00\"', '\"South Africa\"', 0, '2021-10-24 20:41:34', '2021-10-24 20:41:34'),
+(210, 'South Georgia', 'GS', 'SGS', '\"500\"', '\"GS,South Georgia and the South Sandwich Islands\"', 'Americas', 'South America', 'South Georgia and the South Sandwich Islander', '\"UTC-02:00\"', '\"South Georgia\"', 0, '2021-10-24 20:41:34', '2021-10-24 20:41:34'),
+(211, 'South Korea', 'KR', 'KOR', '\"82\"', '\"KR,Republic of Korea\"', 'Asia', 'Eastern Asia', 'South Korean', '\"UTC+09:00\"', '\"\\ub300\\ud55c\\ubbfc\\uad6d\"', 0, '2021-10-24 20:41:34', '2021-10-24 20:41:34'),
+(212, 'South Sudan', 'SS', 'SSD', '\"211\"', '\"SS\"', 'Africa', 'Middle Africa', 'South Sudanese', '\"UTC+03:00\"', '\"South Sudan\"', 0, '2021-10-24 20:41:34', '2021-10-24 20:41:34'),
+(213, 'Spain', 'ES', 'ESP', '\"34\"', '\"ES,Kingdom of Spain,Reino de Espa\\u00f1a\"', 'Europe', 'Southern Europe', 'Spanish', '\"UTC,UTC+01:00\"', '\"Espa\\u00f1a\"', 0, '2021-10-24 20:41:35', '2021-10-24 20:41:35'),
+(214, 'Sri Lanka', 'LK', 'LKA', '\"94\"', '\"LK,ila\\u1e45kai,Democratic Socialist Republic of Sri Lanka\"', 'Asia', 'Southern Asia', 'Sri Lankan', '\"UTC+05:30\"', '\"\\u015br\\u012b la\\u1e43k\\u0101va\"', 0, '2021-10-24 20:41:35', '2021-10-24 20:41:35'),
+(215, 'Sudan', 'SD', 'SDN', '\"249\"', '\"SD,Republic of the Sudan,Jumh\\u016br\\u012byat as-S\\u016bd\\u0101n\"', 'Africa', 'Northern Africa', 'Sudanese', '\"UTC+03:00\"', '\"\\u0627\\u0644\\u0633\\u0648\\u062f\\u0627\\u0646\"', 0, '2021-10-24 20:41:35', '2021-10-24 20:41:35'),
+(216, 'Suriname', 'SR', 'SUR', '\"597\"', '\"SR,Sarnam,Sranangron,Republic of Suriname,Republiek Suriname\"', 'Americas', 'South America', 'Surinamer', '\"UTC-03:00\"', '\"Suriname\"', 0, '2021-10-24 20:41:35', '2021-10-24 20:41:35'),
+(217, 'Svalbard and Jan Mayen', 'SJ', 'SJM', '\"4779\"', '\"SJ,Svalbard and Jan Mayen Islands\"', 'Europe', 'Northern Europe', 'Norwegian', '\"UTC+01:00\"', '\"Svalbard og Jan Mayen\"', 0, '2021-10-24 20:41:35', '2021-10-24 20:41:35'),
+(218, 'Swaziland', 'SZ', 'SWZ', '\"268\"', '\"SZ,weSwatini,Swatini,Ngwane,Kingdom of Swaziland,Umbuso waseSwatini\"', 'Africa', 'Southern Africa', 'Swazi', '\"UTC+02:00\"', '\"Swaziland\"', 0, '2021-10-24 20:41:35', '2021-10-24 20:41:35'),
+(219, 'Sweden', 'SE', 'SWE', '\"46\"', '\"SE,Kingdom of Sweden,Konungariket Sverige\"', 'Europe', 'Northern Europe', 'Swedish', '\"UTC+01:00\"', '\"Sverige\"', 0, '2021-10-24 20:41:35', '2021-10-24 20:41:35'),
+(220, 'Switzerland', 'CH', 'CHE', '\"41\"', '\"CH,Swiss Confederation,Schweiz,Suisse,Svizzera,Svizra\"', 'Europe', 'Western Europe', 'Swiss', '\"UTC+01:00\"', '\"Schweiz\"', 0, '2021-10-24 20:41:36', '2021-10-24 20:41:36'),
+(221, 'Syria', 'SY', 'SYR', '\"963\"', '\"SY,Syrian Arab Republic,Al-Jumh\\u016br\\u012byah Al-\\u02bbArab\\u012byah As-S\\u016br\\u012byah\"', 'Asia', 'Western Asia', 'Syrian', '\"UTC+02:00\"', '\"\\u0633\\u0648\\u0631\\u064a\\u0627\"', 0, '2021-10-24 20:41:36', '2021-10-24 20:41:36'),
+(222, 'Taiwan', 'TW', 'TWN', '\"886\"', '\"TW,T\\u00e1iw\\u0101n,Republic of China,\\u4e2d\\u83ef\\u6c11\\u570b,Zh\\u014dnghu\\u00e1 M\\u00edngu\\u00f3\"', 'Asia', 'Eastern Asia', 'Taiwanese', '\"UTC+08:00\"', '\"\\u81fa\\u7063\"', 0, '2021-10-24 20:41:36', '2021-10-24 20:41:36'),
+(223, 'Tajikistan', 'TJ', 'TJK', '\"992\"', '\"TJ,To\\u00e7ikiston,Republic of Tajikistan,\\u04b6\\u0443\\u043c\\u04b3\\u0443\\u0440\\u0438\\u0438 \\u0422\\u043e\\u04b7\\u0438\\u043a\\u0438\\u0441\\u0442\\u043e\\u043d,\\u00c7umhuriyi To\\u00e7ikiston\"', 'Asia', 'Central Asia', 'Tadzhik', '\"UTC+05:00\"', '\"\\u0422\\u043e\\u04b7\\u0438\\u043a\\u0438\\u0441\\u0442\\u043e\\u043d\"', 0, '2021-10-24 20:41:36', '2021-10-24 20:41:36'),
+(224, 'Tanzania', 'TZ', 'TZA', '\"255\"', '\"TZ,United Republic of Tanzania,Jamhuri ya Muungano wa Tanzania\"', 'Africa', 'Eastern Africa', 'Tanzanian', '\"UTC+03:00\"', '\"Tanzania\"', 0, '2021-10-24 20:41:36', '2021-10-24 20:41:36'),
+(225, 'Thailand', 'TH', 'THA', '\"66\"', '\"TH,Prathet,Thai,Kingdom of Thailand,\\u0e23\\u0e32\\u0e0a\\u0e2d\\u0e32\\u0e13\\u0e32\\u0e08\\u0e31\\u0e01\\u0e23\\u0e44\\u0e17\\u0e22,Ratcha Anachak Thai\"', 'Asia', 'South-Eastern Asia', 'Thai', '\"UTC+07:00\"', '\"\\u0e1b\\u0e23\\u0e30\\u0e40\\u0e17\\u0e28\\u0e44\\u0e17\\u0e22\"', 0, '2021-10-24 20:41:36', '2021-10-24 20:41:36'),
+(226, 'East Timor', 'TL', 'TLS', '\"670\"', '\"TL,East Timor,Democratic Republic of Timor-Leste,Rep\\u00fablica Democr\\u00e1tica de Timor-Leste,Rep\\u00fablika Demokr\\u00e1tika Tim\\u00f3r-Leste\"', 'Asia', 'South-Eastern Asia', 'East Timorese', '\"UTC+09:00\"', '\"Timor-Leste\"', 0, '2021-10-24 20:41:36', '2021-10-24 20:41:36'),
+(227, 'Togo', 'TG', 'TGO', '\"228\"', '\"TG,Togolese,Togolese Republic,R\\u00e9publique Togolaise\"', 'Africa', 'Western Africa', 'Togolese', '\"UTC\"', '\"Togo\"', 0, '2021-10-24 20:41:37', '2021-10-24 20:41:37'),
+(228, 'Tokelau', 'TK', 'TKL', '\"690\"', '\"TK\"', 'Oceania', 'Polynesia', 'Tokelauan', '\"UTC+13:00\"', '\"Tokelau\"', 0, '2021-10-24 20:41:37', '2021-10-24 20:41:37'),
+(229, 'Tonga', 'TO', 'TON', '\"676\"', '\"TO\"', 'Oceania', 'Polynesia', 'Tongan', '\"UTC+13:00\"', '\"Tonga\"', 0, '2021-10-24 20:41:37', '2021-10-24 20:41:37'),
+(230, 'Trinidad and Tobago', 'TT', 'TTO', '\"1868\"', '\"TT,Republic of Trinidad and Tobago\"', 'Americas', 'Caribbean', 'Trinidadian', '\"UTC-04:00\"', '\"Trinidad and Tobago\"', 0, '2021-10-24 20:41:37', '2021-10-24 20:41:37'),
+(231, 'Tunisia', 'TN', 'TUN', '\"216\"', '\"TN,Republic of Tunisia,al-Jumh\\u016briyyah at-T\\u016bnisiyyah\"', 'Africa', 'Northern Africa', 'Tunisian', '\"UTC+01:00\"', '\"\\u062a\\u0648\\u0646\\u0633\"', 0, '2021-10-24 20:41:37', '2021-10-24 20:41:37'),
+(232, 'Turkey', 'TR', 'TUR', '\"90\"', '\"TR,Turkiye,Republic of Turkey,T\\u00fcrkiye Cumhuriyeti\"', 'Asia', 'Western Asia', 'Turkish', '\"UTC+02:00\"', '\"T\\u00fcrkiye\"', 0, '2021-10-24 20:41:38', '2021-10-24 20:41:38'),
+(233, 'Turkmenistan', 'TM', 'TKM', '\"993\"', '\"TM\"', 'Asia', 'Central Asia', 'Turkmen', '\"UTC+05:00\"', '\"T\\u00fcrkmenistan\"', 0, '2021-10-24 20:41:38', '2021-10-24 20:41:38'),
+(234, 'Turks and Caicos Islands', 'TC', 'TCA', '\"1649\"', '\"TC\"', 'Americas', 'Caribbean', 'Turks and Caicos Islander', '\"UTC-04:00\"', '\"Turks and Caicos Islands\"', 0, '2021-10-24 20:41:38', '2021-10-24 20:41:38'),
+(235, 'Tuvalu', 'TV', 'TUV', '\"688\"', '\"TV\"', 'Oceania', 'Polynesia', 'Tuvaluan', '\"UTC+12:00\"', '\"Tuvalu\"', 0, '2021-10-24 20:41:38', '2021-10-24 20:41:38'),
+(236, 'Uganda', 'UG', 'UGA', '\"256\"', '\"UG,Republic of Uganda,Jamhuri ya Uganda\"', 'Africa', 'Eastern Africa', 'Ugandan', '\"UTC+03:00\"', '\"Uganda\"', 0, '2021-10-24 20:41:38', '2021-10-24 20:41:38'),
+(237, 'Ukraine', 'UA', 'UKR', '\"380\"', '\"UA,Ukrayina\"', 'Europe', 'Eastern Europe', 'Ukrainian', '\"UTC+02:00\"', '\"\\u0423\\u043a\\u0440\\u0430\\u0457\\u043d\\u0430\"', 0, '2021-10-24 20:41:39', '2021-10-24 20:41:39'),
+(238, 'United Arab Emirates', 'AE', 'ARE', '\"971\"', '\"AE,UAE\"', 'Asia', 'Western Asia', 'Emirati', '\"UTC+04\"', '\"\\u062f\\u0648\\u0644\\u0629 \\u0627\\u0644\\u0625\\u0645\\u0627\\u0631\\u0627\\u062a \\u0627\\u0644\\u0639\\u0631\\u0628\\u064a\\u0629 \\u0627\\u0644\\u0645\\u062a\\u062d\\u062f\\u0629\"', 0, '2021-10-24 20:41:39', '2021-10-24 20:41:39'),
+(239, 'United Kingdom', 'GB', 'GBR', '\"44\"', '\"GB,UK,Great Britain\"', 'Europe', 'Northern Europe', 'British', '\"UTC-08:00,UTC-05:00,UTC-04:00,UTC-03:00,UTC-02:00,UTC,UTC+01:00,UTC+02:00,UTC+06:00\"', '\"United Kingdom\"', 0, '2021-10-24 20:41:39', '2021-10-24 20:41:39'),
+(240, 'United States', 'US', 'USA', '\"1\"', '\"US,USA,United States of America\"', 'Americas', 'Northern America', 'American', '\"UTC-12:00,UTC-11:00,UTC-10:00,UTC-09:00,UTC-08:00,UTC-07:00,UTC-06:00,UTC-05:00,UTC-04:00,UTC+10:00,UTC+12:00\"', '\"United States\"', 0, '2021-10-24 20:41:39', '2021-10-24 20:41:39'),
+(241, 'Uruguay', 'UY', 'URY', '\"598\"', '\"UY,Oriental Republic of Uruguay,Rep\\u00fablica Oriental del Uruguay\"', 'Americas', 'South America', 'Uruguayan', '\"UTC-03:00\"', '\"Uruguay\"', 0, '2021-10-24 20:41:39', '2021-10-24 20:41:39'),
+(242, 'Uzbekistan', 'UZ', 'UZB', '\"998\"', '\"UZ,Republic of Uzbekistan,O\\u2018zbekiston Respublikasi,\\u040e\\u0437\\u0431\\u0435\\u043a\\u0438\\u0441\\u0442\\u043e\\u043d \\u0420\\u0435\\u0441\\u043f\\u0443\\u0431\\u043b\\u0438\\u043a\\u0430\\u0441\\u0438\"', 'Asia', 'Central Asia', 'Uzbekistani', '\"UTC+05:00\"', '\"O\\u2018zbekiston\"', 0, '2021-10-24 20:41:39', '2021-10-24 20:41:39'),
+(243, 'Vanuatu', 'VU', 'VUT', '\"678\"', '\"VU,Republic of Vanuatu,Ripablik blong Vanuatu,R\\u00e9publique de Vanuatu\"', 'Oceania', 'Melanesia', 'Ni-Vanuatu', '\"UTC+11:00\"', '\"Vanuatu\"', 0, '2021-10-24 20:41:39', '2021-10-24 20:41:39'),
+(244, 'Venezuela', 'VE', 'VEN', '\"58\"', '\"VE,Bolivarian Republic of Venezuela,Rep\\u00fablica Bolivariana de Venezuela\"', 'Americas', 'South America', 'Venezuelan', '\"UTC-04:30\"', '\"Venezuela\"', 0, '2021-10-24 20:41:39', '2021-10-24 20:41:39'),
+(245, 'Vietnam', 'VN', 'VNM', '\"84\"', '\"VN,Socialist Republic of Vietnam,C\\u1ed9ng h\\u00f2a X\\u00e3 h\\u1ed9i ch\\u1ee7 ngh\\u0129a Vi\\u1ec7t Nam\"', 'Asia', 'South-Eastern Asia', 'Vietnamese', '\"UTC+07:00\"', '\"Vi\\u1ec7t Nam\"', 0, '2021-10-24 20:41:40', '2021-10-24 20:41:40'),
+(246, 'Wallis and Futuna', 'WF', 'WLF', '\"681\"', '\"WF,Territory of the Wallis and Futuna Islands,Territoire des \\u00eeles Wallis et Futuna\"', 'Oceania', 'Polynesia', 'Wallis and Futuna Islander', '\"UTC+12:00\"', '\"Wallis et Futuna\"', 0, '2021-10-24 20:41:40', '2021-10-24 20:41:40'),
+(247, 'Western Sahara', 'EH', 'ESH', '\"212\"', '\"EH,Tane\\u1e93roft Tutrimt\"', 'Africa', 'Northern Africa', 'Sahrawi', '\"UTC+00:00\"', '\"\\u0627\\u0644\\u0635\\u062d\\u0631\\u0627\\u0621 \\u0627\\u0644\\u063a\\u0631\\u0628\\u064a\\u0629\"', 0, '2021-10-24 20:41:40', '2021-10-24 20:41:40'),
+(248, 'Yemen', 'YE', 'YEM', '\"967\"', '\"YE,Yemeni Republic,al-Jumh\\u016briyyah al-Yamaniyyah\"', 'Asia', 'Western Asia', 'Yemeni', '\"UTC+03:00\"', '\"\\u0627\\u0644\\u064a\\u064e\\u0645\\u064e\\u0646\"', 0, '2021-10-24 20:41:40', '2021-10-24 20:41:40'),
+(249, 'Zambia', 'ZM', 'ZMB', '\"260\"', '\"ZM,Republic of Zambia\"', 'Africa', 'Eastern Africa', 'Zambian', '\"UTC+02:00\"', '\"Zambia\"', 0, '2021-10-24 20:41:40', '2021-10-24 20:41:40'),
+(250, 'Zimbabwe', 'ZW', 'ZWE', '\"263\"', '\"ZW,Republic of Zimbabwe\"', 'Africa', 'Eastern Africa', 'Zimbabwean', '\"UTC+02:00\"', '\"Zimbabwe\"', 0, '2021-10-24 20:41:40', '2021-10-24 20:41:40'),
+(251, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2021-10-28 00:51:36', '2021-10-28 00:51:36'),
+(252, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2021-10-28 00:51:56', '2021-10-28 00:51:56'),
+(253, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2021-10-28 00:52:48', '2021-10-28 00:52:48'),
+(254, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2021-10-28 01:02:45', '2021-10-28 01:02:45'),
+(255, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2021-10-28 01:07:34', '2021-10-28 01:07:34');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `countries`
+--
+ALTER TABLE `countries`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `countries_alpha_2_code_unique` (`alpha_2_code`),
+  ADD UNIQUE KEY `countries_alpha_3_code_unique` (`alpha_3_code`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `countries`
+--
+ALTER TABLE `countries`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=256;
+  
+  
+  
+  
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `currencies`
+--
+
+CREATE TABLE `currencies` (
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'eg Indian Rupee',
+  `acronym` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'eg IN',
+  `symbol` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'eg ₹',
+  `symbol_position` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'eg L for left, R for right',
+  `text_position` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'eg L for left, R for right',
+  `status` tinyint(1) DEFAULT '0' COMMENT 'only active currencies will be visible to clients',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `currencies`
+--
+
+INSERT INTO `currencies` (`id`, `name`, `acronym`, `symbol`, `symbol_position`, `text_position`, `status`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'AFN', NULL, NULL, NULL, 0, '2021-10-24 20:41:43', '2021-10-24 20:41:43'),
+(2, NULL, 'EUR', NULL, NULL, NULL, 0, '2021-10-24 20:41:43', '2021-10-24 20:41:43'),
+(3, NULL, 'ALL', NULL, NULL, NULL, 0, '2021-10-24 20:41:43', '2021-10-24 20:41:43'),
+(4, NULL, 'DZD', NULL, NULL, NULL, 0, '2021-10-24 20:41:43', '2021-10-24 20:41:43'),
+(5, NULL, 'USD', NULL, NULL, NULL, 0, '2021-10-24 20:41:43', '2021-10-24 20:41:43'),
+(6, NULL, 'AOA', NULL, NULL, NULL, 0, '2021-10-24 20:41:43', '2021-10-24 20:41:43'),
+(7, NULL, 'XCD', NULL, NULL, NULL, 0, '2021-10-24 20:41:43', '2021-10-24 20:41:43'),
+(8, NULL, 'AUD', NULL, NULL, NULL, 0, '2021-10-24 20:41:44', '2021-10-24 20:41:44'),
+(9, NULL, 'GBP', NULL, NULL, NULL, 0, '2021-10-24 20:41:44', '2021-10-24 20:41:44'),
+(10, NULL, 'ARS', NULL, NULL, NULL, 0, '2021-10-24 20:41:44', '2021-10-24 20:41:44'),
+(11, NULL, 'AMD', NULL, NULL, NULL, 0, '2021-10-24 20:41:44', '2021-10-24 20:41:44'),
+(12, NULL, 'AWG', NULL, NULL, NULL, 0, '2021-10-24 20:41:44', '2021-10-24 20:41:44'),
+(13, NULL, 'AZN', NULL, NULL, NULL, 0, '2021-10-24 20:41:44', '2021-10-24 20:41:44'),
+(14, NULL, 'BSD', NULL, NULL, NULL, 0, '2021-10-24 20:41:45', '2021-10-24 20:41:45'),
+(15, NULL, 'BHD', NULL, NULL, NULL, 0, '2021-10-24 20:41:45', '2021-10-24 20:41:45'),
+(16, NULL, 'BDT', NULL, NULL, NULL, 0, '2021-10-24 20:41:45', '2021-10-24 20:41:45'),
+(17, NULL, 'BBD', NULL, NULL, NULL, 0, '2021-10-24 20:41:45', '2021-10-24 20:41:45'),
+(18, NULL, 'BYR', NULL, NULL, NULL, 0, '2021-10-24 20:41:45', '2021-10-24 20:41:45'),
+(19, NULL, 'BZD', NULL, NULL, NULL, 0, '2021-10-24 20:41:45', '2021-10-24 20:41:45'),
+(20, NULL, 'XOF', NULL, NULL, NULL, 0, '2021-10-24 20:41:45', '2021-10-24 20:41:45'),
+(21, NULL, 'BMD', NULL, NULL, NULL, 0, '2021-10-24 20:41:45', '2021-10-24 20:41:45'),
+(22, NULL, 'BTN', NULL, NULL, NULL, 0, '2021-10-24 20:41:45', '2021-10-24 20:41:45'),
+(23, NULL, 'INR', NULL, NULL, NULL, 0, '2021-10-24 20:41:46', '2021-10-24 20:41:46'),
+(24, NULL, 'BOB', NULL, NULL, NULL, 0, '2021-10-24 20:41:46', '2021-10-24 20:41:46'),
+(25, NULL, 'BOV', NULL, NULL, NULL, 0, '2021-10-24 20:41:46', '2021-10-24 20:41:46'),
+(26, NULL, 'BAM', NULL, NULL, NULL, 0, '2021-10-24 20:41:46', '2021-10-24 20:41:46'),
+(27, NULL, 'BWP', NULL, NULL, NULL, 0, '2021-10-24 20:41:46', '2021-10-24 20:41:46'),
+(28, NULL, 'NOK', NULL, NULL, NULL, 0, '2021-10-24 20:41:46', '2021-10-24 20:41:46'),
+(29, NULL, 'BRL', NULL, NULL, NULL, 0, '2021-10-24 20:41:46', '2021-10-24 20:41:46'),
+(30, NULL, 'BND', NULL, NULL, NULL, 0, '2021-10-24 20:41:46', '2021-10-24 20:41:46'),
+(31, NULL, 'BGN', NULL, NULL, NULL, 0, '2021-10-24 20:41:46', '2021-10-24 20:41:46'),
+(32, NULL, 'BIF', NULL, NULL, NULL, 0, '2021-10-24 20:41:47', '2021-10-24 20:41:47'),
+(33, NULL, 'KHR', NULL, NULL, NULL, 0, '2021-10-24 20:41:47', '2021-10-24 20:41:47'),
+(34, NULL, 'XAF', NULL, NULL, NULL, 0, '2021-10-24 20:41:47', '2021-10-24 20:41:47'),
+(35, NULL, 'CAD', NULL, NULL, NULL, 0, '2021-10-24 20:41:47', '2021-10-24 20:41:47'),
+(36, NULL, 'CVE', NULL, NULL, NULL, 0, '2021-10-24 20:41:47', '2021-10-24 20:41:47'),
+(37, NULL, 'KYD', NULL, NULL, NULL, 0, '2021-10-24 20:41:47', '2021-10-24 20:41:47'),
+(38, NULL, 'CLF', NULL, NULL, NULL, 0, '2021-10-24 20:41:47', '2021-10-24 20:41:47'),
+(39, NULL, 'CLP', NULL, NULL, NULL, 0, '2021-10-24 20:41:47', '2021-10-24 20:41:47'),
+(40, NULL, 'CNY', NULL, NULL, NULL, 0, '2021-10-24 20:41:47', '2021-10-24 20:41:47'),
+(41, NULL, 'COP', NULL, NULL, NULL, 0, '2021-10-24 20:41:48', '2021-10-24 20:41:48'),
+(42, NULL, 'KMF', NULL, NULL, NULL, 0, '2021-10-24 20:41:48', '2021-10-24 20:41:48'),
+(43, NULL, 'CDF', NULL, NULL, NULL, 0, '2021-10-24 20:41:48', '2021-10-24 20:41:48'),
+(44, NULL, 'NZD', NULL, NULL, NULL, 0, '2021-10-24 20:41:48', '2021-10-24 20:41:48'),
+(45, NULL, 'CRC', NULL, NULL, NULL, 0, '2021-10-24 20:41:48', '2021-10-24 20:41:48'),
+(46, NULL, 'HRK', NULL, NULL, NULL, 0, '2021-10-24 20:41:48', '2021-10-24 20:41:48'),
+(47, NULL, 'CUC', NULL, NULL, NULL, 0, '2021-10-24 20:41:48', '2021-10-24 20:41:48'),
+(48, NULL, 'CUP', NULL, NULL, NULL, 0, '2021-10-24 20:41:48', '2021-10-24 20:41:48'),
+(49, NULL, 'ANG', NULL, NULL, NULL, 0, '2021-10-24 20:41:48', '2021-10-24 20:41:48'),
+(50, NULL, 'CZK', NULL, NULL, NULL, 0, '2021-10-24 20:41:49', '2021-10-24 20:41:49'),
+(51, NULL, 'DKK', NULL, NULL, NULL, 0, '2021-10-24 20:41:49', '2021-10-24 20:41:49'),
+(52, NULL, 'DJF', NULL, NULL, NULL, 0, '2021-10-24 20:41:49', '2021-10-24 20:41:49'),
+(53, NULL, 'DOP', NULL, NULL, NULL, 0, '2021-10-24 20:41:49', '2021-10-24 20:41:49'),
+(54, NULL, 'EGP', NULL, NULL, NULL, 0, '2021-10-24 20:41:49', '2021-10-24 20:41:49'),
+(55, NULL, 'SVC', NULL, NULL, NULL, 0, '2021-10-24 20:41:49', '2021-10-24 20:41:49'),
+(56, NULL, 'ERN', NULL, NULL, NULL, 0, '2021-10-24 20:41:49', '2021-10-24 20:41:49'),
+(57, NULL, 'ETB', NULL, NULL, NULL, 0, '2021-10-24 20:41:49', '2021-10-24 20:41:49'),
+(58, NULL, 'FKP', NULL, NULL, NULL, 0, '2021-10-24 20:41:50', '2021-10-24 20:41:50'),
+(59, NULL, 'FJD', NULL, NULL, NULL, 0, '2021-10-24 20:41:50', '2021-10-24 20:41:50'),
+(60, NULL, 'XPF', NULL, NULL, NULL, 0, '2021-10-24 20:41:50', '2021-10-24 20:41:50'),
+(61, NULL, 'GMD', NULL, NULL, NULL, 0, '2021-10-24 20:41:50', '2021-10-24 20:41:50'),
+(62, NULL, 'GEL', NULL, NULL, NULL, 0, '2021-10-24 20:41:50', '2021-10-24 20:41:50'),
+(63, NULL, 'GHS', NULL, NULL, NULL, 0, '2021-10-24 20:41:50', '2021-10-24 20:41:50'),
+(64, NULL, 'GIP', NULL, NULL, NULL, 0, '2021-10-24 20:41:50', '2021-10-24 20:41:50'),
+(65, NULL, 'GTQ', NULL, NULL, NULL, 0, '2021-10-24 20:41:50', '2021-10-24 20:41:50'),
+(66, NULL, 'GNF', NULL, NULL, NULL, 0, '2021-10-24 20:41:51', '2021-10-24 20:41:51'),
+(67, NULL, 'GYD', NULL, NULL, NULL, 0, '2021-10-24 20:41:51', '2021-10-24 20:41:51'),
+(68, NULL, 'HTG', NULL, NULL, NULL, 0, '2021-10-24 20:41:51', '2021-10-24 20:41:51'),
+(69, NULL, 'HNL', NULL, NULL, NULL, 0, '2021-10-24 20:41:51', '2021-10-24 20:41:51'),
+(70, NULL, 'HKD', NULL, NULL, NULL, 0, '2021-10-24 20:41:51', '2021-10-24 20:41:51'),
+(71, NULL, 'HUF', NULL, NULL, NULL, 0, '2021-10-24 20:41:51', '2021-10-24 20:41:51'),
+(72, NULL, 'ISK', NULL, NULL, NULL, 0, '2021-10-24 20:41:51', '2021-10-24 20:41:51'),
+(73, NULL, 'IDR', NULL, NULL, NULL, 0, '2021-10-24 20:41:51', '2021-10-24 20:41:51'),
+(74, NULL, 'IRR', NULL, NULL, NULL, 0, '2021-10-24 20:41:51', '2021-10-24 20:41:51'),
+(75, NULL, 'IQD', NULL, NULL, NULL, 0, '2021-10-24 20:41:51', '2021-10-24 20:41:51'),
+(76, NULL, 'ILS', NULL, NULL, NULL, 0, '2021-10-24 20:41:52', '2021-10-24 20:41:52'),
+(77, NULL, 'JMD', NULL, NULL, NULL, 0, '2021-10-24 20:41:52', '2021-10-24 20:41:52'),
+(78, NULL, 'JPY', NULL, NULL, NULL, 0, '2021-10-24 20:41:52', '2021-10-24 20:41:52'),
+(79, NULL, 'JOD', NULL, NULL, NULL, 0, '2021-10-24 20:41:52', '2021-10-24 20:41:52'),
+(80, NULL, 'KZT', NULL, NULL, NULL, 0, '2021-10-24 20:41:52', '2021-10-24 20:41:52'),
+(81, NULL, 'KES', NULL, NULL, NULL, 0, '2021-10-24 20:41:52', '2021-10-24 20:41:52'),
+(82, NULL, 'KWD', NULL, NULL, NULL, 0, '2021-10-24 20:41:52', '2021-10-24 20:41:52'),
+(83, NULL, 'KGS', NULL, NULL, NULL, 0, '2021-10-24 20:41:52', '2021-10-24 20:41:52'),
+(84, NULL, 'LAK', NULL, NULL, NULL, 0, '2021-10-24 20:41:53', '2021-10-24 20:41:53'),
+(85, NULL, 'LBP', NULL, NULL, NULL, 0, '2021-10-24 20:41:53', '2021-10-24 20:41:53'),
+(86, NULL, 'LSL', NULL, NULL, NULL, 0, '2021-10-24 20:41:53', '2021-10-24 20:41:53'),
+(87, NULL, 'ZAR', NULL, NULL, NULL, 0, '2021-10-24 20:41:53', '2021-10-24 20:41:53'),
+(88, NULL, 'LRD', NULL, NULL, NULL, 0, '2021-10-24 20:41:53', '2021-10-24 20:41:53'),
+(89, NULL, 'LYD', NULL, NULL, NULL, 0, '2021-10-24 20:41:53', '2021-10-24 20:41:53'),
+(90, NULL, 'CHF', NULL, NULL, NULL, 0, '2021-10-24 20:41:53', '2021-10-24 20:41:53'),
+(91, NULL, 'MOP', NULL, NULL, NULL, 0, '2021-10-24 20:41:53', '2021-10-24 20:41:53'),
+(92, NULL, 'MKD', NULL, NULL, NULL, 0, '2021-10-24 20:41:53', '2021-10-24 20:41:53'),
+(93, NULL, 'MGA', NULL, NULL, NULL, 0, '2021-10-24 20:41:53', '2021-10-24 20:41:53'),
+(94, NULL, 'MWK', NULL, NULL, NULL, 0, '2021-10-24 20:41:54', '2021-10-24 20:41:54'),
+(95, NULL, 'MYR', NULL, NULL, NULL, 0, '2021-10-24 20:41:54', '2021-10-24 20:41:54'),
+(96, NULL, 'MVR', NULL, NULL, NULL, 0, '2021-10-24 20:41:54', '2021-10-24 20:41:54'),
+(97, NULL, 'MRO', NULL, NULL, NULL, 0, '2021-10-24 20:41:54', '2021-10-24 20:41:54'),
+(98, NULL, 'MUR', NULL, NULL, NULL, 0, '2021-10-24 20:41:54', '2021-10-24 20:41:54'),
+(99, NULL, 'MXN', NULL, NULL, NULL, 0, '2021-10-24 20:41:54', '2021-10-24 20:41:54'),
+(100, NULL, 'MDL', NULL, NULL, NULL, 0, '2021-10-24 20:41:54', '2021-10-24 20:41:54'),
+(101, NULL, 'MNT', NULL, NULL, NULL, 0, '2021-10-24 20:41:54', '2021-10-24 20:41:54'),
+(102, NULL, 'MAD', NULL, NULL, NULL, 0, '2021-10-24 20:41:55', '2021-10-24 20:41:55'),
+(103, NULL, 'MZN', NULL, NULL, NULL, 0, '2021-10-24 20:41:55', '2021-10-24 20:41:55'),
+(104, NULL, 'MMK', NULL, NULL, NULL, 0, '2021-10-24 20:41:55', '2021-10-24 20:41:55'),
+(105, NULL, 'NAD', NULL, NULL, NULL, 0, '2021-10-24 20:41:55', '2021-10-24 20:41:55'),
+(106, NULL, 'NPR', NULL, NULL, NULL, 0, '2021-10-24 20:41:55', '2021-10-24 20:41:55'),
+(107, NULL, 'NIO', NULL, NULL, NULL, 0, '2021-10-24 20:41:55', '2021-10-24 20:41:55'),
+(108, NULL, 'NGN', NULL, NULL, NULL, 0, '2021-10-24 20:41:55', '2021-10-24 20:41:55'),
+(109, NULL, 'KPW', NULL, NULL, NULL, 0, '2021-10-24 20:41:56', '2021-10-24 20:41:56'),
+(110, NULL, 'OMR', NULL, NULL, NULL, 0, '2021-10-24 20:41:56', '2021-10-24 20:41:56'),
+(111, NULL, 'PKR', NULL, NULL, NULL, 0, '2021-10-24 20:41:56', '2021-10-24 20:41:56'),
+(112, NULL, 'PAB', NULL, NULL, NULL, 0, '2021-10-24 20:41:56', '2021-10-24 20:41:56'),
+(113, NULL, 'PGK', NULL, NULL, NULL, 0, '2021-10-24 20:41:56', '2021-10-24 20:41:56'),
+(114, NULL, 'PYG', NULL, NULL, NULL, 0, '2021-10-24 20:41:56', '2021-10-24 20:41:56'),
+(115, NULL, 'PEN', NULL, NULL, NULL, 0, '2021-10-24 20:41:56', '2021-10-24 20:41:56'),
+(116, NULL, 'PHP', NULL, NULL, NULL, 0, '2021-10-24 20:41:56', '2021-10-24 20:41:56'),
+(117, NULL, 'PLN', NULL, NULL, NULL, 0, '2021-10-24 20:41:57', '2021-10-24 20:41:57'),
+(118, NULL, 'QAR', NULL, NULL, NULL, 0, '2021-10-24 20:41:57', '2021-10-24 20:41:57'),
+(119, NULL, 'RON', NULL, NULL, NULL, 0, '2021-10-24 20:41:57', '2021-10-24 20:41:57'),
+(120, NULL, 'RUB', NULL, NULL, NULL, 0, '2021-10-24 20:41:57', '2021-10-24 20:41:57'),
+(121, NULL, 'RWF', NULL, NULL, NULL, 0, '2021-10-24 20:41:57', '2021-10-24 20:41:57'),
+(122, NULL, 'SHP', NULL, NULL, NULL, 0, '2021-10-24 20:41:57', '2021-10-24 20:41:57'),
+(123, NULL, 'WST', NULL, NULL, NULL, 0, '2021-10-24 20:41:57', '2021-10-24 20:41:57'),
+(124, NULL, 'STD', NULL, NULL, NULL, 0, '2021-10-24 20:41:57', '2021-10-24 20:41:57'),
+(125, NULL, 'SAR', NULL, NULL, NULL, 0, '2021-10-24 20:41:58', '2021-10-24 20:41:58'),
+(126, NULL, 'RSD', NULL, NULL, NULL, 0, '2021-10-24 20:41:58', '2021-10-24 20:41:58'),
+(127, NULL, 'SCR', NULL, NULL, NULL, 0, '2021-10-24 20:41:58', '2021-10-24 20:41:58'),
+(128, NULL, 'SLL', NULL, NULL, NULL, 0, '2021-10-24 20:41:58', '2021-10-24 20:41:58'),
+(129, NULL, 'SGD', NULL, NULL, NULL, 0, '2021-10-24 20:41:58', '2021-10-24 20:41:58'),
+(130, NULL, 'SBD', NULL, NULL, NULL, 0, '2021-10-24 20:41:58', '2021-10-24 20:41:58'),
+(131, NULL, 'SOS', NULL, NULL, NULL, 0, '2021-10-24 20:41:58', '2021-10-24 20:41:58'),
+(132, NULL, 'KRW', NULL, NULL, NULL, 0, '2021-10-24 20:41:58', '2021-10-24 20:41:58'),
+(133, NULL, 'SSP', NULL, NULL, NULL, 0, '2021-10-24 20:41:59', '2021-10-24 20:41:59'),
+(134, NULL, 'LKR', NULL, NULL, NULL, 0, '2021-10-24 20:41:59', '2021-10-24 20:41:59'),
+(135, NULL, 'SDG', NULL, NULL, NULL, 0, '2021-10-24 20:41:59', '2021-10-24 20:41:59'),
+(136, NULL, 'SRD', NULL, NULL, NULL, 0, '2021-10-24 20:41:59', '2021-10-24 20:41:59'),
+(137, NULL, 'SZL', NULL, NULL, NULL, 0, '2021-10-24 20:41:59', '2021-10-24 20:41:59'),
+(138, NULL, 'SEK', NULL, NULL, NULL, 0, '2021-10-24 20:41:59', '2021-10-24 20:41:59'),
+(139, NULL, 'CHE', NULL, NULL, NULL, 0, '2021-10-24 20:41:59', '2021-10-24 20:41:59'),
+(140, NULL, 'CHW', NULL, NULL, NULL, 0, '2021-10-24 20:41:59', '2021-10-24 20:41:59'),
+(141, NULL, 'SYP', NULL, NULL, NULL, 0, '2021-10-24 20:41:59', '2021-10-24 20:41:59'),
+(142, NULL, 'TWD', NULL, NULL, NULL, 0, '2021-10-24 20:41:59', '2021-10-24 20:41:59'),
+(143, NULL, 'TJS', NULL, NULL, NULL, 0, '2021-10-24 20:42:00', '2021-10-24 20:42:00'),
+(144, NULL, 'TZS', NULL, NULL, NULL, 0, '2021-10-24 20:42:00', '2021-10-24 20:42:00'),
+(145, NULL, 'THB', NULL, NULL, NULL, 0, '2021-10-24 20:42:00', '2021-10-24 20:42:00'),
+(146, NULL, 'TOP', NULL, NULL, NULL, 0, '2021-10-24 20:42:00', '2021-10-24 20:42:00'),
+(147, NULL, 'TTD', NULL, NULL, NULL, 0, '2021-10-24 20:42:00', '2021-10-24 20:42:00'),
+(148, NULL, 'TND', NULL, NULL, NULL, 0, '2021-10-24 20:42:00', '2021-10-24 20:42:00'),
+(149, NULL, 'TRY', NULL, NULL, NULL, 0, '2021-10-24 20:42:00', '2021-10-24 20:42:00'),
+(150, NULL, 'TMT', NULL, NULL, NULL, 0, '2021-10-24 20:42:00', '2021-10-24 20:42:00'),
+(151, NULL, 'UGX', NULL, NULL, NULL, 0, '2021-10-24 20:42:01', '2021-10-24 20:42:01'),
+(152, NULL, 'UAH', NULL, NULL, NULL, 0, '2021-10-24 20:42:01', '2021-10-24 20:42:01'),
+(153, NULL, 'AED', NULL, NULL, NULL, 0, '2021-10-24 20:42:01', '2021-10-24 20:42:01'),
+(154, NULL, 'USN', NULL, NULL, NULL, 0, '2021-10-24 20:42:01', '2021-10-24 20:42:01'),
+(155, NULL, 'USS', NULL, NULL, NULL, 0, '2021-10-24 20:42:01', '2021-10-24 20:42:01'),
+(156, NULL, 'UYI', NULL, NULL, NULL, 0, '2021-10-24 20:42:01', '2021-10-24 20:42:01'),
+(157, NULL, 'UYU', NULL, NULL, NULL, 0, '2021-10-24 20:42:01', '2021-10-24 20:42:01'),
+(158, NULL, 'UZS', NULL, NULL, NULL, 0, '2021-10-24 20:42:01', '2021-10-24 20:42:01'),
+(159, NULL, 'VUV', NULL, NULL, NULL, 0, '2021-10-24 20:42:01', '2021-10-24 20:42:01'),
+(160, NULL, 'VEF', NULL, NULL, NULL, 0, '2021-10-24 20:42:02', '2021-10-24 20:42:02'),
+(161, NULL, 'VND', NULL, NULL, NULL, 0, '2021-10-24 20:42:02', '2021-10-24 20:42:02'),
+(162, NULL, 'YER', NULL, NULL, NULL, 0, '2021-10-24 20:42:02', '2021-10-24 20:42:02'),
+(163, NULL, 'ZMW', NULL, NULL, NULL, 0, '2021-10-24 20:42:02', '2021-10-24 20:42:02');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `currencies`
+--
+ALTER TABLE `currencies`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `currencies`
+--
+ALTER TABLE `currencies`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=164;
+ 
+ 
+ 
+ 
+ 
+ 
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `currency_conversions`
+--
+
+CREATE TABLE `currency_conversions` (
+  `id` bigint UNSIGNED NOT NULL,
+  `base_currency_id` bigint UNSIGNED DEFAULT NULL COMMENT 'the base currency id',
+  `converted_currency_id` bigint UNSIGNED DEFAULT NULL COMMENT 'the currency being converted to id',
+  `rate` double(7,2) DEFAULT '1.00',
+  `status` tinyint(1) DEFAULT '0' COMMENT 'only active conversions will be visible to clients',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `currency_conversions`
+--
+ALTER TABLE `currency_conversions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `currency_conversions_base_currency_id_index` (`base_currency_id`),
+  ADD KEY `currency_conversions_converted_currency_id_index` (`converted_currency_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `currency_conversions`
+--
+ALTER TABLE `currency_conversions`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `currency_conversions`
+--
+ALTER TABLE `currency_conversions`
+  ADD CONSTRAINT `currency_conversions_base_currency_id_foreign` FOREIGN KEY (`base_currency_id`) REFERENCES `currencies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `currency_conversions_converted_currency_id_foreign` FOREIGN KEY (`converted_currency_id`) REFERENCES `currencies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE; 
+  
+  
+  
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `country_currency`
+--
+
+CREATE TABLE `country_currency` (
+  `id` bigint UNSIGNED NOT NULL,
+  `country_id` bigint UNSIGNED DEFAULT NULL,
+  `currency_id` bigint UNSIGNED DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '0' COMMENT 'only active countries + currencies will be visible to clients',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `country_currency`
+--
+ALTER TABLE `country_currency`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `country_currency_country_id_index` (`country_id`),
+  ADD KEY `country_currency_currency_id_index` (`currency_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `country_currency`
+--
+ALTER TABLE `country_currency`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `country_currency`
+--
+ALTER TABLE `country_currency`
+  ADD CONSTRAINT `country_currency_country_id_foreign` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `country_currency_currency_id_foreign` FOREIGN KEY (`currency_id`) REFERENCES `currencies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  
+  
+  
+  
+  
+  
+  
+  
+
+-- --------------------------------------------------------
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `client_geo_data`
+--
+
+CREATE TABLE `client_geo_data` (
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint DEFAULT NULL,
+  `country_id` bigint UNSIGNED DEFAULT NULL,
+  `currency_id` bigint UNSIGNED DEFAULT NULL,
+  `ip` varchar(77) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'ipv4 entry',
+  `ipv6` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'ipv6 entry',
+  `country_code` varchar(7) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'alphaCode2 e.g IN',
+  `country_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'e.g INDIA',
+  `region_code` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'eg 30',
+  `region_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `city` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `zip_code` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `time_zone` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `latitude` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `longitude` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `metro_code` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `unix_expiry_time` varchar(25) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'time in unix when record will expire',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `client_geo_data`
+--
+ALTER TABLE `client_geo_data`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `client_geo_data_ip_unique` (`ip`),
+  ADD KEY `client_geo_data_country_id_index` (`country_id`),
+  ADD KEY `client_geo_data_currency_id_index` (`currency_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `client_geo_data`
+--
+ALTER TABLE `client_geo_data`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `client_geo_data`
+--
+ALTER TABLE `client_geo_data`
+  ADD CONSTRAINT `client_geo_data_country_id_foreign` FOREIGN KEY (`country_id`) REFERENCES `countries` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `client_geo_data_currency_id_foreign` FOREIGN KEY (`currency_id`) REFERENCES `currencies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `setting_magic_zooms`
+--
+
+CREATE TABLE `setting_magic_zooms` (
+  `id` bigint UNSIGNED NOT NULL,
+  `desktop_options` json DEFAULT NULL,
+  `mobile_options` json DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `setting_magic_zooms`
+--
+ALTER TABLE `setting_magic_zooms`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `setting_magic_zooms`
+--
+ALTER TABLE `setting_magic_zooms`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  
+  
+  
+  
+  
+  
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `slider_v2_s`
+--
+
+CREATE TABLE `slider_v2_s` (
+  `id` bigint UNSIGNED NOT NULL,
+  `language_id` int NOT NULL DEFAULT '0',
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `text` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `slider_category` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'eg main, side1, side2',
+  `button_text` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `button_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `serial_number` int NOT NULL DEFAULT '0',
+  `bold_text` text COLLATE utf8mb4_unicode_ci,
+  `text_font_size` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bold_text_color` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bold_text_font_size` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title_font_size` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `button_text_font_size` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `side_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `another_button_text` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `another_button_text_font_size` varchar(77) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `another_button_url` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `slider_v2_s`
+--
+
+INSERT INTO `slider_v2_s` (`id`, `language_id`, `title`, `text`, `slider_category`, `button_text`, `button_url`, `image`, `serial_number`, `bold_text`, `text_font_size`, `bold_text_color`, `bold_text_font_size`, `title_font_size`, `button_text_font_size`, `side_image`, `another_button_text`, `another_button_text_font_size`, `another_button_url`, `created_at`, `updated_at`) VALUES
+(1, 169, 'Financial Planning For Life', 'Trusted to help guide', 'main', 'Learn More', 'javascript:;', 'defaults/v2-m-1.png', 1, 'Be stronger!', '60', NULL, '147', '24', '14', NULL, NULL, NULL, NULL, '2022-01-17 01:29:45', '2022-01-17 01:43:59'),
+(2, 169, 'Financial Planning For Life', 'Trusted to help guide', 'main', 'Learn More', 'javascript:;', 'defaults/v2-m-1.png', 1, 'Be stronger!', '60', NULL, '147', '24', '14', NULL, NULL, NULL, NULL, '2022-01-17 01:43:59', '2022-01-17 01:43:59'),
+(3, 169, 'Financial Planning For Life', 'Trusted to help guide', 'main', 'Learn More', 'javascript:;', 'defaults/v2-m-1.png', 1, 'Be stronger!', '60', NULL, '147', '24', '14', NULL, NULL, NULL, NULL, '2022-01-17 01:44:00', '2022-01-17 01:44:00'),
+(4, 169, 'Great Offers', 'Grab your copy now.', 'side1', 'Learn More', 'javascript:;', 'defaults/v2-s-1.png', 1, 'Be stronger!', '60', NULL, '147', '24', '14', NULL, NULL, NULL, NULL, '2022-01-17 01:44:00', '2022-01-17 01:44:00'),
+(5, 169, 'Angel Publishers', 'A world of choice.', 'side2', 'Learn More', 'javascript:;', 'defaults/v2-s-2.png', 1, 'Be stronger!', '60', NULL, '147', '24', '14', NULL, NULL, NULL, NULL, '2022-01-17 01:44:00', '2022-01-17 01:44:01');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `slider_v2_s`
+--
+ALTER TABLE `slider_v2_s`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `slider_v2_s`
+--
+ALTER TABLE `slider_v2_s`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  
+ 
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mobile_header_custom_buttons`
+--
+
+CREATE TABLE `mobile_header_custom_buttons` (
+  `id` bigint UNSIGNED NOT NULL,
+  `language_id` bigint UNSIGNED DEFAULT NULL,
+  `link_text` text COLLATE utf8mb4_unicode_ci COMMENT 'can support html content',
+  `link_url` text COLLATE utf8mb4_unicode_ci COMMENT 'where the hyperlink redirects to',
+  `link_target` text COLLATE utf8mb4_unicode_ci COMMENT 'if = ''_blank'' open in new window',
+  `description` text COLLATE utf8mb4_unicode_ci COMMENT 'more info to where the link leads to',
+  `link_rank` int DEFAULT NULL COMMENT 'help in ordering links on the web page',
+  `status` tinyint(1) DEFAULT '1' COMMENT 'only show active links',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+--
+-- Indexes for table `mobile_header_custom_buttons`
+--
+ALTER TABLE `mobile_header_custom_buttons`
+  ADD PRIMARY KEY (`id`); 
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `mobile_header_custom_buttons`
+--
+ALTER TABLE `mobile_header_custom_buttons`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+COMMIT;
+  
+  
+  
+  
+  
+  
+  
