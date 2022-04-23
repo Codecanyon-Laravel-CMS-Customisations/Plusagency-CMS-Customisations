@@ -84,7 +84,7 @@ $countitem += $p['qty'];
 @endphp
 @endif
 
-<!-- @php
+@php
 $searches = \App\Product::query()
                 ->orderBy('title', 'ASC')
                 ->get()
@@ -98,7 +98,7 @@ $searches = \App\Product::query()
                     }
                 }); //->pluck('title', 'current_price', 'id');
 
-@endphp -->
+@endphp
 
 <style>
     
@@ -133,6 +133,11 @@ $searches = \App\Product::query()
     }
 
     @media only screen and (max-width: 441px) {
+
+      .dropdown {
+        width: 90% !important;
+      } 
+
       .helper-text {
         /* display: none; */
         font-size: 2.4vw;
@@ -166,6 +171,10 @@ $searches = \App\Product::query()
 
     /* media query for mobile screens */
     @media only screen and (max-width: 278px) {
+        .dropdown {
+            width: 95% !important;
+        }
+
         .fonts {
              font-size: 0.7rem !important;
         }
@@ -309,7 +318,7 @@ $searches = \App\Product::query()
                                   <div id="myDropdown" class="dropdown-content show w-100">
                                     <input type="text" placeholder="Search.." id="myInput" class="search-input" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#myInput').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : '' }}" onblur="addingClass()" onfocus="removingClass()" onkeyup="filterFunction()">
 
-                                    <div class="titles d-none overflow-auto"  style="max-height: 300px;">
+                                    <div id="dropdown-titles" class="titles d-none overflow-auto"  style="max-height: 300px;">
                                     @foreach ($searches as $product)
                                             
                                         <a href="{{ route('front.product.details', ['slug' => $product->slug]) }}" style="cursor:pointer">   {{ $product->title }} </a>
@@ -968,8 +977,91 @@ function addingClass(){
     },3000);
 }
 
+</script>
 
+<script>
+    $("#myInput").on({
 
+        "change": function() {
+            $(this).blur();
+        },
+
+        'focus': function() {
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                $("#sidebarNavToggler").addClass('d-none');
+            }
+            else {
+                $("#sidebarNavToggler").removeClass('d-none');
+            }
+        },
+
+        "blur": function() {
+            console.log("blur")
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                setTimeout(() => {
+                  $("#sidebarNavToggler").removeClass('d-none'); 
+                }, 3000)
+            }
+            else {
+                $("#sidebarNavToggler").removeClass('d-none');
+            }
+        },
+
+       "keyup": function(e) {
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                var count = 0;
+                var length = $('#dropdown-titles > a').each(function() {
+                    
+                    if ($(this).css('display') !== 'none') {
+                        count++;
+                    }
+                    
+                });
+
+                if ( count > 1 ) {
+                    $("#sidebarNavToggler").addClass('d-none');
+                } else {
+                    $("#sidebarNavToggler").removeClass('d-none');
+                }
+            }
+            else {
+                $("#sidebarNavToggler").removeClass('d-none');
+            }
+            
+            
+            // if (e.keyCode == 27) {
+            //     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+            //         $("#sidebarNavToggler").addClass('d-none');
+            //     }
+            //     else {
+            //         $("#sidebarNavToggler").removeClass('d-none');
+            //     }
+            // }
+        },
+
+        "keydown": function(e) {
+            console.log("keydown")
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                var count = 0;
+                var length = $('#dropdown-titles > a').each(function() {
+                    
+                    if ($(this).css('display') !== 'none') {
+                        count++;
+                    }
+                    
+                });
+
+                if ( count > 1 ) {
+                    $("#sidebarNavToggler").addClass('d-none');
+                } else {
+                    $("#sidebarNavToggler").removeClass('d-none');
+                }
+            }
+            else {
+                $("#sidebarNavToggler").removeClass('d-none');
+            }
+        }
+    });
 </script>
 
 <style>
