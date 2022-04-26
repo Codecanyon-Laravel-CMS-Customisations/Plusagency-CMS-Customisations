@@ -100,6 +100,11 @@ $searches = \App\Product::query()
 
 @endphp
 
+@php
+$account_dropdow_auths_links = array("login", "register");
+$account_dropdow_other_links = array("track my order");
+@endphp
+
 <style>
     
     option {
@@ -413,42 +418,49 @@ $searches = \App\Product::query()
                                         </div>
                                     </a>
                                 </div>
+
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="{{ route('user-logout') }}" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8("Logout")}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
                                 @else
-                                <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="{{ route('user.login') }}" class="text-dark">
-                                        <div class="media-body ml-4">
-                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8("Login")}}
-                                            </h6>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="{{ route('user-register') }}" class="text-dark">
-                                        <div class="media-body ml-4">
-                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8("Register")}}
-                                            </h6>
-                                        </div>
-                                    </a>
-                                </div>
-                                @endif
-
-
-
                                 @foreach ($ulinks as $key => $ulink)
-                                @if($ulink->id == 18)
-                                <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="{{$ulink->url}}" class="text-dark">
-                                        <div class="media-body ml-4">
-                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8($ulink->name)}}
-                                            </h6>
+                                    @if( in_array(Str::lower($ulink->name), $account_dropdow_auths_links) )
+                                        <div class="px-1 py-2 px-md-3 border-bottom">
+                                            <a href="{{$ulink->url}}" class="text-dark">
+                                                <div class="media-body ml-4">
+                                                    <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                        {{convertUtf8($ulink->name)}}
+                                                    </h6>
+                                                </div>
+                                            </a>
                                         </div>
-                                    </a>
-                                </div>
+                                    @endif
+
+                                @endforeach
                                 @endif
+
+
+                                
+                                @foreach ($ulinks as $key => $ulink)
+                                
+                                @if( in_array(Str::lower($ulink->name), $account_dropdow_other_links) )
+                                    <div class="px-1 py-2 px-md-3 border-bottom">
+                                        <a href="{{$ulink->url}}" class="text-dark">
+                                            <div class="media-body ml-4">
+                                                <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                    {{convertUtf8($ulink->name)}}
+                                                </h6>
+                                            </div>
+                                        </a>
+                                    </div>
+                                @endif
+
                                 @endforeach
 
                                 <div class="px-1 py-2 px-md-3 border-bottom">
@@ -663,39 +675,54 @@ $searches = \App\Product::query()
                                     </h6>
                                 </header>
 
+
+                                @if(auth()->user())
                                 <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="{{ route('user.login') }}" class="text-dark">
+                                    <a href="{{ route('user-dashboard') }}" class="text-dark">
                                         <div class="media-body ml-4">
                                             <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8("Login")}}
+                                                {{convertUtf8("Dashboard")}}
                                             </h6>
                                         </div>
                                     </a>
                                 </div>
 
                                 <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="{{ route('user-register') }}" class="text-dark">
+                                    <a href="{{ route('user-logout') }}" class="text-dark">
                                         <div class="media-body ml-4">
                                             <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8("Register")}}
+                                                {{convertUtf8("Logout")}}
                                             </h6>
                                         </div>
                                     </a>
                                 </div>
-
-
+                                @else
+                                    @foreach ($ulinks as $key => $ulink)
+                                        @if( in_array(Str::lower($ulink->name), $account_dropdow_auths_links) )
+                                            <div class="px-1 py-2 px-md-3 border-bottom">
+                                                <a href="{{$ulink->url}}" class="text-dark">
+                                                    <div class="media-body ml-4">
+                                                        <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                            {{convertUtf8($ulink->name)}}
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @endif
 
                                 @foreach ($ulinks as $key => $ulink)
-                                @if($ulink->id == 18)
-                                <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="{{$ulink->url}}" class="text-dark">
-                                        <div class="media-body ml-4">
-                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8($ulink->name)}}
-                                            </h6>
-                                        </div>
-                                    </a>
-                                </div>
+                                @if( in_array(Str::lower($ulink->name), $account_dropdow_other_links) )
+                                    <div class="px-1 py-2 px-md-3 border-bottom">
+                                        <a href="{{$ulink->url}}" class="text-dark">
+                                            <div class="media-body ml-4">
+                                                <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                    {{convertUtf8($ulink->name)}}
+                                                </h6>
+                                            </div>
+                                        </a>
+                                    </div>
                                 @endif
                                 @endforeach
 
