@@ -282,7 +282,8 @@ $account_dropdow_other_links = array("track my order");
                         <div class="form-inline my-2 my-xl-0">
                             <div class="input-group w-100">
                                 <div class="input-group-prepend z-index-2 d-none d-xl-block w-25">
-                                    <select class="d-none d-lg-block custom-select pr-7 pl-4 rounded-0 height-5 shadow-none text-dark" id="category_id" {{-- style="max-width: 150px;" --}}>
+                                    <!-- pr-7 pl-4 -->
+                                    <select class="d-none d-lg-block custom-select rounded-0 height-5 shadow-none text-dark" id="category_id" {{-- style="max-width: 150px;" --}} style="max-width: 156%;">
                                         <option selected>All Categories</option>
                                         @php
                                         $active_category = request()->has('category_id') ? request('category_id') : '';
