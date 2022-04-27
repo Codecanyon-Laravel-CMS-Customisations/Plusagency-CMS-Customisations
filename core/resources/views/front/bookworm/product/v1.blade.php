@@ -1,3 +1,11 @@
+<!-- $selected = isset($_GET['variation']) && $_GET['variation'] == $variation->id ? 'selected' : ''; -->
+@php
+$variation = null;
+if(isset($_GET['variation'])) {
+    $variation = \App\Product::withoutGlobalScope('variation')->find($_GET['variation']);
+}
+@endphp
+
 <style>
     .cart-btn:hover {
         background-color: #D55534 !important;
@@ -81,13 +89,21 @@
                             <p class="price font-size-22 font-weight-medium mb-3">
                                 <span class="woocommerce-Price-amount amount">
                                     <span class="woocommerce-Price-currencySymbol">
-                                        {{-- {{ strtolower($bex->base_currency_symbol_position) == 'left' ? $bex->base_currency_symbol : '' }} --}}
+                                        {{-- 
+                                            {{ strtolower($bex->base_currency_symbol_position) == 'left' ? $bex->base_currency_symbol : '' }} 
+                                        --}}
+
                                         {{ trim($product->symbol) }}
                                     </span>
-                                    {{-- {{ $pvariation ? angel_auto_convert_currency($pvariation->current_price, $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }} --}}
-                                    {{ number_format(!empty($product->price) ? $product->price : '0.00', 0) }}
+                                    {{-- 
+                                        {{ $pvariation ? angel_auto_convert_currency($pvariation->current_price, $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }} 
+                                    --}}
+                                    
+                                    {{ ($variation)? number_format(!empty($variation->price) ? $variation->price : '0.00', 0) : number_format(!empty($product->price) ? $product->price : '0.00', 0) }}
                                     <span class="woocommerce-Price-currencySymbol">
-                                        {{-- {{ strtolower($bex->base_currency_symbol_position) == 'right' ? $bex->base_currency_symbol : '' }} --}}
+                                        {{-- 
+                                            {{ strtolower($bex->base_currency_symbol_position) == 'right' ? $bex->base_currency_symbol : '' }} 
+                                        --}}
                                     </span>
                                 </span>
                             </p>
