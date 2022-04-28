@@ -86,7 +86,7 @@ if(isset($_GET['variation'])) {
                                 @endif
 
                                 <div class="font-size-2 ml-3 mb-2" style="margin-top:-3px">
-                                    <span class="mb-2"> <b> By (Author): </b> </span>
+                                    <span class="mb-2"> <b> By (author): </b> </span>
                                 </div>
                             </div>
 
@@ -94,7 +94,7 @@ if(isset($_GET['variation'])) {
 
                             @if (!is_null($product->variations))
                             <div class="variation">
-                                <p> Book Format: Choose and option </p>
+                                <span> Book Format:</span> <span style="color: #00000070;">Choose and option </span>
                             </div>
                             @php
                             if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
