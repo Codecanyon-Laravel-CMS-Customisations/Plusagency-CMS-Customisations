@@ -120,6 +120,12 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                         @foreach ($cart as $id => $item)
                         @php
                         $product = App\Product::findOrFail($id);
+
+                        $variation = null;
+                        if(isset($item['selected_variation_id'])) {
+                            $variation = \App\Product::withoutGlobalScope('variation')->find($item['selected_variation_id']);
+
+                        }
                         @endphp
                         <div class="col-12 remove{{$id}}">
                             <div class="card mb-3">
@@ -157,7 +163,13 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                                             {{ $product->symbol }}
                                                             <span class="sub-total-{{$product->id}}">{{ number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) }}</span>
                                                         </strong>
-                                                        <small class="text-muted pl-2 price cart_price">( {{ $product->symbol }} <span class="cart_price_brkt-{{$product->id}}">{{ number_format(!empty($product->price) ? $product->price : '0.00', 0) }}</span> x <span class="cart_qty_brkt-{{$product->id}}">{{ $item['qty'] }}</span> )</small>
+                                                        <small class="text-muted pl-2 price cart_price">( {{ $product->symbol }} <span class="cart_price_brkt-{{$product->id}}">
+                                                            {{-- 
+                                                            number_format(!empty($product->price) ? $product->price : '0.00', 0) 
+                                                            --}}
+
+                                                            {{ ($variation)?number_format($variation->price, 0):number_format($product->price, 0) }}
+                                                        </span> x <span class="cart_qty_brkt-{{$product->id}}">{{ $item['qty'] }}</span> )</small>
                                                     </p>
                                                 </div>
                                             </a>
@@ -201,6 +213,13 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                             @foreach ($cart as $id => $item)
                             @php
                             $product = App\Product::findOrFail($id);
+
+
+                            $variation = null;
+                            if(isset($item['selected_variation_id'])) {
+                                $variation = \App\Product::withoutGlobalScope('variation')->find($item['selected_variation_id']);
+
+                            }
                             @endphp
                             <tr class="remove{{$id}}">
 
@@ -258,7 +277,12 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                     {{ $product->symbol }}
                                     <span>
                                         {{-- {{ isset($pvariation) ? angel_auto_convert_currency($pvariation->current_price, $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }} --}}
-                                        {{ number_format(!empty($product->price) ? $product->price : '0.00', 0) }}
+                                        
+                                        {{-- 
+                                        number_format(!empty($product->price) ? $product->price : '0.00', 0) 
+                                        --}}
+
+                                        {{ ($variation)?number_format($variation->price, 0):number_format($product->price, 0) }}
                                     </span>
                                     {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
                                 </td>
@@ -267,7 +291,8 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                     {{ $product->symbol }}
                                     <span class="sub-total-{{$product->id}}">
                                         {{-- {{ isset($pvariation) ? angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) }} --}}
-                                        {{ number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) }}
+                                        
+                                        {{number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) }}
                                     </span>
                                     {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
                                 </td>

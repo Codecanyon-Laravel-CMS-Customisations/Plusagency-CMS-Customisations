@@ -294,6 +294,9 @@ class ProductController extends Controller
         return view('front.product.product_categories', compact('pcategories', 'be', 'version'));
     }
 
+    
+    /* start: previous function addToCart commented by zeeshan because it has no variation logic */
+    /*
     public function addToCart(Request $request, $id)
     {
         $cart = session()->get('cart');
@@ -485,6 +488,236 @@ class ProductController extends Controller
                 "price" => $product->current_price,
                 "photo" => $product->feature_image,
                 "type" => $product->type
+            ];
+        }
+
+        session()->put('cart', $cart);
+        if(request()->expectsJson())
+        {
+            return response()->json(['message' => 'Product added to cart successfully!']);
+        }
+        else
+        {
+            session()->flash('message', 'Product added to cart successfully!');
+            session()->flash('success', 'Product added to cart successfully!');
+            return redirect()->back();
+        }
+    }
+    */
+    /* end: previous function addToCart commented by zeeshan because it has no variation logic */
+
+    // added variations code to addToCart
+    public function addToCart(Request $request, $id)
+    {
+        // dd($id);
+        
+        $cart = session()->get('cart');
+        $variation = null;
+
+        if (strpos($id, ',,,') == true) {
+            $data = explode(',,,', $id);
+            $id = $data[0];
+            $qty = $data[1];
+
+            $product = Product::findOrFail($id);
+            if ($product->type != 'digital') {
+                if(!empty($cart) && array_key_exists($id, $cart)){
+                    if($product->stock < $cart[$id]['qty'] + $qty){
+                        if(request()->expectsJson())
+                        {
+                            return response()->json(['error' => 'Out of Stock']);
+                        }
+                        else
+                        {
+                            session()->flash('error', 'Out of Stock');
+                            session()->flash('danger', 'Out of Stock');
+                            return redirect()->back();
+                        }
+                    }
+                }else{
+                    if($product->stock < $qty){
+                        if(request()->expectsJson())
+                        {
+                            return response()->json(['error' => 'Out of Stock']);
+                        }
+                        else
+                        {
+                            session()->flash('error', 'Out of Stock');
+                            session()->flash('danger', 'Out of Stock');
+                            return redirect()->back();
+                        }
+                    }
+                }
+            }
+
+            if (!$product) {
+                abort(404);
+            }
+            $cart = session()->get('cart');
+            // if cart is empty then this the first product
+            if (!$cart) {
+
+                $cart = [
+                    $id => [
+                        "name" => $product->title,
+                        "qty" => $qty,
+                        "price" => $product->current_price,
+                        "photo" => $product->feature_image,
+                        "type" => $product->type
+                    ]
+                ];
+
+                session()->put('cart', $cart);
+                if(request()->expectsJson())
+                {
+                    return response()->json(['message' => 'Product added to cart successfully!']);
+                }
+                else
+                {
+                    session()->flash('message', 'Product added to cart successfully!');
+                    session()->flash('success', 'Product added to cart successfully!');
+                    return redirect()->back();
+                }
+            }
+
+
+            // if cart not empty then check if this product exist then increment quantity
+            if (isset($cart[$id])) {
+                $cart[$id]['qty'] +=  $qty;
+                session()->put('cart', $cart);
+                if(request()->expectsJson())
+                {
+                    return response()->json(['message' => 'Product added to cart successfully!']);
+                }
+                else
+                {
+                    session()->flash('message', 'Product added to cart successfully!');
+                    session()->flash('success', 'Product added to cart successfully!');
+                    return redirect()->back();
+                }
+            }
+
+
+            // if item not exist in cart then add to cart with quantity = 1
+            $cart[$id] = [
+                "name" => $product->title,
+                "qty" => $qty,
+                "price" => $product->current_price,
+                "photo" => $product->feature_image,
+                "type" => $product->type
+            ];
+        } else {
+
+            // $product = Product::findOrFail($id);
+
+
+            $product = \DB::table('products')->where('id','=',$id)->first();
+            
+            if ( $product->is_variation == 1 ) {
+                $variation = $product;
+
+                // $product = Product::where('variations', 847)->first();
+                $product = Product::whereRaw("FIND_IN_SET($id, variations) > 0")->first();
+
+                $id = $product->id;
+            }
+            
+            if (!$product) {
+                abort(404);
+            }
+
+            if ($product->type != 'digital') {
+                if(!empty($cart) && array_key_exists($id, $cart)){
+                    if($product->stock < $cart[$id]['qty'] + 1){
+                        if(request()->expectsJson())
+                        {
+                            return response()->json(['error' => 'Out of Stock']);
+                        }
+                        else
+                        {
+                            session()->flash('error', 'Out of Stock');
+                            session()->flash('danger', 'Out of Stock');
+                            return redirect()->back();
+                        }
+                    }
+                }else{
+                    if($product->stock < 1){
+                        if(request()->expectsJson())
+                        {
+                            return response()->json(['error' => 'Out of Stock']);
+                        }
+                        else
+                        {
+                            session()->flash('error', 'Out of Stock');
+                            session()->flash('danger', 'Out of Stock');
+                            return redirect()->back();
+                        }
+                    }
+                }
+            }
+
+
+            $cart = session()->get('cart');
+            // if cart is empty then this the first product
+            if (!$cart) {
+
+                $cart = [
+                    $id => [
+                        "name" => $product->title,
+                        "qty" => 1,
+                        "price" => (isset($variation))?$variation->current_price:$product->current_price,
+                        "photo" => $product->feature_image,
+                        "type" => $product->type,
+                        "selected_variation_id" => (isset($variation))?$variation->id:null,
+                    ]
+                ];
+
+                session()->put('cart', $cart);
+                if(request()->expectsJson())
+                {
+                    return response()->json(['message' => 'Product added to cart successfully!']);
+                }
+                else
+                {
+                    session()->flash('message', 'Product added to cart successfully!');
+                    session()->flash('success', 'Product added to cart successfully!');
+                    return redirect()->back();
+                }
+            }
+
+            // if selected product is digital , then check if the product is already in the cart
+            // digital product can only be added once in cart
+            // if ($product->type == 'digital') {
+            //     if (is_array($cart) && array_key_exists($id, $cart)) {
+            //         return response()->json(['error' => 'Already added to cart!']);
+            //     }
+            // }
+
+            // if cart not empty then check if this product exist then increment quantity
+            if (isset($cart[$id])) {
+                $cart[$id]['qty']++;
+                session()->put('cart', $cart);
+                if(request()->expectsJson())
+                {
+                    return response()->json(['message' => 'Product added to cart successfully!']);
+                }
+                else
+                {
+                    session()->flash('message', 'Product added to cart successfully!');
+                    session()->flash('success', 'Product added to cart successfully!');
+                    return redirect()->back();
+                }
+            }
+
+            // if item not exist in cart then add to cart with quantity = 1
+            $cart[$id] = [
+                "name" => $product->title,
+                "qty" => 1,
+                // "price" => $product->current_price,
+                "price" => (isset($variation))?$variation->current_price:$product->current_price,
+                "photo" => $product->feature_image,
+                "type" => $product->type,
+                "selected_variation_id" => (isset($variation))?$variation->id:null,
             ];
         }
 

@@ -1,4 +1,3 @@
-
 <style>
     .btn-disable
     {
@@ -34,7 +33,8 @@
     }
 </style>
 
-<!-- <aside id="sidebarContent1" class="u-sidebar u-sidebar__xl cart-sidebar" aria-labelledby="sidebarNavToggler1">
+<?php /* ?>
+<aside id="sidebarContent1" class="u-sidebar u-sidebar__xl cart-sidebar" aria-labelledby="sidebarNavToggler1">
     <div class="u-sidebar__scroller js-scrollbar">
         <div class="u-sidebar__container">
             <div class="u-header-sidebar__footer-offset">
@@ -126,7 +126,8 @@
             </div>
         </div>
     </div>
-</aside> -->
+</aside>
+<?php */ ?>
 
 
 
@@ -169,7 +170,15 @@
                         @foreach ($cart as $id => $item)
                             @php
                                 $product = App\Product::findOrFail($id);
+                                
+
+                                $variation = null;
+                                if(isset($item['selected_variation_id'])) {
+                                    $variation = \App\Product::withoutGlobalScope('variation')->find($item['selected_variation_id']);
+
+                                }
                             @endphp
+
                             <div class="px-4 py-5 px-md-6 border-bottom">
                                 <div class="media">
                                     <a target="_blank" href="{{route('front.product.details',$product->slug)}}" class="d-block"><img src="@if($item['photo']!=null){{$item['photo']}}@else{{asset('https://via.placeholder.com/150')}}@endif" class="img-fluid cus-pos" alt="image-description" width="150"></a>
@@ -190,7 +199,8 @@
                                             </span>
                                                 <span class="woocommerce-Price-amount amount d-inline-block ml-3 d-flex">
                                                 {{ $product->symbol }}
-                                                <span> {{ number_format($product->price, 0) }}</span>
+
+                                                <span> {{ ($variation)?number_format($variation->price, 0):number_format($product->price, 0) }}</span>
                                             </span>
                                             </div>
                                             <br/>

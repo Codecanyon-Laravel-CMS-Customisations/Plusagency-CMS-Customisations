@@ -329,3 +329,43 @@ if (!function_exists('coupon')) {
 
 
 
+// helper functions by zeeshan
+
+// for checking current country added 
+if (!function_exists('checkCountry')) {
+    function checkCountry()
+    {
+        if (session()->has('geo_data_user_country')) {
+            $c_id = session()->get('geo_data_user_country');
+
+            if ( $c_id == 105 ) {
+                return "local";
+            }
+            else {
+                return "international";
+            }
+        }
+    }
+    
+}
+
+// get product price
+// if (!function_exists('productPrice')) {
+//     function productPrice($id)
+//     {
+//         $country = checkCountry();
+
+//         if (session()->has('cart')) {
+//             $cart = session()->get('cart');
+
+//             if (isset()) {
+//                 // code...
+//             }
+//             dump($cart[$id]['selected_variation_id']);
+//         }
+//     }
+// }
+
+
+
+
