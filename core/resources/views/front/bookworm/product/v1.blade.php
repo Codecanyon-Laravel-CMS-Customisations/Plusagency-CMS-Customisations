@@ -123,7 +123,7 @@ if(isset($_GET['variation'])) {
 
                                     </div>
 
-                                    <p> {{ round($variation->current_price) }} </p>
+                                    <p> {{ ship_to_india() ? "₹" : "$" }} {{ round($variation->current_price) }} </p>
                                 </div>
                                 @endforeach
 
