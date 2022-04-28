@@ -80,7 +80,7 @@ if(isset($_GET['variation'])) {
                             </h1>
                             <div class="row font-size-2">
                                 @if ($bex->product_rating_system == 1)
-                                <div class="rate">
+                                <div class="rate" style="margin-left:12px">
                                     <div class="rating" style="width:{{ $product->rating * 20 }}%"></div>
                                 </div>
                                 @endif
@@ -89,6 +89,31 @@ if(isset($_GET['variation'])) {
                                     <span class="mb-2"> <b> By (author): </b> </span>
                                 </div>
                             </div>
+
+
+                            @if (!$product->digital && !$product->offline)
+                            <p class="price font-size-22 font-weight-medium mb-3">
+                                <span class="woocommerce-Price-amount amount">
+                                    <span class="woocommerce-Price-currencySymbol">
+                                        {{-- 
+                                            {{ strtolower($bex->base_currency_symbol_position) == 'left' ? $bex->base_currency_symbol : '' }} 
+                                        --}}
+
+                                        {{ trim($product->symbol) }}
+                                    </span>
+                                    {{-- 
+                                        {{ $pvariation ? angel_auto_convert_currency($pvariation->current_price, $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }} 
+                                    --}}
+                                    
+                                    {{ ($variation)? number_format(!empty($variation->price) ? $variation->price : '0.00', 0) : number_format(!empty($product->price) ? $product->price : '0.00', 0) }}
+                                    <span class="woocommerce-Price-currencySymbol">
+                                        {{-- 
+                                            {{ strtolower($bex->base_currency_symbol_position) == 'right' ? $bex->base_currency_symbol : '' }} 
+                                        --}}
+                                    </span>
+                                </span>
+                            </p>
+                            @endif
 
                             {{-- Added Variation Here --}}
 
@@ -151,29 +176,7 @@ if(isset($_GET['variation'])) {
                             {{-- Added Variation Here --}}
 
 
-                            @if (!$product->digital && !$product->offline)
-                            <p class="price font-size-22 font-weight-medium mb-3">
-                                <span class="woocommerce-Price-amount amount">
-                                    <span class="woocommerce-Price-currencySymbol">
-                                        {{-- 
-                                            {{ strtolower($bex->base_currency_symbol_position) == 'left' ? $bex->base_currency_symbol : '' }} 
-                                        --}}
-
-                                        {{ trim($product->symbol) }}
-                                    </span>
-                                    {{-- 
-                                        {{ $pvariation ? angel_auto_convert_currency($pvariation->current_price, $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }} 
-                                    --}}
-                                    
-                                    {{ ($variation)? number_format(!empty($variation->price) ? $variation->price : '0.00', 0) : number_format(!empty($product->price) ? $product->price : '0.00', 0) }}
-                                    <span class="woocommerce-Price-currencySymbol">
-                                        {{-- 
-                                            {{ strtolower($bex->base_currency_symbol_position) == 'right' ? $bex->base_currency_symbol : '' }} 
-                                        --}}
-                                    </span>
-                                </span>
-                            </p>
-                            @endif
+                            
                             {{-- <div class="mb-2 font-size-2">
                                 <span class="font-weight-medium">Book Format:</span>
                                 <span class="ml-2 text-gray-600">Choose an option</span>
