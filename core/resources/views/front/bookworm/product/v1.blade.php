@@ -85,15 +85,29 @@ if(isset($_GET['variation'])) {
                                 </div>
                                 @endif
 
+                                
+                                @php
+
+                                $author_name = null;
+
+                                if (!is_null($product->attributes)) {
+                                    foreach(json_decode($product->attributes) as $attribute) {
+                                        if (str_contains(strtolower( $attribute->name ), 'author')) {
+                                            $author_name = $attribute->value;
+                                        } 
+                                    }
+                                }
+                                
+                                @endphp
                                 <div class="font-size-2 ml-3 mb-2" style="margin-top:-3px">
-                                    <span class="mb-2"> <b> By (author): </b> </span>
+                                    <span class="mb-2"> <b> By (author): </b> {{ $author_name }} </span>
                                 </div>
                             </div>
 
 
                             @if (!$product->digital && !$product->offline)
                             <p class="price font-size-22 font-weight-medium mb-3">
-                                <span class="woocommerce-Price-amount amount">
+                                <span class="woocommerce-Price-amount amount"> Price:
                                     <span class="woocommerce-Price-currencySymbol">
                                         {{-- 
                                             {{ strtolower($bex->base_currency_symbol_position) == 'left' ? $bex->base_currency_symbol : '' }} 
@@ -111,6 +125,33 @@ if(isset($_GET['variation'])) {
                                             {{ strtolower($bex->base_currency_symbol_position) == 'right' ? $bex->base_currency_symbol : '' }} 
                                         --}}
                                     </span>
+                                </span>
+                            </p>
+
+                            <p class="price font-size-22 font-weight-medium mb-3">
+                                <span class="woocommerce-Price-amount amount">
+
+                                    @php
+                                    $variation_prices = [];
+                                    foreach (explode(',', $product->variations) as $id) {
+
+                                        $variation = \App\Product::withoutGlobalScope('variation')->find($id);
+                                        
+                                        $variation_prices[]=$variation->price;
+                                        
+                                    }
+
+                                    @endphp
+
+                                    @if($variation_prices && count($variation_prices)>1)
+                                    <span class="woocommerce-Price-currencySymbol">
+                                        {{-- 
+                                            {{ strtolower($bex->base_currency_symbol_position) == 'left' ? $bex->base_currency_symbol : '' }} 
+                                        --}}
+
+                                        {{ trim($product->symbol) }} {{min($variation_prices)}} - {{ trim($product->symbol) }} {{max($variation_prices)}}
+                                    </span>
+                                    @endif
                                 </span>
                             </p>
                             @endif
@@ -148,7 +189,7 @@ if(isset($_GET['variation'])) {
 
                                     </div>
 
-                                    <p> {{ ship_to_india() ? "₹" : "$" }} {{ round($variation->current_price) }} </p>
+                                    <p> {{ ship_to_india() ? "₹" : "$" }} {{ round($variation->price) }} </p>
                                 </div>
                                 @endforeach
 
@@ -223,7 +264,7 @@ if(isset($_GET['variation'])) {
                             <form class="cart d-md-flex align-items-center" method="post" enctype="multipart/form-data">
                                 <div class="quantity mb-4 mb-md-0 d-flex align-items-center">
                                     <!-- Quantity -->
-                                    <div class="px-3 width-120">
+                                    <div class="width-120">
                                         <div class="product-quantity  d-flex" id="quantity">
                                             <button type="button" id="sub" class="sub subclick">-</button>
                                             <input type="text" class="cart-amount" id="1" value="1" />
