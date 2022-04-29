@@ -519,7 +519,18 @@ class ProductController extends Controller
             $id = $data[0];
             $qty = $data[1];
 
-            $product = Product::findOrFail($id);
+            // $product = Product::findOrFail($id);
+            $product = \DB::table('products')->where('id','=',$id)->first();
+            
+            if ( $product->is_variation == 1 ) {
+                $variation = $product;
+
+                // $product = Product::where('variations', 847)->first();
+                $product = Product::whereRaw("FIND_IN_SET($id, variations) > 0")->first();
+
+                $id = $product->id;
+            }
+
             if ($product->type != 'digital') {
                 if(!empty($cart) && array_key_exists($id, $cart)){
                     if($product->stock < $cart[$id]['qty'] + $qty){
@@ -561,9 +572,10 @@ class ProductController extends Controller
                     $id => [
                         "name" => $product->title,
                         "qty" => $qty,
-                        "price" => $product->current_price,
+                        "price" => (isset($variation))?$variation->current_price:$product->current_price,
                         "photo" => $product->feature_image,
-                        "type" => $product->type
+                        "type" => $product->type,
+                        "selected_variation_id" => (isset($variation))?$variation->id:null,
                     ]
                 ];
 

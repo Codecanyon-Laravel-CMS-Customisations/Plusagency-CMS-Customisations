@@ -89,7 +89,6 @@ if(isset($_GET['variation'])) {
                                 @php
 
                                 $author_name = null;
-
                                 if (!is_null($product->attributes)) {
                                     foreach(json_decode($product->attributes) as $attribute) {
                                         if (str_contains(strtolower( $attribute->name ), 'author')) {
@@ -133,12 +132,15 @@ if(isset($_GET['variation'])) {
 
                                     @php
                                     $variation_prices = [];
-                                    foreach (explode(',', $product->variations) as $id) {
 
-                                        $variation = \App\Product::withoutGlobalScope('variation')->find($id);
-                                        
-                                        $variation_prices[]=$variation->price;
-                                        
+                                    if($product->variations) {
+                                        foreach (explode(',', $product->variations) as $id) {
+
+                                            $variation = \App\Product::withoutGlobalScope('variation')->find($id);
+                                            
+                                            $variation_prices[]=$variation->price;
+                                            
+                                        }
                                     }
 
                                     @endphp
@@ -273,7 +275,7 @@ if(isset($_GET['variation'])) {
                                     </div>
                                     <!-- End Quantity -->
                                 </div>
-                                <a data-href="{{ $pvariation ? route('add.cart', $pvariation->id) : route('add.cart', $product->id) }}" class="btn btn-dark border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link my-1" style="color: #fff">Add to cart</a>
+                                <a data-href="{{ $variation ? route('add.cart', $variation->id) : route('add.cart', $product->id) }}" class="btn btn-dark border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link my-1" style="color: #fff">Add to cart</a>
                                 @if ($product->show_inquiry_form)
                                 @php
                                 $header_v2_button_text = 'GIVE US FEEDBACK';
