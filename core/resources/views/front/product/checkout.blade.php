@@ -59,13 +59,13 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
     }
 
     /* start: must comment below css before push  */
-    /*label, label:hover, .field-label {
+    label, label:hover, .field-label, td, .price {
         color: black;
     }
 
     input, input:hover {
         color: black;
-    }*/
+    }
     /* end: must comment below css before push  */
 </style>
 
@@ -512,7 +512,23 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                     @foreach ($cart as $key => $item)
                                     <input type="hidden" name="product_id[]" value="{{$key}}">
                                     @php
-                                    $total += $item['price'] * $item['qty'];
+
+                                    $variation = null;
+                                    if(isset($item['selected_variation_id'])) {
+                                        $variation = \App\Product::withoutGlobalScope('variation')->find($item['selected_variation_id']);
+                                        
+                                        if($variation) {
+                                            $total += $variation->price * $item['qty'];
+                                        }
+                                        else {
+                                            $total += $item['price'] * $item['qty'];
+                                        }
+                                    }
+                                    else {
+                                        $total += $item['price'] * $item['qty'];
+                                    }
+
+                                    
                                     $product = App\Product::findOrFail($key);
 
                                     @endphp
@@ -531,10 +547,11 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                         </td>
                                         <td class="price">
                                             {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
-                                            {{ $product->symbol }}
                                             {{-- {{ pesa($item['qty'] * $item['price']) }} --}}
-                                            {{ pesa($item['qty'] * $product->price) }}
                                             {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
+
+                                            {{ $product->symbol }}
+                                            {{ pesa($item['qty'] * (($variation)?$variation->price:$product->price)) }}
                                         </td>
                                     </tr>
                                     @endforeach

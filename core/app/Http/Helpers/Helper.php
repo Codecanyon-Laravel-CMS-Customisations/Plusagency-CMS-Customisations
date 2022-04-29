@@ -286,7 +286,21 @@ if (!function_exists('cartTotal')) {
             foreach ($cart as $key => $cartItem)
             {
                 $product    = Product::find($key);
-                $total     += (float)$product->price * (float)$cartItem['qty'];
+                
+                $variation = null;
+                if(isset($cartItem['selected_variation_id'])) {
+                    $variation = \App\Product::withoutGlobalScope('variation')->find($cartItem['selected_variation_id']);
+                    
+                    if($variation) {
+                        $total += (float)$variation->price * (float)$cartItem['qty'];
+                    }
+                    else {
+                        $total += (float)$product->price * (float)$cartItem['qty'];
+                    }
+                }
+                else {
+                    $total += (float)$product->price * (float)$cartItem['qty'];
+                }
             }
         }
 

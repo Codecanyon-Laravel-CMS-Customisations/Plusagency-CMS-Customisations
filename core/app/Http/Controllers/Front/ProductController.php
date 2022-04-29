@@ -758,7 +758,22 @@ class ProductController extends Controller
         $product_quantities = [];
         foreach ($cart as $key => $i) {
             $product    = Product::findOrFail($key);
-            $total += $product->price * $i['qty'];
+
+            $variation = null;
+            if(isset($i['selected_variation_id'])) {
+                $variation = \App\Product::withoutGlobalScope('variation')->find($i['selected_variation_id']);
+                
+                if($variation) {
+                    $total += $variation->price * $i['qty'];
+                }
+                else {
+                    $total += $product->price * $i['qty'];
+                }
+            }
+            else {
+                $total += $product->price * $i['qty'];
+            }
+
             $count += $i['qty'];
             $product_ids[]= $product->id;
             $product_quantities[] = $i['qty'];
@@ -797,7 +812,23 @@ class ProductController extends Controller
         $count = 0;
         foreach ($cart as $key => $i) {
             $product    = Product::findOrFail($key);
-            $total += $product->price * $i['qty'];
+
+            $variation = null;
+            if(isset($i['selected_variation_id'])) {
+                $variation = \App\Product::withoutGlobalScope('variation')->find($i['selected_variation_id']);
+                
+                if($variation) {
+                    $total += $variation->price * $i['qty'];
+                }
+                else {
+                    $total += $product->price * $i['qty'];
+                }
+            }
+            else {
+                $total += $product->price * $i['qty'];
+            }
+
+            // $total += $product->price * $i['qty'];
             $count += $i['qty'];
         }
 

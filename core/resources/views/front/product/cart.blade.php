@@ -99,7 +99,23 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                     foreach($cart as $id => $p)
                     {
                     $product = App\Product::find($id);
-                    $cartTotal += $product->price * $p['qty'];
+
+                    $variation = null;
+                    if(isset($p['selected_variation_id'])) {
+                        $variation = \App\Product::withoutGlobalScope('variation')->find($p['selected_variation_id']);
+                        
+                        if($variation) {
+                            $cartTotal += $variation->price * $p['qty'];
+                        }
+                        else {
+                            $cartTotal += $product->price * $p['qty'];
+                        }
+
+                    }
+                    else {
+                        $cartTotal += $product->price * $p['qty'];
+                    }
+                    
                     $countitem += $p['qty'];
                     }
                     }
@@ -161,7 +177,16 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                                     <p class="card-text pt-1">
                                                         <strong class="sub-total-currency-{{$product->id}}" style="font-size: 1.5em;font-weight: 300;">
                                                             {{ $product->symbol }}
-                                                            <span class="sub-total-{{$product->id}}">{{ number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) }}</span>
+                                                            <span class="sub-total-{{$product->id}}">
+                                                                {{--
+                                                                    number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) 
+                                                                --}}
+                                                                @if($variation)
+                                                                {{ number_format(!empty($variation->price) ? $item['qty'] * $variation->price : '0.00', 0) }}
+                                                                @else
+                                                                {{ number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) }}
+                                                                @endif
+                                                            </span>
                                                         </strong>
                                                         <small class="text-muted pl-2 price cart_price">( {{ $product->symbol }} <span class="cart_price_brkt-{{$product->id}}">
                                                             {{-- 
@@ -292,7 +317,15 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                     <span class="sub-total-{{$product->id}}">
                                         {{-- {{ isset($pvariation) ? angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) }} --}}
                                         
-                                        {{number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) }}
+                                        {{--
+                                            number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) 
+                                        --}}
+
+                                        @if($variation)
+                                        {{ number_format(!empty($variation->price) ? $item['qty'] * $variation->price : '0.00', 0) }}
+                                        @else
+                                        {{ number_format(!empty($product->price) ? $item['qty'] * $product->price : '0.00', 0) }}
+                                        @endif
                                     </span>
                                     {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
                                 </td>
