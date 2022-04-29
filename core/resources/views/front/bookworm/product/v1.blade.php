@@ -78,13 +78,19 @@ if(isset($_GET['variation'])) {
                         <div class="space-top-2 px-4 px-xl-7 border-bottom pb-5">
                             <h1 class="product_title entry-title font-size-7 mb-3">{{ convertUtf8($product->title) }}
                             </h1>
-                            <div class="font-size-2 mb-4">
+                            <div class="row font-size-2">
                                 @if ($bex->product_rating_system == 1)
-                                <div class="rate">
+                                <div class="rate" style="margin-left:12px">
                                     <div class="rating" style="width:{{ $product->rating * 20 }}%"></div>
                                 </div>
                                 @endif
+
+                                <div class="font-size-2 ml-3 mb-2" style="margin-top:-3px">
+                                    <span class="mb-2"> <b> By (author): </b> </span>
+                                </div>
                             </div>
+
+
                             @if (!$product->digital && !$product->offline)
                             <p class="price font-size-22 font-weight-medium mb-3">
                                 <span class="woocommerce-Price-amount amount">
@@ -108,6 +114,69 @@ if(isset($_GET['variation'])) {
                                 </span>
                             </p>
                             @endif
+
+                            {{-- Added Variation Here --}}
+
+                            @if (!is_null($product->variations))
+                            <div class="variation">
+                                <span> Book Format:</span> <span style="color: #00000070;">Choose and option </span>
+                            </div>
+                            @php
+                            if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+                            $url = 'https://';
+                            } else {
+                            $url = 'http://';
+                            }
+                            $url .= $_SERVER['HTTP_HOST'];
+                            $url .= strtok($_SERVER['REQUEST_URI'], '?');
+                            @endphp
+                            <div class="row mt-2">
+                                @foreach (explode(',', $product->variations) as $id)
+                                @php
+                                $variation = \App\Product::withoutGlobalScope('variation')->find($id);
+                                $selected = isset($_GET['variation']) && $_GET['variation'] == $variation->id ? 'selected' : '';
+
+                                @endphp
+
+                                <div class="col-sm-12 col-md-3">
+                                    <div class="d-flex flex-column">
+                                        <p class="lead">{{ $variation->title }}</p>
+                                        <a href="{{ $url }}?variation={{ $variation->id }}">
+                                            {{-- <img src="{{ asset('assets/' . json_decode($variation->variation_data)->thumbnail) }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif"> --}}
+                                            <img src="{{ json_decode($variation->variation_data)->thumbnail }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif">
+                                        </a>
+
+                                    </div>
+
+                                    <p> {{ ship_to_india() ? "₹" : "$" }} {{ round($variation->current_price) }} </p>
+                                </div>
+                                @endforeach
+
+                            </div>
+                            @if (isset($_GET['variation']))
+                            <a href="{{ $url }}" class="d-inline-block mt-3">Clear</a>
+                            @endif
+                            {{-- <select name="" id="variation-selector" class="form-control mt-3" onchange="window.location.replace( location.protocol + `//` + location.host + location.pathname + document.querySelector('#variation-selector').value )">
+                                    @if (isset($_GET['variation']))
+                                    <option value="">{{ $product->title }}</option>
+                            @endif
+                            @foreach (explode(',', $product->variations) as $id)
+                            @php
+                            $variation = \App\Product::withoutGlobalScope('variation')->find($id);
+                            $selected = isset( $_GET['variation'] ) && $_GET['variation'] == $variation->id ? 'selected' : '';
+                            @endphp
+                            @if (!isset($_GET['variation']))
+                            <option value="" readonly>Choose {{ json_decode($variation->variation_data)->title }}</option>
+                            @endif
+                            <option {{ $selected }} value="?variation={{ $variation->id }}">{{ json_decode($variation->variation_data)->value }}</option>
+                            @endforeach
+                            </select> --}}
+                            @endif
+
+                            {{-- Added Variation Here --}}
+
+
+                            
                             {{-- <div class="mb-2 font-size-2">
                                 <span class="font-weight-medium">Book Format:</span>
                                 <span class="ml-2 text-gray-600">Choose an option</span>
@@ -179,56 +248,7 @@ if(isset($_GET['variation'])) {
                                 @endif
                             </form>
                             @endif
-                            @if (!is_null($product->variations))
-                            @php
-                            if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
-                            $url = 'https://';
-                            } else {
-                            $url = 'http://';
-                            }
-                            $url .= $_SERVER['HTTP_HOST'];
-                            $url .= strtok($_SERVER['REQUEST_URI'], '?');
-                            @endphp
-                            <div class="row mt-5">
-                                @foreach (explode(',', $product->variations) as $id)
-                                @php
-                                $variation = \App\Product::withoutGlobalScope('variation')->find($id);
-                                $selected = isset($_GET['variation']) && $_GET['variation'] == $variation->id ? 'selected' : '';
-
-                                @endphp
-
-                                <div class="col-sm-12 col-md-3">
-                                    <div class="d-flex flex-column">
-                                        <p class="lead mt-3">{{ $variation->title }}</p>
-                                        <a href="{{ $url }}?variation={{ $variation->id }}">
-                                            {{-- <img src="{{ asset('assets/' . json_decode($variation->variation_data)->thumbnail) }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif"> --}}
-                                            <img src="{{ json_decode($variation->variation_data)->thumbnail }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif">
-                                        </a>
-
-                                    </div>
-                                </div>
-                                @endforeach
-
-                            </div>
-                            @if (isset($_GET['variation']))
-                            <a href="{{ $url }}" class="d-inline-block mt-3">Clear</a>
-                            @endif
-                            {{-- <select name="" id="variation-selector" class="form-control mt-3" onchange="window.location.replace( location.protocol + `//` + location.host + location.pathname + document.querySelector('#variation-selector').value )">
-                                    @if (isset($_GET['variation']))
-                                    <option value="">{{ $product->title }}</option>
-                            @endif
-                            @foreach (explode(',', $product->variations) as $id)
-                            @php
-                            $variation = \App\Product::withoutGlobalScope('variation')->find($id);
-                            $selected = isset( $_GET['variation'] ) && $_GET['variation'] == $variation->id ? 'selected' : '';
-                            @endphp
-                            @if (!isset($_GET['variation']))
-                            <option value="" readonly>Choose {{ json_decode($variation->variation_data)->title }}</option>
-                            @endif
-                            <option {{ $selected }} value="?variation={{ $variation->id }}">{{ json_decode($variation->variation_data)->value }}</option>
-                            @endforeach
-                            </select> --}}
-                            @endif
+                            
                             <div class="px-4 px-xl-7 py-5 d-flex align-items-center">
                                 <ul class="list-unstyled nav">
                                     <li class="mr-6 mb-4 mb-md-0">
