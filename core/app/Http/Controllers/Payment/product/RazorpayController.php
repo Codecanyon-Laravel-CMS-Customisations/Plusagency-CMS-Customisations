@@ -78,7 +78,7 @@ class RazorpayController extends PaymentController
         $orderData = [
             'receipt'         => $orderInfo['title'],
             'amount'          => $orderInfo['item_amount'] * 100,
-            'currency'        => 'INR',
+            'currency'        => ship_to_india() ? 'INR' : 'USD',
             'payment_capture' => 1 // auto capture
         ];
 

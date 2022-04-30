@@ -131,6 +131,10 @@ $account_dropdow_other_links = array("track my order");
         padding-left: 76px !important;
     }
 
+    .search-item:hover {
+        background-color: #FF0000 !important;
+    }
+
     @media only screen and (max-width: 767px) {
         .search-input {
             padding-left: 10px !important;
@@ -327,7 +331,7 @@ $account_dropdow_other_links = array("track my order");
                                     <div id="dropdown-titles" class="titles d-none overflow-auto"  style="max-height: 300px;">
                                     @foreach ($searches as $product)
                                             
-                                        <a href="{{ route('front.product.details', ['slug' => $product->slug]) }}" style="cursor:pointer">   {{ $product->title }} </a>
+                                        <a class="search-item" href="{{ route('front.product.details', ['slug' => $product->slug]) }}" style="cursor:pointer">   {{ $product->title }} </a>
 
                                     @endforeach
                                     </div>

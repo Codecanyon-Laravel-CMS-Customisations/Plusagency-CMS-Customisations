@@ -151,7 +151,7 @@ if(isset($_GET['variation'])) {
                                             {{ strtolower($bex->base_currency_symbol_position) == 'left' ? $bex->base_currency_symbol : '' }} 
                                         --}}
 
-                                        {{ trim($product->symbol) }} {{min($variation_prices)}} - {{ trim($product->symbol) }} {{max($variation_prices)}}
+                                        {{ trim($product->symbol) }} {{number_format(min($variation_prices), 0)}} - {{ trim($product->symbol) }} {{number_format(max($variation_prices), 0)}}
                                     </span>
                                     @endif
                                 </span>
