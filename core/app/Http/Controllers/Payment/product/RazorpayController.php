@@ -47,7 +47,7 @@ class RazorpayController extends PaymentController
         $bs = $currentLang->basic_setting;
         $userCountry = app()->make('user_country');
         // dd($userCountry);
-        if (!$userCountry && $userCountry->name !== 'India') {
+        if (!$userCountry && isset($userCountry->name) !== 'India') {
             $bex->base_currency_text = 'USD';
         }
 
