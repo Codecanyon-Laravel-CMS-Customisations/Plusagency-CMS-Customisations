@@ -289,7 +289,7 @@ $account_dropdow_other_links = array("track my order");
                     </div>
                     <div class="site-search ml-xl-0 ml-md-auto w-r-100 flex-grow-1 mr-md-5 py-2 py-md-0">
                         <div class="form-inline my-2 my-xl-0">
-                            <div class="input-group w-100">
+                            <div class="input-group w-100" style="z-index: 99;">
                                 <div class="input-group-prepend z-index-2 d-none d-xl-block w-25">
                                     <!-- pr-7 pl-4 -->
                                     <select class="d-none d-lg-block custom-select rounded-0 height-5 shadow-none text-dark" id="category_id" {{-- style="max-width: 150px;" --}} style="max-width: 156%;">
@@ -1016,6 +1016,7 @@ function addingClass(){
 
 </script>
 
+<!-- // script for dropdown and sidebar avoid overlapping
 <script>
     $("#myInput").on({
 
@@ -1099,7 +1100,8 @@ function addingClass(){
             }
         }
     });
-</script>
+</script> 
+-->
 
 <style>
 .dropbtn {
