@@ -1,8 +1,11 @@
 <!-- $selected = isset($_GET['variation']) && $_GET['variation'] == $variation->id ? 'selected' : ''; -->
 @php
 $variation = null;
+
+$selected_variation = null;
 if(isset($_GET['variation'])) {
-    $variation = \App\Product::withoutGlobalScope('variation')->find($_GET['variation']);
+    $selected_variation = \App\Product::withoutGlobalScope('variation')->find($_GET['variation']);
+    $variation = $selected_variation;
 }
 @endphp
 
@@ -275,7 +278,7 @@ if(isset($_GET['variation'])) {
                                     </div>
                                     <!-- End Quantity -->
                                 </div>
-                                <a data-href="{{ $variation ? route('add.cart', $variation->id) : route('add.cart', $product->id) }}" class="btn btn-dark border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link my-1" style="color: #fff">Add to cart</a>
+                                <a data-href="{{ $selected_variation ? route('add.cart', $selected_variation->id) : route('add.cart', $product->id) }}" class="btn btn-dark border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link my-1" style="color: #fff">Add to cart</a>
                                 @if ($product->show_inquiry_form)
                                 @php
                                 $header_v2_button_text = 'GIVE US FEEDBACK';

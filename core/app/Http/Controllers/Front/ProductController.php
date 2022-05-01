@@ -524,10 +524,10 @@ class ProductController extends Controller
             
             if ( $product->is_variation == 1 ) {
                 $variation = $product;
-
+                
                 // $product = Product::where('variations', 847)->first();
                 $product = Product::whereRaw("FIND_IN_SET($id, variations) > 0")->first();
-
+                
                 $id = $product->id;
             }
 
