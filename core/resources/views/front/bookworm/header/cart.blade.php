@@ -385,7 +385,7 @@
             })
 
             // on add(+) icon click
-            t(".add").click(function() {
+            t(".add").click(function(e) {
 
                 let url = window.location.href
                 let page = url.lastIndexOf('/');
@@ -394,7 +394,6 @@
                 enabledisableAddSubBtns("disable");
 
                 let e = t(".cart-sidebar-link").attr("data-href");
-                console.log(e);
 
 
                 let a = t(".cart-amount").val();
