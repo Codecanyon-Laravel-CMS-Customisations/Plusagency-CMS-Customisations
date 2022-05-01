@@ -131,8 +131,13 @@ $account_dropdow_other_links = array("track my order");
         padding-left: 76px !important;
     }
 
+    .search-item {
+        background-color : #D55534 !important;
+    }
+    
     .search-item:hover {
-        background-color: #FF0000 !important;
+        background-color: black !important;
+        color: white !important;
     }
 
     @media only screen and (max-width: 767px) {
