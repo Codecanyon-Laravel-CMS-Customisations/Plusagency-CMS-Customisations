@@ -1,4 +1,3 @@
-
 <style>
     .btn-disable
     {
@@ -34,7 +33,8 @@
     }
 </style>
 
-<!-- <aside id="sidebarContent1" class="u-sidebar u-sidebar__xl cart-sidebar" aria-labelledby="sidebarNavToggler1">
+<?php /* ?>
+<aside id="sidebarContent1" class="u-sidebar u-sidebar__xl cart-sidebar" aria-labelledby="sidebarNavToggler1">
     <div class="u-sidebar__scroller js-scrollbar">
         <div class="u-sidebar__container">
             <div class="u-header-sidebar__footer-offset">
@@ -126,7 +126,8 @@
             </div>
         </div>
     </div>
-</aside> -->
+</aside>
+<?php */ ?>
 
 
 
@@ -168,29 +169,39 @@
                         @if(isset($cart) && $cart != null)
                         @foreach ($cart as $id => $item)
                             @php
-                                $product = App\Product::findOrFail($id);
+                                $product = App\Product::findOrFail($item['product_id']);
+
+                                $variation = null;
+                                if(isset($item['is_variation']) && $item['is_variation']==1) {
+                                    $variation = \App\Product::withoutGlobalScope('variation')->find($id);
+                                }
                             @endphp
+
                             <div class="px-4 py-5 px-md-6 border-bottom">
                                 <div class="media">
                                     <a target="_blank" href="{{route('front.product.details',$product->slug)}}" class="d-block"><img src="@if($item['photo']!=null){{$item['photo']}}@else{{asset('https://via.placeholder.com/150')}}@endif" class="img-fluid cus-pos" alt="image-description" width="150"></a>
                                     <div class="media-body ml-4d875">
-                                        {{-- <div class="text-primary text-uppercase font-size-1 mb-1 text-truncate"><a href="#">Hard Cover</a></div> --}}
                                         <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
                                             <a href="{{route('front.product.details', $product->slug)}}" class="text-dark">{{convertUtf8($item['name'])}}</a>
                                         </h2>
+
+                                        <!-- variation title -->
+                                        <div class="text-primary text-uppercase font-size-1 mb-1 text-truncate"><a href="#">{{ $variation?$variation->title:'' }}</a></div> 
+
                                         <form class="form-{{$product->id}} cart d-block" method="post" enctype="multipart/form-data">
                                             <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
                                             <span class="woocommerce-Price-amount amount">
                                                 <div class="product-quantity d-flex mb-35" id="quantity">
                                                 <button type="button" id="sub" class="sub">-</button>
-                                                <input type="text" class="quantity-{{$product->id}} cart_qty cart-value" id="1" value="{{$item['qty']}}" />
+                                                <input type="text" class="quantity-{{($variation)?$variation->id:$product->id}} cart_qty cart-value" id="1" value="{{$item['qty']}}" />
                                                 <button type="button" id="add" class="add">+</button>
                                                 <input type="hidden" value="{{$id}}" class="product_id">
                                                 </div>
                                             </span>
                                                 <span class="woocommerce-Price-amount amount d-inline-block ml-3 d-flex">
                                                 {{ $product->symbol }}
-                                                <span> {{ number_format($product->price, 0) }}</span>
+
+                                                <span> {{ ($variation)?number_format($variation->price, 0):number_format($product->price, 0) }}</span>
                                             </span>
                                             </div>
                                             <br/>
@@ -200,7 +211,7 @@
                                         </form>
                                     </div>
                                     <div class="mt-3 ml-3">
-                                        <a href="{{ route('cart.item.remove', $product->id) }}" class="text-dark"><i class="fas fa-times"></i></a>
+                                        <a href="{{ route('cart.item.remove', ($variation)?$variation->id:$product->id) }}" class="text-dark"><i class="fas fa-times"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -321,7 +332,16 @@
 
                 let a = t(".cart-amount").val();
 
-                var product_id = this.nextElementSibling.nextElementSibling.nextElementSibling.value;
+                var product_id = null;
+
+                if ( this.nextElementSibling.nextElementSibling.nextElementSibling != null ) {
+                    product_id = this.nextElementSibling.nextElementSibling.nextElementSibling.value;
+                }
+                else {
+                    // remove class disable
+                    enabledisableAddSubBtns("enable");
+                    return;
+                }
 
                 var quantity = $('.quantity-'+product_id+'').val();
 
@@ -384,13 +404,22 @@
                 enabledisableAddSubBtns("disable");
 
                 let e = t(".cart-sidebar-link").attr("data-href");
-                console.log(e);
 
 
                 let a = t(".cart-amount").val();
 
-                var product_id = this.nextElementSibling.value;
+                var product_id = null;
 
+                if ( this.nextElementSibling != null ) {
+                    product_id = this.nextElementSibling.value;
+                }
+                else {
+                    // remove class disable
+                    enabledisableAddSubBtns("enable");
+                    return;
+                }
+
+                
 
                 var quantity = $('.quantity-'+product_id+'').val();
 

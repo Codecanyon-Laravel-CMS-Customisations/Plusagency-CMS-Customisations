@@ -59,13 +59,13 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
     }
 
     /* start: must comment below css before push  */
-    /*label, label:hover, .field-label {
+    label, label:hover, .field-label, td, .price {
         color: black;
     }
 
     input, input:hover {
         color: black;
-    }*/
+    }
     /* end: must comment below css before push  */
 </style>
 
@@ -512,9 +512,25 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                     @foreach ($cart as $key => $item)
                                     <input type="hidden" name="product_id[]" value="{{$key}}">
                                     @php
-                                    $total += $item['price'] * $item['qty'];
-                                    $product = App\Product::findOrFail($key);
 
+                                    $variation = null;
+                                    if(isset($item['is_variation']) && $item['is_variation']==1) {
+                                        $variation = \App\Product::withoutGlobalScope('variation')->find($key);
+                                        
+                                        if($variation) {
+                                            $total += $variation->price * $item['qty'];
+                                        }
+                                        else {
+                                            $total += $item['price'] * $item['qty'];
+                                        }
+                                    }
+                                    else {
+                                        $total += $item['price'] * $item['qty'];
+                                    }
+
+                                    
+                                    // $product = App\Product::findOrFail(851);
+                                    $product = App\Product::findOrFail($item['product_id']);
                                     @endphp
                                     <tr>
                                         <td colspan="2" class="product-column">
@@ -523,7 +539,12 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                                     <a target="_blank" href="{{route('front.product.details',$product->slug)}}">
                                                         <h3 class="prod-title">{{convertUtf8($item['name'])}}</h3>
                                                     </a>
+
+                                                    <!-- variation title -->
+                                                    <div class="text-primary text-uppercase font-size-1 mb-1 text-truncate"><a href="#">{{ $variation?$variation->title:'' }}</a></div>
                                                 </div>
+
+                                                
                                             </div>
                                         </td>
                                         <td class="qty">
@@ -531,10 +552,11 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                         </td>
                                         <td class="price">
                                             {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
-                                            {{ $product->symbol }}
                                             {{-- {{ pesa($item['qty'] * $item['price']) }} --}}
-                                            {{ pesa($item['qty'] * $product->price) }}
                                             {{-- {{$bex->base_currency_symbol_position == 'right' ? $bex->base_currency_symbol : ''}} --}}
+
+                                            {{ $product->symbol }}
+                                            {{ pesa($item['qty'] * (($variation)?$variation->price:$product->price)) }}
                                         </td>
                                     </tr>
                                     @endforeach

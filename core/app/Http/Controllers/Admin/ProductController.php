@@ -134,6 +134,7 @@ class ProductController extends Controller
 
         if( $request->input('is_variation') ) {
             $in = $request->all();
+
             $in['language_id']  = 169;
             $in['is_variation'] = 1;
             $importer           = new ProductsImport();
@@ -155,12 +156,14 @@ class ProductController extends Controller
                 // $thumbnail = Storage::disk('assets')->put( 'front/img/product/featured/', $request->thumbnail );
             } catch (\Exception $e) {}
             // $product->feature_image = $featured_image;
+
             $product->variation_data = json_encode( [
                 'title' => $request->title,
                 'value' => $request->value,
                 'type' => $request->type,
                 'thumbnail' => $thumbnail
             ] );
+
             $product->save();
 
             $parent = Product::find($request->input('product_id'));

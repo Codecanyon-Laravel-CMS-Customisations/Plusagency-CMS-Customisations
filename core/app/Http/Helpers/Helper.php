@@ -286,7 +286,21 @@ if (!function_exists('cartTotal')) {
             foreach ($cart as $key => $cartItem)
             {
                 $product    = Product::find($key);
-                $total     += (float)$product->price * (float)$cartItem['qty'];
+                
+                $variation = null;
+                if(isset($cartItem['selected_variation_id'])) {
+                    $variation = \App\Product::withoutGlobalScope('variation')->find($cartItem['selected_variation_id']);
+                    
+                    if($variation) {
+                        $total += (float)$variation->price * (float)$cartItem['qty'];
+                    }
+                    else {
+                        $total += (float)$product->price * (float)$cartItem['qty'];
+                    }
+                }
+                else {
+                    $total += (float)$product->price * (float)$cartItem['qty'];
+                }
             }
         }
 
@@ -326,6 +340,46 @@ if (!function_exists('coupon')) {
         return session()->has('coupon') && !empty(session()->get('coupon')) ? round(session()->get('coupon'), 2) : 0.00;
     }
 }
+
+
+
+// helper functions by zeeshan
+
+// for checking current country added 
+if (!function_exists('checkCountry')) {
+    function checkCountry()
+    {
+        if (session()->has('geo_data_user_country')) {
+            $c_id = session()->get('geo_data_user_country');
+
+            if ( $c_id == 105 ) {
+                return "local";
+            }
+            else {
+                return "international";
+            }
+        }
+    }
+    
+}
+
+// get product price
+// if (!function_exists('productPrice')) {
+//     function productPrice($id)
+//     {
+//         $country = checkCountry();
+
+//         if (session()->has('cart')) {
+//             $cart = session()->get('cart');
+
+//             if (isset()) {
+//                 // code...
+//             }
+//             dump($cart[$id]['selected_variation_id']);
+//         }
+//     }
+// }
+
 
 
 

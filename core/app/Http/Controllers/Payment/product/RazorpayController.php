@@ -47,7 +47,7 @@ class RazorpayController extends PaymentController
         $bs = $currentLang->basic_setting;
         $userCountry = app()->make('user_country');
         // dd($userCountry);
-        if (!$userCountry && $userCountry->name !== 'India') {
+        if (!$userCountry && isset($userCountry->name) !== 'India') {
             $bex->base_currency_text = 'USD';
         }
 
@@ -66,7 +66,6 @@ class RazorpayController extends PaymentController
 
         $this->saveOrderedItems($order_id);
 
-
         $orderInfo['title'] = $bs->website_title . " Order";
         $orderInfo['item_number'] = str_random(4) . time();
         $orderInfo['item_amount'] = $total;
@@ -78,7 +77,7 @@ class RazorpayController extends PaymentController
         $orderData = [
             'receipt'         => $orderInfo['title'],
             'amount'          => $orderInfo['item_amount'] * 100,
-            'currency'        => 'INR',
+            'currency'        => ship_to_india() ? 'INR' : 'USD',
             'payment_capture' => 1 // auto capture
         ];
 

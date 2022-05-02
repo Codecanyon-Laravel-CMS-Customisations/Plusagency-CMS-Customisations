@@ -150,7 +150,17 @@
                                             <div class="price d-flex align-items-center font-weight-medium font-size-3">
                                                 <span class="woocommerce-Price-amount amount">
                                                     {{-- @dd($bex->base_currency_symbol) --}}
-                                                    <span class="woocommerce-Price-currencySymbol"> {{ $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : $bex->base_currency_symbol }}</span>{{ $product->current_price }}</span>
+                                                    <span class="woocommerce-Price-currencySymbol"> 
+                                                        {{-- 
+                                                            $bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : $bex->base_currency_symbol 
+                                                        --}}
+                                                        {{ trim($product->symbol) }}
+                                                    </span>
+                                                    {{-- 
+                                                        $product->current_price 
+                                                    --}}
+                                                    {{ number_format(!empty($product->price) ? $product->price : '0.00',0) }}
+                                                    </span>
                                             </div>
                                         </div>
                                         <div class="col-md-auto d-flex align-items-center add-to-cart-hover">

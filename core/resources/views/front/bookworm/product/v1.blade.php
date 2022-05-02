@@ -1,3 +1,14 @@
+<!-- $selected = isset($_GET['variation']) && $_GET['variation'] == $variation->id ? 'selected' : ''; -->
+@php
+$variation = null;
+
+$selected_variation = null;
+if(isset($_GET['variation'])) {
+    $selected_variation = \App\Product::withoutGlobalScope('variation')->find($_GET['variation']);
+    $variation = $selected_variation;
+}
+@endphp
+
 <style>
     .cart-btn:hover {
         background-color: #D55534 !important;
@@ -70,28 +81,148 @@
                         <div class="space-top-2 px-4 px-xl-7 border-bottom pb-5">
                             <h1 class="product_title entry-title font-size-7 mb-3">{{ convertUtf8($product->title) }}
                             </h1>
-                            <div class="font-size-2 mb-4">
+                            <div class="row font-size-2">
                                 @if ($bex->product_rating_system == 1)
-                                <div class="rate">
+                                <div class="rate" style="margin-left:12px">
                                     <div class="rating" style="width:{{ $product->rating * 20 }}%"></div>
                                 </div>
                                 @endif
+
+                                
+                                @php
+
+                                $author_name = null;
+                                if (!is_null($product->attributes)) {
+                                    foreach(json_decode($product->attributes) as $attribute) {
+                                        if (str_contains(strtolower( $attribute->name ), 'author')) {
+                                            $author_name = $attribute->value;
+                                        } 
+                                    }
+                                }
+                                
+                                @endphp
+                                <div class="font-size-2 ml-3 mb-2" style="margin-top:-3px">
+                                    <span class="mb-2"> <b> By (author): </b> {{ $author_name }} </span>
+                                </div>
                             </div>
+
+
                             @if (!$product->digital && !$product->offline)
                             <p class="price font-size-22 font-weight-medium mb-3">
-                                <span class="woocommerce-Price-amount amount">
+                                <span class="woocommerce-Price-amount amount"> Price:
                                     <span class="woocommerce-Price-currencySymbol">
-                                        {{-- {{ strtolower($bex->base_currency_symbol_position) == 'left' ? $bex->base_currency_symbol : '' }} --}}
+                                        {{-- 
+                                            {{ strtolower($bex->base_currency_symbol_position) == 'left' ? $bex->base_currency_symbol : '' }} 
+                                        --}}
+
                                         {{ trim($product->symbol) }}
                                     </span>
-                                    {{-- {{ $pvariation ? angel_auto_convert_currency($pvariation->current_price, $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }} --}}
-                                    {{ number_format(!empty($product->price) ? $product->price : '0.00', 0) }}
+                                    {{-- 
+                                        {{ $pvariation ? angel_auto_convert_currency($pvariation->current_price, $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }} 
+                                    --}}
+                                    
+                                    {{ ($variation)? number_format(!empty($variation->price) ? $variation->price : '0.00', 0) : number_format(!empty($product->price) ? $product->price : '0.00', 0) }}
                                     <span class="woocommerce-Price-currencySymbol">
-                                        {{-- {{ strtolower($bex->base_currency_symbol_position) == 'right' ? $bex->base_currency_symbol : '' }} --}}
+                                        {{-- 
+                                            {{ strtolower($bex->base_currency_symbol_position) == 'right' ? $bex->base_currency_symbol : '' }} 
+                                        --}}
                                     </span>
                                 </span>
                             </p>
+
+                            <p class="price font-size-22 font-weight-medium mb-3">
+                                <span class="woocommerce-Price-amount amount">
+
+                                    @php
+                                    $variation_prices = [];
+
+                                    if($product->variations) {
+                                        foreach (explode(',', $product->variations) as $id) {
+
+                                            $variation = \App\Product::withoutGlobalScope('variation')->find($id);
+                                            
+                                            $variation_prices[]=$variation->price;
+                                            
+                                        }
+                                    }
+
+                                    @endphp
+
+                                    @if($variation_prices && count($variation_prices)>1)
+                                    <span class="woocommerce-Price-currencySymbol">
+                                        {{-- 
+                                            {{ strtolower($bex->base_currency_symbol_position) == 'left' ? $bex->base_currency_symbol : '' }} 
+                                        --}}
+
+                                        {{ trim($product->symbol) }} {{number_format(min($variation_prices), 0)}} - {{ trim($product->symbol) }} {{number_format(max($variation_prices), 0)}}
+                                    </span>
+                                    @endif
+                                </span>
+                            </p>
                             @endif
+
+                            {{-- Added Variation Here --}}
+
+                            @if (!is_null($product->variations))
+                            <div class="variation">
+                                <span> Book Format:</span> <span style="color: #00000070;">Choose and option </span>
+                            </div>
+                            @php
+                            if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
+                            $url = 'https://';
+                            } else {
+                            $url = 'http://';
+                            }
+                            $url .= $_SERVER['HTTP_HOST'];
+                            $url .= strtok($_SERVER['REQUEST_URI'], '?');
+                            @endphp
+                            <div class="row mt-2">
+                                @foreach (explode(',', $product->variations) as $id)
+                                @php
+                                $variation = \App\Product::withoutGlobalScope('variation')->find($id);
+                                $selected = isset($_GET['variation']) && $_GET['variation'] == $variation->id ? 'selected' : '';
+
+                                @endphp
+
+                                <div class="col-sm-12 col-md-3">
+                                    <div class="d-flex flex-column">
+                                        <p class="lead">{{ $variation->title }}</p>
+                                        <a href="{{ $url }}?variation={{ $variation->id }}">
+                                            {{-- <img src="{{ asset('assets/' . json_decode($variation->variation_data)->thumbnail) }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif"> --}}
+                                            <img src="{{ json_decode($variation->variation_data)->thumbnail }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif">
+                                        </a>
+
+                                    </div>
+
+                                    <p> {{ ship_to_india() ? "₹" : "$" }} {{ round($variation->price) }} </p>
+                                </div>
+                                @endforeach
+
+                            </div>
+                            @if (isset($_GET['variation']))
+                            <a href="{{ $url }}" class="d-inline-block mt-3">Clear</a>
+                            @endif
+                            {{-- <select name="" id="variation-selector" class="form-control mt-3" onchange="window.location.replace( location.protocol + `//` + location.host + location.pathname + document.querySelector('#variation-selector').value )">
+                                    @if (isset($_GET['variation']))
+                                    <option value="">{{ $product->title }}</option>
+                            @endif
+                            @foreach (explode(',', $product->variations) as $id)
+                            @php
+                            $variation = \App\Product::withoutGlobalScope('variation')->find($id);
+                            $selected = isset( $_GET['variation'] ) && $_GET['variation'] == $variation->id ? 'selected' : '';
+                            @endphp
+                            @if (!isset($_GET['variation']))
+                            <option value="" readonly>Choose {{ json_decode($variation->variation_data)->title }}</option>
+                            @endif
+                            <option {{ $selected }} value="?variation={{ $variation->id }}">{{ json_decode($variation->variation_data)->value }}</option>
+                            @endforeach
+                            </select> --}}
+                            @endif
+
+                            {{-- Added Variation Here --}}
+
+
+                            
                             {{-- <div class="mb-2 font-size-2">
                                 <span class="font-weight-medium">Book Format:</span>
                                 <span class="ml-2 text-gray-600">Choose an option</span>
@@ -138,7 +269,7 @@
                             <form class="cart d-md-flex align-items-center" method="post" enctype="multipart/form-data">
                                 <div class="quantity mb-4 mb-md-0 d-flex align-items-center">
                                     <!-- Quantity -->
-                                    <div class="px-3 width-120">
+                                    <div class="width-120">
                                         <div class="product-quantity  d-flex" id="quantity">
                                             <button type="button" id="sub" class="sub subclick">-</button>
                                             <input type="text" class="cart-amount" id="1" value="1" />
@@ -147,7 +278,7 @@
                                     </div>
                                     <!-- End Quantity -->
                                 </div>
-                                <a data-href="{{ $pvariation ? route('add.cart', $pvariation->id) : route('add.cart', $product->id) }}" class="btn btn-dark border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link my-1" style="color: #fff">Add to cart</a>
+                                <a data-href="{{ $selected_variation ? route('add.cart', $selected_variation->id) : route('add.cart', $product->id) }}" class="btn btn-dark border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link my-1" style="color: #fff">Add to cart</a>
                                 @if ($product->show_inquiry_form)
                                 @php
                                 $header_v2_button_text = 'GIVE US FEEDBACK';
@@ -163,56 +294,7 @@
                                 @endif
                             </form>
                             @endif
-                            @if (!is_null($product->variations))
-                            @php
-                            if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
-                            $url = 'https://';
-                            } else {
-                            $url = 'http://';
-                            }
-                            $url .= $_SERVER['HTTP_HOST'];
-                            $url .= strtok($_SERVER['REQUEST_URI'], '?');
-                            @endphp
-                            <div class="row mt-5">
-                                @foreach (explode(',', $product->variations) as $id)
-                                @php
-                                $variation = \App\Product::withoutGlobalScope('variation')->find($id);
-                                $selected = isset($_GET['variation']) && $_GET['variation'] == $variation->id ? 'selected' : '';
-
-                                @endphp
-
-                                <div class="col-sm-12 col-md-3">
-                                    <div class="d-flex flex-column">
-                                        <p class="lead mt-3">{{ $variation->title }}</p>
-                                        <a href="{{ $url }}?variation={{ $variation->id }}">
-                                            {{-- <img src="{{ asset('assets/' . json_decode($variation->variation_data)->thumbnail) }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif"> --}}
-                                            <img src="{{ json_decode($variation->variation_data)->thumbnail }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif">
-                                        </a>
-
-                                    </div>
-                                </div>
-                                @endforeach
-
-                            </div>
-                            @if (isset($_GET['variation']))
-                            <a href="{{ $url }}" class="d-inline-block mt-3">Clear</a>
-                            @endif
-                            {{-- <select name="" id="variation-selector" class="form-control mt-3" onchange="window.location.replace( location.protocol + `//` + location.host + location.pathname + document.querySelector('#variation-selector').value )">
-                                    @if (isset($_GET['variation']))
-                                    <option value="">{{ $product->title }}</option>
-                            @endif
-                            @foreach (explode(',', $product->variations) as $id)
-                            @php
-                            $variation = \App\Product::withoutGlobalScope('variation')->find($id);
-                            $selected = isset( $_GET['variation'] ) && $_GET['variation'] == $variation->id ? 'selected' : '';
-                            @endphp
-                            @if (!isset($_GET['variation']))
-                            <option value="" readonly>Choose {{ json_decode($variation->variation_data)->title }}</option>
-                            @endif
-                            <option {{ $selected }} value="?variation={{ $variation->id }}">{{ json_decode($variation->variation_data)->value }}</option>
-                            @endforeach
-                            </select> --}}
-                            @endif
+                            
                             <div class="px-4 px-xl-7 py-5 d-flex align-items-center">
                                 <ul class="list-unstyled nav">
                                     <li class="mr-6 mb-4 mb-md-0">

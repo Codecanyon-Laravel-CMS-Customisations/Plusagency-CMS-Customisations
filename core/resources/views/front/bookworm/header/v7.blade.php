@@ -84,7 +84,7 @@ $countitem += $p['qty'];
 @endphp
 @endif
 
-<!-- @php
+@php
 $searches = \App\Product::query()
                 ->orderBy('title', 'ASC')
                 ->get()
@@ -98,7 +98,12 @@ $searches = \App\Product::query()
                     }
                 }); //->pluck('title', 'current_price', 'id');
 
-@endphp -->
+@endphp
+
+@php
+$account_dropdow_auths_links = array("login", "register");
+$account_dropdow_other_links = array("track my order");
+@endphp
 
 <style>
     
@@ -126,6 +131,16 @@ $searches = \App\Product::query()
         padding-left: 76px !important;
     }
 
+    .search-item {
+        background-color : #383838 !important;
+        color: #fff0ce !important;
+    }
+    
+    .search-item:hover {
+        background-color: #d55534 !important;
+        color: #fff0ce !important;
+    }
+
     @media only screen and (max-width: 767px) {
         .search-input {
             padding-left: 10px !important;
@@ -133,6 +148,11 @@ $searches = \App\Product::query()
     }
 
     @media only screen and (max-width: 441px) {
+
+      .dropdown {
+        width: 90% !important;
+      } 
+
       .helper-text {
         /* display: none; */
         font-size: 2.4vw;
@@ -166,6 +186,10 @@ $searches = \App\Product::query()
 
     /* media query for mobile screens */
     @media only screen and (max-width: 278px) {
+        .dropdown {
+            width: 95% !important;
+        }
+
         .fonts {
              font-size: 0.7rem !important;
         }
@@ -265,10 +289,11 @@ $searches = \App\Product::query()
                         </a>
                     </div>
                     <div class="site-search ml-xl-0 ml-md-auto w-r-100 flex-grow-1 mr-md-5 py-2 py-md-0">
-                        <div class="form-inline my-2 my-xl-0">
-                            <div class="input-group w-100">
+                        <div class="form-inline my-2 my-xl-0 mb-8">
+                            <div class="input-group w-100" style="z-index: 99;">
                                 <div class="input-group-prepend z-index-2 d-none d-xl-block w-25">
-                                    <select class="d-none d-lg-block custom-select pr-7 pl-4 rounded-0 height-5 shadow-none text-dark" id="category_id" {{-- style="max-width: 150px;" --}}>
+                                    <!-- pr-7 pl-4 -->
+                                    <select class="d-none d-lg-block custom-select rounded-0 height-5 shadow-none text-dark" id="category_id" {{-- style="max-width: 150px;" --}} style="max-width: 156%;">
                                         <option selected>All Categories</option>
                                         @php
                                         $active_category = request()->has('category_id') ? request('category_id') : '';
@@ -309,10 +334,10 @@ $searches = \App\Product::query()
                                   <div id="myDropdown" class="dropdown-content show w-100">
                                     <input type="text" placeholder="Search.." id="myInput" class="search-input" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#myInput').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : '' }}" onblur="addingClass()" onfocus="removingClass()" onkeyup="filterFunction()">
 
-                                    <div class="titles d-none overflow-auto"  style="max-height: 300px;">
+                                    <div id="dropdown-titles" class="titles d-none overflow-auto"  style="max-height: 300px;">
                                     @foreach ($searches as $product)
                                             
-                                        <a href="{{ route('front.product.details', ['slug' => $product->slug]) }}" style="cursor:pointer">   {{ $product->title }} </a>
+                                        <a class="search-item" href="{{ route('front.product.details', ['slug' => $product->slug]) }}" style="cursor:pointer">   {{ $product->title }} </a>
 
                                     @endforeach
                                     </div>
@@ -347,7 +372,7 @@ $searches = \App\Product::query()
                     $rand_id = rand(77, 777);
                     @endphp
                     @if ($custom_buttons->count() >= 1)
-                    <div class="nav text-center d-flex d-lg-none custom-header-button-wrapper">
+                    <div class="nav text-center d-flex d-lg-none custom-header-button-wrapper mt-0">
                         @foreach ($custom_buttons as $custom_button)
                         <div class="nav-item px-1 my-1 custom-header-button">
                             <a @if(str_contains($custom_button->link_target, 'blank')) target="_blank" @endif
@@ -404,42 +429,49 @@ $searches = \App\Product::query()
                                         </div>
                                     </a>
                                 </div>
+
+                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <a href="{{ route('user-logout') }}" class="text-dark">
+                                        <div class="media-body ml-4">
+                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                {{convertUtf8("Logout")}}
+                                            </h6>
+                                        </div>
+                                    </a>
+                                </div>
                                 @else
-                                <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="{{ route('user.login') }}" class="text-dark">
-                                        <div class="media-body ml-4">
-                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8("Login")}}
-                                            </h6>
-                                        </div>
-                                    </a>
-                                </div>
-
-                                <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="{{ route('user-register') }}" class="text-dark">
-                                        <div class="media-body ml-4">
-                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8("Register")}}
-                                            </h6>
-                                        </div>
-                                    </a>
-                                </div>
-                                @endif
-
-
-
                                 @foreach ($ulinks as $key => $ulink)
-                                @if($ulink->id == 18)
-                                <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="{{$ulink->url}}" class="text-dark">
-                                        <div class="media-body ml-4">
-                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8($ulink->name)}}
-                                            </h6>
+                                    @if( in_array(Str::lower($ulink->name), $account_dropdow_auths_links) )
+                                        <div class="px-1 py-2 px-md-3 border-bottom">
+                                            <a href="{{$ulink->url}}" class="text-dark">
+                                                <div class="media-body ml-4">
+                                                    <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                        {{convertUtf8($ulink->name)}}
+                                                    </h6>
+                                                </div>
+                                            </a>
                                         </div>
-                                    </a>
-                                </div>
+                                    @endif
+
+                                @endforeach
                                 @endif
+
+
+                                
+                                @foreach ($ulinks as $key => $ulink)
+                                
+                                @if( in_array(Str::lower($ulink->name), $account_dropdow_other_links) || $ulink->id == 18 )
+                                    <div class="px-1 py-2 px-md-3 border-bottom">
+                                        <a href="{{$ulink->url}}" class="text-dark">
+                                            <div class="media-body ml-4">
+                                                <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                    {{convertUtf8($ulink->name)}}
+                                                </h6>
+                                            </div>
+                                        </a>
+                                    </div>
+                                @endif
+
                                 @endforeach
 
                                 <div class="px-1 py-2 px-md-3 border-bottom">
@@ -654,39 +686,54 @@ $searches = \App\Product::query()
                                     </h6>
                                 </header>
 
+
+                                @if(auth()->user())
                                 <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="{{ route('user.login') }}" class="text-dark">
+                                    <a href="{{ route('user-dashboard') }}" class="text-dark">
                                         <div class="media-body ml-4">
                                             <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8("Login")}}
+                                                {{convertUtf8("Dashboard")}}
                                             </h6>
                                         </div>
                                     </a>
                                 </div>
 
                                 <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="{{ route('user-register') }}" class="text-dark">
+                                    <a href="{{ route('user-logout') }}" class="text-dark">
                                         <div class="media-body ml-4">
                                             <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8("Register")}}
+                                                {{convertUtf8("Logout")}}
                                             </h6>
                                         </div>
                                     </a>
                                 </div>
-
-
+                                @else
+                                    @foreach ($ulinks as $key => $ulink)
+                                        @if( in_array(Str::lower($ulink->name), $account_dropdow_auths_links) )
+                                            <div class="px-1 py-2 px-md-3 border-bottom">
+                                                <a href="{{$ulink->url}}" class="text-dark">
+                                                    <div class="media-body ml-4">
+                                                        <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                            {{convertUtf8($ulink->name)}}
+                                                        </h6>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @endif
 
                                 @foreach ($ulinks as $key => $ulink)
-                                @if($ulink->id == 18)
-                                <div class="px-1 py-2 px-md-3 border-bottom">
-                                    <a href="{{$ulink->url}}" class="text-dark">
-                                        <div class="media-body ml-4">
-                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8($ulink->name)}}
-                                            </h6>
-                                        </div>
-                                    </a>
-                                </div>
+                                @if( in_array(Str::lower($ulink->name), $account_dropdow_other_links) || $ulink->id == 18 )
+                                    <div class="px-1 py-2 px-md-3 border-bottom">
+                                        <a href="{{$ulink->url}}" class="text-dark">
+                                            <div class="media-body ml-4">
+                                                <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
+                                                    {{convertUtf8($ulink->name)}}
+                                                </h6>
+                                            </div>
+                                        </a>
+                                    </div>
                                 @endif
                                 @endforeach
 
@@ -968,9 +1015,94 @@ function addingClass(){
     },3000);
 }
 
-
-
 </script>
+
+<!-- // script for dropdown and sidebar avoid overlapping
+<script>
+    $("#myInput").on({
+
+        "change": function() {
+            $(this).blur();
+        },
+
+        'focus': function() {
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                $("#sidebarNavToggler").addClass('d-none');
+            }
+            else {
+                $("#sidebarNavToggler").removeClass('d-none');
+            }
+        },
+
+        "blur": function() {
+            console.log("blur")
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                setTimeout(() => {
+                  $("#sidebarNavToggler").removeClass('d-none'); 
+                }, 3000)
+            }
+            else {
+                $("#sidebarNavToggler").removeClass('d-none');
+            }
+        },
+
+       "keyup": function(e) {
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                var count = 0;
+                var length = $('#dropdown-titles > a').each(function() {
+                    
+                    if ($(this).css('display') !== 'none') {
+                        count++;
+                    }
+                    
+                });
+
+                if ( count > 1 ) {
+                    $("#sidebarNavToggler").addClass('d-none');
+                } else {
+                    $("#sidebarNavToggler").removeClass('d-none');
+                }
+            }
+            else {
+                $("#sidebarNavToggler").removeClass('d-none');
+            }
+            
+            
+            // if (e.keyCode == 27) {
+            //     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+            //         $("#sidebarNavToggler").addClass('d-none');
+            //     }
+            //     else {
+            //         $("#sidebarNavToggler").removeClass('d-none');
+            //     }
+            // }
+        },
+
+        "keydown": function(e) {
+            console.log("keydown")
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                var count = 0;
+                var length = $('#dropdown-titles > a').each(function() {
+                    
+                    if ($(this).css('display') !== 'none') {
+                        count++;
+                    }
+                    
+                });
+
+                if ( count > 1 ) {
+                    $("#sidebarNavToggler").addClass('d-none');
+                } else {
+                    $("#sidebarNavToggler").removeClass('d-none');
+                }
+            }
+            else {
+                $("#sidebarNavToggler").removeClass('d-none');
+            }
+        }
+    });
+</script> 
+-->
 
 <style>
 .dropbtn {

@@ -180,7 +180,7 @@ class ProductController extends Controller
 
     public function productDetails($slug)
     {
-
+        // dd(session()->get('cart'));
         $product_details = Product::where('slug', $slug)->first();
         
         $request = false;
@@ -294,6 +294,9 @@ class ProductController extends Controller
         return view('front.product.product_categories', compact('pcategories', 'be', 'version'));
     }
 
+    
+    /* start: previous function addToCart commented by zeeshan because it has no variation logic */
+    /*
     public function addToCart(Request $request, $id)
     {
         $cart = session()->get('cart');
@@ -500,14 +503,270 @@ class ProductController extends Controller
             return redirect()->back();
         }
     }
+    */
+    /* end: previous function addToCart commented by zeeshan because it has no variation logic */
+
+    // added variations code to addToCart
+    public function addToCart(Request $request, $id)
+    {
+        // dd($id);
+        
+        $cart = session()->get('cart');
+        $variation = null;
+
+        if (strpos($id, ',,,') == true) {
+            $data = explode(',,,', $id);
+            $id = $data[0];
+            $qty = $data[1];
+
+            // $product = Product::findOrFail($id);
+            $product = \DB::table('products')->where('id','=',$id)->first();
+            
+            if ( $product->is_variation == 1 ) {
+                $variation = $product;
+
+                // $product = Product::where('variations', 847)->first();
+                $product = Product::whereRaw("FIND_IN_SET($id, variations) > 0")->first();
+
+                $product_id = $product->id;
+                // $id = $product->id;
+            }
+
+            if ($product->type != 'digital') {
+                if(!empty($cart) && array_key_exists($id, $cart)){
+                    if($product->stock < $cart[$id]['qty'] + $qty){
+                        if(request()->expectsJson())
+                        {
+                            return response()->json(['error' => 'Out of Stock']);
+                        }
+                        else
+                        {
+                            session()->flash('error', 'Out of Stock');
+                            session()->flash('danger', 'Out of Stock');
+                            return redirect()->back();
+                        }
+                    }
+                }else{
+                    if($product->stock < $qty){
+                        if(request()->expectsJson())
+                        {
+                            return response()->json(['error' => 'Out of Stock']);
+                        }
+                        else
+                        {
+                            session()->flash('error', 'Out of Stock');
+                            session()->flash('danger', 'Out of Stock');
+                            return redirect()->back();
+                        }
+                    }
+                }
+            }
+
+            if (!$product) {
+                abort(404);
+            }
+            $cart = session()->get('cart');
+            // if cart is empty then this the first product
+            if (!$cart) {
+
+                $cart = [
+                    $id => [
+                        "name" => $product->title,
+                        "qty" => $qty,
+                        "price" => (isset($variation))?$variation->current_price:$product->current_price,
+                        "photo" => $product->feature_image,
+                        "type" => $product->type,
+                        "selected_variation_id" => (isset($variation))?$variation->id:null,
+                        "is_variation" => (isset($variation))?$variation->is_variation:$product->is_variation,
+                        "product_id" => (isset($product_id)?$product_id:$id),
+                    ]
+                ];
+
+                session()->put('cart', $cart);
+                if(request()->expectsJson())
+                {
+                    return response()->json(['message' => 'Product added to cart successfully!']);
+                }
+                else
+                {
+                    session()->flash('message', 'Product added to cart successfully!');
+                    session()->flash('success', 'Product added to cart successfully!');
+                    return redirect()->back();
+                }
+            }
+
+
+            // if cart not empty then check if this product exist then increment quantity
+            if (isset($cart[$id])) {
+                $cart[$id]['qty'] +=  $qty;
+                session()->put('cart', $cart);
+                if(request()->expectsJson())
+                {
+                    return response()->json(['message' => 'Product added to cart successfully!']);
+                }
+                else
+                {
+                    session()->flash('message', 'Product added to cart successfully!');
+                    session()->flash('success', 'Product added to cart successfully!');
+                    return redirect()->back();
+                }
+            }
+
+
+            // if item not exist in cart then add to cart with quantity = 1
+            $cart[$id] = [
+                "name" => $product->title,
+                "qty" => $qty,
+                "price" => $product->current_price,
+                "photo" => $product->feature_image,
+                "type" => $product->type,
+                "is_variation" => (isset($variation))?$variation->is_variation:$product->is_variation,
+                "product_id" => (isset($product_id)?$product_id:$id),
+            ];
+        } else {
+
+            // $product = Product::findOrFail($id);
+
+
+            $product = \DB::table('products')->where('id','=',$id)->first();
+            
+            if ( $product->is_variation == 1 ) {
+                $variation = $product;
+
+                // $product = Product::where('variations', 847)->first();
+                $product = Product::whereRaw("FIND_IN_SET($id, variations) > 0")->first();
+
+                $product_id = $product->id;
+                // $id = $product->id;
+            }
+            
+            if (!$product) {
+                abort(404);
+            }
+
+            if ($product->type != 'digital') {
+                if(!empty($cart) && array_key_exists($id, $cart)){
+                    if($product->stock < $cart[$id]['qty'] + 1){
+                        if(request()->expectsJson())
+                        {
+                            return response()->json(['error' => 'Out of Stock']);
+                        }
+                        else
+                        {
+                            session()->flash('error', 'Out of Stock');
+                            session()->flash('danger', 'Out of Stock');
+                            return redirect()->back();
+                        }
+                    }
+                }else{
+                    if($product->stock < 1){
+                        if(request()->expectsJson())
+                        {
+                            return response()->json(['error' => 'Out of Stock']);
+                        }
+                        else
+                        {
+                            session()->flash('error', 'Out of Stock');
+                            session()->flash('danger', 'Out of Stock');
+                            return redirect()->back();
+                        }
+                    }
+                }
+            }
+
+
+            $cart = session()->get('cart');
+            // if cart is empty then this the first product
+            if (!$cart) {
+
+                $cart = [
+                    $id => [
+                        "name" => $product->title,
+                        "qty" => 1,
+                        "price" => (isset($variation))?$variation->current_price:$product->current_price,
+                        "photo" => $product->feature_image,
+                        "type" => $product->type,
+                        // "selected_variation_id" => (isset($variation))?$variation->id:null,
+                        "is_variation" => (isset($variation))?$variation->is_variation:$product->is_variation,
+                        "product_id" => (isset($product_id)?$product_id:$id),
+                    ]
+                ];
+
+                session()->put('cart', $cart);
+                if(request()->expectsJson())
+                {
+                    return response()->json(['message' => 'Product added to cart successfully!']);
+                }
+                else
+                {
+                    session()->flash('message', 'Product added to cart successfully!');
+                    session()->flash('success', 'Product added to cart successfully!');
+                    return redirect()->back();
+                }
+            }
+
+            // if selected product is digital , then check if the product is already in the cart
+            // digital product can only be added once in cart
+            // if ($product->type == 'digital') {
+            //     if (is_array($cart) && array_key_exists($id, $cart)) {
+            //         return response()->json(['error' => 'Already added to cart!']);
+            //     }
+            // }
+
+            // if cart not empty then check if this product exist then increment quantity
+            if (isset($cart[$id])) {
+                $cart[$id]['qty']++;
+                session()->put('cart', $cart);
+                if(request()->expectsJson())
+                {
+                    return response()->json(['message' => 'Product added to cart successfully!']);
+                }
+                else
+                {
+                    session()->flash('message', 'Product added to cart successfully!');
+                    session()->flash('success', 'Product added to cart successfully!');
+                    return redirect()->back();
+                }
+            }
+
+            // if item not exist in cart then add to cart with quantity = 1
+            $cart[$id] = [
+                "name" => $product->title,
+                "qty" => 1,
+                // "price" => $product->current_price,
+                "price" => (isset($variation))?$variation->current_price:$product->current_price,
+                "photo" => $product->feature_image,
+                "type" => $product->type,
+                // "selected_variation_id" => (isset($variation))?$variation->id:null,
+                "is_variation" => (isset($variation))?$variation->is_variation:$product->is_variation,
+                "product_id" => (isset($product_id)?$product_id:$id),
+            ];
+        }
+
+        session()->put('cart', $cart);
+        if(request()->expectsJson())
+        {
+            return response()->json(['message' => 'Product added to cart successfully!']);
+        }
+        else
+        {
+            session()->flash('message', 'Product added to cart successfully!');
+            session()->flash('success', 'Product added to cart successfully!');
+            return redirect()->back();
+        }
+    }
 
 
     public function updatecart(Request $request)
     {
+
         if (session()->has('cart')) {
             $cart = session()->get('cart');
             foreach ($request->product_id as $key => $id) {
-                $product = Product::findOrFail($id);
+
+                // $product = Product::findOrFail($id);
+                $product = \DB::table('products')->where('id','=',$request->product_id)->first();
+
                 if ($product->type != 'digital') {
                     if($product->stock < $request->qty[$key]){
                         return response()->json(['error' => $product->title .' stock not available']);
@@ -524,8 +783,23 @@ class ProductController extends Controller
         $product_ids = [];
         $product_quantities = [];
         foreach ($cart as $key => $i) {
-            $product    = Product::findOrFail($key);
-            $total += $product->price * $i['qty'];
+            $product    = Product::findOrFail($i['product_id']);
+
+            $variation = null;
+            if(isset($i['is_variation']) && $i['is_variation']==1) {
+                $variation = \App\Product::withoutGlobalScope('variation')->find($key);
+                
+                if($variation) {
+                    $total += $variation->price * $i['qty'];
+                }
+                else {
+                    $total += $product->price * $i['qty'];
+                }
+            }
+            else {
+                $total += $product->price * $i['qty'];
+            }
+
             $count += $i['qty'];
             $product_ids[]= $product->id;
             $product_quantities[] = $i['qty'];
@@ -539,11 +813,12 @@ class ProductController extends Controller
 
     public function updateSingleCartItem(Request $request)
     {
-        
+
         if (session()->has('cart')) {
             $cart = session()->get('cart');
             
-            $product = Product::findOrFail($request->product_id);
+            // $product = Product::findOrFail($request->product_id);
+            $product = \DB::table('products')->where('id','=',$request->product_id)->first();
             
             if ($product->type != 'digital') {
                 if($product->stock < $request->quantity){
@@ -554,17 +829,35 @@ class ProductController extends Controller
             
             if (isset($cart[$request->product_id])) {
                 $cart[$request->product_id]['qty'] =  $request->quantity;
-
-                $sub_total = $product->price*$request->quantity;
-
+                
+                // $sub_total = $product->price*$request->quantity;
+                $sub_total = (ship_to_india() ? $product->current_price : $product->current_price_international)*$request->quantity;
                 session()->put('cart', $cart);
             }
         }
         $total = 0;
         $count = 0;
         foreach ($cart as $key => $i) {
-            $product    = Product::findOrFail($key);
-            $total += $product->price * $i['qty'];
+            // $product    = Product::findOrFail($key);
+            $product    = Product::findOrFail($i['product_id']);
+
+            $variation = null;
+            // if(isset($i['selected_variation_id'])) {
+            if(isset($item['is_variation']) && $item['is_variation']==1) {
+                $variation = \App\Product::withoutGlobalScope('variation')->find($key);
+                
+                if($variation) {
+                    $total += $variation->price * $i['qty'];
+                }
+                else {
+                    $total += $product->price * $i['qty'];
+                }
+            }
+            else {
+                $total += $product->price * $i['qty'];
+            }
+
+            // $total += $product->price * $i['qty'];
             $count += $i['qty'];
         }
 

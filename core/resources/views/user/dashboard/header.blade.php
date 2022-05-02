@@ -210,7 +210,7 @@ $countitem += $p['qty'];
                     $rand_id = rand(77, 777);
                     @endphp
                     @if ($custom_buttons->count() >= 1)
-                    <div class="nav text-center d-flex d-lg-none custom-header-button-wrapper">
+                    <div class="nav text-center d-flex d-lg-none custom-header-button-wrapper mt-0">
                         @foreach ($custom_buttons as $custom_button)
                         <div class="nav-item px-1 my-1 custom-header-button">
                             <a @if(str_contains($custom_button->link_target, 'blank')) target="_blank" @endif
