@@ -169,13 +169,11 @@
                         @if(isset($cart) && $cart != null)
                         @foreach ($cart as $id => $item)
                             @php
-                                $product = App\Product::findOrFail($id);
-                                
+                                $product = App\Product::findOrFail($item['product_id']);
 
                                 $variation = null;
-                                if(isset($item['selected_variation_id'])) {
-                                    $variation = \App\Product::withoutGlobalScope('variation')->find($item['selected_variation_id']);
-
+                                if(isset($item['is_variation']) && $item['is_variation']==1) {
+                                    $variation = \App\Product::withoutGlobalScope('variation')->find($id);
                                 }
                             @endphp
 
@@ -183,16 +181,19 @@
                                 <div class="media">
                                     <a target="_blank" href="{{route('front.product.details',$product->slug)}}" class="d-block"><img src="@if($item['photo']!=null){{$item['photo']}}@else{{asset('https://via.placeholder.com/150')}}@endif" class="img-fluid cus-pos" alt="image-description" width="150"></a>
                                     <div class="media-body ml-4d875">
-                                        {{-- <div class="text-primary text-uppercase font-size-1 mb-1 text-truncate"><a href="#">Hard Cover</a></div> --}}
                                         <h2 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
                                             <a href="{{route('front.product.details', $product->slug)}}" class="text-dark">{{convertUtf8($item['name'])}}</a>
                                         </h2>
+
+                                        <!-- variation title -->
+                                        <div class="text-primary text-uppercase font-size-1 mb-1 text-truncate"><a href="#">{{ $variation?$variation->title:'' }}</a></div> 
+
                                         <form class="form-{{$product->id}} cart d-block" method="post" enctype="multipart/form-data">
                                             <div class="price d-flex align-items-center font-weight-medium font-size-3 mt-3">
                                             <span class="woocommerce-Price-amount amount">
                                                 <div class="product-quantity d-flex mb-35" id="quantity">
                                                 <button type="button" id="sub" class="sub">-</button>
-                                                <input type="text" class="quantity-{{$product->id}} cart_qty cart-value" id="1" value="{{$item['qty']}}" />
+                                                <input type="text" class="quantity-{{($variation)?$variation->id:$product->id}} cart_qty cart-value" id="1" value="{{$item['qty']}}" />
                                                 <button type="button" id="add" class="add">+</button>
                                                 <input type="hidden" value="{{$id}}" class="product_id">
                                                 </div>
@@ -210,7 +211,7 @@
                                         </form>
                                     </div>
                                     <div class="mt-3 ml-3">
-                                        <a href="{{ route('cart.item.remove', $product->id) }}" class="text-dark"><i class="fas fa-times"></i></a>
+                                        <a href="{{ route('cart.item.remove', ($variation)?$variation->id:$product->id) }}" class="text-dark"><i class="fas fa-times"></i></a>
                                     </div>
                                 </div>
                             </div>

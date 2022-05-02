@@ -180,7 +180,7 @@ class ProductController extends Controller
 
     public function productDetails($slug)
     {
-
+        // dd(session()->get('cart'));
         $product_details = Product::where('slug', $slug)->first();
         
         $request = false;
@@ -524,11 +524,12 @@ class ProductController extends Controller
             
             if ( $product->is_variation == 1 ) {
                 $variation = $product;
-                
+
                 // $product = Product::where('variations', 847)->first();
                 $product = Product::whereRaw("FIND_IN_SET($id, variations) > 0")->first();
-                
-                $id = $product->id;
+
+                $product_id = $product->id;
+                // $id = $product->id;
             }
 
             if ($product->type != 'digital') {
@@ -576,6 +577,8 @@ class ProductController extends Controller
                         "photo" => $product->feature_image,
                         "type" => $product->type,
                         "selected_variation_id" => (isset($variation))?$variation->id:null,
+                        "is_variation" => (isset($variation))?$variation->is_variation:$product->is_variation,
+                        "product_id" => (isset($product_id)?$product_id:$id),
                     ]
                 ];
 
@@ -616,7 +619,9 @@ class ProductController extends Controller
                 "qty" => $qty,
                 "price" => $product->current_price,
                 "photo" => $product->feature_image,
-                "type" => $product->type
+                "type" => $product->type,
+                "is_variation" => (isset($variation))?$variation->is_variation:$product->is_variation,
+                "product_id" => (isset($product_id)?$product_id:$id),
             ];
         } else {
 
@@ -631,7 +636,8 @@ class ProductController extends Controller
                 // $product = Product::where('variations', 847)->first();
                 $product = Product::whereRaw("FIND_IN_SET($id, variations) > 0")->first();
 
-                $id = $product->id;
+                $product_id = $product->id;
+                // $id = $product->id;
             }
             
             if (!$product) {
@@ -680,7 +686,9 @@ class ProductController extends Controller
                         "price" => (isset($variation))?$variation->current_price:$product->current_price,
                         "photo" => $product->feature_image,
                         "type" => $product->type,
-                        "selected_variation_id" => (isset($variation))?$variation->id:null,
+                        // "selected_variation_id" => (isset($variation))?$variation->id:null,
+                        "is_variation" => (isset($variation))?$variation->is_variation:$product->is_variation,
+                        "product_id" => (isset($product_id)?$product_id:$id),
                     ]
                 ];
 
@@ -729,7 +737,9 @@ class ProductController extends Controller
                 "price" => (isset($variation))?$variation->current_price:$product->current_price,
                 "photo" => $product->feature_image,
                 "type" => $product->type,
-                "selected_variation_id" => (isset($variation))?$variation->id:null,
+                // "selected_variation_id" => (isset($variation))?$variation->id:null,
+                "is_variation" => (isset($variation))?$variation->is_variation:$product->is_variation,
+                "product_id" => (isset($product_id)?$product_id:$id),
             ];
         }
 
@@ -749,10 +759,14 @@ class ProductController extends Controller
 
     public function updatecart(Request $request)
     {
+
         if (session()->has('cart')) {
             $cart = session()->get('cart');
             foreach ($request->product_id as $key => $id) {
-                $product = Product::findOrFail($id);
+
+                // $product = Product::findOrFail($id);
+                $product = \DB::table('products')->where('id','=',$request->product_id)->first();
+
                 if ($product->type != 'digital') {
                     if($product->stock < $request->qty[$key]){
                         return response()->json(['error' => $product->title .' stock not available']);
@@ -769,11 +783,11 @@ class ProductController extends Controller
         $product_ids = [];
         $product_quantities = [];
         foreach ($cart as $key => $i) {
-            $product    = Product::findOrFail($key);
+            $product    = Product::findOrFail($i['product_id']);
 
             $variation = null;
-            if(isset($i['selected_variation_id'])) {
-                $variation = \App\Product::withoutGlobalScope('variation')->find($i['selected_variation_id']);
+            if(isset($i['is_variation']) && $i['is_variation']==1) {
+                $variation = \App\Product::withoutGlobalScope('variation')->find($key);
                 
                 if($variation) {
                     $total += $variation->price * $i['qty'];
@@ -799,11 +813,12 @@ class ProductController extends Controller
 
     public function updateSingleCartItem(Request $request)
     {
-        
+
         if (session()->has('cart')) {
             $cart = session()->get('cart');
             
-            $product = Product::findOrFail($request->product_id);
+            // $product = Product::findOrFail($request->product_id);
+            $product = \DB::table('products')->where('id','=',$request->product_id)->first();
             
             if ($product->type != 'digital') {
                 if($product->stock < $request->quantity){
@@ -814,20 +829,22 @@ class ProductController extends Controller
             
             if (isset($cart[$request->product_id])) {
                 $cart[$request->product_id]['qty'] =  $request->quantity;
-
-                $sub_total = $product->price*$request->quantity;
-
+                
+                // $sub_total = $product->price*$request->quantity;
+                $sub_total = (ship_to_india() ? $product->current_price : $product->current_price_international)*$request->quantity;
                 session()->put('cart', $cart);
             }
         }
         $total = 0;
         $count = 0;
         foreach ($cart as $key => $i) {
-            $product    = Product::findOrFail($key);
+            // $product    = Product::findOrFail($key);
+            $product    = Product::findOrFail($i['product_id']);
 
             $variation = null;
-            if(isset($i['selected_variation_id'])) {
-                $variation = \App\Product::withoutGlobalScope('variation')->find($i['selected_variation_id']);
+            // if(isset($i['selected_variation_id'])) {
+            if(isset($item['is_variation']) && $item['is_variation']==1) {
+                $variation = \App\Product::withoutGlobalScope('variation')->find($key);
                 
                 if($variation) {
                     $total += $variation->price * $i['qty'];

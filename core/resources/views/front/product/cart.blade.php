@@ -98,11 +98,12 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                     if($cart){
                     foreach($cart as $id => $p)
                     {
-                    $product = App\Product::find($id);
+                    /* $product = App\Product::find($id); */
+                    $product = App\Product::findOrFail($p['product_id']);
 
                     $variation = null;
-                    if(isset($p['selected_variation_id'])) {
-                        $variation = \App\Product::withoutGlobalScope('variation')->find($p['selected_variation_id']);
+                    if(isset($p['is_variation']) && $p['is_variation']==1) {
+                        $variation = \App\Product::withoutGlobalScope('variation')->find($id);
                         
                         if($variation) {
                             $cartTotal += $variation->price * $p['qty'];
@@ -135,12 +136,12 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                     <div class="row d-block d-md-none mini-data">
                         @foreach ($cart as $id => $item)
                         @php
-                        $product = App\Product::findOrFail($id);
+                        // $product = App\Product::findOrFail($id);
+                        $product = App\Product::findOrFail($item['product_id']);
 
                         $variation = null;
-                        if(isset($item['selected_variation_id'])) {
-                            $variation = \App\Product::withoutGlobalScope('variation')->find($item['selected_variation_id']);
-
+                        if(isset($item['is_variation']) && $item['is_variation']==1) {
+                            $variation = \App\Product::withoutGlobalScope('variation')->find($id);
                         }
                         @endphp
                         <div class="col-12 remove{{$id}}">
@@ -156,6 +157,9 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                                     <h6 style="text-overflow: ellipsis;word-wrap: break-word;overflow: hidden;max-height: 2.4em;line-height: 1.2em;" class="card-title mb-1">
                                                         {{convertUtf8($item['name'])}}
                                                     </h6>
+                                                    <!-- variation title -->
+                                                    <div class="text-primary text-uppercase font-size-1 mb-1 text-truncate"><a href="#">{{ $variation?$variation->title:'' }}</a></div> 
+
                                                     @php
                                                     $isbn = "";
                                                     try
@@ -208,9 +212,9 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                             </div>
                                             <div class="qty">
                                                 <div class="product-quantity d-flex mb-35" id="quantity">
-                                                    <button type="button" id="sub" class="sub btn-sub" onclick="onMinus(this, '{{$product->id}}')">-</button>
-                                                    <input type="text" class="quantity-{{$product->id}} cart_qty" id="1" value="{{$item['qty']}}" onblur="onInputChange(this, '{{$product->id}}')"/>
-                                                    <button type="button" id="add" class="add btn-add" onclick="onPlus(this, '{{$product->id}}')" >+</button>
+                                                    <button type="button" id="sub" class="sub btn-sub" onclick="onMinus(this, '{{($variation)?$variation->id:$product->id}}')">-</button>
+                                                    <input type="text" class="quantity-{{($variation)?$variation->id:$product->id}} cart_qty" id="1" value="{{$item['qty']}}" onblur="onInputChange(this, '{{($variation)?$variation->id:$product->id}}')"/>
+                                                    <button type="button" id="add" class="add btn-add" onclick="onPlus(this, '{{($variation)?$variation->id:$product->id}}')" >+</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -237,12 +241,12 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
 
                             @foreach ($cart as $id => $item)
                             @php
-                            $product = App\Product::findOrFail($id);
-
+                            // $product = App\Product::findOrFail($id);
+                            $product = App\Product::findOrFail($item['product_id']);
 
                             $variation = null;
-                            if(isset($item['selected_variation_id'])) {
-                                $variation = \App\Product::withoutGlobalScope('variation')->find($item['selected_variation_id']);
+                            if(isset($item['is_variation']) && $item['is_variation']==1) {
+                                $variation = \App\Product::withoutGlobalScope('variation')->find($id);
 
                             }
                             @endphp
@@ -255,6 +259,11 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                                 <img src="{{$product->feature_image}}" alt="" style="max-width: 77px">
                                                 <div class="px-2">
                                                     <h3 class="prod-title">{{convertUtf8($item['name'])}}</h3>
+
+                                                    <!-- variation title -->
+                                                    <span class="text-primary text-uppercase font-size-1 mb-1 text-truncate">{{ $variation?$variation->title:'' }}</span> 
+                                                    
+
                                                     @php
                                                     $isbn = "";
                                                     try
@@ -278,9 +287,9 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                 </td>
                                 <td class="qty">
                                     <div class="product-quantity d-flex mb-35" id="quantity">
-                                        <button type="button" id="sub" class="sub btn-sub" onclick="onMinus(this, '{{$product->id}}')">-</button>
-                                        <input type="text" class="quantity-{{$product->id}} cart_qty" id="1" value="{{$item['qty']}}" onblur="onInputChange(this, '{{$product->id}}')"/>
-                                        <button type="button" id="add" class="add btn-add" onclick="onPlus(this, '{{$product->id}}')" >+</button>
+                                        <button type="button" id="sub" class="sub btn-sub" onclick="onMinus(this, '{{($variation)?$variation->id:$product->id}}')">-</button>
+                                        <input type="text" class="quantity-{{($variation)?$variation->id:$product->id}} cart_qty" id="1" value="{{$item['qty']}}" onblur="onInputChange(this, '{{($variation)?$variation->id:$product->id}}')"/>
+                                        <button type="button" id="add" class="add btn-add" onclick="onPlus(this, '{{($variation)?$variation->id:$product->id}}')" >+</button>
                                     </div>
                                 </td>
                                 <input type="hidden" value="{{$id}}" class="product_id">
@@ -314,7 +323,7 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                 <td class="sub-total">
                                     {{-- {{$bex->base_currency_symbol_position == 'left' ? $bex->base_currency_symbol : ''}} --}}
                                     {{ $product->symbol }}
-                                    <span class="sub-total-{{$product->id}}">
+                                    <span class="sub-total-{{($variation)?$variation->id:$product->id}}">
                                         {{-- {{ isset($pvariation) ? angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($item['qty'] * $item['price'], $geo_data_base_currency, $geo_data_user_currency) }} --}}
                                         
                                         {{--
@@ -415,7 +424,7 @@ function onInputChange(elem, product_id) {
     document.getElementsByClassName("quantity-"+product_id)[0].value = elem.value;
 
     let targetCount = parseInt(elem.value);
-
+    console.log("targetCount ", targetCount)
     changeItemQuantityAndPrice(targetCount, product_id);
     
 }
