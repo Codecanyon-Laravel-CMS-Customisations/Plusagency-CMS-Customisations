@@ -201,9 +201,15 @@ class PaymentController extends Controller
         $qty = [];
         foreach ($cart as $id => $item) {
             $qty[] = $item['qty'];
-            $products[] = Product::findOrFail($id);
-        }
 
+            if (isset($item['is_variation']) && $item['is_variation']==1) {
+                $products[] = Product::findOrFail($item['product_id']);
+            }
+            else {
+                $products[] = Product::findOrFail($id);
+            }
+            
+        }
 
 
         foreach ($products as $key => $product) {
@@ -230,12 +236,21 @@ class PaymentController extends Controller
         }
 
         foreach ($cart as $id => $item) {
-            $product = Product::findOrFail($id);
+            if (isset($item['is_variation']) && $item['is_variation']==1) {
+                $product = Product::findOrFail($item['product_id']);
+            }
+            else {
+                $product = Product::findOrFail($id);
+            }
+            
+            // $product = Product::findOrFail($id);
+            
             $stock = $product->stock - $item['qty'];
             Product::where('id', $id)->update([
                 'stock' => $stock
             ]);
         }
+
     }
 
     public function sendMails($order) {

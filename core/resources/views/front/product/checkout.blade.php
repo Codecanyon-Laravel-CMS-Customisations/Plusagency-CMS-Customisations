@@ -529,9 +529,8 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                     }
 
                                     
-                                    // $product = App\Product::findOrFail($key);
+                                    // $product = App\Product::findOrFail(851);
                                     $product = App\Product::findOrFail($item['product_id']);
-
                                     @endphp
                                     <tr>
                                         <td colspan="2" class="product-column">
@@ -540,9 +539,6 @@ return isset($pvariation) ? angel_auto_convert_currency($pvariation->current_pri
                                                     <a target="_blank" href="{{route('front.product.details',$product->slug)}}">
                                                         <h3 class="prod-title">{{convertUtf8($item['name'])}}</h3>
                                                     </a>
-
-                                                    <!-- variation title -->
-                                                    <div class="text-primary text-uppercase font-size-1 mb-1 text-truncate"><a href="#">{{ $variation?$variation->title:'' }}</a></div>
                                                 </div>
                                             </div>
                                         </td>

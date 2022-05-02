@@ -66,7 +66,6 @@ class RazorpayController extends PaymentController
 
         $this->saveOrderedItems($order_id);
 
-
         $orderInfo['title'] = $bs->website_title . " Order";
         $orderInfo['item_number'] = str_random(4) . time();
         $orderInfo['item_amount'] = $total;
