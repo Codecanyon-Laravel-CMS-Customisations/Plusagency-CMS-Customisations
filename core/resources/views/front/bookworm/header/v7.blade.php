@@ -102,7 +102,9 @@ $searches = \App\Product::query()
 
 @php
 $account_dropdow_auths_links = array("login", "register");
+
 $account_dropdow_other_links = array("track my order");
+
 @endphp
 
 <style>
@@ -460,7 +462,7 @@ $account_dropdow_other_links = array("track my order");
                                 
                                 @foreach ($ulinks as $key => $ulink)
                                 
-                                @if( in_array(Str::lower($ulink->name), $account_dropdow_other_links) || $ulink->id == 18 )
+                                @if( !in_array(Str::lower($ulink->name), $account_dropdow_auths_links) && $ulink->show_on_account_dropdown == 1 )
                                     <div class="px-1 py-2 px-md-3 border-bottom">
                                         <a href="{{$ulink->url}}" class="text-dark">
                                             <div class="media-body ml-4">
@@ -724,7 +726,7 @@ $account_dropdow_other_links = array("track my order");
                                 @endif
 
                                 @foreach ($ulinks as $key => $ulink)
-                                @if( in_array(Str::lower($ulink->name), $account_dropdow_other_links) || $ulink->id == 18 )
+                                @if( !in_array(Str::lower($ulink->name), $account_dropdow_auths_links) && $ulink->show_on_account_dropdown == 1 )
                                     <div class="px-1 py-2 px-md-3 border-bottom">
                                         <a href="{{$ulink->url}}" class="text-dark">
                                             <div class="media-body ml-4">

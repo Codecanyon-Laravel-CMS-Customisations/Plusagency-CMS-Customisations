@@ -201,7 +201,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
               <label for="">Show on account dropdown</label> <br/>
 
               <div>
-                <input type="checkbox" id="show_on_account_dropdown" name="show_on_account_dropdown" value="" style="cursor: pointer !important;">
+                <input onclick="showOnAccountDropdown(this)" type="checkbox" value="1" id="show_on_account_dropdown" name="show_on_account_dropdown" value="" style="cursor: pointer !important;">
               </div>              
             </div>
           </form>
@@ -257,16 +257,20 @@ $(document).ready(function() {
     $('.editbtn').click(function () {
       
       if ($(this).attr("data-show_on_account_dropdown") == 1) {
-        // $('input:checkbox').val("checked", true);
-        // $('#show_on_account_dropdown').prop('checked', 1);
-        $('#show_on_account_dropdown').prop('checked', true);
-        console.log("data is 1");
+        $('input[type="checkbox"]').attr("checked", true).val(1);
       }
       else {
-        $('.show_on_account_dropdown').prop('checked', false);
-        console.log("data is 0");
+        $('input[type="checkbox"]').attr("checked", false).val(0);
       }
-    })
+    });
 });
+
+function showOnAccountDropdown(obj) {
+  if (obj.value == 1) {
+    $(obj).val(0);
+  } else {
+    $(obj).val(1);
+  }
+}
 </script>
 @endsection
