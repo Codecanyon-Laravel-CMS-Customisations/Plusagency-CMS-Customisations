@@ -90,7 +90,7 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
                           <td>{{convertUtf8($aulink->name)}}</td>
                           <td>{{$aulink->url}}</td>
                           <td>
-                            <a class="btn btn-secondary btn-sm editbtn" href="#editModal" data-toggle="modal" data-ulink_id="{{$aulink->id}}" data-name="{{$aulink->name}}" data-url="{{$aulink->url}}">
+                            <a class="btn btn-secondary btn-sm editbtn" href="#editModal" data-toggle="modal" data-ulink_id="{{$aulink->id}}" data-name="{{$aulink->name}}" data-url="{{$aulink->url}}" data-show_on_account_dropdown="{{$aulink->show_on_account_dropdown}}">
                               <span class="btn-label">
                                 <i class="fas fa-edit"></i>
                               </span>
@@ -154,6 +154,14 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
               <input class="form-control ltr" name="url" placeholder="Enter url">
               <p id="errurl" class="mb-0 text-danger em"></p>
             </div>
+
+            <div class="form-group">
+              <label for="">Show on account dropdown</label> <br/>
+
+              <div>
+                <input type="checkbox" id="show_on_account_dropdown" class="show_on_account_dropdown" name="show_on_account_dropdown" value="1" style="cursor: pointer !important;">
+              </div>              
+            </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -188,6 +196,14 @@ $selLang = \App\Language::where('code', request()->input('language'))->first();
               <input id="inurl" class="form-control ltr" name="url" placeholder="Enter url">
               <p id="eerrurl" class="mb-0 text-danger em"></p>
             </div>
+
+            <div class="form-group">
+              <label for="">Show on account dropdown</label> <br/>
+
+              <div>
+                <input type="checkbox" id="show_on_account_dropdown" name="show_on_account_dropdown" value="" style="cursor: pointer !important;">
+              </div>              
+            </div>
           </form>
         </div>
         <div class="modal-footer">
@@ -211,6 +227,7 @@ $(document).ready(function() {
         $.get(url, function(data) {
             $(".request-loader").removeClass("show");
             if (data == 1) {
+              console.log("data is ")
                 $("form.create input").each(function() {
                     if (!$(this).hasClass('ltr')) {
                         $(this).addClass('rtl');
@@ -236,6 +253,20 @@ $(document).ready(function() {
             }
         })
     });
+
+    $('.editbtn').click(function () {
+      
+      if ($(this).attr("data-show_on_account_dropdown") == 1) {
+        // $('input:checkbox').val("checked", true);
+        // $('#show_on_account_dropdown').prop('checked', 1);
+        $('#show_on_account_dropdown').prop('checked', true);
+        console.log("data is 1");
+      }
+      else {
+        $('.show_on_account_dropdown').prop('checked', false);
+        console.log("data is 0");
+      }
+    })
 });
 </script>
 @endsection

@@ -43,11 +43,12 @@ class UlinkController extends Controller
             $errmsgs = $validator->getMessageBag()->add('error', 'true');
             return response()->json($validator->errors());
         }
-
+        
         $ulink = new Ulink;
         $ulink->language_id = $request->language_id;
         $ulink->name = $request->name;
         $ulink->url = $request->url;
+        $ulink->show_on_account_dropdown = (isset($request->show_on_account_dropdown) && ($request->show_on_account_dropdown == 1)) ? 1 : 0;
         $ulink->save();
 
         Session::flash('success', 'Useful link added successfully!');
