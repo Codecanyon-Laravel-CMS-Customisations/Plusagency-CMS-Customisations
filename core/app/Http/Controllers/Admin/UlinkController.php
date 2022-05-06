@@ -71,6 +71,7 @@ class UlinkController extends Controller
         $ulink = Ulink::findOrFail($request->ulink_id);
         $ulink->name = $request->name;
         $ulink->url = $request->url;
+        $ulink->show_on_account_dropdown = (isset($request->show_on_account_dropdown) && ($request->show_on_account_dropdown == 1)) ? 1 : 0;
         $ulink->save();
 
         Session::flash('success', 'Useful link updated successfully!');
