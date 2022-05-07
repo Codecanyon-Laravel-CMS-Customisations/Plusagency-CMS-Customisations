@@ -745,10 +745,14 @@ if (isset($_GET['variation'])) {
             mzOptions = {
                 @php
                     $arr_d  = json_decode($mzoom->desktop_options, true);
-                    foreach($arr_d as $key => $value)
-                    {
-                        echo "$key: \"$value\",\n";
+                    
+                    if($arr_d) {
+                        foreach($arr_d as $key => $value)
+                        {
+                            echo "$key: \"$value\",\n";
+                        }
                     }
+                    
                 @endphp
                 onZoomReady: function() {
                     console.log('onReady', arguments[0]);
@@ -772,13 +776,17 @@ if (isset($_GET['variation'])) {
             var mzMobileOptions = {
                 @php
                     $arr_m  = json_decode($mzoom->mobile_options, true);
-                    $c      = count($arr_m);
-                    $i      = 0;
-                    foreach($arr_m as $key => $value)
-                    {
-                        $i++;
-                        echo $i == $c ? "$key: \"$value\"\n" : "$key: \"$value\",\n";
+                    
+                    if($arr_m) {
+                        $c      = count($arr_m);
+                        $i      = 0;
+                        foreach($arr_m as $key => $value)
+                        {
+                            $i++;
+                            echo $i == $c ? "$key: \"$value\"\n" : "$key: \"$value\",\n";
+                        }
                     }
+                    
                 @endphp
             };
     @endif
