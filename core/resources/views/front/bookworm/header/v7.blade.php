@@ -100,8 +100,24 @@ $searches = \App\Product::query()
                     }
                 }); //->pluck('title', 'current_price', 'id');
 */
+if (session()->has('lang')) {
+    $currentLang = app()->make('currentLang');
+} else {
+    $currentLang = Language::where('is_default', 1)->first();
+}
+$data['currentLang'] = $currentLang;
 
-$searches = \App\Product::has('category')->with('category')->where('status', 1)->orderBy('title', 'ASC')->get();
+$bs = $currentLang->basic_setting;
+$be = $currentLang->basic_extended;
+$lang_id = $currentLang->id;
+
+$data['categories'] = \App\Pcategory::where('status', 1)->where('language_id',$currentLang->id)->get();
+
+
+$searches = \App\Product::has('category')->with('category')->where('status', 1)
+            ->when($lang_id, function ($query, $lang_id) {
+                return $query->where('language_id', $lang_id);
+            })->get();
 @endphp
 
 @php
