@@ -103,7 +103,7 @@ $searches = \App\Product::query()
 if (session()->has('lang')) {
     $currentLang = app()->make('currentLang');
 } else {
-    $currentLang = Language::where('is_default', 1)->first();
+    $currentLang = \App\Language::where('is_default', 1)->first();
 }
 $data['currentLang'] = $currentLang;
 
