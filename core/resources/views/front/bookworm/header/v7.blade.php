@@ -85,6 +85,8 @@ $countitem += $p['qty'];
 @endif
 
 @php
+
+/* // commented previous search logic 
 $searches = \App\Product::query()
                 ->orderBy('title', 'ASC')
                 ->get()
@@ -97,7 +99,9 @@ $searches = \App\Product::query()
                         }
                     }
                 }); //->pluck('title', 'current_price', 'id');
+*/
 
+$searches = \App\Product::has('category')->with('category')->where('status', 1)->orderBy('title', 'ASC')->get();
 @endphp
 
 @php

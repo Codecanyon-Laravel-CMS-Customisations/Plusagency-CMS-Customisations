@@ -217,8 +217,16 @@ class ProductController extends Controller
         $data['categories'] = Pcategory::where('status', 1)->where('language_id',$currentLang->id)->get();
 
         ///dd($data);
+        
+        if (isset($data['product'])) {
+            $data['related_product'] = Product::where('category_id', $data['product']->category_id)->where('language_id',$currentLang->id)->where('id', '!=', $data['product']->id)->get();
+        }
+        else {
+            session()->flash('error', 'Product not found!');
+            return redirect()->to('products');
+        }
 
-        $data['related_product'] = Product::where('category_id', $data['product']->category_id)->where('language_id',$currentLang->id)->where('id', '!=', $data['product']->id)->get();
+        
 
         $be = $currentLang->basic_extended;
         $version = $be->theme_version;
