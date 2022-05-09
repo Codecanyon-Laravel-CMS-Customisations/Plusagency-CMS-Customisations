@@ -147,14 +147,6 @@ if($sidebar_title_color_hover && $sidebar_title_color_hover->value) {
 @endphp
 
 <style>
-    .hc-nav-trigger span {
-        display: unset; 
-        position: unset;
-        left: unset;
-        height: unset;
-        background: unset;
-        transition: unset;
-    }
 
     .sidebar-title-color {
         color: <?php echo ($sidebar_title_color && $sidebar_title_color->value )? '#'.$sidebar_title_color->value :''; ?>;
@@ -658,7 +650,7 @@ if($sidebar_title_color_hover && $sidebar_title_color_hover->value) {
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,8.000 L15.000,8.000 L15.000,10.000 L-0.000,10.000 L-0.000,8.000 Z"></path>
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,16.000 L20.000,16.000 L20.000,18.000 L-0.000,18.000 L-0.000,16.000 Z"></path>
                             </svg>
-                            &nbsp;<span class="sidebar-title-color">Books Menu</span>
+                            &nbsp;<title class="sidebar-title-color">Books Menu</title>
                             <!-- <span class="fonts"></span> -->
                         </a>
                         <!-- End Account Sidebar Toggle Button -->
