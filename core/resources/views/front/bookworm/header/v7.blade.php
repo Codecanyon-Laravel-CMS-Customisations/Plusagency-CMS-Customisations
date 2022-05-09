@@ -124,10 +124,37 @@ $searches = \App\Product::has('category')->with('category')->where('status', 1)
 $account_dropdow_auths_links = array("login", "register");
 
 $account_dropdow_other_links = array("track my order");
+@endphp
+
+
+@php 
+// sidebar title color changing from backend
+$sidebar_title_color = App\WebsiteColors::where(['element' => '#sidebarNavToggler svg path, #sidebarAuthToggler *, #sidebarNavToggler1 *', 'attribute' => 'fill'])->first();
+
+// sidebar hover title color changing from backend
+$sidebar_title_color_hover = App\WebsiteColors::where(['element' => '#sidebarNavToggler:hover svg path, #sidebarAuthToggler *:hover, #sidebarNavToggler1 *:hover', 'attribute' => 'fill'])->first();
+
+if($sidebar_title_color_hover && $sidebar_title_color_hover->value) {
+    $sidebar_title_color_hover = $sidebar_title_color_hover->value;
+
+    if (str_contains($sidebar_title_color_hover, 'undefined')) { 
+        $sidebar_title_color_hover = str_replace("undefined","!important",$sidebar_title_color_hover);
+    }
+    
+}
+
 
 @endphp
 
 <style>
+
+    .sidebar-title-color {
+        color: <?php echo ($sidebar_title_color && $sidebar_title_color->value )? '#'.$sidebar_title_color->value :''; ?>;
+    }
+
+    .sidebar-title-color:hover {
+        color: <?php echo ($sidebar_title_color_hover )? '#'.$sidebar_title_color_hover :''; ?>;
+    }  
     
     option {
         background-color: #fff;
@@ -623,7 +650,7 @@ $account_dropdow_other_links = array("track my order");
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,8.000 L15.000,8.000 L15.000,10.000 L-0.000,10.000 L-0.000,8.000 Z"></path>
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,16.000 L20.000,16.000 L20.000,18.000 L-0.000,18.000 L-0.000,16.000 Z"></path>
                             </svg>
-                            &nbsp;Books Menu
+                            &nbsp;<span class="sidebar-title-color">Books Menu</span>
                             <!-- <span class="fonts"></span> -->
                         </a>
                         <!-- End Account Sidebar Toggle Button -->
