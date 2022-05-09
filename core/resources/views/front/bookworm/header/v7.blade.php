@@ -650,7 +650,7 @@ if($sidebar_title_color_hover && $sidebar_title_color_hover->value) {
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,8.000 L15.000,8.000 L15.000,10.000 L-0.000,10.000 L-0.000,8.000 Z"></path>
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,16.000 L20.000,16.000 L20.000,18.000 L-0.000,18.000 L-0.000,16.000 Z"></path>
                             </svg>
-                            &nbsp;<svg class="sidebar-title-color">Books Menu</svg>
+                            &nbsp;<div class="sidebar-title-color">Books Menu</div>
                             <!-- <span class="fonts"></span> -->
                         </a>
                         <!-- End Account Sidebar Toggle Button -->
