@@ -147,15 +147,17 @@ if($sidebar_title_color_hover && $sidebar_title_color_hover->value) {
 @endphp
 
 <style>
-
-    .sidebar-title-color {
-        color: <?php echo ($sidebar_title_color && $sidebar_title_color->value )? '#'.$sidebar_title_color->value :''; ?>;
+    .hc-nav-trigger span {
         display: unset; 
         position: unset;
         left: unset;
         height: unset;
         background: unset;
         transition: unset;
+    }
+
+    .sidebar-title-color {
+        color: <?php echo ($sidebar_title_color && $sidebar_title_color->value )? '#'.$sidebar_title_color->value :''; ?>;
     }
 
     .sidebar-title-color:hover {
