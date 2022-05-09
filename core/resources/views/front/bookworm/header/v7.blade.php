@@ -150,6 +150,12 @@ if($sidebar_title_color_hover && $sidebar_title_color_hover->value) {
 
     .sidebar-title-color {
         color: <?php echo ($sidebar_title_color && $sidebar_title_color->value )? '#'.$sidebar_title_color->value :''; ?>;
+        display: unset; 
+        position: unset;
+        left: unset;
+        height: unset;
+        background: unset;
+        transition: unset;
     }
 
     .sidebar-title-color:hover {
