@@ -95,6 +95,11 @@
                                                         <div class="col-12">
                                                             <div class="row border mb-2">
                                                                 <div class="col-md-4 pt-2">
+                                                                    @if( str_contains($element['section_title'], 'Header Icons + Texts (Combined settings) SVG elements') )
+                                                                        @php
+                                                                        $element['section_description'] = $element['section_description'].' and also it includes the sidebar icon title color.';
+                                                                        @endphp
+                                                                    @endif
                                                                     <strong>{{ $element['section_title'] }}</strong>
                                                                     <p>{{ $element['section_description'] }}</p>
                                                                 </div>
