@@ -144,6 +144,17 @@
                             @php
                                 //get only active currencies + countries
                                 $session_wc         = session('geo_data_user_country');
+                                
+                                // if no country selected then INR will be by default
+                                if (is_null($session_wc)) {
+                                    $country = App\Models\Country::where([
+                                        'name' => 'India',
+                                        'name' => 'india'
+                                    ])->first();
+
+                                    $session_wc = ($country)?$country->id:null;
+                                }
+
                                 $cc_options         = '';
                                 $wc_id              = $world_currency->id;
                                 if ($session_wc    != $wc_id) continue;

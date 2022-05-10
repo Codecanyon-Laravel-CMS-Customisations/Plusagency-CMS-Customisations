@@ -189,6 +189,12 @@ if(! function_exists('ship_to_india'))
         try
         {
             $country = app()->make('user_country');
+            
+            // if no country selected then INR will be by default
+            if (is_null($country)) {
+                return true;
+            }
+
             if(Str::slug($country->name) == Str::slug('India'))
             {
                 return true;
