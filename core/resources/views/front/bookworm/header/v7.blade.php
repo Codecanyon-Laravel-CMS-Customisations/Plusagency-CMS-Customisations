@@ -172,8 +172,12 @@ if($sidebar_title_color_hover && $sidebar_title_color_hover->value) {
         background-color: #D55534;
     }
 
+    #basicDropdownHoverInvoker19-9, #basicDropdownHoverInvoker19-9-m, #basicDropdownHoverInvoker19-7, #basicDropdownHoverInvoker19-7-m, #cartModal, #cartModal-m {
+        color: <?php echo ($sidebar_title_color && $sidebar_title_color->value )? '#'.$sidebar_title_color->value :''; ?>;
+    }
+
     #basicDropdownHoverInvoker19-9:hover, #basicDropdownHoverInvoker19-9-m:hover, #basicDropdownHoverInvoker19-7:hover, #basicDropdownHoverInvoker19-7-m:hover, #cartModal:hover, #cartModal-m:hover {
-        color: #D55534 !important;
+        color: <?php echo ($sidebar_title_color_hover )? '#'.$sidebar_title_color_hover :''; ?>;
     }
 
     .search-input {
