@@ -384,8 +384,9 @@ if($sidebar_title_color_hover && $sidebar_title_color_hover->value) {
 
                                 <div class="dropdown w-75">
                                   {{-- <button onclick="myFunction()" class="dropbtn">Dropdown</button> --}}
+                                  <!-- removed event: onblur="addingClass()"  -->
                                   <div id="myDropdown" class="dropdown-content show w-100">
-                                    <input type="text" placeholder="Search.." id="myInput" class="search-input" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#myInput').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : '' }}" onblur="addingClass()" onfocus="removingClass()" onkeyup="filterFunction()">
+                                    <input type="text" placeholder="Search.." id="myInput" class="search-input" onkeydown="if(event.key === 'Enter') window.location.href = `/products?search=${document.querySelector('#myInput').value}&minprice=0&maxprice=500.00&category_id=${document.querySelector('#category_id option:checked').value}&type=new&tag=&review=`;" value="{{ isset($_GET['search']) ? $_GET['search'] : '' }}"  onfocus="removingClass()" onkeyup="filterFunction()">
 
                                     <div id="dropdown-titles" class="titles d-none overflow-auto"  style="max-height: 300px;">
                                     @foreach ($searches as $product)
@@ -1061,14 +1062,24 @@ function removingClass(){
     $('.titles').removeClass('d-none');
 }
 
-function addingClass(){
-    /* // commented previous code by zeeshan
-    setTimeout(function(){
+// function addingClass(){
+//     // commented previous code by zeeshan
+//     setTimeout(function(){
+//         $('.titles').addClass('d-none');
+//     },3000);
+    
+// }
+
+$(document).mouseup(function(e) 
+{
+    var container = $("#myDropdown");
+
+    // if the target of the click isn't the container nor a descendant of the container
+    if (!container.is(e.target) && container.has(e.target).length === 0) 
+    {
         $('.titles').addClass('d-none');
-    },3000);
-    */
-    $('.titles').addClass('d-none');
-}
+    }
+});
 
 </script>
 
