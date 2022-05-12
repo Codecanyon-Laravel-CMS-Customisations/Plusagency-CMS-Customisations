@@ -1267,7 +1267,11 @@ class FrontendController extends Controller
             if(auth()->user())
             {
                 $geodata                = ClientGeoData::query()->where('user_id', auth()->id())->orderBy('id', 'desc')->first();
-                $geodata->country_id    = $c_id;
+
+                if ($geodata) {
+                    $geodata->country_id    = $c_id;
+                }
+                
 
             }
             else
@@ -1277,9 +1281,17 @@ class FrontendController extends Controller
                 $client_ip              = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
                
                 $geodata                = ClientGeoData::query()->where('ip', $client_ip)->orderBy('id', 'desc')->first();
-                $geodata->country_id    = $c_id;
+                
+                if ($geodata) {
+                    $geodata->country_id    = $c_id;
+                }
+                
             }
-            $geodata->save();
+
+            if ($geodata) {
+                $geodata->save();
+            }
+            
 
             session()->flash('success', 'country changed successfully');
             return redirect()->back();

@@ -1062,10 +1062,12 @@ function removingClass(){
 }
 
 function addingClass(){
+    /* // commented previous code by zeeshan
     setTimeout(function(){
-
         $('.titles').addClass('d-none');
     },3000);
+    */
+    $('.titles').addClass('d-none');
 }
 
 </script>
