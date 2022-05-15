@@ -154,7 +154,17 @@ if($sidebar_title_color_hover && $sidebar_title_color_hover->value) {
 
     .sidebar-title-color:hover {
         color: <?php echo ($sidebar_title_color_hover )? '#'.$sidebar_title_color_hover :''; ?>;
-    }  
+    }
+
+    .btn-add-to-cart {
+        color: <?php echo ($sidebar_title_color && $sidebar_title_color->value )? '#'.$sidebar_title_color->value :''; ?>;
+        border-color: <?php echo ($sidebar_title_color && $sidebar_title_color->value )? '#'.$sidebar_title_color->value :''; ?>;
+    }
+
+    .btn-add-to-cart:hover {
+        color: <?php echo ($sidebar_title_color_hover )? '#'.$sidebar_title_color_hover :''; ?>;
+        border-color: <?php echo ($sidebar_title_color_hover )? '#'.$sidebar_title_color_hover :''; ?>;
+    }
     
     option {
         background-color: #fff;
@@ -609,8 +619,8 @@ if($sidebar_title_color_hover && $sidebar_title_color_hover->value) {
                                 @endforeach
                                 @endif
                                 <div class="px-4 mb-4 px-md-6 d-flex justify-content-around pb-2 pt-4">
-                                    <a href="{{ isset($wish2cart) ? $wish2cart : 'javascript:;' }}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4">Add To Cart</a>
-                                    <a href="{{route('front.wishlist')}}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4">View Wishlist</a>
+                                    <a href="{{ isset($wish2cart) ? $wish2cart : 'javascript:;' }}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4 btn-add-to-cart">Add To Cart</a>
+                                    <a href="{{route('front.wishlist')}}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4 btn-add-to-cart">View Wishlist</a>
                                 </div>
                             </div>
                         </li>
@@ -873,8 +883,8 @@ if($sidebar_title_color_hover && $sidebar_title_color_hover->value) {
                                 @endforeach
                                 @endif
                                 <div class="px-4 mb-4 px-md-6 d-flex justify-content-around pb-2 pt-4">
-                                    <a href="{{ isset($wish2cart) ? $wish2cart : 'javascript:;' }}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4">Add To Cart</a>
-                                    <a href="{{route('front.wishlist')}}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4">View Wishlist</a>
+                                    <a href="{{ isset($wish2cart) ? $wish2cart : 'javascript:;' }}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4 btn-add-to-cart">Add To Cart</a>
+                                    <a href="{{route('front.wishlist')}}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4 btn-add-to-cart">View Wishlist</a>
                                 </div>
                             </div>
                         </li>
