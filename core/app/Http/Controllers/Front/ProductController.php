@@ -1295,9 +1295,10 @@ class ProductController extends Controller
         //send email
         try {
             $message = $message . $products_string . " <hr/> <small>ticket number <strong>#" . $input['ticket_number'] . "</strong></small>";
+
             // Content
             Mail::html($message, function ($msg) use ($to, $request,$from,$subject) {
-                $msg->from($from, $request->name)->to($to)->subject($subject);
+                $msg->from($to, $request->name)->to($from)->subject($subject);
             });
         }catch (\Exception $e) { }
 
