@@ -109,7 +109,8 @@ if(isset($_GET['variation'])) {
 
                             @if (!$product->digital && !$product->offline)
                             <p class="price font-size-22 font-weight-medium mb-3">
-                                <span class="woocommerce-Price-amount amount"> Price:
+                                Price:
+                                <span class="woocommerce-Price-amount amount"> 
                                     <span class="woocommerce-Price-currencySymbol">
                                         {{-- 
                                             {{ strtolower($bex->base_currency_symbol_position) == 'left' ? $bex->base_currency_symbol : '' }} 
@@ -121,7 +122,14 @@ if(isset($_GET['variation'])) {
                                         {{ $pvariation ? angel_auto_convert_currency($pvariation->current_price, $geo_data_base_currency, $geo_data_user_currency) : angel_auto_convert_currency($product->current_price, $geo_data_base_currency, $geo_data_user_currency) }} 
                                     --}}
                                     
-                                    {{ ($variation)? number_format(!empty($variation->price) ? $variation->price : '0.00', 0) : number_format(!empty($product->price) ? $product->price : '0.00', 0) }}
+                                    <span class="product-price {{ ($variation)? 'd-none':''}}">
+                                        {{ number_format($product->price) }}
+                                    </span>
+
+                                    <span class="variation-price {{ (!$variation)? 'd-none':''}}">
+                                        {{ ($variation)? number_format(!empty($variation->price) ? $variation->price : '0.00', 0) : number_format(!empty($product->price) ? $product->price : '0.00', 0) }}
+                                    </span>
+                                    
                                     <span class="woocommerce-Price-currencySymbol">
                                         {{-- 
                                             {{ strtolower($bex->base_currency_symbol_position) == 'right' ? $bex->base_currency_symbol : '' }} 
@@ -187,21 +195,26 @@ if(isset($_GET['variation'])) {
                                 <div class="col-sm-12 col-md-3">
                                     <div class="d-flex flex-column">
                                         <p class="lead">{{ $variation->title }}</p>
-                                        <a href="{{ $url }}?variation={{ $variation->id }}">
+                                        <a href="{{ $url }}?variation={{ $variation->id }}" onclick="addVariation(event, '{{ $variation->id }}')">
                                             {{-- <img src="{{ asset('assets/' . json_decode($variation->variation_data)->thumbnail) }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif"> --}}
                                             <img src="{{ json_decode($variation->variation_data)->thumbnail }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif">
                                         </a>
 
                                     </div>
 
-                                    <p> {{ ship_to_india() ? "₹" : "$" }} {{ round($variation->price) }} </p>
+                                    <p> <span>{{ ship_to_india() ? "₹" : "$" }}</span> <span class="variation-price-{{$variation->id}}">{{ round($variation->price) }}</span> </p>
                                 </div>
                                 @endforeach
 
                             </div>
+
+                            {{-- 
                             @if (isset($_GET['variation']))
                             <a href="{{ $url }}" class="d-inline-block mt-3">Clear</a>
                             @endif
+                            --}}
+                            <a href="{{ $url }}" onclick="clearVariation(event, '{{ $product->id }}')" class="btn-clear {{(isset($_GET['variation']))?'d-inline-block':'d-none'}} mt-3">Clear</a>
+
                             {{-- <select name="" id="variation-selector" class="form-control mt-3" onchange="window.location.replace( location.protocol + `//` + location.host + location.pathname + document.querySelector('#variation-selector').value )">
                                     @if (isset($_GET['variation']))
                                     <option value="">{{ $product->title }}</option>
@@ -278,7 +291,7 @@ if(isset($_GET['variation'])) {
                                     </div>
                                     <!-- End Quantity -->
                                 </div>
-                                <a data-href="{{ $selected_variation ? route('add.cart', $selected_variation->id) : route('add.cart', $product->id) }}" class="btn btn-dark border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link my-1" style="color: #fff">Add to cart</a>
+                                <a id="single_add_to_cart_button" data-href="{{ $selected_variation ? route('add.cart', $selected_variation->id) : route('add.cart', $product->id) }}" class="btn btn-dark border-0 rounded-0 p-3 min-width-250 ml-md-4 single_add_to_cart_button button alt cart-btn cart-link my-1" style="color: #fff">Add to cart</a>
                                 @if ($product->show_inquiry_form)
                                 @php
                                 $header_v2_button_text = 'GIVE US FEEDBACK';
@@ -393,5 +406,59 @@ if(isset($_GET['variation'])) {
     function outFunc() {
         var tooltip = document.getElementById("myTooltip");
         tooltip.innerHTML = "Click to copy";
+    }
+</script>
+
+<script>
+    function addVariation(event, id) {
+        event.preventDefault();
+        
+        var currentURL = window.location.protocol + "//" + window.location.host + window.location.pathname + '?variation='+id+'';
+        window.history.pushState({ path: currentURL }, '', currentURL);
+
+        // removing styles from all img tags first
+        $('img').each(function () {
+            $(this).removeAttr('style');
+        });
+        event.target.style.borderRadius  = "50%";
+        event.target.style.border = "1px solid black";
+
+        var elem = document.getElementById("single_add_to_cart_button");
+
+        var cart_button_url = elem.getAttribute("data-href");
+
+        var new_url = cart_button_url.substring(0, cart_button_url.lastIndexOf("/") + 1) + id;
+
+        elem.setAttribute("data-href", new_url);
+
+        var variation_price = $('.variation-price-'+id).text();
+
+        $('.product-price').addClass('d-none');
+        $('.variation-price').text(variation_price);
+        $('.variation-price').removeClass('d-none');
+        
+        $('.btn-clear').removeClass('d-none');
+    }
+
+    function clearVariation(event, defaultProductId) {
+        event.preventDefault();
+        console.log("defaultProductId ", defaultProductId)
+        $('.variation-price').addClass('d-none');
+        $('.product-price').removeClass('d-none');
+
+        // removing styles from all img tags first
+        $('img').each(function () {
+            $(this).removeAttr('style');
+        });
+
+        // setting default url to cart
+        var elem = document.getElementById("single_add_to_cart_button");
+        var cart_button_url = elem.getAttribute("data-href");
+        var new_url = cart_button_url.substring(0, cart_button_url.lastIndexOf("/") + 1) + defaultProductId;
+        
+        elem.setAttribute("data-href", new_url);
+
+        var currentURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
+        window.history.pushState({ path: currentURL }, '', currentURL);
     }
 </script>

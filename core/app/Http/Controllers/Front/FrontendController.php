@@ -59,6 +59,7 @@ use App\RssFeed;
 use App\RssPost;
 use App\Subscription;
 use App\WebsiteColors;
+use App\Product;
 use Session;
 use Validator;
 use Config;
@@ -1591,5 +1592,15 @@ class FrontendController extends Controller
     public function payreturn($packageid)
     {
         return redirect()->route('front.packageorder.index', $packageid)->with('success', __('Pament Compelted!'));
+    }
+
+
+    // Get Product Price
+    function getProductPrice($id) {
+        dd("com");
+
+        $product = Product::findOrFail($id);
+
+        dd($product);
     }
 }
