@@ -15,6 +15,7 @@
 @endsection
 @section('content')
 <!-- ====== MAIN CONTENT ====== -->
+<!-- // v2 -->
 @if(empty($be->bookworm_slider_version))
 @include('front.bookworm.sliders.'. $be->bookworm_slider_version )
 @else

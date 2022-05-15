@@ -21,7 +21,8 @@ if( !$text_color ) {
 <div class="hero-slider-with-banners space-bottom-2 mt-4d875 abh-hero-slider-v2">
     <div class="container">
         <div class="row">
-            <div class="@if ($sliders_v2->whereIn('slider_category', ['side1', 'side2'])->count() >= 1) col-md-9 @else col-md-12 @endif mb-4 mb-xl-0 abh-hero-slider-v2-main">
+            <!-- col-md-9 else col-md-12 -->
+            <div class="@if ($sliders_v2->whereIn('slider_category', ['side1', 'side2'])->count() >= 1) col-lg-9 @else col-lg-12 @endif mb-4 mb-xl-0 abh-hero-slider-v2-main">
                 <div class="bg-site px-5 px-md-8 px-xl-0 pl-xl-10 pt-6 min-height-530" style="<?php echo ($bg_color && $bg_color->value )? 'background: #'.$bg_color->value.' !important' :''; ?>">
                     <div class="js-slick-carousel u-slick" data-pagi-classes="text-center u-slick__pagination u-slick__pagination mt-7">
                         @foreach ($sliders_v2->where('slider_category', 'main') as $slider)
@@ -62,10 +63,12 @@ if( !$text_color ) {
                 </div>
             </div>
             @if ($sliders_v2->whereIn('slider_category', ['side1', 'side2'])->count() >= 1)
-            <div class="col-md-3 d-none-----naaaah d-md-block-----naaaah">
+            <!-- col-md-3 -->
+            <div class="col-lg-3 d-none-----naaaah d-md-block-----naaaah">
                 <div class="banners">
                     @if ($sliders_v2->where('slider_category', 'side1')->count() >= 1)
-                    <div class="slider-banner flex-grow-1 mr-md-3 mr-xl-0 bg-gray-200 mb-4d875 position-relative overflow-hidden abh-hero-slider-v2-s1" style="height:250px;  <?php echo ($bg_color && $bg_color->value )? 'background: #'.$bg_color->value.' !important' :''; ?>">
+                    <!-- mr-md-3 -->
+                    <div class="slider-banner flex-grow-1  mr-xl-0 bg-gray-200 mb-4d875 position-relative overflow-hidden abh-hero-slider-v2-s1" style="height: 287px;  <?php echo ($bg_color && $bg_color->value )? 'background: #'.$bg_color->value.' !important' :''; ?>">
                         <div class="z-index-2 position-absolute" style="top:2em; left:2em;">
                             <h2 class="slider-banner__title font-size-4 text-lh-md ">
                                 <span class="slider-banner__title--1 d-block font-weight-bold" style=" <?php echo ($text_color && $text_color->value )? 'color: #'.$text_color->value.' !important' :'color: #fff0ce !important'; ?>">{{ $sliders_v2->where('slider_category', 'side1')->first()->title }}</span>
@@ -82,7 +85,8 @@ if( !$text_color ) {
                     </div>
                     @endif
                     @if ($sliders_v2->where('slider_category', 'side2')->count() >= 1)
-                    <div class="slider-banner flex-grow-1 ml-md-3 ml-xl-0 bg-gray-200 position-relative overflow-hidden abh-hero-slider-v2-s2" style="height:250px; <?php echo ($bg_color && $bg_color->value )? 'background: #'.$bg_color->value.' !important' :''; ?> ">
+                    <!-- ml-md-3 -->
+                    <div class="slider-banner flex-grow-1 ml-xl-0 bg-gray-200 position-relative overflow-hidden abh-hero-slider-v2-s2" style="height:215px; <?php echo ($bg_color && $bg_color->value )? 'background: #'.$bg_color->value.' !important' :''; ?> ">
                         <div class="z-index-2 position-absolute" style="top:2em; left:2em;">
                             <h2 class="slider-banner__title font-size-4 text-lh-md">
                                 <span class="slider-banner__title--1 d-block font-weight-bold" style=" <?php echo ($text_color && $text_color->value )? 'color: #'.$text_color->value.' !important' :'color: #fff0ce !important'; ?>">{{ $sliders_v2->where('slider_category', 'side2')->first()->title }}</span>
