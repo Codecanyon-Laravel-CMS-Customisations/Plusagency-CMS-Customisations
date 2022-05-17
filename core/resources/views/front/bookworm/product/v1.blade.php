@@ -442,7 +442,7 @@ if(isset($_GET['variation'])) {
 
     function clearVariation(event, defaultProductId) {
         event.preventDefault();
-        console.log("defaultProductId ", defaultProductId)
+        
         $('.variation-price').addClass('d-none');
         $('.product-price').removeClass('d-none');
 
