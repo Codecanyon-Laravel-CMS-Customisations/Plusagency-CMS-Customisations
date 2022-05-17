@@ -812,8 +812,10 @@ class FrontendController extends Controller
 
         try {
             Mail::html($request->message, function ($msg) use ($to,$request){
-                $msg->from($request->email)->to($to)->subject($request->subject);
+                $msg->from($request->email, $request->email)->to($to)->subject($request->subject);
             });
+
+            dd($to);
 
         } catch (\Exception $e) {
             die($e->getMessage());
