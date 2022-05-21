@@ -11,6 +11,13 @@ use App\PaymentGateway;
 use App\ProductOrder;
 use Illuminate\Support\Facades\Session;
 
+use App\BasicSetting;
+use App\Http\Helpers\KreativMailer;
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PDF;
+
 class RazorpayController extends PaymentController
 {
     public function __construct()
@@ -31,6 +38,8 @@ class RazorpayController extends PaymentController
 
 
         // dd($request);
+
+        
         $cart = Session::get('cart');
 
         $total = $this->orderTotal($request->shipping_charge);
@@ -176,5 +185,40 @@ class RazorpayController extends PaymentController
             return redirect($success_url);
         }
         return redirect($cancel_url);
+    }
+
+
+
+    public function sendMails($order) {
+        $bs = BasicSetting::first();
+
+        $fileName = str_random(4) . time() . '.pdf';
+        $path = 'assets/front/invoices/product/' . $fileName;
+        $data['order']  = $order;
+        $pdf = PDF::loadView('pdf.product', $data)->save($path);
+
+
+        ProductOrder::where('id', $order->id)->update([
+            'invoice_number' => $fileName
+        ]);
+
+        // Send Mail to Buyer
+        $mailer = new KreativMailer;
+        $data = [
+            'toMail' => $order->billing_email,
+            'toName' => $order->billing_fname,
+            'attachment' => $fileName,
+            'customer_name' => $order->billing_fname,
+            'order_number' => $order->order_number,
+            'order_link' => !empty($order->user_id) ? "<strong>Order Details:</strong> <a href='" . route('user-orders-details',$order->id) . "'>" . route('user-orders-details',$order->id) . "</a>" : "",
+            'website_title' => $bs->website_title,
+            'templateType' => 'product_order',
+            'type' => 'productOrder'
+        ];
+
+        $mailer->mailFromAdmin($data);
+
+        Session::forget('cart');
+        Session::forget('coupon');
     }
 }
