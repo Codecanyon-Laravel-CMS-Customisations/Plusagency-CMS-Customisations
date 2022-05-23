@@ -200,6 +200,7 @@ Route::group(['middleware' => 'setlang'], function () {
     Route::get('/product/payment/cancle', 'Payment\product\PaymentController@paycancle')->name('product.payment.cancle');
     Route::get('/product/paypal/notify', 'Payment\product\PaypalController@notify')->name('product.paypal.notify');
     // paypal routes
+    // start from here
     Route::post('/product/paypal/submit', 'Payment\product\PaypalController@store')->name('product.paypal.submit');
     // stripe routes
     Route::post('/product/stripe/submit', 'Payment\product\StripeController@store')->name('product.stripe.submit');

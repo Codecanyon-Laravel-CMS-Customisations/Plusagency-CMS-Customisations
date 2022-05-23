@@ -52,6 +52,37 @@
                       </tr>
                     </thead>
                     <tbody>
+
+                        
+                        @if ($template->email_type == 'ticket_received')
+                        <tr>
+                          <td>
+                            {ticket_number}
+                          </td>
+                          <th scope="row">
+                            Ticket Number
+                          </th>
+                        </tr>
+
+                        <tr>
+                          <td>
+                            {ticket_description}
+                          </td>
+                          <th scope="row">
+                            Ticket Description
+                          </th>
+                        </tr>
+
+                        <tr>
+                          <td>
+                            {customer_email}
+                          </td>
+                          <th scope="row">
+                            Customer Email
+                          </th>
+                        </tr>
+                        @endif
+
                         @if ($template->email_type == 'email_verification')
                         <tr>
                           <td>

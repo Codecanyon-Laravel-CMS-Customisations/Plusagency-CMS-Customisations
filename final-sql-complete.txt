@@ -1125,8 +1125,14 @@ ALTER TABLE `mobile_header_custom_buttons`
 ALTER TABLE `mobile_header_custom_buttons`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 COMMIT;
-  
-  
+
+
+--
+-- Dumping data for table `email_templates`
+--  
+
+INSERT INTO email_templates (email_type, email_subject, email_body)
+VALUES ('ticket_received','New Ticket Received','<p style="line-height: 1.6;">Hello,</p><p style="line-height: 1.6;"><br></p><p style="line-height: 1.6;">Your have received a ticket: {ticket_number} from email: {customer_email} with following message as:</p><p>{ticket_description}</p><p><br></p><p>Best Regards,</p><p><br></p><p>{website_title}</p>');  
   
   
   

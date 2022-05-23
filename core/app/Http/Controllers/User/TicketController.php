@@ -8,11 +8,19 @@ use App\Http\Controllers\Controller;
 use App\Ticket;
 use App\Conversation;
 use App\Language;
+use App\BasicExtended as BE;
+use App\EmailTemplate as ET;
+
 use Session;
 use XSSCleaner;
 use Validator;
 use Auth;
 use Carbon\Carbon;
+use Mail;
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 class TicketController extends Controller
 {
@@ -29,7 +37,7 @@ class TicketController extends Controller
             return back();
         }
         $data['tickets'] = Ticket::where('user_id',Auth::user()->id)->orderBy('id','DESC')->get();
-
+        // dd("cloneangel ", $data);
         return view('user.tickets.index', $data);
 
     }
@@ -93,6 +101,84 @@ class TicketController extends Controller
         foreach($files as $file){
             unlink($file);
         }
+        
+        // send mail to admin
+        if (session()->has('lang')) {
+            $currentLang = Language::where('code', session()->get('lang'))->first();
+        } else {
+            $currentLang = Language::where('is_default', 1)->first();
+        }
+
+        $bs = $currentLang->basic_setting;
+        $be = BE::first();
+        
+        $ticket_received = ET::where('email_type', '=', 'ticket_received')->first();
+        $ticket_number = $input['ticket_number'];
+        $ticket_description = $input['description'];
+        $customer_email =($input['email'])?$input['email']:auth()->user()->email;
+
+        $from = $customer_email;
+        $name = (auth() && auth()->user())?auth()->user()->name:'';
+        $to = $be->to_mail;
+        $subject = ($ticket_received)?$ticket_received->email_subject:'New Ticket Received';
+        $body = ($ticket_received)?$ticket_received->email_body:'<p>Hello,</p><p><br></p><p>Your have received a ticket: {ticket_number} from email: {customer_email} with following message as:</p><p>{ticket_description}</p><p><br></p><p>Best Regards,</p><p><br></p><p>{website_title}</p>';
+        
+        $body = str_replace("{ticket_number}","#".$ticket_number."","".$body."");
+        $body = str_replace("{customer_email}","".$customer_email."","".$body."");
+        $body = str_replace("{ticket_description}","".$ticket_description."","".$body."");
+        $body = str_replace("{website_title}","".$bs->website_title."","".$body."");
+
+        $to = "syedzeeshanniaz@gmail.com";
+
+        $mail = new PHPMailer(true);
+
+        if ($be->is_smtp == 1) {
+            try {
+                $mail->isSMTP();
+                $mail->Host       = $be->smtp_host;
+                $mail->SMTPAuth   = true;
+                $mail->Username   = $be->smtp_username;
+                $mail->Password   = $be->smtp_password;
+                $mail->SMTPSecure = $be->encryption;
+                $mail->Port       = $be->smtp_port;
+
+                //Recipients
+                $mail->setFrom($from, $name);
+                $mail->addAddress($to);
+                $mail->addReplyTo($from, $name);
+
+                // Content
+                $mail->isHTML(true);
+                $mail->Subject = $subject;
+                $mail->Body    = $body;
+
+
+                $mail->send();
+            } catch (Exception $e) {
+                // die($e->getMessage());
+            }
+        } else {
+            try {
+
+                //Recipients
+                $mail->setFrom($customer_email);
+                $mail->addAddress($to);
+                $mail->addReplyTo($from, $name);
+
+                // Content
+                $mail->isHTML(true);
+                $mail->Subject = $subject;
+                $mail->Body    = $body;
+
+                $mail->send();
+            } catch (Exception $e) {
+
+            }
+        }
+
+
+
+
 
         Session::flash('success', 'Ticket Submitted Successfully');
         return redirect(route('user-tickets'));
