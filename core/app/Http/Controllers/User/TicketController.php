@@ -101,7 +101,7 @@ class TicketController extends Controller
         foreach($files as $file){
             unlink($file);
         }
-        
+
         // send mail to admin
         if (session()->has('lang')) {
             $currentLang = Language::where('code', session()->get('lang'))->first();
@@ -175,9 +175,6 @@ class TicketController extends Controller
 
             }
         }
-
-
-
 
 
         Session::flash('success', 'Ticket Submitted Successfully');
