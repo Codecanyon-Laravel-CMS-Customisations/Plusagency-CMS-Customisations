@@ -128,8 +128,6 @@ class TicketController extends Controller
         $body = str_replace("{ticket_description}","".$ticket_description."","".$body."");
         $body = str_replace("{website_title}","".$bs->website_title."","".$body."");
 
-        $to = "syedzeeshanniaz@gmail.com";
-
         $mail = new PHPMailer(true);
 
         if ($be->is_smtp == 1) {
