@@ -195,7 +195,6 @@ class TicketController extends Controller
 
     public function ticketreply(Request $request , $id)
     {
-        dd("com");
         $file = $request->file('file');
         $allowedExts = array('zip');
         $rules = [
@@ -274,7 +273,7 @@ class TicketController extends Controller
         $body = str_replace("{website_title}","".$bs->website_title."","".$body."");
 
         $mail = new PHPMailer(true);
-
+        dd($be->is_smtp);
         if ($be->is_smtp == 1) {
             try {
                 $mail->isSMTP();
