@@ -1132,9 +1132,6 @@ COMMIT;
 --  
 
 INSERT INTO email_templates (email_type, email_subject, email_body)
-VALUES ('ticket_received','New Ticket Received','<p style="line-height: 1.6;">Hello,</p><p style="line-height: 1.6;"><br></p><p style="line-height: 1.6;">Your have received a ticket: {ticket_number} from email: {customer_email} with following message as:</p><p>{ticket_description}</p><p><br></p><p>Best Regards,</p><p><br></p><p>{website_title}</p>');  
-  
-  
-  
-  
-  
+VALUES 
+('ticket_received','New Ticket Received','<p style="line-height: 1.6;">Hello,</p><p style="line-height: 1.6;"><br></p><p style="line-height: 1.6;">You have received a ticket: {ticket_number} from email: {customer_email} with following message as:</p><p>{ticket_description}</p><p><br></p><p>Best Regards,</p><p><br></p><p>{website_title}</p>'),
+('message_received','New Message Received','<p style="line-height: 1.6;">Hello,</p><p style="line-height: 1.6;"><br></p><p style="line-height: 1.6;">You have received new message on ticket number: {ticket_number} from email: {customer_email} with following message as:</p><p>{message}</p><p><br></p><p>Best Regards,</p><p><br></p><p>{website_title}</p>');    
