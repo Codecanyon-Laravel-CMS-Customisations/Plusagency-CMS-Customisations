@@ -333,7 +333,7 @@ class TicketController extends Controller
         
         $message_received = ET::where('email_type', '=', 'message_received')->first();
         $ticket_number = $ticket->ticket_number;
-        $message = 'test reply';
+        $message = $input['reply'];
         $customer_email =(auth() && auth()->user() && auth()->user()->email)?auth()->user()->email:'no email';
 
         $from = $customer_email;
