@@ -21,6 +21,7 @@ use App\Models\Currency;
 use App\Models\EasyForm;
 use App\BasicSetting as BS;
 use App\BasicExtended as BE;
+use App\EmailTemplate as ET;
 use Illuminate\Http\Request;
 use App\Models\SettingMagicZoom;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -1224,6 +1225,7 @@ class ProductController extends Controller
 
     public function product_iquiries_bulk(Request $request)
     {
+
         if (session()->has('lang')) {
             $currentLang = Language::where('code', session()->get('lang'))->first();
         } else {
@@ -1252,7 +1254,8 @@ class ProductController extends Controller
 
         $be             = BE::firstOrFail();
         $from           = $request->email;
-        $to             = $be->to_mail;
+        // $to             = $be->to_mail;
+        $to             = "zeeshanniaz736@gmail.com";
         $subject        = "Books Enquiry";
         $products       = Product::query()->whereIn('id', $request->products)->get();
         $message        = XSSCleaner::clean($request->message);
@@ -1266,35 +1269,83 @@ class ProductController extends Controller
         $input['ticket_number'] = rand(1000000,9999999);
         $input['last_message']  = Carbon::now();
 
-        $products_string        = "<hr/><table>
-        <thead>
-        <td>PRODUCTS</td>
-        </thead>
-        <tbody>";
 
-        foreach ($products as $product)
-        {
-            $products_string       .= "
-        <tr>
-        <td style='display: flex;'>
-        <img style='max-width:7rem;' src='$product->feature_image'/>
-        <div>
-        <p>$product->title</p>
-        <p>PRICE: $product->current_price</p>
-        <p>SKU  : $product->sku</p>
-        </div>
-        </td>
-        </tr>";
+        // send boos enquiry mail
+
+        $books_enquiry = ET::where('email_type', '=', 'books_enquiry')->first();
+
+        if ($books_enquiry) {
+            $body = $books_enquiry->email_body;
+
+            
+            $body = str_replace("{message}","".$message."","".$body."");
+            $body = str_replace("{ticket_number}","".$input['ticket_number']."","".$body."");
+
+            
+            $inside_table = explode("<tbody>",$body);
+            $below_table = explode("</tbody>",$body);
+
+            $before_table = $inside_table[0];
+            
+            $products_string = $before_table;
+
+            $table_data = $inside_table[1];
+            $table_data = explode("</tbody>",$table_data);
+            $table_data = $table_data[0];
+
+            $products_string .="<tbody>";
+
+            foreach ($products as $product)
+            {
+                $feature_image = "<img style='max-width:7rem;' src='".$product->feature_image."'/>";
+                
+                $table_data = str_replace("{feature_image}","".$feature_image."","".$table_data."");
+                $table_data = str_replace("{product_title}","".$product->title."","".$table_data."");
+                $table_data = str_replace("{product_price}","".$product->current_price."","".$table_data."");
+                $table_data = str_replace("{product_sku}","".$product->sku."","".$table_data."");
+                
+                $products_string       .= $table_data;
+            }
+
+            $products_string .="</tbody>";
+
+            $products_string .= $below_table[1];
+        } else  {
+            $products_string        = "<hr/><table>
+            <thead>
+            <td>PRODUCTS</td>
+            </thead>
+            <tbody>";
+
+            foreach ($products as $product)
+            {
+                $products_string       .= "
+            <tr>
+            <td style='display: flex;'>
+            <img style='max-width:7rem;' src='$product->feature_image'/>
+            <div>
+            <p>$product->title</p>
+            <p>PRICE: $product->current_price</p>
+            <p>SKU  : $product->sku</p>
+            </div>
+            </td>
+            </tr>";
+            }
+
+            $products_string       .= "</tbody></table>";
+
+            //return $message.$products_string." <hr/> <small>ticket number <strong>#".$input['ticket_number']."</strong></small>";
         }
-
-        $products_string       .= "</tbody></table>";
-
-        //return $message.$products_string." <hr/> <small>ticket number <strong>#".$input['ticket_number']."</strong></small>";
 
 
         //send email
         try {
-            $message = $message . $products_string . " <hr/> <small>ticket number <strong>#" . $input['ticket_number'] . "</strong></small>";
+            if ($books_enquiry) { 
+                $message = $products_string;
+            } else {
+                $message = $message . $products_string . " <hr/> <small>ticket number <strong>#" . $input['ticket_number'] . "</strong></small>";
+            }
+            
 
             // Content
             Mail::html($message, function ($msg) use ($to, $request,$from,$subject) {

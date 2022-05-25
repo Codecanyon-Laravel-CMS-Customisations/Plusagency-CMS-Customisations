@@ -83,6 +83,82 @@
                         </tr>
                         @endif
 
+                        @if ($template->email_type == 'message_received')
+                        <tr>
+                          <td>
+                            {ticket_number}
+                          </td>
+                          <th scope="row">
+                            Ticket Number
+                          </th>
+                        </tr>
+
+                        <tr>
+                          <td>
+                            {customer_email}
+                          </td>
+                          <th scope="row">
+                            Customer Email
+                          </th>
+                        </tr>
+
+                        <tr>
+                          <td>
+                            {message}
+                          </td>
+                          <th scope="row">
+                            Message
+                          </th>
+                        </tr>
+                        @endif
+
+                        @if ($template->email_type == 'books_enquiry')
+                        <tr>
+                          <td>
+                            {ticket_number}
+                          </td>
+                          <th scope="row">
+                            Ticket Number
+                          </th>
+                        </tr>
+
+                        <tr>
+                          <td>
+                            {feature_image}
+                          </td>
+                          <th scope="row">
+                            Feature Image
+                          </th>
+                        </tr>
+
+                        <tr>
+                          <td>
+                            {product_title}
+                          </td>
+                          <th scope="row">
+                            Product Title
+                          </th>
+                        </tr>
+
+                        <tr>
+                          <td>
+                            {product_price}
+                          </td>
+                          <th scope="row">
+                            Product Price
+                          </th>
+                        </tr>
+
+                        <tr>
+                          <td>
+                            {product_sku}
+                          </td>
+                          <th scope="row">
+                            Product Sku
+                          </th>
+                        </tr>
+                        @endif
+
                         @if ($template->email_type == 'email_verification')
                         <tr>
                           <td>
