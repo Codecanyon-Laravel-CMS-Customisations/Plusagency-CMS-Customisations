@@ -331,16 +331,15 @@ class TicketController extends Controller
         $bs = $currentLang->basic_setting;
         $be = BE::first();
         
-        $ticket_received = ET::where('email_type', '=', 'ticket_received')->first();
-        $ticket_number = '#8755014';
+        $ticket_received = ET::where('email_type', '=', 'message_received')->first();
+        $ticket_number = '8755014';
         $ticket_description = 'test reply';
         $customer_email =(auth() && auth()->user() && auth()->user()->email)?auth()->user()->email:'no email';
 
         $from = $customer_email;
         $name = (auth() && auth()->user())?auth()->user()->name:'';
         $to = 'zeeshanniaz736@gmail.com';
-        // $subject = ($ticket_received)?$ticket_received->email_subject:'New Message Received';
-        $subject = 'New Message Received';
+        $subject = ($ticket_received)?$ticket_received->email_subject:'New Message Received';
         $body = ($ticket_received)?$ticket_received->email_body:'<p>Hello,</p><p><br></p><p>Your have received a ticket: {ticket_number} from email: {customer_email} with following message as:</p><p>{ticket_description}</p><p><br></p><p>Best Regards,</p><p><br></p><p>{website_title}</p>';
         
         $body = str_replace("{ticket_number}","#".$ticket_number."","".$body."");
