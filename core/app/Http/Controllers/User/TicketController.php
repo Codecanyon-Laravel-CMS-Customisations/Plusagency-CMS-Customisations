@@ -331,16 +331,16 @@ class TicketController extends Controller
         $bs = $currentLang->basic_setting;
         $be = BE::first();
         
-        $ticket_received = ET::where('email_type', '=', 'message_received')->first();
-        $ticket_number = '8755014';
+        $message_received = ET::where('email_type', '=', 'message_received')->first();
+        $ticket_number = $ticket->ticket_number;
         $ticket_description = 'test reply';
         $customer_email =(auth() && auth()->user() && auth()->user()->email)?auth()->user()->email:'no email';
 
         $from = $customer_email;
         $name = (auth() && auth()->user())?auth()->user()->name:'';
         $to = 'zeeshanniaz736@gmail.com';
-        $subject = ($ticket_received)?$ticket_received->email_subject:'New Message Received';
-        $body = ($ticket_received)?$ticket_received->email_body:'<p>Hello,</p><p><br></p><p>Your have received a ticket: {ticket_number} from email: {customer_email} with following message as:</p><p>{ticket_description}</p><p><br></p><p>Best Regards,</p><p><br></p><p>{website_title}</p>';
+        $subject = ($message_received)?$message_received->email_subject:'New Message Received';
+        $body = ($message_received)?$message_received->email_body:'<p style="line-height: 1.6;">Hello,</p><p style="line-height: 1.6;"><br></p><p style="line-height: 1.6;">You have received new message on ticket number: {ticket_number} from email: {customer_email} with following message as:</p><p>{message}</p><p><br></p><p>Best Regards,</p><p><br></p><p>{website_title}</p>';
         
         $body = str_replace("{ticket_number}","#".$ticket_number."","".$body."");
         $body = str_replace("{customer_email}","".$customer_email."","".$body."");
