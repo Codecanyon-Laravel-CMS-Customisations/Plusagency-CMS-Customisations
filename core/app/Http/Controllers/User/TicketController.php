@@ -119,7 +119,9 @@ class TicketController extends Controller
 
         $from = $customer_email;
         $name = (auth() && auth()->user())?auth()->user()->name:'';
-        $to = $be->to_mail;
+        // $to = $be->to_mail;
+
+        $to = 'zeeshanniaz736@gmail.com';
         $subject = ($ticket_received)?$ticket_received->email_subject:'New Ticket Received';
         $body = ($ticket_received)?$ticket_received->email_body:'<p>Hello,</p><p><br></p><p>Your have received a ticket: {ticket_number} from email: {customer_email} with following message as:</p><p>{ticket_description}</p><p><br></p><p>Best Regards,</p><p><br></p><p>{website_title}</p>';
         
