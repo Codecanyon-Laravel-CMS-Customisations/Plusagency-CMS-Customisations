@@ -195,6 +195,7 @@ class TicketController extends Controller
 
     public function ticketreply(Request $request , $id)
     {
+        dd("com");
         $file = $request->file('file');
         $allowedExts = array('zip');
         $rules = [
