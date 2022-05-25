@@ -298,6 +298,7 @@ class TicketController extends Controller
                 $mail->send();
             } catch (Exception $e) {
                 // die($e->getMessage());
+                dd($e->getMessage());
             }
         } else {
             try {
