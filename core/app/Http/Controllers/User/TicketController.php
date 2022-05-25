@@ -273,7 +273,7 @@ class TicketController extends Controller
         $body = str_replace("{website_title}","".$bs->website_title."","".$body."");
 
         $mail = new PHPMailer(true);
-        dd($be->is_smtp);
+
         if ($be->is_smtp == 1) {
             try {
                 $mail->isSMTP();
@@ -296,6 +296,7 @@ class TicketController extends Controller
 
 
                 $mail->send();
+                dd("comiiii");
             } catch (Exception $e) {
                 // die($e->getMessage());
                 dd($e->getMessage());
