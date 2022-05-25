@@ -244,6 +244,83 @@ class TicketController extends Controller
 
         $ticket = Ticket::findOrFail($id);
         
+        // // send mail to admin
+        // if (session()->has('lang')) {
+        //     $currentLang = Language::where('code', session()->get('lang'))->first();
+        // } else {
+        //     $currentLang = Language::where('is_default', 1)->first();
+        // }
+
+        // $bs = $currentLang->basic_setting;
+        // $be = BE::first();
+        
+        // $message_received = ET::where('email_type', '=', 'message_received')->first();
+        // $ticket_number = $ticket->ticket_number;
+        // $message = $input['reply'];
+        // $customer_email =(auth() && auth()->user() && auth()->user()->email)?auth()->user()->email:'no email';
+        
+        // $from = $customer_email;
+        // $name = (auth() && auth()->user())?auth()->user()->name:'';
+        // // $to = $be->to_mail;
+        // $to = "zeeshannaiz736@gmail.com";
+
+        // $subject = ($message_received)?$message_received->email_subject:'New Message Received';
+        // $body = ($message_received)?$message_received->email_body:'<p style="line-height: 1.6;">Hello,</p><p style="line-height: 1.6;"><br></p><p style="line-height: 1.6;">You have received new message on ticket number: {ticket_number} from email: {customer_email} with following message as:</p><p>{message}</p><p><br></p><p>Best Regards,</p><p><br></p><p>{website_title}</p>';
+        
+        // $body = str_replace("{ticket_number}","#".$ticket_number."","".$body."");
+        // $body = str_replace("{customer_email}","".$customer_email."","".$body."");
+        // $body = str_replace("{message}","".$message."","".$body."");
+        // $body = str_replace("{website_title}","".$bs->website_title."","".$body."");
+
+        // $mail = new PHPMailer(true);
+
+        // if ($be->is_smtp == 1) {
+        //     try {
+        //         $mail->isSMTP();
+        //         $mail->Host       = $be->smtp_host;
+        //         $mail->SMTPAuth   = true;
+        //         $mail->Username   = $be->smtp_username;
+        //         $mail->Password   = $be->smtp_password;
+        //         $mail->SMTPSecure = $be->encryption;
+        //         $mail->Port       = $be->smtp_port;
+
+        //         //Recipients
+        //         $mail->setFrom($from, $name);
+        //         $mail->addAddress($to);
+        //         $mail->addReplyTo($from, $name);
+
+        //         // Content
+        //         $mail->isHTML(true);
+        //         $mail->Subject = $subject;
+        //         $mail->Body    = $body;
+
+
+        //         $mail->send();
+
+        //     } catch (Exception $e) {
+        //         // die($e->getMessage());
+        //         dd($e->getMessage());
+        //     }
+        // } else {
+        //     try {
+
+        //         //Recipients
+        //         $mail->setFrom($customer_email);
+        //         $mail->addAddress($to);
+        //         $mail->addReplyTo($from, $name);
+
+        //         // Content
+        //         $mail->isHTML(true);
+        //         $mail->Subject = $subject;
+        //         $mail->Body    = $body;
+
+        //         $mail->send();
+        //     } catch (Exception $e) {
+
+        //     }
+        // }
+
+
         // send mail to admin
         if (session()->has('lang')) {
             $currentLang = Language::where('code', session()->get('lang'))->first();
@@ -254,22 +331,21 @@ class TicketController extends Controller
         $bs = $currentLang->basic_setting;
         $be = BE::first();
         
-        $message_received = ET::where('email_type', '=', 'message_received')->first();
-        $ticket_number = $ticket->ticket_number;
-        $message = $input['reply'];
+        $ticket_received = ET::where('email_type', '=', 'ticket_received')->first();
+        $ticket_number = '#8755014';
+        $ticket_description = 'test reply';
         $customer_email =(auth() && auth()->user() && auth()->user()->email)?auth()->user()->email:'no email';
-        
+
         $from = $customer_email;
         $name = (auth() && auth()->user())?auth()->user()->name:'';
-        // $to = $be->to_mail;
-        $to = "zeeshannaiz736@gmail.com";
-
-        $subject = ($message_received)?$message_received->email_subject:'New Message Received';
-        $body = ($message_received)?$message_received->email_body:'<p style="line-height: 1.6;">Hello,</p><p style="line-height: 1.6;"><br></p><p style="line-height: 1.6;">You have received new message on ticket number: {ticket_number} from email: {customer_email} with following message as:</p><p>{message}</p><p><br></p><p>Best Regards,</p><p><br></p><p>{website_title}</p>';
+        $to = 'zeeshanniaz736@gmail.com';
+        // $subject = ($ticket_received)?$ticket_received->email_subject:'New Message Received';
+        $subject = 'New Message Received';
+        $body = ($ticket_received)?$ticket_received->email_body:'<p>Hello,</p><p><br></p><p>Your have received a ticket: {ticket_number} from email: {customer_email} with following message as:</p><p>{ticket_description}</p><p><br></p><p>Best Regards,</p><p><br></p><p>{website_title}</p>';
         
         $body = str_replace("{ticket_number}","#".$ticket_number."","".$body."");
         $body = str_replace("{customer_email}","".$customer_email."","".$body."");
-        $body = str_replace("{message}","".$message."","".$body."");
+        $body = str_replace("{ticket_description}","".$ticket_description."","".$body."");
         $body = str_replace("{website_title}","".$bs->website_title."","".$body."");
 
         $mail = new PHPMailer(true);
@@ -296,10 +372,8 @@ class TicketController extends Controller
 
 
                 $mail->send();
-                
             } catch (Exception $e) {
                 // die($e->getMessage());
-                dd($e->getMessage());
             }
         } else {
             try {
