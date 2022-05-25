@@ -1254,8 +1254,7 @@ class ProductController extends Controller
 
         $be             = BE::firstOrFail();
         $from           = $request->email;
-        // $to             = $be->to_mail;
-        $to             = "zeeshanniaz736@gmail.com";
+        $to             = $be->to_mail;
         $subject        = "Books Enquiry";
         $products       = Product::query()->whereIn('id', $request->products)->get();
         $message        = XSSCleaner::clean($request->message);
