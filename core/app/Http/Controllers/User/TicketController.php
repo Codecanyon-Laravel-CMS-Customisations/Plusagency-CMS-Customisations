@@ -333,8 +333,7 @@ class TicketController extends Controller
         
         $message_received = ET::where('email_type', '=', 'message_received')->first();
         $ticket_number = $ticket->ticket_number;
-        dd($ticket_number);
-        $ticket_description = 'test reply';
+        $message = 'test reply';
         $customer_email =(auth() && auth()->user() && auth()->user()->email)?auth()->user()->email:'no email';
 
         $from = $customer_email;
@@ -345,7 +344,7 @@ class TicketController extends Controller
         
         $body = str_replace("{ticket_number}","#".$ticket_number."","".$body."");
         $body = str_replace("{customer_email}","".$customer_email."","".$body."");
-        $body = str_replace("{ticket_description}","".$ticket_description."","".$body."");
+        $body = str_replace("{message}","".$message."","".$body."");
         $body = str_replace("{website_title}","".$bs->website_title."","".$body."");
 
         $mail = new PHPMailer(true);
