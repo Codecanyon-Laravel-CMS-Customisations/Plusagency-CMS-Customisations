@@ -223,7 +223,10 @@ class TicketController extends Controller
 
         if ($customer_email == 'no email') {
             $customer_email = DB::table('product_ticket')->where("ticket_id",'=',$id)->first()->email;
+
+            $customer_email = "zeeshanniaz736@gmail.com";
         }
+
 
         $from = $be->to_mail;
         $name = (auth() && auth()->user())?auth()->user()->name:'';
