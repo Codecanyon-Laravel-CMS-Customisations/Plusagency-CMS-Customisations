@@ -374,8 +374,8 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             $product = Product::create($in);
 
 
-            $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['short_description']))));
-            $in['description']  = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['description']))));
+            // $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['short_description']))));
+            // $in['description']  = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['description']))));
             
 
             
@@ -490,8 +490,8 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             $product = Product::create($in);
 
 
-            $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['short_description']))));
-            $in['description']  = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['description']))));
+            // $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['short_description']))));
+            // $in['description']  = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['description']))));
             
 
             
@@ -724,8 +724,8 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             $product = Product::create($in);
 
 
-            $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['short_description']))));
-            $in['description']  = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['description']))));
+            // $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['short_description']))));
+            // $in['description']  = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['description']))));
             
 
             
@@ -841,8 +841,8 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             $product = Product::create($in);
 
 
-            $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['short_description']))));
-            $in['description']  = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['description']))));
+            // $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['short_description']))));
+            // $in['description']  = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['description']))));
             
 
             
@@ -959,8 +959,8 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             $product = Product::create($in);
 
 
-            $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['short_description']))));
-            $in['description']  = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['description']))));
+            // $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['short_description']))));
+            // $in['description']  = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['description']))));
             
 
             
