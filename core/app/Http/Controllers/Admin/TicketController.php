@@ -11,8 +11,16 @@ use XSSCleaner;
 use App\Conversation;
 use Session;
 use App\Admin;
+use App\User;
 use App\BasicExtra;
 use App\Http\Controllers\API\DigitalSystemController;
+use App\Language;
+use App\BasicSetting as BS;
+use App\BasicExtended as BE;
+use App\EmailTemplate as ET;
+use PHPMailer\PHPMailer\PHPMailer;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class TicketController extends Controller
 {
@@ -158,6 +166,7 @@ class TicketController extends Controller
 
     public function ticketReply( Request $request , $id)
     {
+
         $file = $request->file('file');
 
         $rules = [
@@ -191,6 +200,81 @@ class TicketController extends Controller
         Ticket::where('id',$id)->update([
             'status' => 'open',
         ]);
+
+
+        // send mail to admin
+        $ticket = Ticket::findOrFail($id);
+
+        if (session()->has('lang')) {
+            $currentLang = Language::where('code', session()->get('lang'))->first();
+        } else {
+            $currentLang = Language::where('is_default', 1)->first();
+        }
+
+        $bs = $currentLang->basic_setting;
+        $be = BE::first();
+        
+        $message_received = ET::where('email_type', '=', 'message_received')->first();
+        $ticket_number = $ticket->ticket_number;
+        $message = $input['reply'];
+        $customer_email =($ticket && $ticket->user_id)?User::where('id','=',$ticket->user_id)->first()->email:'no email';
+
+        $from = $be->to_mail;
+        $name = (auth() && auth()->user())?auth()->user()->name:'';
+        $to = $customer_email;
+        $subject = ($message_received)?$message_received->email_subject:'New Message Received';
+        $body = ($message_received)?$message_received->email_body:'<p style="line-height: 1.6;">Hello,</p><p style="line-height: 1.6;"><br></p><p style="line-height: 1.6;">You have received new message on ticket number: {ticket_number} from email: {email} with following message as:</p><p>{message}</p><p><br></p><p>Best Regards,</p><p><br></p><p>{website_title}</p>';
+        
+        $body = str_replace("{ticket_number}","#".$ticket_number."","".$body."");
+        $body = str_replace("{email}","".$from."","".$body."");
+        $body = str_replace("{message}","".$message."","".$body."");
+        $body = str_replace("{website_title}","".$bs->website_title."","".$body."");
+
+        $mail = new PHPMailer(true);
+
+        if ($be->is_smtp == 1) {
+            try {
+                $mail->isSMTP();
+                $mail->Host       = $be->smtp_host;
+                $mail->SMTPAuth   = true;
+                $mail->Username   = $be->smtp_username;
+                $mail->Password   = $be->smtp_password;
+                $mail->SMTPSecure = $be->encryption;
+                $mail->Port       = $be->smtp_port;
+
+                //Recipients
+                $mail->setFrom($from, $name);
+                $mail->addAddress($to);
+                $mail->addReplyTo($from, $name);
+
+                // Content
+                $mail->isHTML(true);
+                $mail->Subject = $subject;
+                $mail->Body    = $body;
+
+
+                $mail->send();
+            } catch (Exception $e) {
+                // die($e->getMessage());
+            }
+        } else {
+            try {
+
+                //Recipients
+                $mail->setFrom($customer_email);
+                $mail->addAddress($to);
+                $mail->addReplyTo($from, $name);
+
+                // Content
+                $mail->isHTML(true);
+                $mail->Subject = $subject;
+                $mail->Body    = $body;
+
+                $mail->send();
+            } catch (Exception $e) {
+
+            }
+        }
 
         Session::flash('success', 'message send successfully');
         return back();

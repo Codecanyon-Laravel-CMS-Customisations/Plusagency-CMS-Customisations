@@ -1348,7 +1348,6 @@ class ProductController extends Controller
 
             // Content
             Mail::html($message, function ($msg) use ($to, $request,$from,$subject) {
-                
                 $msg->from($from, $request->name)->to($to)->subject($subject);
             });
         }catch (\Exception $e) { }

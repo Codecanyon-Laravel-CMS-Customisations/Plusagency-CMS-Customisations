@@ -121,10 +121,10 @@ class TicketController extends Controller
         $name = (auth() && auth()->user())?auth()->user()->name:'';
         $to = $be->to_mail;
         $subject = ($ticket_received)?$ticket_received->email_subject:'New Ticket Received';
-        $body = ($ticket_received)?$ticket_received->email_body:'<p>Hello,</p><p><br></p><p>Your have received a ticket: {ticket_number} from email: {customer_email} with following message as:</p><p>{ticket_description}</p><p><br></p><p>Best Regards,</p><p><br></p><p>{website_title}</p>';
+        $body = ($ticket_received)?$ticket_received->email_body:'<p>Hello,</p><p><br></p><p>Your have received a ticket: {ticket_number} from email: {email} with following message as:</p><p>{ticket_description}</p><p><br></p><p>Best Regards,</p><p><br></p><p>{website_title}</p>';
         
         $body = str_replace("{ticket_number}","#".$ticket_number."","".$body."");
-        $body = str_replace("{customer_email}","".$customer_email."","".$body."");
+        $body = str_replace("{email}","".$customer_email."","".$body."");
         $body = str_replace("{ticket_description}","".$ticket_description."","".$body."");
         $body = str_replace("{website_title}","".$bs->website_title."","".$body."");
 
@@ -195,6 +195,7 @@ class TicketController extends Controller
 
     public function ticketreply(Request $request , $id)
     {
+
         $file = $request->file('file');
         $allowedExts = array('zip');
         $rules = [
@@ -242,9 +243,10 @@ class TicketController extends Controller
             'last_message' => Carbon::now(),
         ]);
 
+        
+        // send mail to admin
         $ticket = Ticket::findOrFail($id);
 
-        // send mail to admin
         if (session()->has('lang')) {
             $currentLang = Language::where('code', session()->get('lang'))->first();
         } else {
@@ -263,10 +265,10 @@ class TicketController extends Controller
         $name = (auth() && auth()->user())?auth()->user()->name:'';
         $to = $be->to_mail;
         $subject = ($message_received)?$message_received->email_subject:'New Message Received';
-        $body = ($message_received)?$message_received->email_body:'<p style="line-height: 1.6;">Hello,</p><p style="line-height: 1.6;"><br></p><p style="line-height: 1.6;">You have received new message on ticket number: {ticket_number} from email: {customer_email} with following message as:</p><p>{message}</p><p><br></p><p>Best Regards,</p><p><br></p><p>{website_title}</p>';
+        $body = ($message_received)?$message_received->email_body:'<p style="line-height: 1.6;">Hello,</p><p style="line-height: 1.6;"><br></p><p style="line-height: 1.6;">You have received new message on ticket number: {ticket_number} from email: {email} with following message as:</p><p>{message}</p><p><br></p><p>Best Regards,</p><p><br></p><p>{website_title}</p>';
         
         $body = str_replace("{ticket_number}","#".$ticket_number."","".$body."");
-        $body = str_replace("{customer_email}","".$customer_email."","".$body."");
+        $body = str_replace("{email}","".$customer_email."","".$body."");
         $body = str_replace("{message}","".$message."","".$body."");
         $body = str_replace("{website_title}","".$bs->website_title."","".$body."");
 

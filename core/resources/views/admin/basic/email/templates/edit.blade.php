@@ -75,10 +75,10 @@
 
                         <tr>
                           <td>
-                            {customer_email}
+                            {email}
                           </td>
                           <th scope="row">
-                            Customer Email
+                            Email
                           </th>
                         </tr>
                         @endif
@@ -95,10 +95,10 @@
 
                         <tr>
                           <td>
-                            {customer_email}
+                            {email}
                           </td>
                           <th scope="row">
-                            Customer Email
+                            Email
                           </th>
                         </tr>
 
