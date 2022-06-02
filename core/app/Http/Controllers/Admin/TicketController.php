@@ -18,9 +18,11 @@ use App\Language;
 use App\BasicSetting as BS;
 use App\BasicExtended as BE;
 use App\EmailTemplate as ET;
+use App\ProductTicket as PT;
 use PHPMailer\PHPMailer\PHPMailer;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use DB;
 
 class TicketController extends Controller
 {
@@ -218,6 +220,10 @@ class TicketController extends Controller
         $ticket_number = $ticket->ticket_number;
         $message = $input['reply'];
         $customer_email =($ticket && $ticket->user_id)?User::where('id','=',$ticket->user_id)->first()->email:'no email';
+
+        if ($customer_email == 'no email') {
+            $customer_email = DB::table('product_ticket')->where("ticket_id",'=',$id)->first()->email;
+        }
 
         $from = $be->to_mail;
         $name = (auth() && auth()->user())?auth()->user()->name:'';
