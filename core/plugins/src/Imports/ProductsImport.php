@@ -607,8 +607,8 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             $product = Product::create($in);
 
 
-            $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['short_description']))));
-            $in['description']  = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['description']))));
+            // $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['short_description']))));
+            // $in['description']  = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['description']))));
             
 
             
@@ -958,11 +958,6 @@ class ProductsImport implements OnEachRow, WithHeadingRow
 
             $product = Product::create($in);
 
-
-            // $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['short_description']))));
-            // $in['description']  = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['description']))));
-            
-
             
             $product->title = $row['variation_6_title'];
             $product->sku = null;
@@ -1067,6 +1062,1014 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             $abx->save();
         }
         /* end: storing variation 6 details */
+
+
+        /* start: storing variation 7 details */
+        if ( isset( $row[ 'variation_7_title' ] ) ) {
+
+
+            $product = Product::create($in);
+
+            
+            $product->title = $row['variation_7_title'];
+            $product->sku = null;
+            $product->tags = null;
+            // $product->slug = make_slug($row['variation_7_title']);
+            $product->current_price = $row['variation_7_regular_price'];
+            $product->current_price_international = $row['variation_7_foreign_price'];
+            $product->type = 'physical';
+
+
+            // start: adding variation attributes
+                $attributes = [];
+
+                if ( isset( $row[ 'variation_7_attribute_1_name' ] ) ) {
+                    $attributes[] = [
+                        'name'      => $row[ 'variation_7_attribute_1_name' ],
+                        'value'     => $row[ 'variation_7_attribute_1_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_7_attribute_2_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_7_attribute_2_name' ],
+                        'value' => $row[ 'variation_7_attribute_2_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_7_attribute_3_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_7_attribute_3_name' ],
+                        'value' => $row[ 'variation_7_attribute_3_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_7_attribute_4_name' ] ) ) {
+                    $attributes[] = [
+                        'name'    => $row[ 'variation_7_attribute_4_name' ],
+                        'value'   => $row[ 'variation_7_attribute_4_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_7_attribute_5_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_7_attribute_5_name' ],
+                        'value' => $row[ 'variation_7_attribute_5_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_7_attribute_6_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_7_attribute_6_name' ],
+                        'value' => $row[ 'variation_7_attribute_6_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+            // end: adding variation attributes
+            
+            $product->attributes = json_encode( $attributes );
+            $product->variation_data = json_encode( [
+                'title' => $row['variation_7_title'],
+                'value' => null,
+                'type' => 'physical',
+                'thumbnail' => $row['variation_7_thumbnail'],
+            ] );
+
+
+            $product->save();
+
+            $parent = Product::find($product_id);
+
+            if (is_null($parent->variations)) {
+                $parent->variations = $product->id;
+            } else {
+                $parent->variations = $parent->variations . ',' . $product->id;
+            }
+
+            $parent->save();
+
+            $lang = Language::where('code', 'en')->first();
+
+            $abx = $lang->basic_extended;
+
+            if ( is_null($abx->product_variations ) ) {
+                $global_variations = [];
+            } else {
+                $global_variations = (array) json_decode( $abx->product_variations );
+            }
+
+            $global_variations[] = [
+                'product_id' => $parent->id,
+                'variation_id' => $product->id
+            ];
+
+            $abx->product_variations = json_encode( $global_variations );
+
+            $abx->save();
+        }
+        /* end: storing variation 7 details */
+
+
+
+        /* start: storing variation 8 details */
+        if ( isset( $row[ 'variation_8_title' ] ) ) {
+
+
+            $product = Product::create($in);
+
+            
+            $product->title = $row['variation_7_title'];
+            $product->sku = null;
+            $product->tags = null;
+            // $product->slug = make_slug($row['variation_8_title']);
+            $product->current_price = $row['variation_8_regular_price'];
+            $product->current_price_international = $row['variation_8_foreign_price'];
+            $product->type = 'physical';
+
+
+            // start: adding variation attributes
+                $attributes = [];
+
+                if ( isset( $row[ 'variation_8_attribute_1_name' ] ) ) {
+                    $attributes[] = [
+                        'name'      => $row[ 'variation_8_attribute_1_name' ],
+                        'value'     => $row[ 'variation_8_attribute_1_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_8_attribute_2_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_8_attribute_2_name' ],
+                        'value' => $row[ 'variation_8_attribute_2_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_8_attribute_3_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_8_attribute_3_name' ],
+                        'value' => $row[ 'variation_8_attribute_3_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_8_attribute_4_name' ] ) ) {
+                    $attributes[] = [
+                        'name'    => $row[ 'variation_8_attribute_4_name' ],
+                        'value'   => $row[ 'variation_8_attribute_4_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_8_attribute_5_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_8_attribute_5_name' ],
+                        'value' => $row[ 'variation_8_attribute_5_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_8_attribute_6_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_8_attribute_6_name' ],
+                        'value' => $row[ 'variation_8_attribute_6_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+            // end: adding variation attributes
+            
+            $product->attributes = json_encode( $attributes );
+            $product->variation_data = json_encode( [
+                'title' => $row['variation_8_title'],
+                'value' => null,
+                'type' => 'physical',
+                'thumbnail' => $row['variation_8_thumbnail'],
+            ] );
+
+
+            $product->save();
+
+            $parent = Product::find($product_id);
+
+            if (is_null($parent->variations)) {
+                $parent->variations = $product->id;
+            } else {
+                $parent->variations = $parent->variations . ',' . $product->id;
+            }
+
+            $parent->save();
+
+            $lang = Language::where('code', 'en')->first();
+
+            $abx = $lang->basic_extended;
+
+            if ( is_null($abx->product_variations ) ) {
+                $global_variations = [];
+            } else {
+                $global_variations = (array) json_decode( $abx->product_variations );
+            }
+
+            $global_variations[] = [
+                'product_id' => $parent->id,
+                'variation_id' => $product->id
+            ];
+
+            $abx->product_variations = json_encode( $global_variations );
+
+            $abx->save();
+        }
+        /* end: storing variation 8 details */
+
+
+        /* start: storing variation 9 details */
+        if ( isset( $row[ 'variation_9_title' ] ) ) {
+
+
+            $product = Product::create($in);
+
+            
+            $product->title = $row['variation_9_title'];
+            $product->sku = null;
+            $product->tags = null;
+            // $product->slug = make_slug($row['variation_9_title']);
+            $product->current_price = $row['variation_9_regular_price'];
+            $product->current_price_international = $row['variation_9_foreign_price'];
+            $product->type = 'physical';
+
+
+            // start: adding variation attributes
+                $attributes = [];
+
+                if ( isset( $row[ 'variation_9_attribute_1_name' ] ) ) {
+                    $attributes[] = [
+                        'name'      => $row[ 'variation_9_attribute_1_name' ],
+                        'value'     => $row[ 'variation_9_attribute_1_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_9_attribute_2_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_9_attribute_2_name' ],
+                        'value' => $row[ 'variation_9_attribute_2_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_9_attribute_3_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_9_attribute_3_name' ],
+                        'value' => $row[ 'variation_9_attribute_3_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_9_attribute_4_name' ] ) ) {
+                    $attributes[] = [
+                        'name'    => $row[ 'variation_9_attribute_4_name' ],
+                        'value'   => $row[ 'variation_9_attribute_4_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_9_attribute_5_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_9_attribute_5_name' ],
+                        'value' => $row[ 'variation_9_attribute_5_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_9_attribute_6_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_9_attribute_6_name' ],
+                        'value' => $row[ 'variation_9_attribute_6_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+            // end: adding variation attributes
+            
+            $product->attributes = json_encode( $attributes );
+            $product->variation_data = json_encode( [
+                'title' => $row['variation_9_title'],
+                'value' => null,
+                'type' => 'physical',
+                'thumbnail' => $row['variation_9_thumbnail'],
+            ] );
+
+
+            $product->save();
+
+            $parent = Product::find($product_id);
+
+            if (is_null($parent->variations)) {
+                $parent->variations = $product->id;
+            } else {
+                $parent->variations = $parent->variations . ',' . $product->id;
+            }
+
+            $parent->save();
+
+            $lang = Language::where('code', 'en')->first();
+
+            $abx = $lang->basic_extended;
+
+            if ( is_null($abx->product_variations ) ) {
+                $global_variations = [];
+            } else {
+                $global_variations = (array) json_decode( $abx->product_variations );
+            }
+
+            $global_variations[] = [
+                'product_id' => $parent->id,
+                'variation_id' => $product->id
+            ];
+
+            $abx->product_variations = json_encode( $global_variations );
+
+            $abx->save();
+        }
+        /* end: storing variation 9 details */
+
+        /* start: storing variation 10 details */
+        if ( isset( $row[ 'variation_10_title' ] ) ) {
+
+
+            $product = Product::create($in);
+
+            
+            $product->title = $row['variation_10_title'];
+            $product->sku = null;
+            $product->tags = null;
+            // $product->slug = make_slug($row['variation_10_title']);
+            $product->current_price = $row['variation_10_regular_price'];
+            $product->current_price_international = $row['variation_10_foreign_price'];
+            $product->type = 'physical';
+
+
+            // start: adding variation attributes
+                $attributes = [];
+
+                if ( isset( $row[ 'variation_10_attribute_1_name' ] ) ) {
+                    $attributes[] = [
+                        'name'      => $row[ 'variation_10_attribute_1_name' ],
+                        'value'     => $row[ 'variation_10_attribute_1_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_10_attribute_2_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_10_attribute_2_name' ],
+                        'value' => $row[ 'variation_10_attribute_2_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_10_attribute_3_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_10_attribute_3_name' ],
+                        'value' => $row[ 'variation_10_attribute_3_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_10_attribute_4_name' ] ) ) {
+                    $attributes[] = [
+                        'name'    => $row[ 'variation_10_attribute_4_name' ],
+                        'value'   => $row[ 'variation_10_attribute_4_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_10_attribute_5_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_10_attribute_5_name' ],
+                        'value' => $row[ 'variation_10_attribute_5_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_10_attribute_6_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_10_attribute_6_name' ],
+                        'value' => $row[ 'variation_10_attribute_6_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+            // end: adding variation attributes
+            
+            $product->attributes = json_encode( $attributes );
+            $product->variation_data = json_encode( [
+                'title' => $row['variation_10_title'],
+                'value' => null,
+                'type' => 'physical',
+                'thumbnail' => $row['variation_10_thumbnail'],
+            ] );
+
+
+            $product->save();
+
+            $parent = Product::find($product_id);
+
+            if (is_null($parent->variations)) {
+                $parent->variations = $product->id;
+            } else {
+                $parent->variations = $parent->variations . ',' . $product->id;
+            }
+
+            $parent->save();
+
+            $lang = Language::where('code', 'en')->first();
+
+            $abx = $lang->basic_extended;
+
+            if ( is_null($abx->product_variations ) ) {
+                $global_variations = [];
+            } else {
+                $global_variations = (array) json_decode( $abx->product_variations );
+            }
+
+            $global_variations[] = [
+                'product_id' => $parent->id,
+                'variation_id' => $product->id
+            ];
+
+            $abx->product_variations = json_encode( $global_variations );
+
+            $abx->save();
+        }
+        /* end: storing variation 10 details */
+
+
+        /* start: storing variation 11 details */
+        if ( isset( $row[ 'variation_11_title' ] ) ) {
+
+
+            $product = Product::create($in);
+
+            
+            $product->title = $row['variation_11_title'];
+            $product->sku = null;
+            $product->tags = null;
+            // $product->slug = make_slug($row['variation_11_title']);
+            $product->current_price = $row['variation_11_regular_price'];
+            $product->current_price_international = $row['variation_11_foreign_price'];
+            $product->type = 'physical';
+
+
+            // start: adding variation attributes
+                $attributes = [];
+
+                if ( isset( $row[ 'variation_11_attribute_1_name' ] ) ) {
+                    $attributes[] = [
+                        'name'      => $row[ 'variation_11_attribute_1_name' ],
+                        'value'     => $row[ 'variation_11_attribute_1_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_11_attribute_2_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_11_attribute_2_name' ],
+                        'value' => $row[ 'variation_11_attribute_2_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_11_attribute_3_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_11_attribute_3_name' ],
+                        'value' => $row[ 'variation_11_attribute_3_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_11_attribute_4_name' ] ) ) {
+                    $attributes[] = [
+                        'name'    => $row[ 'variation_11_attribute_4_name' ],
+                        'value'   => $row[ 'variation_11_attribute_4_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_11_attribute_5_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_11_attribute_5_name' ],
+                        'value' => $row[ 'variation_11_attribute_5_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_11_attribute_6_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_11_attribute_6_name' ],
+                        'value' => $row[ 'variation_11_attribute_6_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+            // end: adding variation attributes
+            
+            $product->attributes = json_encode( $attributes );
+            $product->variation_data = json_encode( [
+                'title' => $row['variation_11_title'],
+                'value' => null,
+                'type' => 'physical',
+                'thumbnail' => $row['variation_11_thumbnail'],
+            ] );
+
+
+            $product->save();
+
+            $parent = Product::find($product_id);
+
+            if (is_null($parent->variations)) {
+                $parent->variations = $product->id;
+            } else {
+                $parent->variations = $parent->variations . ',' . $product->id;
+            }
+
+            $parent->save();
+
+            $lang = Language::where('code', 'en')->first();
+
+            $abx = $lang->basic_extended;
+
+            if ( is_null($abx->product_variations ) ) {
+                $global_variations = [];
+            } else {
+                $global_variations = (array) json_decode( $abx->product_variations );
+            }
+
+            $global_variations[] = [
+                'product_id' => $parent->id,
+                'variation_id' => $product->id
+            ];
+
+            $abx->product_variations = json_encode( $global_variations );
+
+            $abx->save();
+        }
+        /* end: storing variation 11 details */
+
+
+        /* start: storing variation 12 details */
+        if ( isset( $row[ 'variation_12_title' ] ) ) {
+
+
+            $product = Product::create($in);
+
+            
+            $product->title = $row['variation_12_title'];
+            $product->sku = null;
+            $product->tags = null;
+            // $product->slug = make_slug($row['variation_12_title']);
+            $product->current_price = $row['variation_12_regular_price'];
+            $product->current_price_international = $row['variation_12_foreign_price'];
+            $product->type = 'physical';
+
+
+            // start: adding variation attributes
+                $attributes = [];
+
+                if ( isset( $row[ 'variation_12_attribute_1_name' ] ) ) {
+                    $attributes[] = [
+                        'name'      => $row[ 'variation_12_attribute_1_name' ],
+                        'value'     => $row[ 'variation_12_attribute_1_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_12_attribute_2_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_12_attribute_2_name' ],
+                        'value' => $row[ 'variation_12_attribute_2_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_12_attribute_3_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_12_attribute_3_name' ],
+                        'value' => $row[ 'variation_12_attribute_3_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_12_attribute_4_name' ] ) ) {
+                    $attributes[] = [
+                        'name'    => $row[ 'variation_12_attribute_4_name' ],
+                        'value'   => $row[ 'variation_12_attribute_4_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_12_attribute_5_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_12_attribute_5_name' ],
+                        'value' => $row[ 'variation_12_attribute_5_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_12_attribute_6_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_12_attribute_6_name' ],
+                        'value' => $row[ 'variation_12_attribute_6_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+            // end: adding variation attributes
+            
+            $product->attributes = json_encode( $attributes );
+            $product->variation_data = json_encode( [
+                'title' => $row['variation_12_title'],
+                'value' => null,
+                'type' => 'physical',
+                'thumbnail' => $row['variation_12_thumbnail'],
+            ] );
+
+
+            $product->save();
+
+            $parent = Product::find($product_id);
+
+            if (is_null($parent->variations)) {
+                $parent->variations = $product->id;
+            } else {
+                $parent->variations = $parent->variations . ',' . $product->id;
+            }
+
+            $parent->save();
+
+            $lang = Language::where('code', 'en')->first();
+
+            $abx = $lang->basic_extended;
+
+            if ( is_null($abx->product_variations ) ) {
+                $global_variations = [];
+            } else {
+                $global_variations = (array) json_decode( $abx->product_variations );
+            }
+
+            $global_variations[] = [
+                'product_id' => $parent->id,
+                'variation_id' => $product->id
+            ];
+
+            $abx->product_variations = json_encode( $global_variations );
+
+            $abx->save();
+        }
+        /* end: storing variation 12 details */
+
+
+        /* start: storing variation 13 details */
+        if ( isset( $row[ 'variation_13_title' ] ) ) {
+
+
+            $product = Product::create($in);
+
+            
+            $product->title = $row['variation_13_title'];
+            $product->sku = null;
+            $product->tags = null;
+            // $product->slug = make_slug($row['variation_13_title']);
+            $product->current_price = $row['variation_13_regular_price'];
+            $product->current_price_international = $row['variation_13_foreign_price'];
+            $product->type = 'physical';
+
+
+            // start: adding variation attributes
+                $attributes = [];
+
+                if ( isset( $row[ 'variation_13_attribute_1_name' ] ) ) {
+                    $attributes[] = [
+                        'name'      => $row[ 'variation_13_attribute_1_name' ],
+                        'value'     => $row[ 'variation_13_attribute_1_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_13_attribute_2_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_13_attribute_2_name' ],
+                        'value' => $row[ 'variation_13_attribute_2_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_13_attribute_3_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_13_attribute_3_name' ],
+                        'value' => $row[ 'variation_13_attribute_3_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_13_attribute_4_name' ] ) ) {
+                    $attributes[] = [
+                        'name'    => $row[ 'variation_13_attribute_4_name' ],
+                        'value'   => $row[ 'variation_13_attribute_4_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_13_attribute_5_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_13_attribute_5_name' ],
+                        'value' => $row[ 'variation_13_attribute_5_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_13_attribute_6_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_13_attribute_6_name' ],
+                        'value' => $row[ 'variation_13_attribute_6_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+            // end: adding variation attributes
+            
+            $product->attributes = json_encode( $attributes );
+            $product->variation_data = json_encode( [
+                'title' => $row['variation_13_title'],
+                'value' => null,
+                'type' => 'physical',
+                'thumbnail' => $row['variation_13_thumbnail'],
+            ] );
+
+
+            $product->save();
+
+            $parent = Product::find($product_id);
+
+            if (is_null($parent->variations)) {
+                $parent->variations = $product->id;
+            } else {
+                $parent->variations = $parent->variations . ',' . $product->id;
+            }
+
+            $parent->save();
+
+            $lang = Language::where('code', 'en')->first();
+
+            $abx = $lang->basic_extended;
+
+            if ( is_null($abx->product_variations ) ) {
+                $global_variations = [];
+            } else {
+                $global_variations = (array) json_decode( $abx->product_variations );
+            }
+
+            $global_variations[] = [
+                'product_id' => $parent->id,
+                'variation_id' => $product->id
+            ];
+
+            $abx->product_variations = json_encode( $global_variations );
+
+            $abx->save();
+        }
+        /* end: storing variation 13 details */
+
+
+        /* start: storing variation 14 details */
+        if ( isset( $row[ 'variation_14_title' ] ) ) {
+
+
+            $product = Product::create($in);
+
+            
+            $product->title = $row['variation_14_title'];
+            $product->sku = null;
+            $product->tags = null;
+            // $product->slug = make_slug($row['variation_14_title']);
+            $product->current_price = $row['variation_14_regular_price'];
+            $product->current_price_international = $row['variation_14_foreign_price'];
+            $product->type = 'physical';
+
+
+            // start: adding variation attributes
+                $attributes = [];
+
+                if ( isset( $row[ 'variation_14_attribute_1_name' ] ) ) {
+                    $attributes[] = [
+                        'name'      => $row[ 'variation_14_attribute_1_name' ],
+                        'value'     => $row[ 'variation_14_attribute_1_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_14_attribute_2_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_14_attribute_2_name' ],
+                        'value' => $row[ 'variation_14_attribute_2_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_14_attribute_3_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_14_attribute_3_name' ],
+                        'value' => $row[ 'variation_14_attribute_3_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_14_attribute_4_name' ] ) ) {
+                    $attributes[] = [
+                        'name'    => $row[ 'variation_14_attribute_4_name' ],
+                        'value'   => $row[ 'variation_14_attribute_4_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_14_attribute_5_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_14_attribute_5_name' ],
+                        'value' => $row[ 'variation_14_attribute_5_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_14_attribute_6_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_14_attribute_6_name' ],
+                        'value' => $row[ 'variation_14_attribute_6_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+            // end: adding variation attributes
+            
+            $product->attributes = json_encode( $attributes );
+            $product->variation_data = json_encode( [
+                'title' => $row['variation_14_title'],
+                'value' => null,
+                'type' => 'physical',
+                'thumbnail' => $row['variation_14_thumbnail'],
+            ] );
+
+
+            $product->save();
+
+            $parent = Product::find($product_id);
+
+            if (is_null($parent->variations)) {
+                $parent->variations = $product->id;
+            } else {
+                $parent->variations = $parent->variations . ',' . $product->id;
+            }
+
+            $parent->save();
+
+            $lang = Language::where('code', 'en')->first();
+
+            $abx = $lang->basic_extended;
+
+            if ( is_null($abx->product_variations ) ) {
+                $global_variations = [];
+            } else {
+                $global_variations = (array) json_decode( $abx->product_variations );
+            }
+
+            $global_variations[] = [
+                'product_id' => $parent->id,
+                'variation_id' => $product->id
+            ];
+
+            $abx->product_variations = json_encode( $global_variations );
+
+            $abx->save();
+        }
+        /* end: storing variation 14 details */
+
+
+        /* start: storing variation 15 details */
+        if ( isset( $row[ 'variation_15_title' ] ) ) {
+
+
+            $product = Product::create($in);
+
+            
+            $product->title = $row['variation_15_title'];
+            $product->sku = null;
+            $product->tags = null;
+            // $product->slug = make_slug($row['variation_15_title']);
+            $product->current_price = $row['variation_15_regular_price'];
+            $product->current_price_international = $row['variation_15_foreign_price'];
+            $product->type = 'physical';
+
+
+            // start: adding variation attributes
+                $attributes = [];
+
+                if ( isset( $row[ 'variation_15_attribute_1_name' ] ) ) {
+                    $attributes[] = [
+                        'name'      => $row[ 'variation_15_attribute_1_name' ],
+                        'value'     => $row[ 'variation_15_attribute_1_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_15_attribute_2_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_15_attribute_2_name' ],
+                        'value' => $row[ 'variation_15_attribute_2_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_15_attribute_3_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_15_attribute_3_name' ],
+                        'value' => $row[ 'variation_15_attribute_3_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_15_attribute_4_name' ] ) ) {
+                    $attributes[] = [
+                        'name'    => $row[ 'variation_15_attribute_4_name' ],
+                        'value'   => $row[ 'variation_15_attribute_4_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_15_attribute_5_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_15_attribute_5_name' ],
+                        'value' => $row[ 'variation_15_attribute_5_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+                if ( isset( $row[ 'variation_15_attribute_6_name' ] ) ) {
+                    $attributes[] = [
+                        'name' => $row[ 'variation_15_attribute_6_name' ],
+                        'value' => $row[ 'variation_15_attribute_6_value'],
+                        'visible'   => 1,
+                        'global'    => 1
+                    ];
+                }
+            // end: adding variation attributes
+            
+            $product->attributes = json_encode( $attributes );
+            $product->variation_data = json_encode( [
+                'title' => $row['variation_15_title'],
+                'value' => null,
+                'type' => 'physical',
+                'thumbnail' => $row['variation_15_thumbnail'],
+            ] );
+
+
+            $product->save();
+
+            $parent = Product::find($product_id);
+
+            if (is_null($parent->variations)) {
+                $parent->variations = $product->id;
+            } else {
+                $parent->variations = $parent->variations . ',' . $product->id;
+            }
+
+            $parent->save();
+
+            $lang = Language::where('code', 'en')->first();
+
+            $abx = $lang->basic_extended;
+
+            if ( is_null($abx->product_variations ) ) {
+                $global_variations = [];
+            } else {
+                $global_variations = (array) json_decode( $abx->product_variations );
+            }
+
+            $global_variations[] = [
+                'product_id' => $parent->id,
+                'variation_id' => $product->id
+            ];
+
+            $abx->product_variations = json_encode( $global_variations );
+
+            $abx->save();
+        }
+        /* end: storing variation 15 details */
         
     }
 
