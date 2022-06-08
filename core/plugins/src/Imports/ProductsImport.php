@@ -354,7 +354,9 @@ class ProductsImport implements OnEachRow, WithHeadingRow
 
     public function setProductVariations(Product $product, Array $row)
     {
+
         $product_id = $product->id;
+        // dd($row[ 'variation_1_title' ]);
 
         $in = $row;
 
@@ -368,11 +370,23 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         if (isset($row['description'])) unset($row['description']);
 
         /* start: storing variation 1 details */
-        if ( isset( $row[ 'variation_1_title' ] ) ) {
 
+        if ( isset( $row['variation_1_title'] ) ) {
 
-            $product = Product::create($in);
+            // modal init for variation check
+                $productModel = Product::withoutGlobalScope('variation');
+            // end modal init for variation check
 
+            // first check if variation already exists then update previous else add new
+            $variationDetails = $productModel->where('title', '=', $row['variation_1_title'])->first();
+            $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
+
+            if ($productVariation) {
+                $product = $variationDetails;
+            } else {
+                $product = Product::create($in);
+            }
+            
 
             // $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['short_description']))));
             // $in['description']  = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['description']))));
@@ -386,6 +400,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             $product->current_price_international = $row['variation_1_foreign_price'];
             $product->type = 'physical';
 
+            $variation_1 = $product;
 
             // start: adding variation attributes
                 $attributes = [];
@@ -448,46 +463,63 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 'thumbnail' => $row['variation_1_thumbnail'],
             ] );
 
-
-            $product->save();
-
-            $parent = Product::find($product_id);
-
-            if (is_null($parent->variations)) {
-                $parent->variations = $product->id;
+            if ($productVariation) {
+                $product->update();
             } else {
-                $parent->variations = $parent->variations . ',' . $product->id;
+                $product->save();
             }
+            // $product->save();
 
-            $parent->save();
+            if (!$productVariation) {
+                $parent = Product::find($product_id);
 
-            $lang = Language::where('code', 'en')->first();
+                if (is_null($parent->variations)) {
+                    $parent->variations = $product->id;
+                } else {
+                    $parent->variations = $parent->variations . ',' . $product->id;
+                }
 
-            $abx = $lang->basic_extended;
+                $parent->save();
 
-            if ( is_null($abx->product_variations ) ) {
-                $global_variations = [];
-            } else {
-                $global_variations = (array) json_decode( $abx->product_variations );
-            }
+                $lang = Language::where('code', 'en')->first();
 
-            $global_variations[] = [
-                'product_id' => $parent->id,
-                'variation_id' => $product->id
-            ];
+                $abx = $lang->basic_extended;
 
-            $abx->product_variations = json_encode( $global_variations );
+                if ( is_null($abx->product_variations ) ) {
+                    $global_variations = [];
+                } else {
+                    $global_variations = (array) json_decode( $abx->product_variations );
+                }
 
-            $abx->save();
+                $global_variations[] = [
+                    'product_id' => $parent->id,
+                    'variation_id' => $product->id
+                ];
+
+                $abx->product_variations = json_encode( $global_variations );
+
+                $abx->save();
+            } 
+            
         }
         /* end: storing variation 1 details */
 
 
         /* start: storing variation 2 details */
-        if ( isset( $row[ 'variation_2_title' ] ) ) {
+        if ( isset( $row['variation_2_title'] ) ) {
+            // modal init for variation check
+                $productModel = Product::withoutGlobalScope('variation');
+            // end modal init for variation check
 
+            // first check if variation already exists then update previous else add new
+            $variationDetails = $productModel->where('title', '=', $row['variation_2_title'])->first();
+            $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
 
-            $product = Product::create($in);
+            if ($productVariation) {
+                $product = $variationDetails;
+            } else {
+                $product = Product::create($in);
+            }
 
 
             // $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['short_description']))));
@@ -566,45 +598,63 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             ] );
 
 
-            $product->save();
-
-            $parent = Product::find($product_id);
-
-            if (is_null($parent->variations)) {
-                $parent->variations = $product->id;
+            if ($productVariation) {
+                $product->update();
             } else {
-                $parent->variations = $parent->variations . ',' . $product->id;
+                $product->save();
             }
 
-            $parent->save();
+            if (!$productVariation) {
 
-            $lang = Language::where('code', 'en')->first();
+                $parent = Product::find($product_id);
 
-            $abx = $lang->basic_extended;
+                if (is_null($parent->variations)) {
+                    $parent->variations = $product->id;
+                } else {
+                    $parent->variations = $parent->variations . ',' . $product->id;
+                }
 
-            if ( is_null($abx->product_variations ) ) {
-                $global_variations = [];
-            } else {
-                $global_variations = (array) json_decode( $abx->product_variations );
+                $parent->save();
+
+                $lang = Language::where('code', 'en')->first();
+
+                $abx = $lang->basic_extended;
+
+                if ( is_null($abx->product_variations ) ) {
+                    $global_variations = [];
+                } else {
+                    $global_variations = (array) json_decode( $abx->product_variations );
+                }
+
+                $global_variations[] = [
+                    'product_id' => $parent->id,
+                    'variation_id' => $product->id
+                ];
+
+                $abx->product_variations = json_encode( $global_variations );
+
+                $abx->save();
             }
-
-            $global_variations[] = [
-                'product_id' => $parent->id,
-                'variation_id' => $product->id
-            ];
-
-            $abx->product_variations = json_encode( $global_variations );
-
-            $abx->save();
         }
         /* end: storing variation 2 details */
 
 
         /* start: storing variation 3 details */
-        if ( isset( $row[ 'variation_3_title' ] ) ) {
+        if ( isset( $row['variation_3_title'] ) ) {
 
+            // modal init for variation check
+                $productModel = Product::withoutGlobalScope('variation');
+            // end modal init for variation check
 
-            $product = Product::create($in);
+            // first check if variation already exists then update previous else add new
+            $variationDetails = $productModel->where('title', '=', $row['variation_3_title'])->first();
+            $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
+
+            if ($productVariation) {
+                $product = $variationDetails;
+            } else {
+                $product = Product::create($in);
+            }
 
 
             // $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['short_description']))));
@@ -683,45 +733,65 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             ] );
 
 
-            $product->save();
-
-            $parent = Product::find($product_id);
-
-            if (is_null($parent->variations)) {
-                $parent->variations = $product->id;
+            if ($productVariation) {
+                $product->update();
             } else {
-                $parent->variations = $parent->variations . ',' . $product->id;
+                $product->save();
             }
 
-            $parent->save();
+            if (!$productVariation) {
 
-            $lang = Language::where('code', 'en')->first();
+                $parent = Product::find($product_id);
 
-            $abx = $lang->basic_extended;
+                if (is_null($parent->variations)) {
+                    $parent->variations = $product->id;
+                } else {
+                    $parent->variations = $parent->variations . ',' . $product->id;
+                }
 
-            if ( is_null($abx->product_variations ) ) {
-                $global_variations = [];
-            } else {
-                $global_variations = (array) json_decode( $abx->product_variations );
+                $parent->save();
+
+                $lang = Language::where('code', 'en')->first();
+
+                $abx = $lang->basic_extended;
+
+                if ( is_null($abx->product_variations ) ) {
+                    $global_variations = [];
+                } else {
+                    $global_variations = (array) json_decode( $abx->product_variations );
+                }
+
+                $global_variations[] = [
+                    'product_id' => $parent->id,
+                    'variation_id' => $product->id
+                ];
+
+                $abx->product_variations = json_encode( $global_variations );
+
+                $abx->save();
             }
-
-            $global_variations[] = [
-                'product_id' => $parent->id,
-                'variation_id' => $product->id
-            ];
-
-            $abx->product_variations = json_encode( $global_variations );
-
-            $abx->save();
         }
         /* end: storing variation 3 details */
 
 
         /* start: storing variation 4 details */
-        if ( isset( $row[ 'variation_4_title' ] ) ) {
+        if ( isset( $row['variation_4_title'] ) ) {
 
+            // modal init for variation check
+                $productModel = Product::withoutGlobalScope('variation');
+            // end modal init for variation check
 
-            $product = Product::create($in);
+            // first check if variation already exists then update previous else add new
+            $variationDetails = $productModel->where('title', '=', $row['variation_4_title'])->first();
+            $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
+
+            if ($productVariation) {
+                $product = $variationDetails;
+            } else {
+                $product = Product::create($in);
+            }
+
+            // $product = Product::create($in);
 
 
             // $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['short_description']))));
@@ -800,45 +870,65 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             ] );
 
 
-            $product->save();
-
-            $parent = Product::find($product_id);
-
-            if (is_null($parent->variations)) {
-                $parent->variations = $product->id;
+            if ($productVariation) {
+                $product->update();
             } else {
-                $parent->variations = $parent->variations . ',' . $product->id;
+                $product->save();
             }
 
-            $parent->save();
+            if (!$productVariation) {
 
-            $lang = Language::where('code', 'en')->first();
+                $parent = Product::find($product_id);
 
-            $abx = $lang->basic_extended;
+                if (is_null($parent->variations)) {
+                    $parent->variations = $product->id;
+                } else {
+                    $parent->variations = $parent->variations . ',' . $product->id;
+                }
 
-            if ( is_null($abx->product_variations ) ) {
-                $global_variations = [];
-            } else {
-                $global_variations = (array) json_decode( $abx->product_variations );
+                $parent->save();
+
+                $lang = Language::where('code', 'en')->first();
+
+                $abx = $lang->basic_extended;
+
+                if ( is_null($abx->product_variations ) ) {
+                    $global_variations = [];
+                } else {
+                    $global_variations = (array) json_decode( $abx->product_variations );
+                }
+
+                $global_variations[] = [
+                    'product_id' => $parent->id,
+                    'variation_id' => $product->id
+                ];
+
+                $abx->product_variations = json_encode( $global_variations );
+
+                $abx->save();
             }
-
-            $global_variations[] = [
-                'product_id' => $parent->id,
-                'variation_id' => $product->id
-            ];
-
-            $abx->product_variations = json_encode( $global_variations );
-
-            $abx->save();
         }
         /* end: storing variation 4 details */
 
 
         /* start: storing variation 5 details */
-        if ( isset( $row[ 'variation_5_title' ] ) ) {
+        if ( isset( $row['variation_5_title'] ) ) {
 
+            // modal init for variation check
+                $productModel = Product::withoutGlobalScope('variation');
+            // end modal init for variation check
 
-            $product = Product::create($in);
+            // first check if variation already exists then update previous else add new
+            $variationDetails = $productModel->where('title', '=', $row['variation_5_title'])->first();
+            $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
+
+            if ($productVariation) {
+                $product = $variationDetails;
+            } else {
+                $product = Product::create($in);
+            }
+
+            // $product = Product::create($in);
 
 
             // $in['summary']      = trim(e($importer->parse_digital_links($product, $importer->parse_tabs($row['short_description']))));
@@ -917,46 +1007,65 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             ] );
 
 
-            $product->save();
-
-            $parent = Product::find($product_id);
-
-            if (is_null($parent->variations)) {
-                $parent->variations = $product->id;
+            if ($productVariation) {
+                $product->update();
             } else {
-                $parent->variations = $parent->variations . ',' . $product->id;
+                $product->save();
             }
 
-            $parent->save();
+            if (!$productVariation) {
 
-            $lang = Language::where('code', 'en')->first();
+                $parent = Product::find($product_id);
 
-            $abx = $lang->basic_extended;
+                if (is_null($parent->variations)) {
+                    $parent->variations = $product->id;
+                } else {
+                    $parent->variations = $parent->variations . ',' . $product->id;
+                }
 
-            if ( is_null($abx->product_variations ) ) {
-                $global_variations = [];
-            } else {
-                $global_variations = (array) json_decode( $abx->product_variations );
+                $parent->save();
+
+                $lang = Language::where('code', 'en')->first();
+
+                $abx = $lang->basic_extended;
+
+                if ( is_null($abx->product_variations ) ) {
+                    $global_variations = [];
+                } else {
+                    $global_variations = (array) json_decode( $abx->product_variations );
+                }
+
+                $global_variations[] = [
+                    'product_id' => $parent->id,
+                    'variation_id' => $product->id
+                ];
+
+                $abx->product_variations = json_encode( $global_variations );
+
+                $abx->save();
             }
-
-            $global_variations[] = [
-                'product_id' => $parent->id,
-                'variation_id' => $product->id
-            ];
-
-            $abx->product_variations = json_encode( $global_variations );
-
-            $abx->save();
         }
         /* end: storing variation 5 details */
 
 
-
         /* start: storing variation 6 details */
-        if ( isset( $row[ 'variation_6_title' ] ) ) {
+        if ( isset( $row['variation_6_title'] ) ) {
 
+            // modal init for variation check
+                $productModel = Product::withoutGlobalScope('variation');
+            // end modal init for variation check
 
-            $product = Product::create($in);
+            // first check if variation already exists then update previous else add new
+            $variationDetails = $productModel->where('title', '=', $row['variation_6_title'])->first();
+            $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
+
+            if ($productVariation) {
+                $product = $variationDetails;
+            } else {
+                $product = Product::create($in);
+            }
+
+            // $product = Product::create($in);
 
             
             $product->title = $row['variation_6_title'];
@@ -1030,45 +1139,65 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             ] );
 
 
-            $product->save();
-
-            $parent = Product::find($product_id);
-
-            if (is_null($parent->variations)) {
-                $parent->variations = $product->id;
+            if ($productVariation) {
+                $product->update();
             } else {
-                $parent->variations = $parent->variations . ',' . $product->id;
+                $product->save();
             }
 
-            $parent->save();
+            if (!$productVariation) {
 
-            $lang = Language::where('code', 'en')->first();
+                $parent = Product::find($product_id);
 
-            $abx = $lang->basic_extended;
+                if (is_null($parent->variations)) {
+                    $parent->variations = $product->id;
+                } else {
+                    $parent->variations = $parent->variations . ',' . $product->id;
+                }
 
-            if ( is_null($abx->product_variations ) ) {
-                $global_variations = [];
-            } else {
-                $global_variations = (array) json_decode( $abx->product_variations );
+                $parent->save();
+
+                $lang = Language::where('code', 'en')->first();
+
+                $abx = $lang->basic_extended;
+
+                if ( is_null($abx->product_variations ) ) {
+                    $global_variations = [];
+                } else {
+                    $global_variations = (array) json_decode( $abx->product_variations );
+                }
+
+                $global_variations[] = [
+                    'product_id' => $parent->id,
+                    'variation_id' => $product->id
+                ];
+
+                $abx->product_variations = json_encode( $global_variations );
+
+                $abx->save();
             }
-
-            $global_variations[] = [
-                'product_id' => $parent->id,
-                'variation_id' => $product->id
-            ];
-
-            $abx->product_variations = json_encode( $global_variations );
-
-            $abx->save();
         }
         /* end: storing variation 6 details */
 
 
         /* start: storing variation 7 details */
-        if ( isset( $row[ 'variation_7_title' ] ) ) {
+        if ( isset( $row['variation_7_title'] ) ) {
 
+            // modal init for variation check
+                $productModel = Product::withoutGlobalScope('variation');
+            // end modal init for variation check
 
-            $product = Product::create($in);
+            // first check if variation already exists then update previous else add new
+            $variationDetails = $productModel->where('title', '=', $row['variation_7_title'])->first();
+            $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
+
+            if ($productVariation) {
+                $product = $variationDetails;
+            } else {
+                $product = Product::create($in);
+            }
+
+            // $product = Product::create($in);
 
             
             $product->title = $row['variation_7_title'];
@@ -1142,49 +1271,69 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             ] );
 
 
-            $product->save();
-
-            $parent = Product::find($product_id);
-
-            if (is_null($parent->variations)) {
-                $parent->variations = $product->id;
+            if ($productVariation) {
+                $product->update();
             } else {
-                $parent->variations = $parent->variations . ',' . $product->id;
+                $product->save();
             }
 
-            $parent->save();
+            if (!$productVariation) {
 
-            $lang = Language::where('code', 'en')->first();
+                $parent = Product::find($product_id);
 
-            $abx = $lang->basic_extended;
+                if (is_null($parent->variations)) {
+                    $parent->variations = $product->id;
+                } else {
+                    $parent->variations = $parent->variations . ',' . $product->id;
+                }
 
-            if ( is_null($abx->product_variations ) ) {
-                $global_variations = [];
-            } else {
-                $global_variations = (array) json_decode( $abx->product_variations );
+                $parent->save();
+
+                $lang = Language::where('code', 'en')->first();
+
+                $abx = $lang->basic_extended;
+
+                if ( is_null($abx->product_variations ) ) {
+                    $global_variations = [];
+                } else {
+                    $global_variations = (array) json_decode( $abx->product_variations );
+                }
+
+                $global_variations[] = [
+                    'product_id' => $parent->id,
+                    'variation_id' => $product->id
+                ];
+
+                $abx->product_variations = json_encode( $global_variations );
+
+                $abx->save();
             }
-
-            $global_variations[] = [
-                'product_id' => $parent->id,
-                'variation_id' => $product->id
-            ];
-
-            $abx->product_variations = json_encode( $global_variations );
-
-            $abx->save();
         }
         /* end: storing variation 7 details */
 
 
 
         /* start: storing variation 8 details */
-        if ( isset( $row[ 'variation_8_title' ] ) ) {
+        if ( isset( $row['variation_8_title'] ) ) {
 
+            // modal init for variation check
+                $productModel = Product::withoutGlobalScope('variation');
+            // end modal init for variation check
 
-            $product = Product::create($in);
+            // first check if variation already exists then update previous else add new
+            $variationDetails = $productModel->where('title', '=', $row['variation_8_title'])->first();
+            $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
+            
+            if ($productVariation) {
+                $product = $variationDetails;
+            } else {
+                $product = Product::create($in);
+            }
+
+            // $product = Product::create($in);
 
             
-            $product->title = $row['variation_7_title'];
+            $product->title = $row['variation_8_title'];
             $product->sku = null;
             $product->tags = null;
             // $product->slug = make_slug($row['variation_8_title']);
@@ -1255,45 +1404,65 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             ] );
 
 
-            $product->save();
-
-            $parent = Product::find($product_id);
-
-            if (is_null($parent->variations)) {
-                $parent->variations = $product->id;
+            if ($productVariation) {
+                $product->update();
             } else {
-                $parent->variations = $parent->variations . ',' . $product->id;
+                $product->save();
             }
 
-            $parent->save();
+            if (!$productVariation) {
 
-            $lang = Language::where('code', 'en')->first();
+                $parent = Product::find($product_id);
 
-            $abx = $lang->basic_extended;
+                if (is_null($parent->variations)) {
+                    $parent->variations = $product->id;
+                } else {
+                    $parent->variations = $parent->variations . ',' . $product->id;
+                }
 
-            if ( is_null($abx->product_variations ) ) {
-                $global_variations = [];
-            } else {
-                $global_variations = (array) json_decode( $abx->product_variations );
+                $parent->save();
+
+                $lang = Language::where('code', 'en')->first();
+
+                $abx = $lang->basic_extended;
+
+                if ( is_null($abx->product_variations ) ) {
+                    $global_variations = [];
+                } else {
+                    $global_variations = (array) json_decode( $abx->product_variations );
+                }
+
+                $global_variations[] = [
+                    'product_id' => $parent->id,
+                    'variation_id' => $product->id
+                ];
+
+                $abx->product_variations = json_encode( $global_variations );
+
+                $abx->save();
             }
-
-            $global_variations[] = [
-                'product_id' => $parent->id,
-                'variation_id' => $product->id
-            ];
-
-            $abx->product_variations = json_encode( $global_variations );
-
-            $abx->save();
         }
         /* end: storing variation 8 details */
 
 
         /* start: storing variation 9 details */
-        if ( isset( $row[ 'variation_9_title' ] ) ) {
+        if ( isset( $row['variation_9_title'] ) ) {
 
+            // modal init for variation check
+                $productModel = Product::withoutGlobalScope('variation');
+            // end modal init for variation check
 
-            $product = Product::create($in);
+            // first check if variation already exists then update previous else add new
+            $variationDetails = $productModel->where('title', '=', $row['variation_9_title'])->first();
+            $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
+
+            if ($productVariation) {
+                $product = $variationDetails;
+            } else {
+                $product = Product::create($in);
+            }
+
+            // $product = Product::create($in);
 
             
             $product->title = $row['variation_9_title'];
@@ -1367,44 +1536,64 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             ] );
 
 
-            $product->save();
-
-            $parent = Product::find($product_id);
-
-            if (is_null($parent->variations)) {
-                $parent->variations = $product->id;
+            if ($productVariation) {
+                $product->update();
             } else {
-                $parent->variations = $parent->variations . ',' . $product->id;
+                $product->save();
             }
 
-            $parent->save();
+            if (!$productVariation) {
 
-            $lang = Language::where('code', 'en')->first();
+                $parent = Product::find($product_id);
 
-            $abx = $lang->basic_extended;
+                if (is_null($parent->variations)) {
+                    $parent->variations = $product->id;
+                } else {
+                    $parent->variations = $parent->variations . ',' . $product->id;
+                }
 
-            if ( is_null($abx->product_variations ) ) {
-                $global_variations = [];
-            } else {
-                $global_variations = (array) json_decode( $abx->product_variations );
+                $parent->save();
+
+                $lang = Language::where('code', 'en')->first();
+
+                $abx = $lang->basic_extended;
+
+                if ( is_null($abx->product_variations ) ) {
+                    $global_variations = [];
+                } else {
+                    $global_variations = (array) json_decode( $abx->product_variations );
+                }
+
+                $global_variations[] = [
+                    'product_id' => $parent->id,
+                    'variation_id' => $product->id
+                ];
+
+                $abx->product_variations = json_encode( $global_variations );
+
+                $abx->save();
             }
-
-            $global_variations[] = [
-                'product_id' => $parent->id,
-                'variation_id' => $product->id
-            ];
-
-            $abx->product_variations = json_encode( $global_variations );
-
-            $abx->save();
         }
         /* end: storing variation 9 details */
 
         /* start: storing variation 10 details */
-        if ( isset( $row[ 'variation_10_title' ] ) ) {
+        if ( isset( $row['variation_10_title'] ) ) {
 
+            // modal init for variation check
+                $productModel = Product::withoutGlobalScope('variation');
+            // end modal init for variation check
 
-            $product = Product::create($in);
+            // first check if variation already exists then update previous else add new
+            $variationDetails = $productModel->where('title', '=', $row['variation_10_title'])->first();
+            $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
+
+            if ($productVariation) {
+                $product = $variationDetails;
+            } else {
+                $product = Product::create($in);
+            }
+
+            // $product = Product::create($in);
 
             
             $product->title = $row['variation_10_title'];
@@ -1478,45 +1667,65 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             ] );
 
 
-            $product->save();
-
-            $parent = Product::find($product_id);
-
-            if (is_null($parent->variations)) {
-                $parent->variations = $product->id;
+            if ($productVariation) {
+                $product->update();
             } else {
-                $parent->variations = $parent->variations . ',' . $product->id;
+                $product->save();
             }
 
-            $parent->save();
+            if (!$productVariation) {
 
-            $lang = Language::where('code', 'en')->first();
+                $parent = Product::find($product_id);
 
-            $abx = $lang->basic_extended;
+                if (is_null($parent->variations)) {
+                    $parent->variations = $product->id;
+                } else {
+                    $parent->variations = $parent->variations . ',' . $product->id;
+                }
 
-            if ( is_null($abx->product_variations ) ) {
-                $global_variations = [];
-            } else {
-                $global_variations = (array) json_decode( $abx->product_variations );
+                $parent->save();
+
+                $lang = Language::where('code', 'en')->first();
+
+                $abx = $lang->basic_extended;
+
+                if ( is_null($abx->product_variations ) ) {
+                    $global_variations = [];
+                } else {
+                    $global_variations = (array) json_decode( $abx->product_variations );
+                }
+
+                $global_variations[] = [
+                    'product_id' => $parent->id,
+                    'variation_id' => $product->id
+                ];
+
+                $abx->product_variations = json_encode( $global_variations );
+
+                $abx->save();
             }
-
-            $global_variations[] = [
-                'product_id' => $parent->id,
-                'variation_id' => $product->id
-            ];
-
-            $abx->product_variations = json_encode( $global_variations );
-
-            $abx->save();
         }
         /* end: storing variation 10 details */
 
 
         /* start: storing variation 11 details */
         if ( isset( $row[ 'variation_11_title' ] ) ) {
+            dd($row['variation_11_title']);
+            // modal init for variation check
+                $productModel = Product::withoutGlobalScope('variation');
+            // end modal init for variation check
 
+            // first check if variation already exists then update previous else add new
+            $variationDetails = $productModel->where('title', '=', $row['variation_11_title'])->first();
+            $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
 
-            $product = Product::create($in);
+            if ($productVariation) {
+                $product = $variationDetails;
+            } else {
+                $product = Product::create($in);
+            }
+
+            // $product = Product::create($in);
 
             
             $product->title = $row['variation_11_title'];
@@ -1590,36 +1799,43 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             ] );
 
 
-            $product->save();
-
-            $parent = Product::find($product_id);
-
-            if (is_null($parent->variations)) {
-                $parent->variations = $product->id;
+            if ($productVariation) {
+                $product->update();
             } else {
-                $parent->variations = $parent->variations . ',' . $product->id;
+                $product->save();
             }
 
-            $parent->save();
+            if (!$productVariation) {
 
-            $lang = Language::where('code', 'en')->first();
+                $parent = Product::find($product_id);
 
-            $abx = $lang->basic_extended;
+                if (is_null($parent->variations)) {
+                    $parent->variations = $product->id;
+                } else {
+                    $parent->variations = $parent->variations . ',' . $product->id;
+                }
 
-            if ( is_null($abx->product_variations ) ) {
-                $global_variations = [];
-            } else {
-                $global_variations = (array) json_decode( $abx->product_variations );
+                $parent->save();
+
+                $lang = Language::where('code', 'en')->first();
+
+                $abx = $lang->basic_extended;
+
+                if ( is_null($abx->product_variations ) ) {
+                    $global_variations = [];
+                } else {
+                    $global_variations = (array) json_decode( $abx->product_variations );
+                }
+
+                $global_variations[] = [
+                    'product_id' => $parent->id,
+                    'variation_id' => $product->id
+                ];
+
+                $abx->product_variations = json_encode( $global_variations );
+
+                $abx->save();
             }
-
-            $global_variations[] = [
-                'product_id' => $parent->id,
-                'variation_id' => $product->id
-            ];
-
-            $abx->product_variations = json_encode( $global_variations );
-
-            $abx->save();
         }
         /* end: storing variation 11 details */
 
@@ -1627,8 +1843,21 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         /* start: storing variation 12 details */
         if ( isset( $row[ 'variation_12_title' ] ) ) {
 
+            // modal init for variation check
+                $productModel = Product::withoutGlobalScope('variation');
+            // end modal init for variation check
 
-            $product = Product::create($in);
+            // first check if variation already exists then update previous else add new
+            $variationDetails = $productModel->where('title', '=', $row['variation_12_title'])->first();
+            $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
+
+            if ($productVariation) {
+                $product = $variationDetails;
+            } else {
+                $product = Product::create($in);
+            }
+
+            // $product = Product::create($in);
 
             
             $product->title = $row['variation_12_title'];
@@ -1702,36 +1931,43 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             ] );
 
 
-            $product->save();
-
-            $parent = Product::find($product_id);
-
-            if (is_null($parent->variations)) {
-                $parent->variations = $product->id;
+            if ($productVariation) {
+                $product->update();
             } else {
-                $parent->variations = $parent->variations . ',' . $product->id;
+                $product->save();
             }
 
-            $parent->save();
+            if (!$productVariation) {
 
-            $lang = Language::where('code', 'en')->first();
+                $parent = Product::find($product_id);
 
-            $abx = $lang->basic_extended;
+                if (is_null($parent->variations)) {
+                    $parent->variations = $product->id;
+                } else {
+                    $parent->variations = $parent->variations . ',' . $product->id;
+                }
 
-            if ( is_null($abx->product_variations ) ) {
-                $global_variations = [];
-            } else {
-                $global_variations = (array) json_decode( $abx->product_variations );
+                $parent->save();
+
+                $lang = Language::where('code', 'en')->first();
+
+                $abx = $lang->basic_extended;
+
+                if ( is_null($abx->product_variations ) ) {
+                    $global_variations = [];
+                } else {
+                    $global_variations = (array) json_decode( $abx->product_variations );
+                }
+
+                $global_variations[] = [
+                    'product_id' => $parent->id,
+                    'variation_id' => $product->id
+                ];
+
+                $abx->product_variations = json_encode( $global_variations );
+
+                $abx->save();
             }
-
-            $global_variations[] = [
-                'product_id' => $parent->id,
-                'variation_id' => $product->id
-            ];
-
-            $abx->product_variations = json_encode( $global_variations );
-
-            $abx->save();
         }
         /* end: storing variation 12 details */
 
@@ -1739,8 +1975,21 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         /* start: storing variation 13 details */
         if ( isset( $row[ 'variation_13_title' ] ) ) {
 
+            // modal init for variation check
+                $productModel = Product::withoutGlobalScope('variation');
+            // end modal init for variation check
 
-            $product = Product::create($in);
+            // first check if variation already exists then update previous else add new
+            $variationDetails = $productModel->where('title', '=', $row['variation_13_title'])->first();
+            $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
+
+            if ($productVariation) {
+                $product = $variationDetails;
+            } else {
+                $product = Product::create($in);
+            }
+
+            // $product = Product::create($in);
 
             
             $product->title = $row['variation_13_title'];
@@ -1814,36 +2063,43 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             ] );
 
 
-            $product->save();
-
-            $parent = Product::find($product_id);
-
-            if (is_null($parent->variations)) {
-                $parent->variations = $product->id;
+            if ($productVariation) {
+                $product->update();
             } else {
-                $parent->variations = $parent->variations . ',' . $product->id;
+                $product->save();
             }
 
-            $parent->save();
+            if (!$productVariation) {
 
-            $lang = Language::where('code', 'en')->first();
+                $parent = Product::find($product_id);
 
-            $abx = $lang->basic_extended;
+                if (is_null($parent->variations)) {
+                    $parent->variations = $product->id;
+                } else {
+                    $parent->variations = $parent->variations . ',' . $product->id;
+                }
 
-            if ( is_null($abx->product_variations ) ) {
-                $global_variations = [];
-            } else {
-                $global_variations = (array) json_decode( $abx->product_variations );
+                $parent->save();
+
+                $lang = Language::where('code', 'en')->first();
+
+                $abx = $lang->basic_extended;
+
+                if ( is_null($abx->product_variations ) ) {
+                    $global_variations = [];
+                } else {
+                    $global_variations = (array) json_decode( $abx->product_variations );
+                }
+
+                $global_variations[] = [
+                    'product_id' => $parent->id,
+                    'variation_id' => $product->id
+                ];
+
+                $abx->product_variations = json_encode( $global_variations );
+
+                $abx->save();
             }
-
-            $global_variations[] = [
-                'product_id' => $parent->id,
-                'variation_id' => $product->id
-            ];
-
-            $abx->product_variations = json_encode( $global_variations );
-
-            $abx->save();
         }
         /* end: storing variation 13 details */
 
@@ -1851,8 +2107,21 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         /* start: storing variation 14 details */
         if ( isset( $row[ 'variation_14_title' ] ) ) {
 
+            // modal init for variation check
+                $productModel = Product::withoutGlobalScope('variation');
+            // end modal init for variation check
 
-            $product = Product::create($in);
+            // first check if variation already exists then update previous else add new
+            $variationDetails = $productModel->where('title', '=', $row['variation_14_title'])->first();
+            $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
+
+            if ($productVariation) {
+                $product = $variationDetails;
+            } else {
+                $product = Product::create($in);
+            }
+
+            // $product = Product::create($in);
 
             
             $product->title = $row['variation_14_title'];
@@ -1926,36 +2195,43 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             ] );
 
 
-            $product->save();
-
-            $parent = Product::find($product_id);
-
-            if (is_null($parent->variations)) {
-                $parent->variations = $product->id;
+            if ($productVariation) {
+                $product->update();
             } else {
-                $parent->variations = $parent->variations . ',' . $product->id;
+                $product->save();
             }
 
-            $parent->save();
+            if (!$productVariation) {
 
-            $lang = Language::where('code', 'en')->first();
+                $parent = Product::find($product_id);
 
-            $abx = $lang->basic_extended;
+                if (is_null($parent->variations)) {
+                    $parent->variations = $product->id;
+                } else {
+                    $parent->variations = $parent->variations . ',' . $product->id;
+                }
 
-            if ( is_null($abx->product_variations ) ) {
-                $global_variations = [];
-            } else {
-                $global_variations = (array) json_decode( $abx->product_variations );
+                $parent->save();
+
+                $lang = Language::where('code', 'en')->first();
+
+                $abx = $lang->basic_extended;
+
+                if ( is_null($abx->product_variations ) ) {
+                    $global_variations = [];
+                } else {
+                    $global_variations = (array) json_decode( $abx->product_variations );
+                }
+
+                $global_variations[] = [
+                    'product_id' => $parent->id,
+                    'variation_id' => $product->id
+                ];
+
+                $abx->product_variations = json_encode( $global_variations );
+
+                $abx->save();
             }
-
-            $global_variations[] = [
-                'product_id' => $parent->id,
-                'variation_id' => $product->id
-            ];
-
-            $abx->product_variations = json_encode( $global_variations );
-
-            $abx->save();
         }
         /* end: storing variation 14 details */
 
@@ -1963,8 +2239,21 @@ class ProductsImport implements OnEachRow, WithHeadingRow
         /* start: storing variation 15 details */
         if ( isset( $row[ 'variation_15_title' ] ) ) {
 
+            // modal init for variation check
+                $productModel = Product::withoutGlobalScope('variation');
+            // end modal init for variation check
 
-            $product = Product::create($in);
+            // first check if variation already exists then update previous else add new
+            $variationDetails = $productModel->where('title', '=', $row['variation_15_title'])->first();
+            $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
+
+            if ($productVariation) {
+                $product = $variationDetails;
+            } else {
+                $product = Product::create($in);
+            }
+
+            // $product = Product::create($in);
 
             
             $product->title = $row['variation_15_title'];
@@ -2038,36 +2327,43 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             ] );
 
 
-            $product->save();
-
-            $parent = Product::find($product_id);
-
-            if (is_null($parent->variations)) {
-                $parent->variations = $product->id;
+            if ($productVariation) {
+                $product->update();
             } else {
-                $parent->variations = $parent->variations . ',' . $product->id;
+                $product->save();
             }
 
-            $parent->save();
+            if (!$productVariation) {
 
-            $lang = Language::where('code', 'en')->first();
+                $parent = Product::find($product_id);
 
-            $abx = $lang->basic_extended;
+                if (is_null($parent->variations)) {
+                    $parent->variations = $product->id;
+                } else {
+                    $parent->variations = $parent->variations . ',' . $product->id;
+                }
 
-            if ( is_null($abx->product_variations ) ) {
-                $global_variations = [];
-            } else {
-                $global_variations = (array) json_decode( $abx->product_variations );
+                $parent->save();
+
+                $lang = Language::where('code', 'en')->first();
+
+                $abx = $lang->basic_extended;
+
+                if ( is_null($abx->product_variations ) ) {
+                    $global_variations = [];
+                } else {
+                    $global_variations = (array) json_decode( $abx->product_variations );
+                }
+
+                $global_variations[] = [
+                    'product_id' => $parent->id,
+                    'variation_id' => $product->id
+                ];
+
+                $abx->product_variations = json_encode( $global_variations );
+
+                $abx->save();
             }
-
-            $global_variations[] = [
-                'product_id' => $parent->id,
-                'variation_id' => $product->id
-            ];
-
-            $abx->product_variations = json_encode( $global_variations );
-
-            $abx->save();
         }
         /* end: storing variation 15 details */
         
