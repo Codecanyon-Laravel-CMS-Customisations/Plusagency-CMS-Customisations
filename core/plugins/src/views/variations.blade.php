@@ -12,12 +12,14 @@
                 @php
                 $variation = \App\Product::withoutGlobalScope('variation')->find($v->variation_id);
                 @endphp
+                @isset($variation->title)
                 <p>{{ $variation->title }} - 
                     <a href="{{ route( 'plugins.variations.edit', [ 'variation' => $variation->id, 'language' => 'en' ] ) }}" class="btn btn-info btn-sm d-inline-block mr-3 ml-3">Edit</a> 
                     <a href="{{ route( 'plugins.variations.destroy', [ 'variation' => $variation->id, 'language' => 'en' ] ) }}" class="btn btn-danger btn-sm">Delete</a> </p>
+                @endisset
             @endforeach
         @endif
-
+        
         <button class="btn btn-warning" type="button" onclick="document.querySelector('#ajaxForm').style.display = 'block'">New Variation</button>
         <form id="ajaxForm" class="" action="{{route('admin.product.store')}}" method="post" enctype="multipart/form-data" style="display: none">
             @csrf

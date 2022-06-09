@@ -376,11 +376,23 @@ class ProductsImport implements OnEachRow, WithHeadingRow
             // modal init for variation check
                 $productModel = Product::withoutGlobalScope('variation');
             // end modal init for variation check
-
+            
+            if ($product_id) {
+                $productVariations = $product->variations;
+                $productVariations = explode(",",$productVariations);
+            }
+            
             // first check if variation already exists then update previous else add new
-            $variationDetails = $productModel->where('title', '=', $row['variation_1_title'])->first();
+            foreach($productVariations as $var) {
+                $variationDetails = Product::withoutGlobalScope('variation')->where('id','=',$var)->where('title','=',$row['variation_1_title'])->first();
+                
+                if ($variationDetails) {
+                    break;
+                }
+            }
+            
             $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
-
+            
             if ($productVariation) {
                 $product = $variationDetails;
             } else {
@@ -511,8 +523,23 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 $productModel = Product::withoutGlobalScope('variation');
             // end modal init for variation check
 
+
+            if ($product_id) {
+                $productVariations = Product::where('id','=',$product_id)->first()->variations;
+                $productVariations = explode(",",$productVariations);
+            }
+            
             // first check if variation already exists then update previous else add new
-            $variationDetails = $productModel->where('title', '=', $row['variation_2_title'])->first();
+            foreach($productVariations as $var) {
+                // use separate where conditions
+                $variationDetails = Product::withoutGlobalScope('variation')->where('id','=',$var)->where('title','=',$row['variation_2_title'])->first();
+                 
+                if ($variationDetails) {
+                    break;
+                }
+            }
+            
+            
             $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
 
             if ($productVariation) {
@@ -646,8 +673,20 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 $productModel = Product::withoutGlobalScope('variation');
             // end modal init for variation check
 
+            if ($product_id) {
+                $productVariations = Product::where('id','=',$product_id)->first()->variations;
+                $productVariations = explode(",",$productVariations);
+            }
+            
             // first check if variation already exists then update previous else add new
-            $variationDetails = $productModel->where('title', '=', $row['variation_3_title'])->first();
+            foreach($productVariations as $var) {
+                $variationDetails = Product::withoutGlobalScope('variation')->where('id','=',$var)->where('title','=',$row['variation_3_title'])->first();
+
+                if ($variationDetails) {
+                    break;
+                }
+            }
+
             $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
 
             if ($productVariation) {
@@ -781,8 +820,20 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 $productModel = Product::withoutGlobalScope('variation');
             // end modal init for variation check
 
+            if ($product_id) {
+                $productVariations = Product::where('id','=',$product_id)->first()->variations;
+                $productVariations = explode(",",$productVariations);
+            }
+            
             // first check if variation already exists then update previous else add new
-            $variationDetails = $productModel->where('title', '=', $row['variation_4_title'])->first();
+            foreach($productVariations as $var) {
+                $variationDetails = Product::withoutGlobalScope('variation')->where('id','=',$var)->where('title','=',$row['variation_4_title'])->first();
+
+                if ($variationDetails) {
+                    break;
+                }
+            }
+
             $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
 
             if ($productVariation) {
@@ -918,8 +969,20 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 $productModel = Product::withoutGlobalScope('variation');
             // end modal init for variation check
 
+            if ($product_id) {
+                $productVariations = Product::where('id','=',$product_id)->first()->variations;
+                $productVariations = explode(",",$productVariations);
+            }
+            
             // first check if variation already exists then update previous else add new
-            $variationDetails = $productModel->where('title', '=', $row['variation_5_title'])->first();
+            foreach($productVariations as $var) {
+                $variationDetails = Product::withoutGlobalScope('variation')->where('id','=',$var)->where('title','=',$row['variation_5_title'])->first();
+
+                if ($variationDetails) {
+                    break;
+                }
+            }
+
             $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
 
             if ($productVariation) {
@@ -1055,8 +1118,20 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 $productModel = Product::withoutGlobalScope('variation');
             // end modal init for variation check
 
+            if ($product_id) {
+                $productVariations = Product::where('id','=',$product_id)->first()->variations;
+                $productVariations = explode(",",$productVariations);
+            }
+            
             // first check if variation already exists then update previous else add new
-            $variationDetails = $productModel->where('title', '=', $row['variation_6_title'])->first();
+            foreach($productVariations as $var) {
+                $variationDetails = Product::withoutGlobalScope('variation')->where('id','=',$var)->where('title','=',$row['variation_6_title'])->first();
+
+                if ($variationDetails) {
+                    break;
+                }
+            }
+
             $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
 
             if ($productVariation) {
@@ -1187,8 +1262,20 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 $productModel = Product::withoutGlobalScope('variation');
             // end modal init for variation check
 
+            if ($product_id) {
+                $productVariations = Product::where('id','=',$product_id)->first()->variations;
+                $productVariations = explode(",",$productVariations);
+            }
+            
             // first check if variation already exists then update previous else add new
-            $variationDetails = $productModel->where('title', '=', $row['variation_7_title'])->first();
+            foreach($productVariations as $var) {
+                $variationDetails = Product::withoutGlobalScope('variation')->where('id','=',$var)->where('title','=',$row['variation_7_title'])->first();
+
+                if ($variationDetails) {
+                    break;
+                }
+            }
+
             $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
 
             if ($productVariation) {
@@ -1320,8 +1407,20 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 $productModel = Product::withoutGlobalScope('variation');
             // end modal init for variation check
 
+            if ($product_id) {
+                $productVariations = Product::where('id','=',$product_id)->first()->variations;
+                $productVariations = explode(",",$productVariations);
+            }
+            
             // first check if variation already exists then update previous else add new
-            $variationDetails = $productModel->where('title', '=', $row['variation_8_title'])->first();
+            foreach($productVariations as $var) {
+                $variationDetails = Product::withoutGlobalScope('variation')->where('id','=',$var)->where('title','=',$row['variation_8_title'])->first();
+
+                if ($variationDetails) {
+                    break;
+                }
+            }
+
             $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
             
             if ($productVariation) {
@@ -1452,8 +1551,19 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 $productModel = Product::withoutGlobalScope('variation');
             // end modal init for variation check
 
+            if ($product_id) {
+                $productVariations = Product::where('id','=',$product_id)->first()->variations;
+                $productVariations = explode(",",$productVariations);
+            }
+            
             // first check if variation already exists then update previous else add new
-            $variationDetails = $productModel->where('title', '=', $row['variation_9_title'])->first();
+            foreach($productVariations as $var) {
+                $variationDetails = Product::withoutGlobalScope('variation')->where('id','=',$var)->where('title','=',$row['variation_9_title'])->first();
+
+                if ($variationDetails) {
+                    break;
+                }
+            }
             $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
 
             if ($productVariation) {
@@ -1583,8 +1693,19 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 $productModel = Product::withoutGlobalScope('variation');
             // end modal init for variation check
 
+            if ($product_id) {
+                $productVariations = Product::where('id','=',$product_id)->first()->variations;
+                $productVariations = explode(",",$productVariations);
+            }
+            
             // first check if variation already exists then update previous else add new
-            $variationDetails = $productModel->where('title', '=', $row['variation_10_title'])->first();
+            foreach($productVariations as $var) {
+                $variationDetails = Product::withoutGlobalScope('variation')->where('id','=',$var)->where('title','=',$row['variation_10_title'])->first();
+
+                if ($variationDetails) {
+                    break;
+                }
+            }
             $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
 
             if ($productVariation) {
@@ -1715,8 +1836,20 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 $productModel = Product::withoutGlobalScope('variation');
             // end modal init for variation check
 
+            if ($product_id) {
+                $productVariations = Product::where('id','=',$product_id)->first()->variations;
+                $productVariations = explode(",",$productVariations);
+            }
+            
             // first check if variation already exists then update previous else add new
-            $variationDetails = $productModel->where('title', '=', $row['variation_11_title'])->first();
+            foreach($productVariations as $var) {
+                $variationDetails = Product::withoutGlobalScope('variation')->where('id','=',$var)->where('title','=',$row['variation_11_title'])->first();
+
+                if ($variationDetails) {
+                    break;
+                }
+            }
+
             $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
 
             if ($productVariation) {
@@ -1847,8 +1980,20 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 $productModel = Product::withoutGlobalScope('variation');
             // end modal init for variation check
 
+            if ($product_id) {
+                $productVariations = Product::where('id','=',$product_id)->first()->variations;
+                $productVariations = explode(",",$productVariations);
+            }
+            
             // first check if variation already exists then update previous else add new
-            $variationDetails = $productModel->where('title', '=', $row['variation_12_title'])->first();
+            foreach($productVariations as $var) {
+                $variationDetails = Product::withoutGlobalScope('variation')->where('id','=',$var)->where('title','=',$row['variation_12_title'])->first();
+
+                if ($variationDetails) {
+                    break;
+                }
+            }
+
             $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
 
             if ($productVariation) {
@@ -1979,8 +2124,20 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 $productModel = Product::withoutGlobalScope('variation');
             // end modal init for variation check
 
+            if ($product_id) {
+                $productVariations = Product::where('id','=',$product_id)->first()->variations;
+                $productVariations = explode(",",$productVariations);
+            }
+            
             // first check if variation already exists then update previous else add new
-            $variationDetails = $productModel->where('title', '=', $row['variation_13_title'])->first();
+            foreach($productVariations as $var) {
+                $variationDetails = Product::withoutGlobalScope('variation')->where('id','=',$var)->where('title','=',$row['variation_13_title'])->first();
+
+                if ($variationDetails) {
+                    break;
+                }
+            }
+
             $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
 
             if ($productVariation) {
@@ -2111,8 +2268,20 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 $productModel = Product::withoutGlobalScope('variation');
             // end modal init for variation check
 
+            if ($product_id) {
+                $productVariations = Product::where('id','=',$product_id)->first()->variations;
+                $productVariations = explode(",",$productVariations);
+            }
+            
             // first check if variation already exists then update previous else add new
-            $variationDetails = $productModel->where('title', '=', $row['variation_14_title'])->first();
+            foreach($productVariations as $var) {
+                $variationDetails = Product::withoutGlobalScope('variation')->where('id','=',$var)->where('title','=',$row['variation_14_title'])->first();
+
+                if ($variationDetails) {
+                    break;
+                }
+            }
+
             $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
 
             if ($productVariation) {
@@ -2243,8 +2412,20 @@ class ProductsImport implements OnEachRow, WithHeadingRow
                 $productModel = Product::withoutGlobalScope('variation');
             // end modal init for variation check
 
+            if ($product_id) {
+                $productVariations = Product::where('id','=',$product_id)->first()->variations;
+                $productVariations = explode(",",$productVariations);
+            }
+            
             // first check if variation already exists then update previous else add new
-            $variationDetails = $productModel->where('title', '=', $row['variation_15_title'])->first();
+            foreach($productVariations as $var) {
+                $variationDetails = Product::withoutGlobalScope('variation')->where('id','=',$var)->where('title','=',$row['variation_15_title'])->first();
+
+                if ($variationDetails) {
+                    break;
+                }
+            }
+
             $productVariation = $variationDetails?$product->whereRaw("FIND_IN_SET($variationDetails->id, variations) > 0")->first():null;
 
             if ($productVariation) {
