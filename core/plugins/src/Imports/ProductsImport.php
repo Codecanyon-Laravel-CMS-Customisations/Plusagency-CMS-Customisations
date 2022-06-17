@@ -356,7 +356,6 @@ class ProductsImport implements OnEachRow, WithHeadingRow
     {
 
         $product_id = $product->id;
-        // dd($row[ 'variation_1_title' ]);
 
         $in = $row;
 
@@ -1831,7 +1830,7 @@ class ProductsImport implements OnEachRow, WithHeadingRow
 
         /* start: storing variation 11 details */
         if ( isset( $row[ 'variation_11_title' ] ) ) {
-            dd($row['variation_11_title']);
+            
             // modal init for variation check
                 $productModel = Product::withoutGlobalScope('variation');
             // end modal init for variation check
