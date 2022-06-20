@@ -144,6 +144,41 @@ if($sidebar_title_color_hover && $sidebar_title_color_hover->value) {
 }
 
 
+// search bar drop down text and text hover color changing from backend
+$searchbar_text_color = App\WebsiteColors::where(['element' => '#site-header .dropdown-search', 'attribute' => 'color'])->first();
+
+$searchbar_text_hover_color = App\WebsiteColors::where(['element' => '#site-header .dropdown-search:active, #site-header .dropdown-search:focus, #site-header .dropdown-search:hover', 'attribute' => 'color'])->first();
+
+// search bar drop down background color and background hover color changing from backend
+$searchbar_background_color = App\WebsiteColors::where(['element' => '#site-header .dropdown-search', 'attribute' => 'background-color'])->first();  
+
+$searchbar_background_hover_color = App\WebsiteColors::where(['element' => '#site-header .dropdown-search:active, #site-header .dropdown-search:focus, #site-header .dropdown-search:hover', 'attribute' => 'background-color'])->first();  
+
+if(isset($searchbar_text_color)) {
+    $searchbar_text_color = $searchbar_text_color->value;
+} else {
+    $searchbar_text_color = 'f1f1f1';
+}
+
+if(isset($searchbar_text_hover_color)) {
+    $searchbar_text_hover_color = $searchbar_text_hover_color->value;
+} else {
+    $searchbar_text_hover_color = 'f1f1f1';
+}
+
+
+if(isset($searchbar_background_color)) {
+    $searchbar_background_color = $searchbar_background_color->value;
+} else {
+    $searchbar_background_color = '383838';
+}
+
+if(isset($searchbar_background_hover_color)) {
+    $searchbar_background_hover_color = $searchbar_background_hover_color->value;
+} else {
+    $searchbar_background_hover_color = 'd55534';
+}
+
 @endphp
 
 <style>
@@ -195,13 +230,13 @@ if($sidebar_title_color_hover && $sidebar_title_color_hover->value) {
     }
 
     .search-item {
-        background-color : #383838 !important;
-        color: #fff0ce !important;
+        background-color : <?php echo ($searchbar_background_color )? '#'.$searchbar_background_color.' !important' :''; ?>;
+        color: <?php echo ($searchbar_text_color )? '#'.$searchbar_text_color.' !important' :''; ?>;
     }
     
     .search-item:hover {
-        background-color: #d55534 !important;
-        color: #fff0ce !important;
+        background-color: <?php echo ($searchbar_background_hover_color )? '#'.$searchbar_background_hover_color.' !important' :''; ?>;
+        color: <?php echo ($searchbar_text_hover_color )? '#'.$searchbar_text_hover_color.' !important' :''; ?>;
     }
 
     @media only screen and (max-width: 767px) {

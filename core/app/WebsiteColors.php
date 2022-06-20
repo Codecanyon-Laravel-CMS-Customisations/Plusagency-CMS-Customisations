@@ -93,6 +93,14 @@ class WebsiteColors extends Model
                     "attr_default"          => "#site-header .btn-search",
                     "attr_hover"            => "#site-header .btn-search:active, #site-header .btn-search:focus, #site-header .btn-search:hover",
                 ],
+                // start: section added by zeeshan
+                [
+                    "section_title"         => "Search bar dropdown",
+                    "section_description"   => "This area controls the look of the search dropdown in the header section",
+                    "attr_default"          => "#site-header .dropdown-search",
+                    "attr_hover"            => "#site-header .dropdown-search:active, #site-header .dropdown-search:focus, #site-header .dropdown-search:hover",
+                ],
+                // end: section added by zeeshan
                 [
                     "section_title"         => "Header Inquiry form button (Desktop)",
                     "section_description"   => "This color settings will affect the product inquiry form trigger button located on (desktop) website headers",
