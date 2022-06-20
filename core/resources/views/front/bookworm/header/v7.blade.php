@@ -217,11 +217,11 @@ if(isset($searchbar_background_hover_color)) {
         background-color: #D55534;
     }
 
-    #basicDropdownHoverInvoker19-9, #basicDropdownHoverInvoker19-9-m, #basicDropdownHoverInvoker19-7, #basicDropdownHoverInvoker19-7-m, #cartModal, #cartModal-m {
+    #basicDropdownHoverInvoker19-9, #basicDropdownHoverInvoker19-9-m, #basicDropdownHoverInvoker19-7, #basicDropdownHoverInvoker19-7-m, #cartModal, #cartModal-m, .my-account, .my-wishlist {
         color: <?php echo ($sidebar_title_color && $sidebar_title_color->value )? '#'.$sidebar_title_color->value :''; ?>;
     }
 
-    #basicDropdownHoverInvoker19-9:hover, #basicDropdownHoverInvoker19-9-m:hover, #basicDropdownHoverInvoker19-7:hover, #basicDropdownHoverInvoker19-7-m:hover, #cartModal:hover, #cartModal-m:hover {
+    #basicDropdownHoverInvoker19-9:hover, #basicDropdownHoverInvoker19-9-m:hover, #basicDropdownHoverInvoker19-7:hover, #basicDropdownHoverInvoker19-7-m:hover, #cartModal:hover, #cartModal-m:hover, .my-account:hover, .my-wishlist:hover {
         color: <?php echo ($sidebar_title_color_hover )? '#'.$sidebar_title_color_hover :''; ?>;
     }
 
@@ -510,7 +510,7 @@ if(isset($searchbar_background_hover_color)) {
                             <div id="basicDropdownHover19-9" class="dropdown-menu dropdown-unfold right-0 left-auto mr-8" aria-labelledby="basicDropdownHoverInvoker19-9">
                                 <!-- Title -->
                                 <header class="border-bottom px-4 px-md-6 py-4">
-                                    <h6 class="font-size-3 mb-0 d-flex align-items-center">
+                                    <h6 class="font-size-3 mb-0 d-flex align-items-center my-account">
                                         <i class="glph-icon flaticon-user font-size-5 mr-2"></i>
                                         @php
                                         echo "My Account";
@@ -602,7 +602,7 @@ if(isset($searchbar_background_hover_color)) {
                             <div id="basicDropdownHover19-7" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-7">
                                 <!-- Title -->
                                 <header class="border-bottom px-4 px-md-6 py-4">
-                                    <h6 class="font-size-5 h6 mb-0 d-flex align-items-center">
+                                    <h6 class="font-size-5 h6 mb-0 d-flex align-items-center my-wishlist">
                                         <i class="flaticon-heart font-size-5 mr-2"></i>
                                         @php
                                         echo "My Wishlist (";
