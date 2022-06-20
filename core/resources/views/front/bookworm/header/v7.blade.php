@@ -179,6 +179,80 @@ if(isset($searchbar_background_hover_color)) {
     $searchbar_background_hover_color = 'd55534';
 }
 
+
+
+// header drop down text and text hover color changing from backend (Account and Wishlist)
+$header_dropdown_text_color = App\WebsiteColors::where(['element' => '#site-header .dropdown-menu', 'attribute' => 'color'])->first();
+
+$header_dropdown_text_hover_color = App\WebsiteColors::where(['element' => '#site-header .dropdown-menu:active, #site-header .dropdown-menu:focus, #site-header .dropdown-menu:hover', 'attribute' => 'color'])->first();
+
+// header drop down background color and background hover color changing from backend
+$header_dropdown_background_color = App\WebsiteColors::where(['element' => '#site-header .dropdown-menu', 'attribute' => 'background-color'])->first();  
+
+$header_dropdown_background_hover_color = App\WebsiteColors::where(['element' => '#site-header .dropdown-menu:active, #site-header .dropdown-menu:focus, #site-header .dropdown-menu:hover', 'attribute' => 'background-color'])->first();  
+
+if(isset($header_dropdown_text_color)) {
+    $header_dropdown_text_color = $header_dropdown_text_color->value;
+} else {
+    $header_dropdown_text_color = 'f1f1f1';
+}
+
+if(isset($header_dropdown_text_hover_color)) {
+    $header_dropdown_text_hover_color = $header_dropdown_text_hover_color->value;
+} else {
+    $header_dropdown_text_hover_color = 'f1f1f1';
+}
+
+
+if(isset($header_dropdown_background_color)) {
+    $header_dropdown_background_color = $header_dropdown_background_color->value;
+} else {
+    $header_dropdown_background_color = '383838';
+}
+
+if(isset($header_dropdown_background_hover_color)) {
+    $header_dropdown_background_hover_color = $header_dropdown_background_hover_color->value;
+} else {
+    $header_dropdown_background_hover_color = 'd55534';
+}
+
+
+
+// header dropdowns menus button colors (Account and Wishlist)
+$header_dropdown_button_text_color = App\WebsiteColors::where(['element' => '#site-header .btn-dropdown-menu', 'attribute' => 'color'])->first();
+
+$header_dropdown_button_text_hover_color = App\WebsiteColors::where(['element' => '#site-header .btn-dropdown-menu:active, #site-header .dropdown-menu:focus, #site-header .dropdown-menu:hover', 'attribute' => 'color'])->first();
+
+// header dropdowns menus button background colors (Account and Wishlist)
+$header_dropdown_button_background_color = App\WebsiteColors::where(['element' => '#site-header .btn-dropdown-menu', 'attribute' => 'background-color'])->first();  
+
+$header_dropdown_button_background_hover_color = App\WebsiteColors::where(['element' => '#site-header .btn-dropdown-menu:active, #site-header .dropdown-menu:focus, #site-header .dropdown-menu:hover', 'attribute' => 'background-color'])->first();
+
+if(isset($header_dropdown_button_text_color)) {
+    $header_dropdown_button_text_color = $header_dropdown_button_text_color->value;
+} else {
+    $header_dropdown_button_text_color = 'f1f1f1';
+}
+
+if(isset($header_dropdown_button_text_hover_color)) {
+    $header_dropdown_button_text_hover_color = $header_dropdown_button_text_hover_color->value;
+} else {
+    $header_dropdown_button_text_hover_color = 'f1f1f1';
+}
+
+
+if(isset($header_dropdown_button_background_color)) {
+    $header_dropdown_button_background_color = $header_dropdown_button_background_color->value;
+} else {
+    $header_dropdown_button_background_color = '161619';
+}
+
+if(isset($header_dropdown_button_background_hover_color)) {
+    $header_dropdown_button_background_hover_color = $header_dropdown_button_background_hover_color->value;
+} else {
+    $header_dropdown_button_background_hover_color = 'd55534';
+}
+
 @endphp
 
 <style>
@@ -192,13 +266,15 @@ if(isset($searchbar_background_hover_color)) {
     }
 
     .btn-add-to-cart {
-        color: <?php echo ($sidebar_title_color && $sidebar_title_color->value )? '#'.$sidebar_title_color->value :''; ?>;
-        border-color: <?php echo ($sidebar_title_color && $sidebar_title_color->value )? '#'.$sidebar_title_color->value :''; ?>;
+        color: <?php echo ($header_dropdown_button_text_color )? '#'.$header_dropdown_button_text_color :''; ?>;
+        border-color: <?php echo ($header_dropdown_button_text_color )? '#'.$header_dropdown_button_text_color. ' !important' :''; ?>;
+        background-color: <?php echo ($header_dropdown_button_background_color )? '#'.$header_dropdown_button_background_color. ' !important' :''; ?>;
     }
 
     .btn-add-to-cart:hover {
-        color: <?php echo ($sidebar_title_color_hover )? '#'.$sidebar_title_color_hover :''; ?>;
-        border-color: <?php echo ($sidebar_title_color_hover )? '#'.$sidebar_title_color_hover :''; ?>;
+        color: <?php echo ($header_dropdown_button_text_hover_color )? '#'.$header_dropdown_button_text_hover_color.' !important' :''; ?>;
+        border-color: <?php echo ($header_dropdown_button_text_hover_color )? '#'.$header_dropdown_button_text_hover_color.' !important' :''; ?>;
+        background-color: <?php echo ($header_dropdown_button_background_hover_color )? '#'.$header_dropdown_button_background_hover_color. ' !important' :''; ?>;
     }
     
     option {
@@ -218,7 +294,7 @@ if(isset($searchbar_background_hover_color)) {
     }
 
     #basicDropdownHoverInvoker19-9, #basicDropdownHoverInvoker19-9-m, #basicDropdownHoverInvoker19-7, #basicDropdownHoverInvoker19-7-m, #cartModal, #cartModal-m, .my-account, .my-wishlist {
-        color: <?php echo ($sidebar_title_color && $sidebar_title_color->value )? '#'.$sidebar_title_color->value :''; ?>;
+        color: <?php echo ($sidebar_title_color && $sidebar_title_color->value )? '#'.$sidebar_title_color->value:''; ?>;
     }
 
     #basicDropdownHoverInvoker19-9:hover, #basicDropdownHoverInvoker19-9-m:hover, #basicDropdownHoverInvoker19-7:hover, #basicDropdownHoverInvoker19-7-m:hover, #cartModal:hover, #cartModal-m:hover, .my-account:hover, .my-wishlist:hover {
@@ -233,6 +309,32 @@ if(isset($searchbar_background_hover_color)) {
         background-color : <?php echo ($searchbar_background_color )? '#'.$searchbar_background_color.' !important' :''; ?>;
         color: <?php echo ($searchbar_text_color )? '#'.$searchbar_text_color.' !important' :''; ?>;
     }
+
+    /* dropdown styling for Account and Wishlist  */
+    .bg-header-dropdown {
+        color: <?php echo ($header_dropdown_text_color )? '#'.$header_dropdown_text_color.' !important' :''; ?>;
+        background-color : <?php echo ($header_dropdown_background_color )? '#'.$header_dropdown_background_color.' !important' :''; ?>;
+    }
+
+    .bg-header-dropdown:hover {
+        color: <?php echo ($header_dropdown_text_color )? '#'.$header_dropdown_text_color.' !important' :''; ?>;
+        background-color : <?php echo ($header_dropdown_background_hover_color )? '#'.$header_dropdown_background_hover_color.' !important' :''; ?>;
+    }
+    
+    
+    #site-header .bg-header-dropdown div:not(#sidebarAuthToggler, .font-size-2, #sidebarNavToggler1) {
+        color: <?php echo ($header_dropdown_text_color )? '#'.$header_dropdown_text_color.' !important' :''; ?>;
+        background-color : <?php echo ($header_dropdown_background_color )? '#'.$header_dropdown_background_color.' !important' :''; ?>;
+    }
+
+    #site-header .bg-header-dropdown > a:hover div:not(#sidebarAuthToggler, .font-size-2, #sidebarNavToggler1) {
+        color: <?php echo ($header_dropdown_text_hover_color )? '#'.$header_dropdown_text_hover_color.' !important' :''; ?>;
+        background-color : <?php echo ($header_dropdown_background_hover_color )? '#'.$header_dropdown_background_hover_color.' !important' :''; ?>;
+    }
+
+
+
+/* basic modern patch */
     
     .search-item:hover {
         background-color: <?php echo ($searchbar_background_hover_color )? '#'.$searchbar_background_hover_color.' !important' :''; ?>;
@@ -507,9 +609,9 @@ if(isset($searchbar_background_hover_color)) {
                                 <i class="glph-icon flaticon-user font-size-5"></i>
                                 Account
                             </a>
-                            <div id="basicDropdownHover19-9" class="dropdown-menu dropdown-unfold right-0 left-auto mr-8" aria-labelledby="basicDropdownHoverInvoker19-9">
+                            <div id="basicDropdownHover19-9" class="bg-header-dropdown dropdown-menu dropdown-unfold right-0 left-auto mr-8" aria-labelledby="basicDropdownHoverInvoker19-9">
                                 <!-- Title -->
-                                <header class="border-bottom px-4 px-md-6 py-4">
+                                <header class="border-bottom px-4 px-md-6 py-4 bg-header-dropdown">
                                     <h6 class="font-size-3 mb-0 d-flex align-items-center my-account">
                                         <i class="glph-icon flaticon-user font-size-5 mr-2"></i>
                                         @php
@@ -519,7 +621,7 @@ if(isset($searchbar_background_hover_color)) {
                                 </header>
 
                                 @if(auth()->user())
-                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                <div class="px-1 py-2 px-md-3 border-bottom bg-header-dropdown">
                                     <a href="{{ route('user-dashboard') }}" class="text-dark">
                                         <div class="media-body ml-4">
                                             <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
@@ -529,7 +631,7 @@ if(isset($searchbar_background_hover_color)) {
                                     </a>
                                 </div>
 
-                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                <div class="px-1 py-2 px-md-3 border-bottom bg-header-dropdown">
                                     <a href="{{ route('user-logout') }}" class="text-dark">
                                         <div class="media-body ml-4">
                                             <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
@@ -541,7 +643,7 @@ if(isset($searchbar_background_hover_color)) {
                                 @else
                                 @foreach ($ulinks as $key => $ulink)
                                     @if( in_array(Str::lower($ulink->name), $account_dropdow_auths_links) && $ulink->show_on_account_dropdown == 1 )
-                                        <div class="px-1 py-2 px-md-3 border-bottom">
+                                        <div class="px-1 py-2 px-md-3 border-bottom bg-header-dropdown" style="color: yellow !important;">
                                             <a href="{{$ulink->url}}" class="text-dark">
                                                 <div class="media-body ml-4">
                                                     <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
@@ -560,7 +662,7 @@ if(isset($searchbar_background_hover_color)) {
                                 @foreach ($ulinks as $key => $ulink)
                                 
                                 @if( !in_array(Str::lower($ulink->name), $account_dropdow_auths_links) && $ulink->show_on_account_dropdown == 1 )
-                                    <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <div class="px-1 py-2 px-md-3 border-bottom bg-header-dropdown" >
                                         <a href="{{$ulink->url}}" class="text-dark">
                                             <div class="media-body ml-4">
                                                 <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
@@ -573,7 +675,7 @@ if(isset($searchbar_background_hover_color)) {
 
                                 @endforeach
 
-                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                <div class="px-1 py-2 px-md-3 border-bottom bg-header-dropdown">
                                     <a href="#" class="text-dark">
                                         <div class="media-body ml-4">
                                             <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
@@ -599,9 +701,9 @@ if(isset($searchbar_background_hover_color)) {
                                 <i class="flaticon-heart font-size-5"></i>
                                 Wishlist
                             </a>
-                            <div id="basicDropdownHover19-7" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-7">
+                            <div id="basicDropdownHover19-7" class="bg-header-dropdown dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-7" style="height: 195px">
                                 <!-- Title -->
-                                <header class="border-bottom px-4 px-md-6 py-4">
+                                <header class="border-bottom px-4 px-md-6 py-4 bg-header-dropdown">
                                     <h6 class="font-size-5 h6 mb-0 d-flex align-items-center my-wishlist">
                                         <i class="flaticon-heart font-size-5 mr-2"></i>
                                         @php
@@ -629,7 +731,7 @@ if(isset($searchbar_background_hover_color)) {
                                 $wish2cart .= "-";
                                 }
                                 @endphp
-                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                <div class="px-1 py-2 px-md-3 border-bottom bg-header-dropdown">
                                     <div class="media">
                                         <a target="_blank" href="{{route('front.product.details', $product1->slug)}}" class="d-block">
                                             <img src="@if($wish1['photo']!=null){{$wish1['photo']}}@else{{asset('https://via.placeholder.com/55')}}@endif" class="img-fluid" alt="image-description" width="55">
@@ -654,7 +756,7 @@ if(isset($searchbar_background_hover_color)) {
                                 </div>
                                 @endforeach
                                 @endif
-                                <div class="px-4 mb-4 px-md-6 d-flex justify-content-around pb-2 pt-4">
+                                <div class="px-4 mb-4 px-md-6 d-flex justify-content-around pb-2 pt-4 bg-header-dropdown">
                                     <a href="{{ isset($wish2cart) ? $wish2cart : 'javascript:;' }}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4 btn-add-to-cart">Add To Cart</a>
                                     <a href="{{route('front.wishlist')}}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4 btn-add-to-cart">View Wishlist</a>
                                 </div>
@@ -774,10 +876,10 @@ if(isset($searchbar_background_hover_color)) {
                                 <i class="glph-icon flaticon-user font-size-5 fonts"></i>
                                 <div class="helper-text">Account</div>
                             </a>
-                            <div id="basicDropdownHover19-9-m" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-9-m">
+                            <div id="basicDropdownHover19-9-m" class="bg-header-dropdown dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-9-m">
                                 <!-- Title -->
-                                <header class="border-bottom px-4 px-md-6 py-4">
-                                    <h6 class="font-size-3 mb-0 d-flex align-items-center">
+                                <header class="border-bottom px-4 px-md-6 py-4 bg-header-dropdown">
+                                    <h6 class="font-size-3 mb-0 d-flex align-items-center my-account">
                                         <i class="glph-icon flaticon-user font-size-5 mr-2"></i>
                                         @php
                                         echo "My Account";
@@ -787,7 +889,7 @@ if(isset($searchbar_background_hover_color)) {
 
 
                                 @if(auth()->user())
-                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                <div class="px-1 py-2 px-md-3 border-bottom bg-header-dropdown">
                                     <a href="{{ route('user-dashboard') }}" class="text-dark">
                                         <div class="media-body ml-4">
                                             <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
@@ -797,7 +899,7 @@ if(isset($searchbar_background_hover_color)) {
                                     </a>
                                 </div>
 
-                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                <div class="px-1 py-2 px-md-3 border-bottom bg-header-dropdown">
                                     <a href="{{ route('user-logout') }}" class="text-dark">
                                         <div class="media-body ml-4">
                                             <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
@@ -809,7 +911,7 @@ if(isset($searchbar_background_hover_color)) {
                                 @else
                                     @foreach ($ulinks as $key => $ulink)
                                         @if( in_array(Str::lower($ulink->name), $account_dropdow_auths_links) && $ulink->show_on_account_dropdown == 1 )
-                                            <div class="px-1 py-2 px-md-3 border-bottom">
+                                            <div class="px-1 py-2 px-md-3 border-bottom bg-header-dropdown">
                                                 <a href="{{$ulink->url}}" class="text-dark">
                                                     <div class="media-body ml-4">
                                                         <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
@@ -824,7 +926,7 @@ if(isset($searchbar_background_hover_color)) {
 
                                 @foreach ($ulinks as $key => $ulink)
                                 @if( !in_array(Str::lower($ulink->name), $account_dropdow_auths_links) && $ulink->show_on_account_dropdown == 1 )
-                                    <div class="px-1 py-2 px-md-3 border-bottom">
+                                    <div class="px-1 py-2 px-md-3 border-bottom bg-header-dropdown">
                                         <a href="{{$ulink->url}}" class="text-dark">
                                             <div class="media-body ml-4">
                                                 <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
@@ -836,7 +938,7 @@ if(isset($searchbar_background_hover_color)) {
                                 @endif
                                 @endforeach
 
-                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                <div class="px-1 py-2 px-md-3 border-bottom bg-header-dropdown">
                                     <a href="#" class="text-dark">
                                         <div class="media-body ml-4">
                                             <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
@@ -863,10 +965,10 @@ if(isset($searchbar_background_hover_color)) {
                                 <i class="flaticon-heart font-size-5 fonts"></i>
                                 <div class="helper-text">Wishlist</div>
                             </a>
-                            <div id="basicDropdownHover19-7-m" class="dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-7-m">
+                            <div id="basicDropdownHover19-7-m" class="bg-header-dropdown dropdown-menu dropdown-unfold right-0 left-auto" aria-labelledby="basicDropdownHoverInvoker19-7-m" style="height: 195px">
                                 <!-- Title -->
-                                <header class="border-bottom px-4 px-md-6 py-4">
-                                    <h6 class="font-size-5 h6 mb-0 d-flex align-items-center">
+                                <header class="border-bottom px-4 px-md-6 py-4 bg-header-dropdown">
+                                    <h6 class="font-size-5 h6 mb-0 d-flex align-items-center my-wishlist">
                                         <i class="flaticon-heart font-size-5 mr-2"></i>
                                         @php
                                         echo "My Wishlist (";
@@ -893,7 +995,7 @@ if(isset($searchbar_background_hover_color)) {
                                 $wish2cart .= "-";
                                 }
                                 @endphp
-                                <div class="px-1 py-2 px-md-3 border-bottom">
+                                <div class="px-1 py-2 px-md-3 border-bottom bg-header-dropdown">
                                     <div class="media">
                                         <a target="_blank" href="{{route('front.product.details', $product1->slug)}}" class="d-block">
                                             <img src="@if($wish1['photo']!=null){{$wish1['photo']}}@else{{asset('https://via.placeholder.com/55')}}@endif" class="img-fluid" alt="image-description" width="55">
@@ -918,7 +1020,7 @@ if(isset($searchbar_background_hover_color)) {
                                 </div>
                                 @endforeach
                                 @endif
-                                <div class="px-4 mb-4 px-md-6 d-flex justify-content-around pb-2 pt-4">
+                                <div class="px-4 mb-4 px-md-6 d-flex justify-content-around pb-2 pt-4 bg-header-dropdown">
                                     <a href="{{ isset($wish2cart) ? $wish2cart : 'javascript:;' }}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4 btn-add-to-cart">Add To Cart</a>
                                     <a href="{{route('front.wishlist')}}" class="btn px-5 py-3 rounded-0 btn-outline-dark mb-4 btn-add-to-cart">View Wishlist</a>
                                 </div>

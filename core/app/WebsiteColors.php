@@ -95,10 +95,22 @@ class WebsiteColors extends Model
                 ],
                 // start: section added by zeeshan
                 [
-                    "section_title"         => "Search bar dropdown",
+                    "section_title"         => "Header Search bar dropdown",
                     "section_description"   => "This area controls the look of the search dropdown in the header section",
                     "attr_default"          => "#site-header .dropdown-search",
                     "attr_hover"            => "#site-header .dropdown-search:active, #site-header .dropdown-search:focus, #site-header .dropdown-search:hover",
+                ],
+                [
+                    "section_title"         => "Header dropdowns menus (Mobile and Desktop)",
+                    "section_description"   => "This color settings will affect the text color and background color of the dropdowns (Account and Wishlisht) in the header section",
+                    "attr_default"          => "#site-header .dropdown-menu",
+                    "attr_hover"            => "#site-header .dropdown-menu:active, #site-header .dropdown-menu:focus, #site-header .dropdown-menu:hover",
+                ],
+                [
+                    "section_title"         => "Header dropdowns menus button colors (Mobile and Desktop)",
+                    "section_description"   => "This color settings will affect the button text color and background color of the dropdowns (Account and Wishlisht) in the header section",
+                    "attr_default"          => "#site-header .btn-dropdown-menu",
+                    "attr_hover"            => "#site-header .btn-dropdown-menu:active, #site-header .dropdown-menu:focus, #site-header .dropdown-menu:hover",
                 ],
                 // end: section added by zeeshan
                 [
