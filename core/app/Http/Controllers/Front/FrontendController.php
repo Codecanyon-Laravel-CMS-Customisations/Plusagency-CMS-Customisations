@@ -809,10 +809,11 @@ class FrontendController extends Controller
 
         $be =  BE::firstOrFail();
         $to = $be->to_mail;
-
+        // dd($request->email);
         try {
             Mail::html($request->message, function ($msg) use ($to,$request){
-                $msg->from($request->email)->to($to)->subject($request->subject);
+                // dd($request->name);
+                $msg->from($request->email)->replyTo($request->email, $request->name)->to("zeeshanniaz736@gmail.com")->subject($request->subject);
             });
 
 
