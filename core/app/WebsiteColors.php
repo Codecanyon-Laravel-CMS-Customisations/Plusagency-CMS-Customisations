@@ -112,6 +112,39 @@ class WebsiteColors extends Model
                     "attr_default"          => "#site-header .btn-dropdown-menu",
                     "attr_hover"            => "#site-header .btn-dropdown-menu:active, #site-header .dropdown-menu:focus, #site-header .dropdown-menu:hover",
                 ],
+                [
+                    "section_title"         => "Header popup modal header colors (Mobile and Desktop)",
+                    "section_description"   => "This color settings will affect the modal header icon color, title color and background color of the popup (Cart) in the header section",
+                    "attr_default"          => "#site-header .modal-header",
+                    "attr_hover"            => "#site-header .modal-header:active, #site-header .modal-header:focus, #site-header .modal-header:hover",
+                ],
+                [
+                    "section_title"         => "Header popup modal body background color (Mobile and Desktop)",
+                    "section_description"   => "This color settings will affect the modal body background color of the popup (Cart) in the modal body section",
+                    "attr_default"          => "#site-header .modal-body",
+                    "attr_hover"            => "#site-header .modal-body:active, #site-header .modal-body:focus, #site-header .modal-body:hover",
+                    "attr_config"           => "background-color",
+                ],
+                [
+                    "section_title"         => "Header popup modal body buttons colors (Mobile and Desktop)",
+                    "section_description"   => "This color settings will affect the modal body buttons text and background color of the popup (Cart) in the modal body section",
+                    "attr_default"          => "#site-header .modal-body-button",
+                    "attr_hover"            => "#site-header .modal-body-button:active, #site-header .modal-body-button:focus, #site-header .modal-body-button:hover",
+                ],
+                [
+                    "section_title"         => "Header popup modal footer background color (Mobile and Desktop)",
+                    "section_description"   => "This color settings will affect the modal footer background color of the popup (Cart) in the modal body section",
+                    "attr_default"          => "#site-header .modal-footer",
+                    "attr_hover"            => "#site-header .modal-footer:active, #site-header .modal-footer:focus, #site-header .modal-footer:hover",
+                    "attr_config"           => "background-color",
+                ],
+                [
+                    "section_title"         => "Header popup modal footer button color (Mobile and Desktop)",
+                    "section_description"   => "This color settings will affect the modal footer button text and background color of the popup (Cart) in the modal body section",
+                    "attr_default"          => "#site-header .modal-footer-button",
+                    "attr_hover"            => "#site-header .modal-footer-button:active, #site-header .modal-footer-button:focus, #site-header .modal-footer-button:hover",
+                ],
+
                 // end: section added by zeeshan
                 [
                     "section_title"         => "Header Inquiry form button (Desktop)",

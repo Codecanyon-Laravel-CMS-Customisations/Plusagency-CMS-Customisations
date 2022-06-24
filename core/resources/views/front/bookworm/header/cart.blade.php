@@ -1,4 +1,206 @@
+@php
+// header popup modal header colors (Cart)
+$header_popup_modal_header_text_color = App\WebsiteColors::where(['element' => '#site-header .modal-header', 'attribute' => 'color'])->first();
+
+$header_popup_modal_header_text_hover_color = App\WebsiteColors::where(['element' => '#site-header .modal-header:active, #site-header .modal-header:focus, #site-header .modal-header:hover', 'attribute' => 'color'])->first();
+
+// header popup modal header background colors (Cart)
+$header_popup_modal_header_background_color = App\WebsiteColors::where(['element' => '#site-header .modal-header', 'attribute' => 'background-color'])->first();  
+
+$header_popup_modal_header_background_hover_color = App\WebsiteColors::where(['element' => '#site-header .modal-header:active, #site-header .modal-header:focus, #site-header .modal-header:hover', 'attribute' => 'background-color'])->first();
+
+if(isset($header_popup_modal_header_text_color)) {
+    $header_popup_modal_header_text_color = $header_popup_modal_header_text_color->value;
+} else {
+    $header_popup_modal_header_text_color = 'f1f1f1';
+}
+
+if(isset($header_popup_modal_header_text_hover_color)) {
+    $header_popup_modal_header_text_hover_color = $header_popup_modal_header_text_hover_color->value;
+} else {
+    $header_popup_modal_header_text_hover_color = 'f1f1f1';
+}
+
+
+if(isset($header_popup_modal_header_background_color)) {
+    $header_popup_modal_header_background_color = $header_popup_modal_header_background_color->value;
+} else {
+    $header_popup_modal_header_background_color = '161619';
+}
+
+if(isset($header_popup_modal_header_background_hover_color)) {
+    $header_popup_modal_header_background_hover_color = $header_popup_modal_header_background_hover_color->value;
+} else {
+    $header_popup_modal_header_background_hover_color = 'd55534';
+}
+
+
+
+// header popup modal body background color (Cart)
+$header_popup_modal_body_background_color = App\WebsiteColors::where(['element' => '#site-header .modal-body', 'attribute' => 'background-color'])->first();  
+
+$header_popup_modal_body_background_hover_color = App\WebsiteColors::where(['element' => '#site-header .modal-body:active, #site-header .modal-body:focus, #site-header .modal-body:hover', 'attribute' => 'background-color'])->first();
+
+if(isset($header_popup_modal_body_background_color)) {
+    $header_popup_modal_body_background_color = $header_popup_modal_body_background_color->value;
+} else {
+    $header_popup_modal_body_background_color = '161619';
+}
+
+if(isset($header_popup_modal_body_background_hover_color)) {
+    $header_popup_modal_body_background_hover_color = $header_popup_modal_body_background_hover_color->value;
+} else {
+    $header_popup_modal_body_background_hover_color = 'd55534';
+}
+
+
+// header popup modal footer background color (Cart)
+$header_popup_modal_footer_background_color = App\WebsiteColors::where(['element' => '#site-header .modal-footer', 'attribute' => 'background-color'])->first();  
+
+$header_popup_modal_footer_background_hover_color = App\WebsiteColors::where(['element' => '#site-header .modal-footer:active, #site-header .modal-footer:focus, #site-header .modal-footer:hover', 'attribute' => 'background-color'])->first();
+
+if(isset($header_popup_modal_footer_background_color)) {
+    $header_popup_modal_footer_background_color = $header_popup_modal_footer_background_color->value;
+} else {
+    $header_popup_modal_footer_background_color = '161619';
+}
+
+if(isset($header_popup_modal_footer_background_hover_color)) {
+    $header_popup_modal_footer_background_hover_color = $header_popup_modal_footer_background_hover_color->value;
+} else {
+    $header_popup_modal_footer_background_hover_color = 'd55534';
+}
+
+
+// header popup modal body buttons colors (Cart)
+
+$header_popup_modal_body_button_text_color = App\WebsiteColors::where(['element' => '#site-header .modal-body-button', 'attribute' => 'color'])->first();
+
+$header_popup_modal_body_button_text_hover_color = App\WebsiteColors::where(['element' => '#site-header .modal-body-button:active, #site-header .modal-body-button:focus, #site-header .modal-body-button:hover', 'attribute' => 'color'])->first();
+
+
+$header_popup_modal_body_button_background_color = App\WebsiteColors::where(['element' => '#site-header .modal-body-button', 'attribute' => 'background-color'])->first();  
+
+$header_popup_modal_body_button_background_hover_color = App\WebsiteColors::where(['element' => '#site-header .modal-body-button:active, #site-header .modal-body-button:focus, #site-header .modal-body-button:hover', 'attribute' => 'background-color'])->first();
+
+if(isset($header_popup_modal_body_button_text_color)) {
+    $header_popup_modal_body_button_text_color = $header_popup_modal_body_button_text_color->value;
+} else {
+    $header_popup_modal_body_button_text_color = 'f1f1f1';
+}
+
+if(isset($header_popup_modal_body_button_text_hover_color)) {
+    $header_popup_modal_body_button_text_hover_color = $header_popup_modal_body_button_text_hover_color->value;
+} else {
+    $header_popup_modal_body_button_text_hover_color = 'f1f1f1';
+}
+
+if(isset($header_popup_modal_body_button_background_color)) {
+    $header_popup_modal_body_button_background_color = $header_popup_modal_body_button_background_color->value;
+} else {
+    $header_popup_modal_body_button_background_color = '161619';
+}
+
+if(isset($header_popup_modal_body_button_background_hover_color)) {
+    $header_popup_modal_body_button_background_hover_color = $header_popup_modal_body_button_background_hover_color->value;
+} else {
+    $header_popup_modal_body_button_background_hover_color = 'd55534';
+}
+
+
+
+// header popup modal footer button (Cart)
+
+$header_popup_modal_footer_button_text_color = App\WebsiteColors::where(['element' => '#site-header .modal-footer-button', 'attribute' => 'color'])->first();
+
+$header_popup_modal_footer_button_text_hover_color = App\WebsiteColors::where(['element' => '#site-header .modal-footer-button:active, #site-header .modal-footer-button:focus, #site-header .modal-footer-button:hover', 'attribute' => 'color'])->first();
+
+
+$header_popup_modal_footer_button_background_color = App\WebsiteColors::where(['element' => '#site-header .modal-footer-button', 'attribute' => 'background-color'])->first();  
+
+$header_popup_modal_footer_button_background_hover_color = App\WebsiteColors::where(['element' => '#site-header .modal-footer-button:active, #site-header .modal-footer-button:focus, #site-header .modal-footer-button:hover', 'attribute' => 'background-color'])->first();
+
+if(isset($header_popup_modal_footer_button_text_color)) {
+    $header_popup_modal_footer_button_text_color = $header_popup_modal_footer_button_text_color->value;
+} else {
+    $header_popup_modal_footer_button_text_color = 'f1f1f1';
+}
+
+if(isset($header_popup_modal_footer_button_text_hover_color)) {
+    $header_popup_modal_footer_button_text_hover_color = $header_popup_modal_footer_button_text_hover_color->value;
+} else {
+    $header_popup_modal_footer_button_text_hover_color = 'f1f1f1';
+}
+
+if(isset($header_popup_modal_footer_button_background_color)) {
+    $header_popup_modal_footer_button_background_color = $header_popup_modal_footer_button_background_color->value;
+} else {
+    $header_popup_modal_footer_button_background_color = '161619';
+}
+
+if(isset($header_popup_modal_footer_button_background_hover_color)) {
+    $header_popup_modal_footer_button_background_hover_color = $header_popup_modal_footer_button_background_hover_color->value;
+} else {
+    $header_popup_modal_footer_button_background_hover_color = 'd55534';
+}
+@endphp
 <style>
+    .modal-header, .modal-header > .close {
+        color: <?php echo ($header_popup_modal_header_text_color )? '#'.$header_popup_modal_header_text_color :''; ?>;
+        background-color: <?php echo ($header_popup_modal_header_background_color )? '#'.$header_popup_modal_header_background_color. ' !important' :''; ?>;
+    }
+
+    .modal-header:hover, .modal-header > .close:hover {
+        color: <?php echo ($header_popup_modal_header_text_hover_color )? '#'.$header_popup_modal_header_text_hover_color :''; ?>;
+        background-color: <?php echo ($header_popup_modal_header_background_color )? '#'.$header_popup_modal_header_background_color. ' !important' :''; ?>;
+    }
+
+
+    .modal-body {
+        background-color: <?php echo ($header_popup_modal_body_background_color )? '#'.$header_popup_modal_body_background_color. ' !important' :''; ?>;
+    }
+
+    .modal-body:hover {
+        color: <?php echo ($header_popup_modal_body_background_hover_color )? '#'.$header_popup_modal_body_background_hover_color. ' !important' :''; ?>;
+        background-color: <?php echo ($header_popup_modal_body_background_hover_color )? '#'.$header_popup_modal_body_background_hover_color. ' !important' :''; ?>;
+    }
+
+
+    .modal-body-button {
+        color: <?php echo ($header_popup_modal_body_button_text_color )? '#'.$header_popup_modal_body_button_text_color. ' !important' :''; ?>;
+        border-color: <?php echo ($header_popup_modal_body_button_text_color )? '#'.$header_popup_modal_body_button_text_color. ' !important' :''; ?>;
+        background-color: <?php echo ($header_popup_modal_body_button_background_color )? '#'.$header_popup_modal_body_button_background_color. ' !important' :''; ?>;
+    }
+
+    .modal-body-button:hover {
+        color: <?php echo ($header_popup_modal_body_button_text_hover_color )? '#'.$header_popup_modal_body_button_text_hover_color. ' !important' :''; ?>;
+        border-color: <?php echo ($header_popup_modal_body_button_text_hover_color )? '#'.$header_popup_modal_body_button_text_hover_color. ' !important' :''; ?>;
+        background-color: <?php echo ($header_popup_modal_body_button_background_hover_color )? '#'.$header_popup_modal_body_button_background_hover_color. ' !important' :''; ?>;
+    }
+
+
+    .modal-footer {
+        background-color: <?php echo ($header_popup_modal_footer_background_color )? '#'.$header_popup_modal_footer_background_color. ' !important' :''; ?>;
+    }
+
+    .modal-footer:hover {
+        background-color: <?php echo ($header_popup_modal_footer_background_hover_color )? '#'.$header_popup_modal_footer_background_hover_color. ' !important' :''; ?>;
+    }
+
+
+    .modal-footer > button {
+        color: <?php echo ($header_popup_modal_footer_button_text_color )? '#'.$header_popup_modal_footer_button_text_color. ' !important' :''; ?>;
+        border-color: <?php echo ($header_popup_modal_footer_button_text_color )? '#'.$header_popup_modal_footer_button_text_color. ' !important' :''; ?>;
+        background-color: <?php echo ($header_popup_modal_footer_button_background_color )? '#'.$header_popup_modal_footer_button_background_color. ' !important' :''; ?>;
+    }
+
+    .modal-footer > button:hover {
+        color: <?php echo ($header_popup_modal_footer_button_text_hover_color )? '#'.$header_popup_modal_footer_button_text_hover_color. ' !important' :''; ?>;
+        border-color: <?php echo ($header_popup_modal_footer_button_text_hover_color )? '#'.$header_popup_modal_footer_button_text_hover_color. ' !important' :''; ?>;
+        background-color: <?php echo ($header_popup_modal_footer_button_background_hover_color )? '#'.$header_popup_modal_footer_button_background_hover_color. ' !important' :''; ?>;
+    }
+
+
     .btn-disable
     {
         cursor: not-allowed;
@@ -224,8 +426,8 @@
                         </div> --}}
 
                         <div class="px-4 mb-8 px-md-6">
-                            <a href="{{route('front.cart')}}" class="btn btn-block py-4 rounded-0 btn-outline-dark mb-4">View Cart</a>
-                            <a href="{{route('front.checkout')}}" type="submit" class="btn btn-block py-4 rounded-0 btn-dark">Checkout</a>
+                            <a href="{{route('front.cart')}}" class="modal-body-button btn btn-block py-4 rounded-0 btn-outline-dark mb-4">View Cart</a>
+                            <a href="{{route('front.checkout')}}" type="submit" class="modal-body-button btn btn-block py-4 rounded-0 btn-dark">Checkout</a>
                         </div>
                     </div>
                 </div>
