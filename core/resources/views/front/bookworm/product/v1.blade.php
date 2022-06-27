@@ -7,6 +7,8 @@ if(isset($_GET['variation'])) {
     $selected_variation = \App\Product::withoutGlobalScope('variation')->find($_GET['variation']);
     $variation = $selected_variation;
 }
+
+$no_image_url = 'https://as1.ftcdn.net/v2/jpg/04/34/72/82/1000_F_434728286_OWQQvAFoXZLdGHlObozsolNeuSxhpr84.jpg';
 @endphp
 
 <style>
@@ -68,7 +70,7 @@ if(isset($_GET['variation'])) {
                                             if( isset(json_decode($variation->variation_data)->thumbnail) ) {
                                                 $thumbnail = json_decode($variation->variation_data)->thumbnail;
                                             } else {
-                                                $thumbnail = 'https://as1.ftcdn.net/v2/jpg/04/34/72/82/1000_F_434728286_OWQQvAFoXZLdGHlObozsolNeuSxhpr84.jpg';
+                                                $thumbnail = $no_image_url;
                                             }
                                             
                                         } else {
@@ -187,7 +189,20 @@ if(isset($_GET['variation'])) {
 
                             @if (!is_null($product->variations))
                             <div class="variation">
-                                <span> Book Format:</span> <span style="color: #00000070;">Choose and option </span>
+                                @php
+                                    if( isset($variation) ) {
+                                        if( isset(json_decode($variation->variation_data)->title) ) {
+                                            $title = json_decode($variation->variation_data)->title;
+                                        } else {
+                                            $title = 'No title for selected book format';
+                                        }
+                                        
+                                    } else {
+                                        $title = 'Choose an option';
+                                    }
+                                @endphp
+
+                                <span> Book Format:</span> <span style="color: #00000070;" class="sel-book-format">{{$title}} </span>
                             </div>
                             @php
                             if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
@@ -209,9 +224,9 @@ if(isset($_GET['variation'])) {
                                 <div class="col-sm-12 col-md-3">
                                     <div class="d-flex flex-column">
                                         <p class="lead">{{ $variation->title }}</p>
-                                        <a href="{{ $url }}?variation={{ $variation->id }}" onclick="addVariation(event, '{{ $variation->id }}')" class="sel-variation">
+                                        <a href="{{ $url }}?variation={{ $variation->id }}" onclick="addVariation(event, '{{ $variation->id }}'); changeSelectedBookFormatTitle(event, '{{ $variation->title }}');" class="sel-variation">
                                             {{-- <img src="{{ asset('assets/' . json_decode($variation->variation_data)->thumbnail) }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif"> --}}
-                                            <img src="{{ (json_decode($variation->variation_data)->thumbnail)?json_decode($variation->variation_data)->thumbnail:'https://as1.ftcdn.net/v2/jpg/04/34/72/82/1000_F_434728286_OWQQvAFoXZLdGHlObozsolNeuSxhpr84.jpg' }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif" onclick="showVariantThumbnail(event, '{{ (json_decode($variation->variation_data)->thumbnail)?json_decode($variation->variation_data)->thumbnail:'https://as1.ftcdn.net/v2/jpg/04/34/72/82/1000_F_434728286_OWQQvAFoXZLdGHlObozsolNeuSxhpr84.jpg' }}')">
+                                            <img src="{{ (json_decode($variation->variation_data)->thumbnail)?json_decode($variation->variation_data)->thumbnail:$no_image_url }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif" onclick="showVariantThumbnail(event, '{{ (json_decode($variation->variation_data)->thumbnail)?json_decode($variation->variation_data)->thumbnail:$no_image_url }}')">
                                         </a>
 
                                     </div>
@@ -444,11 +459,13 @@ if(isset($_GET['variation'])) {
 
         var elem = document.getElementById("single_add_to_cart_button");
 
-        var cart_button_url = elem.getAttribute("data-href");
+        if (elem) {
+            var cart_button_url = elem.getAttribute("data-href");
+            var new_url = cart_button_url.substring(0, cart_button_url.lastIndexOf("/") + 1) + id;
 
-        var new_url = cart_button_url.substring(0, cart_button_url.lastIndexOf("/") + 1) + id;
-
-        elem.setAttribute("data-href", new_url);
+            elem.setAttribute("data-href", new_url);
+        }
+        
 
         var variation_price = $('.variation-price-'+id).text();
 
@@ -463,13 +480,23 @@ if(isset($_GET['variation'])) {
         event.preventDefault();
 
         let mainImageElement = document.querySelector('.mz-figure > img');
-        
-
-        console.log(" main image is ", mainImageElement);
 
         mainImageElement.setAttribute("srcset", thumbnail);
 
     }
+
+    function changeSelectedBookFormatTitle(event, title) {
+        event.preventDefault();
+
+        console.log("changeSelectedBookFormatTitle");
+        let book_format = 'No title for selected book format';
+        if (title) {
+            book_format = title;
+        }
+
+        document.getElementsByClassName('sel-book-format')[0].innerHTML = book_format;
+    }
+
 
     function clearVariation(event, defaultProductId) {
         event.preventDefault();
@@ -492,4 +519,6 @@ if(isset($_GET['variation'])) {
         var currentURL = window.location.protocol + "//" + window.location.host + window.location.pathname;
         window.history.pushState({ path: currentURL }, '', currentURL);
     }
+
+
 </script>
