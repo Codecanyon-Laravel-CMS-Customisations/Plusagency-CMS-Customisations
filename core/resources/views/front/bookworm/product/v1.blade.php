@@ -195,9 +195,9 @@ if(isset($_GET['variation'])) {
                                 <div class="col-sm-12 col-md-3">
                                     <div class="d-flex flex-column">
                                         <p class="lead">{{ $variation->title }}</p>
-                                        <a href="{{ $url }}?variation={{ $variation->id }}" onclick="addVariation(event, '{{ $variation->id }}')">
+                                        <a href="{{ $url }}?variation={{ $variation->id }}" onclick="addVariation(event, '{{ $variation->id }}')" class="sel-variation">
                                             {{-- <img src="{{ asset('assets/' . json_decode($variation->variation_data)->thumbnail) }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif"> --}}
-                                            <img src="{{ json_decode($variation->variation_data)->thumbnail }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif">
+                                            <img src="{{ (json_decode($variation->variation_data)->thumbnail)?json_decode($variation->variation_data)->thumbnail:'https://as1.ftcdn.net/v2/jpg/04/34/72/82/1000_F_434728286_OWQQvAFoXZLdGHlObozsolNeuSxhpr84.jpg' }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif" onclick="showVariantThumbnail(event, '{{ (json_decode($variation->variation_data)->thumbnail)?json_decode($variation->variation_data)->thumbnail:'https://as1.ftcdn.net/v2/jpg/04/34/72/82/1000_F_434728286_OWQQvAFoXZLdGHlObozsolNeuSxhpr84.jpg' }}')">
                                         </a>
 
                                     </div>
@@ -420,6 +420,11 @@ if(isset($_GET['variation'])) {
         $('img').each(function () {
             $(this).removeAttr('style');
         });
+
+        $('.sel-variation').each(function () {
+            $(this).removeAttr('style');
+        });
+
         event.target.style.borderRadius  = "50%";
         event.target.style.border = "1px solid black";
 
@@ -438,6 +443,18 @@ if(isset($_GET['variation'])) {
         $('.variation-price').removeClass('d-none');
         
         $('.btn-clear').removeClass('d-none');
+    }
+
+    function showVariantThumbnail(event, thumbnail) {
+        event.preventDefault();
+
+        let mainImageElement = document.querySelector('.mz-figure > img');
+        
+
+        console.log(" main image is ", mainImageElement);
+
+        mainImageElement.setAttribute("srcset", thumbnail);
+
     }
 
     function clearVariation(event, defaultProductId) {
