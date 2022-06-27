@@ -63,7 +63,21 @@ if(isset($_GET['variation'])) {
                         <figure class="woocommerce-product-gallery__wrapper pt-8 mb-0">
                             <div class="js-slick-carousel---naaah u-slick---naaah" data-pagi-classes="text-center u-slick__pagination my-4">
                                 <a id="Zoom-1" class="MagicZoom" title="{{ config('app.name') }} | {{ $product->title }}" href="{{ trim($product->feature_image) }}" data-zoom-image-2x="{{ trim($product->feature_image) }}" data-image-2x="{{ trim($product->feature_image) }}">
-                                    <img src="{{ trim($product->feature_image) }}" srcset="{{ trim($product->feature_image) }}" alt="" />
+                                    @php
+                                        if( isset($variation) ) {
+                                            if( isset(json_decode($variation->variation_data)->thumbnail) ) {
+                                                $thumbnail = json_decode($variation->variation_data)->thumbnail;
+                                            } else {
+                                                $thumbnail = 'https://as1.ftcdn.net/v2/jpg/04/34/72/82/1000_F_434728286_OWQQvAFoXZLdGHlObozsolNeuSxhpr84.jpg';
+                                            }
+                                            
+                                        } else {
+                                            $thumbnail = trim($product->feature_image);
+                                        }
+
+                                    @endphp
+
+                                    <img src="{{ $thumbnail }}" srcset="{{ $thumbnail }}" alt="" />
                                 </a>
                                 <div class="selectors">
                                     @foreach ($product->product_images as $image)
