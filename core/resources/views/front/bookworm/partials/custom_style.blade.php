@@ -19,11 +19,16 @@
             max-height: 4rem;
         }
 
-        @if (!empty($colors))@foreach ($colors as $color) @if ($color->element == '.site-navigation > ul > li, .site-navigation > ul > li > a') @continue @endif  {!! $color->element !!} {
+        @if (!empty($colors))@foreach ($colors as $color)  {!! $color->element !!} {
             {!! $color->attribute !!}: #{{ $color->value }};
         }
-
         @endforeach @endif
+
+
+        .site-navigation > ul > li:hover > a { 
+            background-color: #A81883 !important;
+        }
+
         .site-navigation>ul>li ul>li:hover .dropdown-toggle::after {
             transform: rotate(-90deg);
             transition-duration: .5s;
