@@ -1,5 +1,7 @@
    @php
         $colors = \App\WebsiteColors::all();
+
+        $nav_item_colors = \App\WebsiteColors::where(['element'=>'.site-navigation > ul > li:hover, .site-navigation > ul > li > a:hover', 'attribute'=> 'background-color'])->first();
     @endphp
  <style>
         .height-5.form-control,
@@ -25,9 +27,11 @@
         @endforeach @endif
 
 
+        
         .site-navigation > ul > li:hover > a { 
-            background-color: #A81883 !important;
+            background-color:  #{{ ($nav_item_colors)? $nav_item_colors->value: '' }};
         }
+        
 
         .site-navigation>ul>li ul>li:hover .dropdown-toggle::after {
             transform: rotate(-90deg);
