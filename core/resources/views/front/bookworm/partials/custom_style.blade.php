@@ -19,7 +19,7 @@
             max-height: 4rem;
         }
 
-        @if (!empty($colors))@foreach ($colors as $color){!! $color->element !!} {
+        @if (!empty($colors))@foreach ($colors as $color) @if ($color->element == '.site-navigation > ul > li, .site-navigation > ul > li > a') @continue @endif  {!! $color->element !!} {
             {!! $color->attribute !!}: #{{ $color->value }};
         }
 
