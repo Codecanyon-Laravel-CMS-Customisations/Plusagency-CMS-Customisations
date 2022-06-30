@@ -118,6 +118,9 @@ ADD `subcat` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAU
 ALTER TABLE `ulinks`
 ADD `show_on_account_dropdown` int NOT NULL DEFAULT 0;
 
+ALTER TABLE `basic_settings`
+ADD `menu_title` varchar(255) NOT NULL DEFAULT 'Books Menu';
+
 CREATE TABLE `child_categories` (
  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,

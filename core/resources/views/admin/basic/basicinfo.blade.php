@@ -62,6 +62,17 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                          <label>Menu Title **</label>
+                          <input class="form-control" name="menu_title" value="{{$abs->menu_title}}">
+                          @if ($errors->has('menu_title'))
+                            <p class="mb-0 text-danger">{{$errors->first('menu_title')}}</p>
+                          @endif
+                        </div>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-lg-6">

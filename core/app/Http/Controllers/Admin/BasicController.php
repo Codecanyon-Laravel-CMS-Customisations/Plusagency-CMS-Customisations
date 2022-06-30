@@ -276,6 +276,7 @@ class BasicController extends Controller
     {
         $rules = [
             'website_title'                     => 'required',
+            'menu_title'                        => 'required',
             'base_color'                        => 'required',
             'secondary_base_color'              => 'required',
             'hero_area_overlay_color'           => 'required',
@@ -307,11 +308,12 @@ class BasicController extends Controller
 
 
         $request->validate($rules);
-
+        
         $bss = BasicSetting::all();
         foreach ($bss as $key => $bs) {
             $bs->website_title = $request->website_title;
             $bs->base_color = $request->base_color;
+            $bs->menu_title = $request->menu_title;
 
             if ($be->theme_version != 'dark' && $be->theme_version != 'gym' && $be->theme_version != 'car' && $be->theme_version != 'construction' && $be->theme_version != 'lawyer') {
                 $bs->secondary_base_color = $request->secondary_base_color;

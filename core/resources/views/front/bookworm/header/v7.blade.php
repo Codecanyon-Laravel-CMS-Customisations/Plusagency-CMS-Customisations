@@ -793,7 +793,14 @@ if(isset($header_dropdown_button_background_hover_color)) {
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,8.000 L15.000,8.000 L15.000,10.000 L-0.000,10.000 L-0.000,8.000 Z"></path>
                                 <path fill-rule="evenodd" fill="rgb(25, 17, 11)" d="M-0.000,16.000 L20.000,16.000 L20.000,18.000 L-0.000,18.000 L-0.000,16.000 Z"></path>
                             </svg>
-                            &nbsp;<strong class="sidebar-title-color" style="font-weight: 500 !important">Books Menu</strong>
+                            <!-- Menu title -->
+                            &nbsp;<strong class="sidebar-title-color" style="font-weight: 500 !important">
+                                @if($bs && $bs->menu_title)
+                                    {{ $bs->menu_title }}
+                                @else
+                                    Books Menu
+                                @endif
+                            </strong>
                             <!-- <span class="fonts"></span> -->
                         </a>
                         <!-- End Account Sidebar Toggle Button -->
