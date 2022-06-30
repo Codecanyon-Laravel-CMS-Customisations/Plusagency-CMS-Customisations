@@ -675,15 +675,6 @@ if(isset($header_dropdown_button_background_hover_color)) {
 
                                 @endforeach
 
-                                <div class="px-1 py-2 px-md-3 border-bottom bg-header-dropdown">
-                                    <a href="#" class="text-dark">
-                                        <div class="media-body ml-4">
-                                            <h6 class="woocommerce-loop-product__title h6 text-lh-md mb-1 text-height-2 crop-text-2">
-                                                {{convertUtf8("Help")}}
-                                            </h6>
-                                        </div>
-                                    </a>
-                                </div>
                             </div>
                         </li>
                         <!-- End: Desktop Account Drop Down Button --> 
@@ -938,6 +929,7 @@ if(isset($header_dropdown_button_background_hover_color)) {
                                 @endif
                                 @endforeach
 
+                                {{-- 
                                 <div class="px-1 py-2 px-md-3 border-bottom bg-header-dropdown">
                                     <a href="#" class="text-dark">
                                         <div class="media-body ml-4">
@@ -947,6 +939,7 @@ if(isset($header_dropdown_button_background_hover_color)) {
                                         </div>
                                     </a>
                                 </div>
+                                --}}
                             </div>
                         </li>
                         <!-- End: Mobile Account Drop Down Button --> 
