@@ -224,9 +224,17 @@ $no_image_url = 'https://as1.ftcdn.net/v2/jpg/04/34/72/82/1000_F_434728286_OWQQv
                                 <div class="col-sm-12 col-md-3">
                                     <div class="d-flex flex-column">
                                         <p class="lead">{{ $variation->title }}</p>
-                                        <a href="{{ $url }}?variation={{ $variation->id }}" onclick="addVariation(event, '{{ $variation->id }}'); changeSelectedBookFormatTitle(event, '{{ $variation->title }}');" class="sel-variation">
+
+
+                                        <a data-zoom-id="Zoom-1" href="{{ trim((json_decode($variation->variation_data)->thumbnail)?json_decode($variation->variation_data)->thumbnail:$no_image_url) }}" data-image="{{ trim((json_decode($variation->variation_data)->thumbnail)?json_decode($variation->variation_data)->thumbnail:$no_image_url) }}" data-zoom-image-2x="{{ trim((json_decode($variation->variation_data)->thumbnail)?json_decode($variation->variation_data)->thumbnail:$no_image_url) }}" data-image-2x="{{ trim((json_decode($variation->variation_data)->thumbnail)?json_decode($variation->variation_data)->thumbnail:$no_image_url) }}" href="{{ $url }}?variation={{ $variation->id }}" onclick="addVariation(event, '{{ $variation->id }}'); changeSelectedBookFormatTitle(event, '{{ $variation->title }}'); showVariantThumbnail(event, '{{ (json_decode($variation->variation_data)->thumbnail)?json_decode($variation->variation_data)->thumbnail:$no_image_url }}')" class="sel-variation mz-thumb">
                                             {{-- <img src="{{ asset('assets/' . json_decode($variation->variation_data)->thumbnail) }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif"> --}}
-                                            <img src="{{ (json_decode($variation->variation_data)->thumbnail)?json_decode($variation->variation_data)->thumbnail:$no_image_url }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif" onclick="showVariantThumbnail(event, '{{ (json_decode($variation->variation_data)->thumbnail)?json_decode($variation->variation_data)->thumbnail:$no_image_url }}')">
+
+
+
+                                            <img srcset="{{ trim((json_decode($variation->variation_data)->thumbnail)?json_decode($variation->variation_data)->thumbnail:$no_image_url) }}" src="{{ (json_decode($variation->variation_data)->thumbnail)?json_decode($variation->variation_data)->thumbnail:$no_image_url }}" alt="" width="75" style="border-radius: 50%; @if (isset($_GET['variation']) && $_GET['variation'] == $variation->id) border: 1px solid black; @endif" >
+
+
+
                                         </a>
 
                                     </div>
