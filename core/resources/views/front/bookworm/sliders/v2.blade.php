@@ -14,8 +14,149 @@ if( !$bg_color ) {
 if( !$text_color ) {
     $text_color = App\WebsiteColors::where(['element' => '.abh-hero-slider-v2 .abh-hero-slider-v2-main .hero_title--1', 'attribute' => 'color'])->first();
 }
+
+
+
+// main slider button text color
+$btn_main_slider_text_color = App\WebsiteColors::where(['element' => '.btn-abh-hero-slider-v2', 'attribute' => 'color'])->first();
+$btn_main_slider_text_hover_color = App\WebsiteColors::where(['element' => '.btn-abh-hero-slider-v2:hover', 'attribute' => 'color'])->first();
+
+if(isset($btn_main_slider_text_color)) {
+    $btn_main_slider_text_color = $btn_main_slider_text_color->value;
+} else {
+    $btn_main_slider_text_color = 'fff0ce';
+}
+
+if(isset($btn_main_slider_text_hover_color)) {
+    $btn_main_slider_text_hover_color = $btn_main_slider_text_hover_color->value;
+} else {
+    $btn_main_slider_text_hover_color = 'fff0ce';
+}
+
+
+// main slider button background color
+$btn_main_slider_background_color = App\WebsiteColors::where(['element' => '.btn-abh-hero-slider-v2', 'attribute' => 'background-color'])->first();
+$btn_main_slider_background_hover_color = App\WebsiteColors::where(['element' => '.btn-abh-hero-slider-v2:hover', 'attribute' => 'background-color'])->first();
+
+if(isset($btn_main_slider_background_color)) {
+    $btn_main_slider_background_color = $btn_main_slider_background_color->value;
+} else {
+    $btn_main_slider_background_color = 'D55534';
+}
+
+if(isset($btn_main_slider_background_hover_color)) {
+    $btn_main_slider_background_hover_color = $btn_main_slider_background_hover_color->value;
+} else {
+    $btn_main_slider_background_hover_color = 'D55534';
+}
+
+
+
+// side slider 1 button text color
+$btn_side_slider_1_text_color = App\WebsiteColors::where(['element' => '.btn-side-slider-1-v2', 'attribute' => 'color'])->first();
+$btn_side_slider_1_text_hover_color = App\WebsiteColors::where(['element' => '.btn-side-slider-1-v2:hover', 'attribute' => 'color'])->first();
+
+if(isset($btn_side_slider_1_text_color)) {
+    $btn_side_slider_1_text_color = $btn_side_slider_1_text_color->value;
+} else {
+    $btn_side_slider_1_text_color = 'fff0ce';
+}
+
+if(isset($btn_side_slider_1_text_hover_color)) {
+    $btn_side_slider_1_text_hover_color = $btn_side_slider_1_text_hover_color->value;
+} else {
+    $btn_side_slider_1_text_hover_color = 'fff0ce';
+}
+
+
+// side slider 1 button background color
+$btn_side_slider_1_background_color = App\WebsiteColors::where(['element' => '.btn-side-slider-1-v2', 'attribute' => 'background-color'])->first();
+$btn_side_slider_1_background_hover_color = App\WebsiteColors::where(['element' => '.btn-side-slider-1-v2:hover', 'attribute' => 'background-color'])->first();
+
+if(isset($btn_side_slider_1_background_color)) {
+    $btn_side_slider_1_background_color = $btn_side_slider_1_background_color->value;
+} else {
+    $btn_side_slider_1_background_color = 'D55534';
+}
+
+if(isset($btn_side_slider_1_background_hover_color)) {
+    $btn_side_slider_1_background_hover_color = $btn_side_slider_1_background_hover_color->value;
+} else {
+    $btn_side_slider_1_background_hover_color = 'D55534';
+}
+
+
+
+// side slider 2 button text color
+$btn_side_slider_2_text_color = App\WebsiteColors::where(['element' => '.btn-side-slider-2-v2', 'attribute' => 'color'])->first();
+$btn_side_slider_2_text_hover_color = App\WebsiteColors::where(['element' => '.btn-side-slider-2-v2:hover', 'attribute' => 'color'])->first();
+
+if(isset($btn_side_slider_2_text_color)) {
+    $btn_side_slider_2_text_color = $btn_side_slider_2_text_color->value;
+} else {
+    $btn_side_slider_2_text_color = 'fff0ce';
+}
+
+if(isset($btn_side_slider_2_text_hover_color)) {
+    $btn_side_slider_2_text_hover_color = $btn_side_slider_2_text_hover_color->value;
+} else {
+    $btn_side_slider_2_text_hover_color = 'fff0ce';
+}
+
+
+// side slider 2 button background color
+$btn_side_slider_2_background_color = App\WebsiteColors::where(['element' => '.btn-side-slider-2-v2', 'attribute' => 'background-color'])->first();
+$btn_side_slider_2_background_hover_color = App\WebsiteColors::where(['element' => '.btn-side-slider-2-v2:hover', 'attribute' => 'background-color'])->first();
+
+if(isset($btn_side_slider_2_background_color)) {
+    $btn_side_slider_2_background_color = $btn_side_slider_2_background_color->value;
+} else {
+    $btn_side_slider_2_background_color = 'D55534';
+}
+
+if(isset($btn_side_slider_2_background_hover_color)) {
+    $btn_side_slider_2_background_hover_color = $btn_side_slider_2_background_hover_color->value;
+} else {
+    $btn_side_slider_2_background_hover_color = 'D55534';
+}
+
+
 @endphp
 
+<style>
+
+.btn-main-slider {
+    color: <?php echo ($btn_main_slider_text_color)? '#'.$btn_main_slider_text_color.' !important' :''; ?>;
+    background-color: <?php echo ($btn_main_slider_background_color)? '#'.$btn_main_slider_background_color.' !important' :''; ?>;
+}
+
+.btn-main-slider:hover {
+    color: <?php echo ($btn_main_slider_text_hover_color )? '#'.$btn_main_slider_text_hover_color.' !important' :''; ?>;
+    background-color: <?php echo ($btn_main_slider_background_hover_color )? '#'.$btn_main_slider_background_hover_color.' !important' :''; ?>;
+}
+
+
+
+.btn-side-slider-1-v2 {
+    color: <?php echo ($btn_side_slider_1_text_color)? '#'.$btn_side_slider_1_text_color.' !important' :''; ?>;
+    background-color: <?php echo ($btn_side_slider_1_background_color)? '#'.$btn_side_slider_1_background_color.' !important' :''; ?>;
+}
+
+.btn-side-slider-1-v2:hover {
+    color: <?php echo ($btn_side_slider_1_text_hover_color )? '#'.$btn_side_slider_1_text_hover_color.' !important' :''; ?>;
+    background-color: <?php echo ($btn_side_slider_1_background_hover_color )? '#'.$btn_side_slider_1_background_hover_color.' !important' :''; ?>;
+}
+
+.btn-side-slider-2-v2 {
+    color: <?php echo ($btn_side_slider_2_text_color)? '#'.$btn_side_slider_2_text_color.' !important' :''; ?>;
+    background-color: <?php echo ($btn_side_slider_2_background_color)? '#'.$btn_side_slider_2_background_color.' !important' :''; ?>;
+}
+
+.btn-side-slider-2-v2:hover {
+    color: <?php echo ($btn_side_slider_2_text_hover_color )? '#'.$btn_side_slider_2_text_hover_color.' !important' :''; ?>;
+    background-color: <?php echo ($btn_side_slider_2_background_hover_color )? '#'.$btn_side_slider_2_background_hover_color.' !important' :''; ?>;
+}
+</style>
 
 
 <div class="hero-slider-with-banners space-bottom-2 mt-4d875 abh-hero-slider-v2">
@@ -47,7 +188,7 @@ if( !$text_color ) {
                                             </span>
                                         </h2>
                                         @if (!empty($slider->button_text))
-                                        <a href="{{ ($slider->button_url)?$slider->button_url:'#' }}" class="hero__btn btn btn-wide" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="background:#D55534; color: #fff0ce !important; <?php echo ($slider->button_text_font_size)?'font-size:'.$slider->button_text_font_size.'px !important;':''; ?>">
+                                        <a href="{{ ($slider->button_url)?$slider->button_url:'#' }}" class="btn-main-slider hero__btn btn btn-wide" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="<?php echo ($slider->button_text_font_size)?'font-size:'.$slider->button_text_font_size.'px !important;':''; ?>">
                                             <span style="">{{ $slider->button_text }}</span>
                                         </a>
                                         @endif
@@ -75,7 +216,7 @@ if( !$text_color ) {
                                 <span class="slider-banner__title--2 d-block" style=" <?php echo ($text_color && $text_color->value )? 'color: #'.$text_color->value.' !important' :'color: #fff0ce !important'; ?>">{{ $sliders_v2->where('slider_category', 'side1')->first()->text }}</span>
 
                                 @if (!empty($slider->button_text))
-                                <a href="{{ $sliders_v2->where('slider_category', 'side1')->first()->button_url }}" class="hero__btn btn mt-2" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="background:#D55534; color: #fff0ce !important; <?php echo ($sliders_v2->where('slider_category', 'side1')->first()->button_text_font_size)?'font-size:'.$sliders_v2->where('slider_category', 'side1')->first()->button_text_font_size.'px !important;':''; ?>">
+                                <a href="{{ $sliders_v2->where('slider_category', 'side1')->first()->button_url }}" class="btn-side-slider-1-v2 hero__btn btn mt-2" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="<?php echo ($sliders_v2->where('slider_category', 'side1')->first()->button_text_font_size)?'font-size:'.$sliders_v2->where('slider_category', 'side1')->first()->button_text_font_size.'px !important;':''; ?>">
                                     {{ $sliders_v2->where('slider_category', 'side1')->first()->button_text }}
                                 </a>
                                 @endif
@@ -93,7 +234,7 @@ if( !$text_color ) {
                                 <span class="slider-banner__title--2 d-block" style=" <?php echo ($text_color && $text_color->value )? 'color: #'.$text_color->value.' !important' :'color: #fff0ce !important'; ?>  ">{{ $sliders_v2->where('slider_category', 'side2')->first()->text }}</span>
 
                                 @if (!empty($slider->button_text))
-                                <a href="{{ $sliders_v2->where('slider_category', 'side2')->first()->button_url }}" class="hero__btn btn mt-2" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="background:#D55534; color: #fff0ce !important ; <?php echo ($sliders_v2->where('slider_category', 'side2')->first()->button_text_font_size)?'font-size:'.$sliders_v2->where('slider_category', 'side2')->first()->button_text_font_size.'px !important;':''; ?>">
+                                <a href="{{ $sliders_v2->where('slider_category', 'side2')->first()->button_url }}" class="btn-side-slider-2-v2 hero__btn btn mt-2" data-scs-animation-in="fadeInUp" data-scs-animation-delay="500" style="<?php echo ($sliders_v2->where('slider_category', 'side2')->first()->button_text_font_size)?'font-size:'.$sliders_v2->where('slider_category', 'side2')->first()->button_text_font_size.'px !important;':''; ?>">
                                     {{ $sliders_v2->where('slider_category', 'side2')->first()->button_text }}
                                 </a>
                                 @endif

@@ -358,6 +358,24 @@ class WebsiteColors extends Model
                     // "important_default"     => " !important",
                     // "important_hover"       => " !important",
                 ],
+                [
+                    "section_title"         => "Bookworm v2 slider main slider button text & background color settings",
+                    "section_description"   => "This section involves button setting colors for bookworm's home slider version 2 main sliders' text & background colors",
+                    "attr_default"          => ".btn-abh-hero-slider-v2",
+                    "attr_hover"            => ".btn-abh-hero-slider-v2:hover",
+                ], 
+                [
+                    "section_title"         => "Bookworm v2 slider side slider 1 button text & background color settings",
+                    "section_description"   => "This section involves button setting colors for bookworm's home slider version 2 side slider 1 text & background colors",
+                    "attr_default"          => ".btn-side-slider-1-v2",
+                    "attr_hover"            => ".btn-side-slider-1-v2:hover",
+                ], 
+                [
+                    "section_title"         => "Bookworm v2 slider side slider 2 button text & background color settings",
+                    "section_description"   => "This section involves button setting colors for bookworm's home slider version 2 side slider 2 text & background colors",
+                    "attr_default"          => ".btn-side-slider-2-v2",
+                    "attr_hover"            => ".btn-side-slider-2-v2:hover",
+                ], 
             ],
         ],
         'pagebuilder_section'       => [
